@@ -86,12 +86,18 @@
         <p><strong>定义1</strong> 设 $F$ 是由一些数组成的一个集合, 其中包含0和1. 如果 $F$ 中任意两个数(这两个数也可以相同)的和、差、积、商(除数不能为零)仍然是 $F$ 中的数, 那么称 $F$ 为一个<strong>数域</strong>.</p>
 <p><strong>Q</strong>、<strong>R</strong>、<strong>C</strong> 分别表示有理数域、实数域和复数域, 而用 $F$ 表示任意数域.</p>
 <p><strong>定义2</strong> 由数域 $F$ 中的 $m \times n$ 个数 $a_{ij}$ ($i=1,2, \dots, m; j=1,2,\dots,n$) 排成的  $m$ 行 ( 横的 )、$n$ 列 ( 纵的 ) 的矩形数表</p>
-<p>$$<br>\begin{bmatrix}<br>a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \<br>a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \<br>\vdots &amp; \vdots &amp;  &amp; \vdots \<br>a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn} \<br>\end{bmatrix}<br>$$<br>称为 $F$ 上的 $m$ <strong>行</strong> $n$ <strong>列矩阵</strong>或 $m \times n$ <strong>矩阵</strong>, 简称为<strong>矩阵 ( matrix )</strong>, 记为 $(a_{ij})<em>{m \times n}$, 其中的 $m \times n$ 个数称为矩阵的<strong>元素</strong> ( element ), $a</em>{ij}$ 表示位于这个矩阵的第 $i$ 行 ( row )、第 $j$ 列 ( column ) 处的元素, $i$ 称为元素 $a_{ij}$ 的<strong>行指标</strong> ( row index ), $j$ 称为 $a_{ij}$ 的<strong>列指标</strong> ( column index ).</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots &  & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn} \\
+\end{bmatrix}</script><p>称为 $F$ 上的 $m$ <strong>行</strong> $n$ <strong>列矩阵</strong>或 $m \times n$ <strong>矩阵</strong>, 简称为<strong>矩阵 ( matrix )</strong>, 记为 $(a_{ij})_{m \times n}$, 其中的 $m \times n$ 个数称为矩阵的<strong>元素</strong> ( element ), $a_{ij}$ 表示位于这个矩阵的第 $i$ 行 ( row )、第 $j$ 列 ( column ) 处的元素, $i$ 称为元素 $a_{ij}$ 的<strong>行指标</strong> ( row index ), $j$ 称为 $a_{ij}$ 的<strong>列指标</strong> ( column index ).</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/25/%E7%9F%A9%E9%98%B5%E5%8F%8A%E5%85%B6%E8%BF%90%E7%AE%97/" data-id="ck3enpb7o000298t5bzuzbwm9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/11/25/%E7%9F%A9%E9%98%B5%E5%8F%8A%E5%85%B6%E8%BF%90%E7%AE%97/" data-id="ck3eobisw0002owt5c5ou18o9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a></li></ul>
@@ -130,7 +136,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/22/%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95Hexo/" data-id="ck3enpb7m000198t56r9x2vdh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/11/22/%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%B5%8B%E8%AF%95Hexo/" data-id="ck3eobisu0001owt5gaubbatx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -164,22 +170,18 @@
       
         <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
 <h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/22/hello-world/" data-id="ck3enpb7g000098t5ahc69zr2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/11/22/hello-world/" data-id="ck3eobisq0000owt55hlz83gz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -284,5 +286,21 @@
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> >
 </body>
 </html>
