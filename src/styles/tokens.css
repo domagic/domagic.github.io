@@ -1,0 +1,68 @@
+:root {
+  --font-display: 'Fraunces', 'Noto Serif SC Critical', 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+  --font-serif-sc: 'Noto Serif SC Critical', 'Noto Serif SC', 'Songti SC', 'STSong', serif;
+  --font-body: 'Noto Sans SC Critical', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+
+  --paper: #f6f1e7;
+  --paper-deep: #ece4d3;
+  --paper-elev: #fbf8f1;
+  --ink: #23262b;
+  --ink-soft: #5f636b;
+  --ink-faint: #64686f;
+  --cinnabar: #b23a26;
+  --cinnabar-deep: #8f2d1c;
+  --cinnabar-wash: rgba(178, 58, 38, 0.08);
+  --gold: #8a641f;
+  --gold-wash: rgba(138, 100, 31, 0.1);
+  /* 黛青：传统绘画中的深青绿，与朱砂、鎏金构成「朱砂·鎏金·黛青」高级三色 */
+  --dai: #2a4a52;
+  --dai-wash: rgba(42, 74, 82, 0.1);
+  --line: rgba(35, 38, 43, 0.14);
+  --line-strong: rgba(35, 38, 43, 0.32);
+  --shadow-soft: 0 18px 50px -18px rgba(35, 38, 43, 0.25);
+  --grain-opacity: 0.05;
+  /* 多层极光网格背景：朱砂暖光（右上）+ 鎏金（左上）+ 黛青冷调（右下）+ 朱砂余晖（左下），
+     跨色相叠加营造高端、大气的纵深氛围；静态绘制、固定定位，无逐帧主线程开销。 */
+  --glow:
+    radial-gradient(46% 40% at 80% 4%, rgba(178, 58, 38, 0.16), transparent 66%),
+    radial-gradient(40% 38% at 6% 16%, rgba(138, 100, 31, 0.13), transparent 68%),
+    radial-gradient(54% 48% at 92% 86%, rgba(42, 74, 82, 0.13), transparent 70%),
+    radial-gradient(40% 40% at 14% 94%, rgba(178, 58, 38, 0.08), transparent 68%);
+  /* 暗角：边缘渐深，框住内容、增强大气感 */
+  --vignette: radial-gradient(125% 95% at 50% 36%, transparent 50%, rgba(35, 38, 43, 0.08) 100%);
+  /* 顶部光泽：柔和提亮上缘，纸面更有层次 */
+  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 28%);
+
+  --space-page: clamp(1.25rem, 4vw, 4rem);
+  --maxw: 72rem;
+  --radius: 2px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme='ink'] {
+  --paper: #16181d;
+  --paper-deep: #101216;
+  --paper-elev: #1e2127;
+  --ink: #e8e4da;
+  --ink-soft: #a9adb5;
+  --ink-faint: #9a9ea7;
+  --cinnabar: #d4694f;
+  --cinnabar-deep: #e07f66;
+  --cinnabar-wash: rgba(212, 105, 79, 0.12);
+  --gold: #c9a04c;
+  --gold-wash: rgba(201, 160, 76, 0.12);
+  --dai: #7fb0bb;
+  --dai-wash: rgba(127, 176, 187, 0.12);
+  --line: rgba(232, 228, 218, 0.14);
+  --line-strong: rgba(232, 228, 218, 0.34);
+  --shadow-soft: 0 18px 50px -18px rgba(0, 0, 0, 0.6);
+  --grain-opacity: 0.07;
+  --glow:
+    radial-gradient(46% 40% at 80% 4%, rgba(212, 105, 79, 0.2), transparent 66%),
+    radial-gradient(40% 38% at 6% 16%, rgba(201, 160, 76, 0.15), transparent 68%),
+    radial-gradient(54% 48% at 92% 86%, rgba(127, 176, 187, 0.14), transparent 70%),
+    radial-gradient(40% 40% at 14% 94%, rgba(212, 105, 79, 0.1), transparent 68%);
+  --vignette: radial-gradient(125% 95% at 50% 36%, transparent 44%, rgba(0, 0, 0, 0.42) 100%);
+  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 26%);
+}

@@ -1,0 +1,176 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  /* 暗角（顶）→ 朱砂·鎏金·黛青极光网格 → 顶部光泽（底）；全部为自定位渐变，
+     固定层一次性绘制，无滚动重绘、无逐帧动画，移动端性能不受影响。 */
+  background-image: var(--vignette), var(--glow), var(--sheen);
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif-sc);
+  font-weight: 900;
+  line-height: 1.3;
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* T7-③：主内容区至少占满一屏，使页脚首屏即位于折叠线以下。
+   路由视图懒加载/过渡的空壳期不会把页脚顶入视口，消除初始布局位移（CLS）。 */
+main {
+  min-height: 100vh;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--cinnabar-deep);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cinnabar);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+::selection {
+  background: var(--cinnabar);
+  color: var(--paper);
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  transition: top 0.2s var(--ease-out);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.page {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--space-page);
+}
+
+.rise {
+  /* T7-③：提升为合成器层，入场动画在合成器线程运行，避免逐帧主线程任务抬高 TBT 并推迟 LCP。 */
+  will-change: transform, opacity;
+  animation: rise 0.7s var(--ease-out) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.route-enter-active,
+.route-leave-active {
+  will-change: transform, opacity;
+  transition: opacity 0.28s var(--ease-out), transform 0.28s var(--ease-out);
+}
+
+.route-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.route-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
