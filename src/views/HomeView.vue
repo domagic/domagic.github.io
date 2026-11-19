@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { api, CATEGORY_LABELS, CATEGORY_PATHS, type Category, type PostSummary } from '@/api'
 import { HOME_CONFIG, SEAL_VISIBLE } from '@/config/site'
@@ -23,6 +23,16 @@ const counts = ref<Record<Exclude<Category, 'diary'>, number>>({ blog: 0, opinio
 // T7-③：首屏异步区域（精选/最新索引/bio）以骨架占位预留高度，避免数据到达后撑高页面导致 CLS。
 const loading = ref(true)
 
+// 封面 → 内容：首屏只显示封面，向下翻页到「精选」区。
+const featuredRef = ref<HTMLElement | null>(null)
+const contentIn = ref(false)
+let contentObserver: IntersectionObserver | null = null
+
+// “开始阅读”按钮：像翻页一样平滑滚动到「精选」区；sticky 页头高度由 scroll-margin-top 让开。
+function goToContent() {
+  featuredRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
 const categories: { key: Exclude<Category, 'diary'>; desc: string }[] = [
   { key: 'blog', desc: '方法、工具与长篇思考' },
   { key: 'opinion', desc: '对学术与行业的立场' },
@@ -30,6 +40,24 @@ const categories: { key: Exclude<Category, 'diary'>; desc: string }[] = [
 ]
 
 onMounted(async () => {
+  // 仅首页启用 proximity 滚动吸附：封面与内容区各为一个翻页锚点，轻滑即可“翻页”；
+  // 卸载时移除，其它路由不受影响（命名空间限定在 html.home-flip）。
+  document.documentElement.classList.add('home-flip')
+  // 内容区滚动进入视口时触发“翻页”淡入；已滚动过则直接显示，避免首屏空白。
+  if (typeof IntersectionObserver !== 'undefined' && featuredRef.value) {
+    contentObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          contentIn.value = true
+          contentObserver?.disconnect()
+        }
+      },
+      { threshold: 0.08 },
+    )
+    contentObserver.observe(featuredRef.value)
+  } else {
+    contentIn.value = true
+  }
   try {
     const all = await api.listPosts({ pageSize: 50 })
     // 精选 = 全站最新发布的 3 篇（跨栏目），不再依赖失效的演示 slug；
@@ -42,6 +70,11 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+})
+
+onUnmounted(() => {
+  contentObserver?.disconnect()
+  document.documentElement.classList.remove('home-flip')
 })
 </script>
 
@@ -66,9 +99,12 @@ onMounted(async () => {
             {{ HOME_CONFIG.bio }}
           </p>
           <div class="hero__actions rise" style="animation-delay: 0.24s">
-            <RouterLink :to="HOME_CONFIG.primaryAction.to" class="hero__btn hero__btn--primary">{{ HOME_CONFIG.primaryAction.label }}</RouterLink>
+            <button type="button" class="hero__btn hero__btn--primary" @click="goToContent">{{ HOME_CONFIG.primaryAction.label }}</button>
             <RouterLink :to="HOME_CONFIG.secondaryAction.to" class="hero__btn">{{ HOME_CONFIG.secondaryAction.label }}</RouterLink>
           </div>
+          <button type="button" class="hero__scroll-hint" aria-label="向下翻页阅读" @click="goToContent">
+            <span class="hero__scroll-hint-line" aria-hidden="true"></span>
+          </button>
           <p v-if="HOME_CONFIG.affiliation" class="hero__affil mono rise" style="animation-delay: 0.3s">
             {{ HOME_CONFIG.affiliation }}
           </p>
@@ -80,8 +116,13 @@ onMounted(async () => {
       </div>
     </section>
 
-    <section v-if="loading || featured.length" class="page section">
-      <SectionHead kicker="Featured" title="精选" note="全站最新发布的文章" />
+    <section
+      v-if="loading || featured.length"
+      ref="featuredRef"
+      class="page section content-section"
+      :class="{ 'content-section--in': contentIn }"
+    >
+      <SectionHead title="精选" note="全站最新发布的文章" />
       <div class="featured">
         <template v-if="loading">
           <div v-for="i in 3" :key="`fs-${i}`" class="featured__card featured__card--sk" aria-hidden="true">
@@ -169,16 +210,56 @@ onMounted(async () => {
 .hero {
   position: relative;
   overflow: hidden;
+  scroll-snap-align: start;
 }
 
 .hero__inner {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 2rem;
   align-items: center;
-  min-height: 62vh;
+  /* 封面独占首屏：减去 sticky 页头高度，使「精选」恰好落在首屏之外。 */
+  min-height: calc(100vh - 4.2rem);
+  min-height: calc(100svh - 4.2rem);
   padding-top: clamp(3rem, 7vh, 5rem);
-  padding-bottom: clamp(2.5rem, 6vh, 4.5rem);
+  padding-bottom: clamp(3rem, 7vh, 5rem);
+}
+
+/* 向下翻页提示：细红线胶囊 + 滚动小竖线，点击同“开始阅读”。 */
+.hero__scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 1.4rem;
+  transform: translateX(-50%);
+  width: 1.55rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+  transition: border-color 0.25s var(--ease-out);
+}
+
+.hero__scroll-hint:hover {
+  border-color: var(--home-accent);
+}
+
+.hero__scroll-hint-line {
+  width: 2px;
+  height: 0.62rem;
+  border-radius: 2px;
+  background: var(--home-accent, var(--cinnabar-deep));
+  animation: hintScroll 1.8s ease-in-out infinite;
+}
+
+@keyframes hintScroll {
+  0%, 100% { transform: translateY(0); opacity: 0.35; }
+  50% { transform: translateY(0.7rem); opacity: 1; }
 }
 
 /* ================= 全浅色 AI 科技风（默认 theme=tech-light） ================= */
@@ -236,6 +317,7 @@ onMounted(async () => {
 
 .hero--tech-light .hero__btn--primary:hover {
   background: linear-gradient(92deg, #3b82f6, #8b5cf6);
+  border-color: transparent;
   color: #fff;
   box-shadow: 0 10px 26px rgba(79, 70, 229, 0.3);
 }
@@ -383,6 +465,12 @@ onMounted(async () => {
 }
 
 .hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1.75;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
   padding: 0.6rem 1.7rem;
   text-decoration: none;
@@ -411,6 +499,29 @@ onMounted(async () => {
 
 .section {
   padding-top: 2.8rem;
+}
+
+/* 封面 → 内容：向下翻页时内容区轻微上移淡入，形成“丝滑翻页”过渡。 */
+.content-section {
+  scroll-margin-top: 4.2rem;
+  scroll-snap-align: start;
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.content-section--in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content-section {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .section-more {
@@ -577,11 +688,15 @@ onMounted(async () => {
 @media (max-width: 640px) {
   .hero__inner {
     grid-template-columns: 1fr;
-    min-height: 52vh;
+    min-height: calc(100vh - 4.2rem);
+    min-height: calc(100svh - 4.2rem);
   }
   .hero__side {
     flex-direction: row-reverse;
     justify-content: flex-end;
+  }
+  .hero__actions {
+    margin-bottom: 2.2rem;
   }
   .hero__vertical {
     font-size: 1.1rem;
@@ -610,5 +725,13 @@ onMounted(async () => {
   .item--sk .item__date {
     grid-column: 1 / -1;
   }
+}
+</style>
+
+<!-- 首页翻页吸附：proximity 仅在接近锚点时生效，不干扰阅读区的连续滚动。
+     作用范围由 onMounted/onUnmounted 切换的 html.home-flip 类名限定，离开首页即失效。 -->
+<style>
+html.home-flip {
+  scroll-snap-type: y proximity;
 }
 </style>
