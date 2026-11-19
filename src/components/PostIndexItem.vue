@@ -17,7 +17,7 @@ const firstAuthor = computed(() => {
 </script>
 
 <template>
-  <article class="item">
+  <RouterLink :to="to" class="item" :aria-label="`阅读：${post.title}`">
     <span v-if="index !== undefined" class="item__index mono" aria-hidden="true">{{ indexNumber(index + 1) }}</span>
     <div class="item__aside">
       <time class="item__date mono" :datetime="post.publishedAt ?? undefined">{{ formatDate(post.publishedAt) }}</time>
@@ -28,9 +28,9 @@ const firstAuthor = computed(() => {
       </div>
     </div>
     <div class="item__body">
-      <RouterLink :to="to" class="item__title">
+      <div class="item__title">
         <h3>{{ post.title }}</h3>
-      </RouterLink>
+      </div>
       <p class="item__excerpt">{{ post.excerpt }}</p>
       <div class="item__meta">
         <span class="item__category">{{ CATEGORY_LABELS[post.category] }}</span>
@@ -39,8 +39,8 @@ const firstAuthor = computed(() => {
         <span class="item__tags">{{ post.tags.map((t) => `#${t.name}`).join(' ') }}</span>
       </div>
     </div>
-    <RouterLink :to="to" class="item__arrow" :aria-label="`阅读：${post.title}`">→</RouterLink>
-  </article>
+    <span class="item__arrow" aria-hidden="true">→</span>
+  </RouterLink>
 </template>
 
 <style scoped>
@@ -52,6 +52,9 @@ const firstAuthor = computed(() => {
   padding: 1.4rem 0.4rem;
   border-bottom: 1px solid var(--line);
   transition: background-color 0.25s var(--ease-out);
+  /* 整行可点击：去掉链接默认下划线与继承色，保留原有的文字配色 */
+  color: inherit;
+  text-decoration: none;
 }
 
 /* 左侧日期 + 学术检索信息块 */
@@ -111,7 +114,7 @@ const firstAuthor = computed(() => {
   transition: color 0.2s var(--ease-out);
 }
 
-.item__title:hover h3 {
+.item:hover .item__title h3 {
   color: var(--cinnabar-deep);
 }
 
