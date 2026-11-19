@@ -2,6 +2,69 @@
   "schema": "domagic-site-media/v1",
   "assets": [
     {
+      "relPath": "academic/assets/2024-DSS-Live-Streaming-Channel-Recommendation/figure-01.png",
+      "sha256": "cb5711a30ff29d7292f37b995c9081de4dfe97b0cbe90e882e8ab5e038028f9c",
+      "bytes": 97388,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2024-DSS-Live-Streaming-Channel-Recommendation/figure-01.png"
+    },
+    {
+      "relPath": "academic/assets/2024-DSS-Live-Streaming-Channel-Recommendation/figure-02.png",
+      "sha256": "26400c94337c49d3ef0d1d2b760afc5ab3c77810d39328aa9a891637565e73ce",
+      "bytes": 380404,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2024-DSS-Live-Streaming-Channel-Recommendation/figure-02.png"
+    },
+    {
+      "relPath": "academic/assets/2024-DSS-Live-Streaming-Channel-Recommendation/figure-03.png",
+      "sha256": "e396568a43d45881d645a668d90ac64cf73d0e4e3e3eb114f34241cb8ffb2419",
+      "bytes": 278758,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2024-DSS-Live-Streaming-Channel-Recommendation/figure-03.png"
+    },
+    {
+      "relPath": "academic/assets/2026-WWW-Room-matters/figure-01.png",
+      "sha256": "6c11ebb0948bff07d78a84293401bb336708d31eedf306a1f510d6387942f7a8",
+      "bytes": 88006,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-WWW-Room-matters/figure-01.png"
+    },
+    {
+      "relPath": "academic/assets/2026-WWW-Room-matters/figure-02.png",
+      "sha256": "109dc14f1d54929f33a1a4e3cb343fa503fe70e013894394eb18e729ed79fdb2",
+      "bytes": 148321,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-WWW-Room-matters/figure-02.png"
+    },
+    {
+      "relPath": "academic/assets/2026-WWW-Room-matters/figure-03.png",
+      "sha256": "fb194dc8afef1bf56b574fa9c39d0826a23ac8ece293495e49d716d46e79c049",
+      "bytes": 76493,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-WWW-Room-matters/figure-03.png"
+    },
+    {
+      "relPath": "academic/assets/2026-arx-KuaiLive-M3/figure-01.png",
+      "sha256": "095c9d9f2cd43d14b9499c63934ee14a8a26aaaa83370ac682a8ae0814bc01bc",
+      "bytes": 142435,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-arx-KuaiLive-M3/figure-01.png"
+    },
+    {
+      "relPath": "academic/assets/2026-arx-KuaiLive-M3/figure-02.png",
+      "sha256": "2d9f16bfa83b1774d349bcb5157a20de5dfffdb3454bc0a1a2840ad22bd5e643",
+      "bytes": 115337,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-arx-KuaiLive-M3/figure-02.png"
+    },
+    {
+      "relPath": "academic/assets/2026-arx-KuaiLive-M3/figure-03.png",
+      "sha256": "6235885c89876e9a092a4478027cec4ecd299c4057cfee8eb8e9a5e2c1e5858e",
+      "bytes": 80405,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-arx-KuaiLive-M3/figure-03.png"
+    },
+    {
       "relPath": "academic/assets/Live_streaming_channel_recommendation/fig4_framework.png",
       "sha256": "26400c94337c49d3ef0d1d2b760afc5ab3c77810d39328aa9a891637565e73ce",
       "bytes": 380404,
