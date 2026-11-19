@@ -20,20 +20,19 @@ const nav = [
 ]
 
 // 标签栏实时时钟（精确到秒）：上排日期（含星期几）、下排时间，按系统本地时间显示，
-// 并给出当前时区相对 UTC 的偏移标签（如中国标准时间 = UTC+8）。每秒刷新，卸载时清理定时器。
+// 并给出当前时区偏移标签，格式 (UTC + 8)（中国标准时间），每秒刷新，卸载时清理定时器。
 const WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 const clock = ref({ date: '', h: '00', m: '00', s: '00', tz: 'UTC' })
 let clockTimer: ReturnType<typeof setInterval> | null = null
 
-// 由系统时区偏移换算成 UTC+8 / UTC-5 形式；getTimezoneOffset 为「本地比 UTC 慢的分钟数」，故取负。
+// 由系统时区偏移换算成 (UTC + 8) / (UTC - 5) 形式；getTimezoneOffset 为「本地比 UTC 慢的分钟数」，故取负。
 function utcOffsetLabel(d: Date): string {
   const minutes = -d.getTimezoneOffset()
-  if (minutes === 0) return 'UTC'
-  const sign = minutes > 0 ? '+' : '-'
+  const sign = minutes >= 0 ? '+' : '-'
   const abs = Math.abs(minutes)
   const hours = Math.floor(abs / 60)
   const rest = abs % 60
-  return `UTC${sign}${hours}${rest ? ':' + String(rest).padStart(2, '0') : ''}`
+  return `(UTC ${sign} ${hours}${rest ? ':' + String(rest).padStart(2, '0') : ''})`
 }
 
 function tick() {
@@ -70,12 +69,12 @@ function closeMenu() {
           class="header__clock mono"
           role="timer"
           aria-live="off"
-          :aria-label="`${clock.tz} 日期 ${clock.date}，时间 ${clock.h}:${clock.m}:${clock.s}`"
+          :aria-label="`日期 ${clock.date}，${clock.tz} ${clock.h}:${clock.m}:${clock.s}`"
         >
           <span class="header__clock-date">{{ clock.date }}</span>
           <span class="header__clock-time">
-            <span>{{ clock.h }}</span><span class="header__clock-sep">:</span><span>{{ clock.m }}</span><span class="header__clock-sep">:</span><span class="header__clock-sec">{{ clock.s }}</span>
             <span class="header__clock-tz">{{ clock.tz }}</span>
+            <span class="header__clock-hms"><span>{{ clock.h }}</span><span class="header__clock-sep">:</span><span>{{ clock.m }}</span><span class="header__clock-sep">:</span><span class="header__clock-sec">{{ clock.s }}</span></span>
           </span>
         </span>
         <RouterLink to="/" class="header__brand" @click="closeMenu">
@@ -169,26 +168,31 @@ function closeMenu() {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 0.12rem;
+  gap: 0.25rem;
   font-variant-numeric: tabular-nums;
-  font-size: 1rem;
-  letter-spacing: 0.04em;
+  font-size: 1.6rem;
+  letter-spacing: 0.03em;
   color: var(--ink);
   padding-right: 0.9rem;
   border-right: 1px solid var(--line);
   user-select: none;
   white-space: nowrap;
-  line-height: 1.15;
+  line-height: 1.08;
 }
 
 .header__clock-date {
-  font-size: 0.84rem;
+  font-size: 1.2rem;
   color: var(--ink-soft);
 }
 
 .header__clock-time {
   display: inline-flex;
-  align-items: center;
+  align-items: baseline;
+}
+
+.header__clock-hms {
+  display: inline-flex;
+  align-items: baseline;
 }
 
 .header__clock-sep {
@@ -200,9 +204,9 @@ function closeMenu() {
 }
 
 .header__clock-tz {
-  margin-left: 0.4rem;
-  font-size: 0.74rem;
-  letter-spacing: 0.05em;
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
   color: var(--ink-soft);
 }
 
@@ -339,14 +343,15 @@ function closeMenu() {
     gap: 0.55rem;
   }
   .header__clock {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     padding-right: 0.55rem;
   }
   .header__clock-date {
-    font-size: 0.72rem;
+    font-size: 0.92rem;
   }
   .header__clock-tz {
-    font-size: 0.66rem;
+    font-size: 0.72rem;
+    margin-right: 0.35rem;
   }
   .header__latin {
     font-size: 0.95rem;
