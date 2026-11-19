@@ -115,7 +115,9 @@ const bodyContent = computed(() => {
 }
 
 .post {
-  max-width: 44rem;
+  /* 正文与标题共用的展示宽度：左右边界一致，标题按此宽度逐行两端对齐。 */
+  --content-w: 60rem;
+  max-width: var(--content-w);
   margin: 0 auto;
 }
 
@@ -138,8 +140,8 @@ const bodyContent = computed(() => {
 
 /* 三列网格直接建立在整个文章容器上：左右两列等宽（各 16.5rem），中间列天然
    水平居中于页面（其中线与页面中线重合）。目录放左列且左边界贴合页面左缘不变，
-   右列留空仅作对称配重；标题/时间/标签与正文共用中间列，宽度上限一致，
-   因此标题右缘不会超出正文卡片右边界。正文列最大 48rem，窄屏自动收窄。 */
+   右列留空仅作对称配重；标题/时间/标签与正文共用中间列，宽度上限一致（--content-w），
+   因此标题右缘不会超出正文卡片右边界。正文列最大 60rem，窄屏自动收窄。 */
 .post--with-toc {
   display: grid;
   grid-template-columns: 16.5rem minmax(0, 1fr) 16.5rem;
@@ -155,7 +157,7 @@ const bodyContent = computed(() => {
 .post--with-toc .post__main {
   grid-column: 2;
   width: 100%;
-  max-width: 48rem;
+  max-width: var(--content-w, 60rem);
   margin-inline: auto;
 }
 
@@ -223,10 +225,10 @@ const bodyContent = computed(() => {
 }
 
 /* 居中的毛玻璃正文卡片：半透明底 + 背景模糊 + 柔和发光边，
-   与页面连续渐变融合，形成独立的正文展示区。横向大小与原来基本一致（48rem）。 */
+   与页面连续渐变融合，形成独立的正文展示区。横向扩展到与标题一致的 60rem。 */
 .post__main {
   min-width: 0;
-  max-width: 48rem;
+  max-width: var(--content-w, 60rem);
   position: relative;
   padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.35rem, 3vw, 2.6rem);
   background: color-mix(in srgb, var(--paper-elev) 76%, transparent);
@@ -257,8 +259,11 @@ const bodyContent = computed(() => {
   line-height: 1.25;
   letter-spacing: 0.01em;
   margin-top: 0.8rem;
-  /* 标题限制在正文列宽度内，过长时自然换行，右缘不超出正文卡片边框 */
-  text-wrap: balance;
+  /* 标题铺满正文展示宽度：每一行左右两端对齐；一行放不下就自动换行，
+     最后一行也两端对齐（text-align-last: justify），右缘不超出正文卡片边框。 */
+  text-align: justify;
+  text-align-last: justify;
+  text-justify: inter-word;
   overflow-wrap: break-word;
 }
 
@@ -315,11 +320,11 @@ const bodyContent = computed(() => {
   }
   .post--with-toc .post__header,
   .post--with-toc .post__main {
-    max-width: 48rem;
+    max-width: var(--content-w);
   }
   .post__toc {
     width: auto;
-    max-width: 48rem;
+    max-width: var(--content-w);
     position: static;
     max-height: none;
     margin-bottom: 1.8rem;
