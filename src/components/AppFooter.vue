@@ -5,8 +5,6 @@ import { FOOTER_QUOTE } from '@/config/site'
 
 <template>
   <footer class="footer">
-    <!-- 顶部渐变：由内容浅色平滑过渡到底色，消除首页/各页内容区到页脚的硬切 -->
-    <div class="footer__fade" aria-hidden="true"></div>
     <div class="page footer__inner">
       <blockquote v-if="FOOTER_QUOTE.text" class="footer__quote">
         <p>「{{ FOOTER_QUOTE.text }}」</p>
@@ -31,21 +29,10 @@ import { FOOTER_QUOTE } from '@/config/site'
 <style scoped>
 .footer {
   position: relative;
-  /* 留出与渐变带（5rem）等高的空间，避免渐变遮盖正文内容 */
-  margin-top: 5.5rem;
-  background: var(--paper-deep);
-}
-
-/* 顶部渐变过渡带：从内容区浅色（paper）平滑过渡到底色（paper-deep），消除硬切 */
-.footer__fade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 5rem;
-  transform: translateY(-100%);
-  background: linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%);
-  pointer-events: none;
+  margin-top: 4rem;
+  /* 背景透明，直接坐在全页连续渐变上，不再有独立底色造成深浅跳变 */
+  background: transparent;
+  border-top: 1px solid var(--line);
 }
 
 .footer__inner {

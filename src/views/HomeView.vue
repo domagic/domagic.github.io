@@ -10,16 +10,11 @@ import PostIndexItem from '@/components/PostIndexItem.vue'
 
 useSeo({ title: '首页' })
 
-// 科技风配色注入为 CSS 变量，后续只需改 config/site.ts 的 HOME_CONFIG.palette 即可换色。
+// 强调色注入为 CSS 变量，后续只需改 config/site.ts 的 HOME_CONFIG.palette.accent 即可换色。
+// 背景渐变由全局 styles/tokens.css 的 --page-top/mid/bottom 统一提供，全页一条、无分段跳变。
 const themeVars = computed(() => {
-  if (HOME_CONFIG.theme !== 'tech-dark') return {}
-  const p = HOME_CONFIG.palette
-  return {
-    '--home-deep': p.deep,
-    '--home-deep-2': p.deep2,
-    '--home-surface': p.surface,
-    '--home-accent': p.accent,
-  } as Record<string, string>
+  if (HOME_CONFIG.theme !== 'tech-light') return {}
+  return { '--home-accent': HOME_CONFIG.palette.accent } as Record<string, string>
 })
 
 const featured = ref<PostSummary[]>([])
@@ -158,41 +153,18 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-/* 首页自成层叠上下文：封面深色 → 平滑过渡 → 内容浅色，颜色全部来自 HOME_CONFIG.palette */
+/* 首页与全站共用 body 上的同一条连续渐变，不再自带背景场，消除一切分段跳变 */
 .home {
   position: relative;
   isolation: isolate;
 }
 
-.home--tech-dark {
-  /* 首页范围内覆盖纸感变量，使下方内容与科技封面协调（后期换色只需改 config） */
-  --paper-elev: #ffffff;
-  --paper-deep: #e4eaf4;
+.home--tech-light {
+  /* 仅在首页把强调色指向科技蓝紫；背景保持透明，露出全页连续渐变 */
   --cinnabar: var(--home-accent);
   --cinnabar-deep: var(--home-accent);
   --cinnabar-wash: rgba(79, 70, 229, 0.1);
-  --line: rgba(30, 50, 90, 0.12);
-  --line-strong: rgba(30, 50, 90, 0.26);
-  background: var(--home-surface);
   color: var(--ink);
-}
-
-/* 全宽背景场：封面深色在底部渐隐为内容浅色，消除原来的硬切与刺眼对比 */
-.home--tech-dark::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  /* 两端渐变：顶部由内容浅色渐入深色（衔接 sticky 页头），底部由深色渐出到内容浅色，消除上下硬切 */
-  background: linear-gradient(
-    180deg,
-    var(--home-surface) 0,
-    var(--home-deep-2) 13vh,
-    var(--home-deep) calc(62vh - 160px),
-    var(--home-surface) calc(62vh + 70px),
-    var(--home-surface) 100%
-  );
-  pointer-events: none;
 }
 
 .hero {
@@ -206,74 +178,75 @@ onMounted(async () => {
   gap: 2rem;
   align-items: center;
   min-height: 62vh;
-  /* 顶部留出渐入区（13vh），文字落在深色带上，避免浅色区文字看不清 */
-  padding-top: clamp(5rem, 16vh, 9rem);
+  padding-top: clamp(3rem, 7vh, 5rem);
   padding-bottom: clamp(2.5rem, 6vh, 4.5rem);
 }
 
-/* ================= 深色 AI 科技风（默认 theme=tech-dark） ================= */
-.hero--tech-dark {
-  /* 深色由全宽背景场提供，此处保持透明，让封面与内容区无缝衔接 */
+/* ================= 全浅色 AI 科技风（默认 theme=tech-light） ================= */
+.hero--tech-light {
+  /* 完全透明，文字用全站深墨色，与连续渐变自然融合 */
   background: transparent;
-  color: #e8eefc;
+  color: var(--ink);
 }
 
-/* 装饰层在封面底部渐隐，避免光晕出现在变浅的过渡区 */
-.hero--tech-dark .hero__fx {
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 62%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 62%, transparent 100%);
+/* 装饰层仅在底部自然淡出，不做顶部渐入（顶部已是近白，无需衔接） */
+.hero--tech-light .hero__fx {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
 }
 
-.hero--tech-dark .hero__eyebrow {
-  color: #6ee7ff;
+.hero--tech-light .hero__eyebrow {
+  color: var(--home-accent);
   letter-spacing: 0.24em;
 }
 
-.hero--tech-dark .hero__title {
-  text-shadow: 0 2px 26px rgba(80, 140, 255, 0.28);
+.hero--tech-light .hero__title {
+  color: #111a30;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.hero--tech-dark .hero__title em {
-  background: linear-gradient(92deg, #67e8f9 0%, #818cf8 45%, #f0abfc 100%);
+.hero--tech-light .hero__title em {
+  background: linear-gradient(92deg, #2563eb 0%, #7c3aed 52%, #9333ea 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-.hero--tech-dark .hero__bio {
-  color: #b9c6e6;
+.hero--tech-light .hero__bio {
+  color: var(--ink-soft);
 }
 
-.hero--tech-dark .hero__btn {
-  border-color: rgba(160, 190, 255, 0.38);
-  color: #e8eefc;
-  background: rgba(255, 255, 255, 0.04);
+.hero--tech-light .hero__btn {
+  border-color: var(--line-strong);
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(6px);
 }
 
-.hero--tech-dark .hero__btn:hover {
-  border-color: #67e8f9;
-  color: #fff;
-  box-shadow: 0 0 22px rgba(103, 232, 249, 0.25);
+.hero--tech-light .hero__btn:hover {
+  border-color: var(--home-accent);
+  color: var(--home-accent);
+  box-shadow: 0 8px 22px rgba(79, 70, 229, 0.14);
 }
 
-.hero--tech-dark .hero__btn--primary {
+.hero--tech-light .hero__btn--primary {
   background: linear-gradient(92deg, #2563eb, #7c3aed);
   border-color: transparent;
   color: #fff;
 }
 
-.hero--tech-dark .hero__btn--primary:hover {
+.hero--tech-light .hero__btn--primary:hover {
   background: linear-gradient(92deg, #3b82f6, #8b5cf6);
   color: #fff;
+  box-shadow: 0 10px 26px rgba(79, 70, 229, 0.3);
 }
 
-.hero--tech-dark .hero__affil {
-  color: #8fa2c9;
+.hero--tech-light .hero__affil {
+  color: var(--ink-faint);
 }
 
-.hero--tech-dark .hero__vertical {
-  color: rgba(160, 190, 255, 0.55);
+.hero--tech-light .hero__vertical {
+  color: rgba(26, 35, 56, 0.42);
 }
 
 /* 科技感装饰层 */
@@ -289,8 +262,8 @@ onMounted(async () => {
   position: absolute;
   inset: -2px;
   background-image:
-    linear-gradient(rgba(120, 160, 255, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(120, 160, 255, 0.09) 1px, transparent 1px);
+    linear-gradient(rgba(79, 70, 229, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 70, 229, 0.09) 1px, transparent 1px);
   background-size: 46px 46px;
   mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 78%);
   -webkit-mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 78%);
@@ -300,25 +273,25 @@ onMounted(async () => {
 .hero__glow {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.55;
+  filter: blur(70px);
+  opacity: 0.4;
   animation: floatGlow 12s ease-in-out infinite alternate;
 }
 
 .hero__glow--a {
-  width: 340px;
-  height: 340px;
-  top: -80px;
-  right: 8%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.7), transparent 70%);
+  width: 360px;
+  height: 360px;
+  top: -90px;
+  right: 6%;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.5), transparent 70%);
 }
 
 .hero__glow--b {
-  width: 300px;
-  height: 300px;
-  bottom: -90px;
-  left: 4%;
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.65), transparent 70%);
+  width: 320px;
+  height: 320px;
+  bottom: -100px;
+  left: 2%;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.45), transparent 70%);
   animation-delay: -6s;
 }
 
@@ -328,7 +301,7 @@ onMounted(async () => {
   left: -30%;
   width: 45%;
   height: 100%;
-  background: linear-gradient(100deg, transparent, rgba(103, 232, 249, 0.07), transparent);
+  background: linear-gradient(100deg, transparent, rgba(79, 70, 229, 0.06), transparent);
   transform: skewX(-18deg);
   animation: beamSweep 9s ease-in-out infinite;
 }
@@ -337,12 +310,12 @@ onMounted(async () => {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(2px 2px at 12% 22%, rgba(160, 210, 255, 0.9), transparent),
-    radial-gradient(2px 2px at 28% 68%, rgba(160, 210, 255, 0.7), transparent),
-    radial-gradient(1.5px 1.5px at 52% 30%, rgba(230, 200, 255, 0.8), transparent),
-    radial-gradient(2px 2px at 68% 76%, rgba(160, 210, 255, 0.75), transparent),
-    radial-gradient(1.5px 1.5px at 84% 44%, rgba(160, 210, 255, 0.85), transparent),
-    radial-gradient(1.5px 1.5px at 40% 86%, rgba(230, 200, 255, 0.7), transparent);
+    radial-gradient(2px 2px at 12% 22%, rgba(79, 70, 229, 0.45), transparent),
+    radial-gradient(2px 2px at 28% 68%, rgba(37, 99, 235, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 52% 30%, rgba(147, 51, 234, 0.42), transparent),
+    radial-gradient(2px 2px at 68% 76%, rgba(79, 70, 229, 0.38), transparent),
+    radial-gradient(1.5px 1.5px at 84% 44%, rgba(37, 99, 235, 0.45), transparent),
+    radial-gradient(1.5px 1.5px at 40% 86%, rgba(147, 51, 234, 0.4), transparent);
   background-size: 420px 320px;
   animation: twinkle 6s ease-in-out infinite alternate;
 }
@@ -606,16 +579,6 @@ onMounted(async () => {
   .hero__inner {
     grid-template-columns: 1fr;
     min-height: 52vh;
-  }
-  .home--tech-dark::before {
-    background: linear-gradient(
-      180deg,
-      var(--home-surface) 0,
-      var(--home-deep-2) 11vh,
-      var(--home-deep) calc(52vh - 120px),
-      var(--home-surface) calc(52vh + 60px),
-      var(--home-surface) 100%
-    );
   }
   .hero__side {
     flex-direction: row-reverse;

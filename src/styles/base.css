@@ -10,14 +10,17 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
+  /* 全站唯一一条连续渐变：顶部近白 → 中部浅蓝灰 → 底部稍深蓝灰，贯穿所有页面 */
+  background: linear-gradient(180deg, var(--page-top) 0%, var(--page-mid) 46%, var(--page-bottom) 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
+  transition: color 0.4s var(--ease-out);
 }
 
 body::before {

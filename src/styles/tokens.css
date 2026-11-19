@@ -8,6 +8,10 @@
   --paper: #f2f5fa;
   --paper-deep: #e4eaf4;
   --paper-elev: #ffffff;
+  /* 全页连续背景渐变：顶部近白 → 中部浅蓝灰 → 底部稍深蓝灰。改这三色即可整站换背景 */
+  --page-top: #ffffff;
+  --page-mid: #f2f5fa;
+  --page-bottom: #e2eaf6;
   --ink: #1a2338;
   --ink-soft: #4a5570;
   --ink-faint: #6b7793;
@@ -34,7 +38,7 @@
     radial-gradient(54% 48% at 92% 86%, rgba(14, 165, 233, 0.1), transparent 70%),
     radial-gradient(40% 40% at 14% 94%, rgba(139, 92, 246, 0.1), transparent 68%);
   /* 暗角：边缘渐深，框住内容、增强纵深 */
-  --vignette: radial-gradient(125% 95% at 50% 36%, transparent 50%, rgba(26, 35, 56, 0.07) 100%);
+  --vignette: none;
   /* 顶部光泽：柔和提亮上缘，增强层次 */
   --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 28%);
 
@@ -48,6 +52,10 @@
   --paper: #16181d;
   --paper-deep: #101216;
   --paper-elev: #1e2127;
+  /* 深色主题同款连续渐变：顶部稍浅 → 底部更深 */
+  --page-top: #1b1f2b;
+  --page-mid: #141824;
+  --page-bottom: #0c0f18;
   --ink: #e8e4da;
   --ink-soft: #a9adb5;
   --ink-faint: #9a9ea7;
