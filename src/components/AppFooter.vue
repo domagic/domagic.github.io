@@ -31,7 +31,8 @@ import { FOOTER_QUOTE } from '@/config/site'
 <style scoped>
 .footer {
   position: relative;
-  margin-top: 3rem;
+  /* 留出与渐变带（5rem）等高的空间，避免渐变遮盖正文内容 */
+  margin-top: 5.5rem;
   background: var(--paper-deep);
 }
 
