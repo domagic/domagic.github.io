@@ -107,6 +107,76 @@
       "urlPath": "/media/academic/2026-arx-KuaiLive-M3/figure-03.png"
     },
     {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-01-field-map.png",
+      "sha256": "91799980910417068bc3a53afe78880812b95ed635f907807736ef3c31bbc92e",
+      "bytes": 214639,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-01-field-map.png"
+    },
+    {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-02-timeline.png",
+      "sha256": "67a2512db8c5b8804fd9f94f38ec8406201ce440d3a3d1db255437abf7e8f299",
+      "bytes": 141969,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-02-timeline.png"
+    },
+    {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-03-typology.png",
+      "sha256": "83420758f987ae952ae9428614e0a368bbf9d963a4a59e49ddcf0c64e690fa27",
+      "bytes": 177209,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-03-typology.png"
+    },
+    {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-04-terminology.png",
+      "sha256": "d80ded8fee6e348198f3c33dc9a1e0da0cac51928414f82d00a5d68237bb50e4",
+      "bytes": 186539,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-04-terminology.png"
+    },
+    {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-05-mechanism.png",
+      "sha256": "284627d42c4c8e0d70d40ba19494ab6595de697863ff27a67031b5bf9236fa91",
+      "bytes": 258098,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-05-mechanism.png"
+    },
+    {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-06-question-map.png",
+      "sha256": "35dd1fba2bb1efcdb1f066ce4adb1e0ac96f575a7110a90b842349e0bbb7e335",
+      "bytes": 226215,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-06-question-map.png"
+    },
+    {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-07-methods.png",
+      "sha256": "3727e1428a76849b10109b2f9be973f54defbdcfdb757f8e6fb65481a141560b",
+      "bytes": 232911,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-07-methods.png"
+    },
+    {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-08-tech-stack.png",
+      "sha256": "f084955ac817ee129c7d5bf2d6fcfe3365f3ef5a687a18674cc55c812318d2d1",
+      "bytes": 260004,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-08-tech-stack.png"
+    },
+    {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-09-agenda.png",
+      "sha256": "9bab1524485041e927cb230ef7a964528eba201a256208738312f7845715df6e",
+      "bytes": 199744,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-09-agenda.png"
+    },
+    {
+      "relPath": "academic/assets/2026-live-streaming-research-primer/figure-10-reading-path.png",
+      "sha256": "bce04a8d5d6092a944242e9a79a10a9506056f77718c5bf996badde2e42ad074",
+      "bytes": 155076,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-live-streaming-research-primer/figure-10-reading-path.png"
+    },
+    {
       "relPath": "academic/assets/Live_streaming_channel_recommendation/fig4_framework.png",
       "sha256": "26400c94337c49d3ef0d1d2b760afc5ab3c77810d39328aa9a891637565e73ce",
       "bytes": 380404,
