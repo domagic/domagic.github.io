@@ -1,0 +1,78 @@
+# P5-C1 终稿（v1.3 冻结版 A.2）：站点仓单仓直发流水线。
+# 触发＝owner 向 publish-main push（git 或网页上传均算，push＝该次发布常额批准）。
+# 任一门失败即整次 run 中止，gh-pages 不动，线上保持旧版（绝不部分上线）。
+# 部署＝父链法非 force 快进（A.2-6，B1 P-3 采纳）：以远端 gh-pages HEAD 为父的
+# 全树替换 commit，仅 FF push；non-fast-forward 即整 run 失败。禁 orphan/deploy-pages
+# 重置历史法。gh-pages 仅本 workflow 写入（C-4）；owner 直推面＝publish-main。
+name: publish
+
+on:
+  push:
+    branches: [publish-main]
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+# C1 必修（Manager seq=888）：父链法部署段执行 git push origin HEAD:gh-pages，
+# 需要 contents: write；B1 草案的 contents: read 不足（push 必 403）。
+# pages: write 仅服务 actions/deploy-pages（本流水线不用），删除。
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout publish-main
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # A.2-3 内容构建四门一体（G0 profile／G1 在场硬门／G2 白名单+tex 显式拒／
+      # G3 图片结构门／G4 元数据+slug 重复全拒+published 必显式 date）。
+      # --report 对账表落 GITHUB_STEP_SUMMARY（B2 dry-run 交互降级件）。
+      - name: Content build (gates G0-G4)
+        run: node scripts/build-static.mjs --content-dir content --out-dataset .build/dataset.json --out-assets .build/assets.json --report
+
+      # FE 链内件（d1893f3）：schema/敏感键/占位拒绝＋媒体清单校验（relPath/sha/bytes/mime）。
+      - name: Sync static data
+        run: node scripts/sync-static-data.mjs .build/dataset.json --assets-manifest .build/assets.json
+
+      # A.2-4：content/ 位图按清单落 public/media/<栏目>/<图片目录>/<文件名>（字节+sha 双复核）。
+      - name: Stage media assets
+        run: node scripts/stage-media.mjs --content-dir content
+
+      - name: Vite build
+        run: npx vite build
+
+      # A.2-5：断链门（bytes+sha 双配＋引用命中＋四级守卫）＋ data:image 产物面复扫发布拒绝。
+      - name: Postbuild gates
+        run: node scripts/postbuild.mjs
+
+      # A.2-6 父链法部署：远端 gh-pages HEAD 为父，全树替换，仅 FF push。
+      # CNAME 保留（C1 自审必修）：现线 gh-pages 含 CNAME=qinluolab.com，全树替换
+      # 若不回填会丢自定义域名。不加 .nojekyll（现线无此文件，dist 无下划线前缀
+      # 路径，保持与现线一致的 Pages 处理行为）。
+      - name: Deploy gh-pages (parent-chain, fast-forward only)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git fetch origin gh-pages --depth=1
+          git checkout -B gh-pages-deploy FETCH_HEAD
+          git rm -rfq .
+          cp -r dist/. .
+          git show FETCH_HEAD:CNAME > CNAME 2>/dev/null || true
+          git add -A
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "deploy: ${GITHUB_SHA}"
+          git push origin HEAD:gh-pages

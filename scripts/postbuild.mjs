@@ -36,6 +36,21 @@ const datasetPath = join(process.cwd(), 'src/api/static/data/dataset.json')
 const manifestPath = join(dist, 'media/manifest.json')
 const dataset = JSON.parse(readFileSync(datasetPath, 'utf8'))
 
+// —— v1.3 A.2-5 增量（工程 commit）：data: URI 产物面复扫升级为发布拒绝 ——
+// 渲染层 media.ts 对 data: URI 已 fail-closed 剔除（v1.2 门维持）；本复扫为其超集：
+// 产物内容源（dataset＝sync 落位后嵌入 dist bundle 的全部作者内容面）出现
+// data:image 即整次发布拒绝，防「渲染剔除了但源仍带内联图」的静默降级。
+// 扫正面＝posts[].contentMd/summary＋profile.bio/headline（作者可控内容字段全集）；
+// 不盲扫 dist JS 全文——bundle 内含渲染守卫自身的 'data:' 匹配字面量，会自触发假红。
+const DATA_IMAGE_RE = /data:image\//i
+for (const post of dataset.posts ?? []) {
+  if (DATA_IMAGE_RE.test(post.contentMd ?? '')) mediaFail(`正文含 data:image URI（v1.3 A.2-5 发布拒绝）: posts[${post.slug}].contentMd`)
+  if (DATA_IMAGE_RE.test(post.summary ?? '')) mediaFail(`摘要含 data:image URI（v1.3 A.2-5 发布拒绝）: posts[${post.slug}].summary`)
+}
+for (const k of ['bio', 'headline']) {
+  if (DATA_IMAGE_RE.test(dataset.profile?.[k] ?? '')) mediaFail(`profile.${k} 含 data:image URI（v1.3 A.2-5 发布拒绝）`)
+}
+
 const refs = [] // { post: slug, category, ref: 'assets/<dir>/<file>' }
 for (const post of dataset.posts ?? []) {
   let n = 0
