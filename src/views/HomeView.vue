@@ -26,10 +26,11 @@ const loading = ref(true)
 // 封面 → 内容：首屏只显示封面，向下翻页到「精选」区。
 const featuredRef = ref<HTMLElement | null>(null)
 const contentIn = ref(false)
-let contentObserver: IntersectionObserver | null = null
+let scrollHandler: (() => void) | null = null
 
 // “开始阅读”按钮：像翻页一样平滑滚动到「精选」区；sticky 页头高度由 scroll-margin-top 让开。
 function goToContent() {
+  contentIn.value = true
   featuredRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
@@ -43,21 +44,15 @@ onMounted(async () => {
   // 仅首页启用 proximity 滚动吸附：封面与内容区各为一个翻页锚点，轻滑即可“翻页”；
   // 卸载时移除，其它路由不受影响（命名空间限定在 html.home-flip）。
   document.documentElement.classList.add('home-flip')
-  // 内容区滚动进入视口时触发“翻页”淡入；已滚动过则直接显示，避免首屏空白。
-  if (typeof IntersectionObserver !== 'undefined' && featuredRef.value) {
-    contentObserver = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          contentIn.value = true
-          contentObserver?.disconnect()
-        }
-      },
-      { threshold: 0.08 },
-    )
-    contentObserver.observe(featuredRef.value)
-  } else {
-    contentIn.value = true
+  // 只有在用户真正向下滚动后才揭幕内容区。之前用 IntersectionObserver(threshold .08)
+  // 会因 svh 取整导致「精选」区在刷新时露出一角、观察器立刻判定相交而提前揭幕；
+  // 改为滚动位置判定：scrollY 越过阈值即揭幕，首屏刷新（scrollY=0）时内容始终隐藏。
+  scrollHandler = () => {
+    if (window.scrollY > 24) contentIn.value = true
   }
+  window.addEventListener('scroll', scrollHandler, { passive: true })
+  // 兼容刷新时浏览器恢复的历史滚动位置：首帧主动判定一次。
+  requestAnimationFrame(() => scrollHandler?.())
   try {
     const all = await api.listPosts({ pageSize: 50 })
     // 精选 = 全站最新发布的 3 篇（跨栏目），不再依赖失效的演示 slug；
@@ -73,7 +68,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  contentObserver?.disconnect()
+  if (scrollHandler) window.removeEventListener('scroll', scrollHandler)
   document.documentElement.classList.remove('home-flip')
 })
 </script>
@@ -564,7 +559,7 @@ onUnmounted(() => {
 
 @media (prefers-reduced-motion: reduce) {
   .content-section {
-    opacity: 1;
+    /* 保留首屏隐藏（opacity 仍由 .content-section--in 控制），只去掉位移与过渡动画 */
     transform: none;
     transition: none;
   }
