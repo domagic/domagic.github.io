@@ -52,6 +52,17 @@ export const HOME_CONFIG = {
   vertical: '格物致知',
   /** 印章字符，空则不显示印章 */
   sealChar: '魔',
+  /**
+   * 首页科技风配色（后期要调整封面深浅/内容底色，只改这里即可，无需动组件）。
+   * deep/deep2: 封面深色的渐变起止色；surface: 封面平滑过渡到的内容区浅色；
+   * accent: 首页强调色（精选/更多/索引箭头等），用科技蓝紫呼应封面。
+   */
+  palette: {
+    deep: '#080e1f',
+    deep2: '#15264a',
+    surface: '#f2f5fa',
+    accent: '#4f46e5',
+  },
 }
 
 /**

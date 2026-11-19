@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { api, CATEGORY_LABELS, CATEGORY_PATHS, type Category, type PostSummary } from '@/api'
 import { FEATURED_SLUGS, HOME_CONFIG } from '@/config/site'
@@ -9,6 +9,18 @@ import SectionHead from '@/components/SectionHead.vue'
 import PostIndexItem from '@/components/PostIndexItem.vue'
 
 useSeo({ title: '首页' })
+
+// 科技风配色注入为 CSS 变量，后续只需改 config/site.ts 的 HOME_CONFIG.palette 即可换色。
+const themeVars = computed(() => {
+  if (HOME_CONFIG.theme !== 'tech-dark') return {}
+  const p = HOME_CONFIG.palette
+  return {
+    '--home-deep': p.deep,
+    '--home-deep-2': p.deep2,
+    '--home-surface': p.surface,
+    '--home-accent': p.accent,
+  } as Record<string, string>
+})
 
 const featured = ref<PostSummary[]>([])
 const recent = ref<PostSummary[]>([])
@@ -40,8 +52,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <section class="hero page" :class="`hero--${HOME_CONFIG.theme}`">
+  <div class="home" :class="`home--${HOME_CONFIG.theme}`" :style="themeVars">
+    <section class="hero" :class="`hero--${HOME_CONFIG.theme}`">
       <!-- 科技感装饰层：网格 + 光晕 + 流线 + 粒子，全部纯 CSS 动画，可在配置里切换主题 -->
       <div class="hero__fx" aria-hidden="true">
         <span class="hero__grid"></span>
@@ -50,25 +62,27 @@ onMounted(async () => {
         <span class="hero__beam"></span>
         <span class="hero__particles"></span>
       </div>
-      <div class="hero__text">
-        <p v-if="HOME_CONFIG.eyebrow" class="hero__eyebrow mono rise">{{ HOME_CONFIG.eyebrow }}</p>
-        <h1 class="hero__title rise" style="animation-delay: 0.08s">
-          {{ HOME_CONFIG.titleLead }}<em>{{ HOME_CONFIG.titleAccent }}</em>
-        </h1>
-        <p v-if="HOME_CONFIG.bio" class="hero__bio rise" style="animation-delay: 0.16s">
-          {{ HOME_CONFIG.bio }}
-        </p>
-        <div class="hero__actions rise" style="animation-delay: 0.24s">
-          <RouterLink :to="HOME_CONFIG.primaryAction.to" class="hero__btn hero__btn--primary">{{ HOME_CONFIG.primaryAction.label }}</RouterLink>
-          <RouterLink :to="HOME_CONFIG.secondaryAction.to" class="hero__btn">{{ HOME_CONFIG.secondaryAction.label }}</RouterLink>
+      <div class="hero__inner page">
+        <div class="hero__text">
+          <p v-if="HOME_CONFIG.eyebrow" class="hero__eyebrow mono rise">{{ HOME_CONFIG.eyebrow }}</p>
+          <h1 class="hero__title rise" style="animation-delay: 0.08s">
+            {{ HOME_CONFIG.titleLead }}<em>{{ HOME_CONFIG.titleAccent }}</em>
+          </h1>
+          <p v-if="HOME_CONFIG.bio" class="hero__bio rise" style="animation-delay: 0.16s">
+            {{ HOME_CONFIG.bio }}
+          </p>
+          <div class="hero__actions rise" style="animation-delay: 0.24s">
+            <RouterLink :to="HOME_CONFIG.primaryAction.to" class="hero__btn hero__btn--primary">{{ HOME_CONFIG.primaryAction.label }}</RouterLink>
+            <RouterLink :to="HOME_CONFIG.secondaryAction.to" class="hero__btn">{{ HOME_CONFIG.secondaryAction.label }}</RouterLink>
+          </div>
+          <p v-if="HOME_CONFIG.affiliation" class="hero__affil mono rise" style="animation-delay: 0.3s">
+            {{ HOME_CONFIG.affiliation }}
+          </p>
         </div>
-        <p v-if="HOME_CONFIG.affiliation" class="hero__affil mono rise" style="animation-delay: 0.3s">
-          {{ HOME_CONFIG.affiliation }}
-        </p>
-      </div>
-      <div class="hero__side">
-        <span v-if="HOME_CONFIG.vertical" class="hero__vertical" aria-hidden="true">{{ HOME_CONFIG.vertical }}</span>
-        <SealStamp v-if="HOME_CONFIG.sealChar" animated :char="HOME_CONFIG.sealChar" />
+        <div class="hero__side">
+          <span v-if="HOME_CONFIG.vertical" class="hero__vertical" aria-hidden="true">{{ HOME_CONFIG.vertical }}</span>
+          <SealStamp v-if="HOME_CONFIG.sealChar" animated :char="HOME_CONFIG.sealChar" />
+        </div>
       </div>
     </section>
 
@@ -151,28 +165,67 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+/* 首页自成层叠上下文：封面深色 → 平滑过渡 → 内容浅色，颜色全部来自 HOME_CONFIG.palette */
+.home {
+  position: relative;
+  isolation: isolate;
+}
+
+.home--tech-dark {
+  /* 首页范围内覆盖纸感变量，使下方内容与科技封面协调（后期换色只需改 config） */
+  --paper-elev: #ffffff;
+  --paper-deep: #e4eaf4;
+  --cinnabar: var(--home-accent);
+  --cinnabar-deep: var(--home-accent);
+  --cinnabar-wash: rgba(79, 70, 229, 0.1);
+  --line: rgba(30, 50, 90, 0.12);
+  --line-strong: rgba(30, 50, 90, 0.26);
+  background: var(--home-surface);
+  color: var(--ink);
+}
+
+/* 全宽背景场：封面深色在底部渐隐为内容浅色，消除原来的硬切与刺眼对比 */
+.home--tech-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(
+    180deg,
+    var(--home-deep-2) 0%,
+    var(--home-deep) calc(62vh - 160px),
+    var(--home-surface) calc(62vh + 70px),
+    var(--home-surface) 100%
+  );
+  pointer-events: none;
+}
+
 .hero {
   position: relative;
+  overflow: hidden;
+}
+
+.hero__inner {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 2rem;
   align-items: center;
+  min-height: 62vh;
   padding-top: clamp(3rem, 8vh, 6rem);
   padding-bottom: clamp(2.5rem, 6vh, 4.5rem);
-  min-height: 62vh;
-  overflow: hidden;
-  border-radius: 10px;
-  isolation: isolate;
 }
 
 /* ================= 深色 AI 科技风（默认 theme=tech-dark） ================= */
 .hero--tech-dark {
-  background:
-    radial-gradient(1200px 500px at 78% -10%, rgba(37, 99, 235, 0.28), transparent 60%),
-    radial-gradient(900px 420px at 8% 110%, rgba(139, 92, 246, 0.22), transparent 60%),
-    linear-gradient(160deg, #0a1020 0%, #0d1830 48%, #0a1226 100%);
+  /* 深色由全宽背景场提供，此处保持透明，让封面与内容区无缝衔接 */
+  background: transparent;
   color: #e8eefc;
-  box-shadow: inset 0 0 0 1px rgba(125, 160, 255, 0.14), 0 20px 60px -30px rgba(20, 40, 90, 0.55);
+}
+
+/* 装饰层在封面底部渐隐，避免光晕出现在变浅的过渡区 */
+.hero--tech-dark .hero__fx {
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
 }
 
 .hero--tech-dark .hero__eyebrow {
@@ -574,9 +627,18 @@ onMounted(async () => {
 }
 
 @media (max-width: 640px) {
-  .hero {
+  .hero__inner {
     grid-template-columns: 1fr;
-    min-height: auto;
+    min-height: 52vh;
+  }
+  .home--tech-dark::before {
+    background: linear-gradient(
+      180deg,
+      var(--home-deep-2) 0%,
+      var(--home-deep) calc(52vh - 120px),
+      var(--home-surface) calc(52vh + 60px),
+      var(--home-surface) 100%
+    );
   }
   .hero__side {
     flex-direction: row-reverse;
