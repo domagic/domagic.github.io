@@ -52,7 +52,8 @@ jobs:
 
       - name: Vite build
         run: npx vite build
-        env: VITE_API_MODE: static
+        env:
+          VITE_API_MODE: static
 
       # A.2-5：断链门（bytes+sha 双配＋引用命中＋四级守卫）＋ data:image 产物面复扫发布拒绝。
       - name: Postbuild gates
