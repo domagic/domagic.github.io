@@ -21,7 +21,7 @@ const nav = [
 
 // 标签栏实时时钟（精确到秒）：上排日期（含星期几）、下排时间，按系统本地时间显示，
 // 并给出当前时区偏移标签，格式 (UTC + 8)（中国标准时间），每秒刷新，卸载时清理定时器。
-const WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+const WEEKDAYS = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
 const clock = ref({ date: '', h: '00', m: '00', s: '00', tz: 'UTC' })
 let clockTimer: ReturnType<typeof setInterval> | null = null
 
