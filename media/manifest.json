@@ -23,6 +23,20 @@
       "urlPath": "/media/academic/2024-DSS-Live-Streaming-Channel-Recommendation/figure-03.png"
     },
     {
+      "relPath": "academic/assets/2026-JMIS-Effects-of-social-solicitation/figure-01.png",
+      "sha256": "4d8c12aaca72b1c3b7f0e64c64cade40bb836ca9bfde794b48555a2252ac5aef",
+      "bytes": 165352,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-JMIS-Effects-of-social-solicitation/figure-01.png"
+    },
+    {
+      "relPath": "academic/assets/2026-JMIS-Effects-of-social-solicitation/figure-02.png",
+      "sha256": "a201e5008c3e956f4ee4a65cd8d00e1507d932a9f112e0bea43bb65fcf4e1a45",
+      "bytes": 867180,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-JMIS-Effects-of-social-solicitation/figure-02.png"
+    },
+    {
       "relPath": "academic/assets/2026-WWW-Room-matters/figure-01.png",
       "sha256": "6c11ebb0948bff07d78a84293401bb336708d31eedf306a1f510d6387942f7a8",
       "bytes": 88006,
@@ -42,6 +56,34 @@
       "bytes": 76493,
       "mime": "image/png",
       "urlPath": "/media/academic/2026-WWW-Room-matters/figure-03.png"
+    },
+    {
+      "relPath": "academic/assets/2026-arx-Grounded-product-understanding/figure-01.png",
+      "sha256": "9cee9fcd5eb0916db0564512d9b16c9fe7d23d1a104710e94a69d7eecb99499c",
+      "bytes": 28825,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-arx-Grounded-product-understanding/figure-01.png"
+    },
+    {
+      "relPath": "academic/assets/2026-arx-Grounded-product-understanding/figure-02.png",
+      "sha256": "db34849da16f8f801e07eceb8f87a731bc413291dae0b14f1dea428f6404ea01",
+      "bytes": 427002,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-arx-Grounded-product-understanding/figure-02.png"
+    },
+    {
+      "relPath": "academic/assets/2026-arx-Grounded-product-understanding/figure-03.png",
+      "sha256": "3ed353c2f7b86f1d00b03c72162c64fb523a2daf7641759724d35ae2e6a42dc5",
+      "bytes": 253993,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-arx-Grounded-product-understanding/figure-03.png"
+    },
+    {
+      "relPath": "academic/assets/2026-arx-Grounded-product-understanding/figure-04.png",
+      "sha256": "464a464159356970150785ea405ff134e511f1f04a1ee695135454580b9fc338",
+      "bytes": 245786,
+      "mime": "image/png",
+      "urlPath": "/media/academic/2026-arx-Grounded-product-understanding/figure-04.png"
     },
     {
       "relPath": "academic/assets/2026-arx-KuaiLive-M3/figure-01.png",
