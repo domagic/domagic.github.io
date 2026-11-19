@@ -3,7 +3,7 @@ title: "Live streaming channel recommendation based on viewers' interaction beha
 slug: live-streaming-channel-recommendation
 type: academic
 tags: [live-streaming|直播, recommender-system|推荐系统, hypergraph|超图, paper-notes|论文笔记]
-date: 2024-07-01T00:00:00.000Z
+date: 2026-11-19T00:00:00.000Z
 visibility: public
 status: published
 summary: 提出基于观众互动行为的超图推荐模型 VIBM-Hyper，将观看、弹幕、送礼、订阅、购买等多类型互动建模为超图，分别刻画观众间与频道间关联，用于直播频道个性化推荐。发表于 Decision Support Systems 184 (2024) 114272。

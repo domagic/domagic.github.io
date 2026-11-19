@@ -1,6 +1,6 @@
 import { Marked, type Tokens } from 'marked'
 import DOMPurify from 'dompurify'
-import { applyImagePolicy, type MarkdownRenderOptions } from './media'
+import { applyImagePolicy, applyLinkPolicy, type MarkdownRenderOptions } from './media'
 
 /** prose 严格消毒配置：与 utils/markdown.ts 逐字一致，数学特性不得放宽此路径。 */
 const PROSE_SANITIZE = {
@@ -167,5 +167,5 @@ export async function renderMarkdownWithMath(
     const safe = store[Number(key.slice(nonce.length + 1))]
     if (typeof safe === 'string') node.innerHTML = safe
   }
-  return applyImagePolicy(doc.body.innerHTML, options.section)
+  return applyLinkPolicy(applyImagePolicy(doc.body.innerHTML, options.section))
 }

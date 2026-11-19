@@ -1,10 +1,12 @@
 import type { ProfileLink, TimelineEntry } from '@/api/types'
 
 /**
- * 前端静态展示配置（T5a 第 6 项）：
+ * 前端静态展示配置。
  * 契约 v1 的 Profile 仅含 displayName/headline/bio/avatarUrl/location/socialLinks，
- * 以下展示字段无后端来源，按 Manager 裁决改为前端静态配置；
- * 如需入库，走契约增补评审，不得私改接口。内容为演示占位，待站点主人确认。
+ * 以下展示字段无后端来源，按 Manager 裁决改为前端静态配置。
+ *
+ * 后期维护提示：研究方向、经历、印章等在「关于」页对应的 section 由 AboutView 的
+ * ABOUT_VISIBILITY 开关控制显隐；需要恢复时把开关打开、在此填回内容即可。
  */
 export const PROFILE_DISPLAY: {
   handle: string
@@ -15,15 +17,51 @@ export const PROFILE_DISPLAY: {
   timeline: TimelineEntry[]
 } = {
   handle: 'domagic',
-  affiliation: '浙江大学管理学院',
+  // 需求(5)：删除「浙江大学管理学院」展示
+  affiliation: '',
   email: 'hello@domagic.example.com',
   sealChar: '魔',
-  research: ['数字化创新', '平台治理', '信息系统行为', '因果推断方法'],
-  timeline: [
-    { period: '2023 — 至今', role: '博士研究生', org: '浙江大学管理学院', note: '数字化创新与平台治理方向' },
-    { period: '2021 — 2023', role: '研究助理', org: '浙江大学管理学院', note: '参与国家自然科学基金项目' },
-    { period: '2017 — 2021', role: '本科', org: '某大学 信息管理与信息系统', note: '演示数据，待替换' },
-  ],
+  // 需求(3)(7)：删除旧的四个方向，改为「信息系统」「人工智能」
+  research: ['信息系统', '人工智能'],
+  // 需求(7)：「经历」先隐藏；数据留空，后期需要可在此恢复
+  timeline: [],
+}
+
+/**
+ * 首页封面配置（需求 6/8）：封面所有文案、显示开关与视觉主题集中于此。
+ * 后期调整封面内容只需改这里，不必改组件代码；空字符串的项不会渲染。
+ */
+export const HOME_CONFIG = {
+  /** 视觉主题：'tech-dark' 深色 AI 科技风（流动网格/光晕/粒子，带动画）；
+   *  后期若想换回浅色纸感可改为 'classic'（HomeView 两套样式并存）。 */
+  theme: 'tech-dark' as 'tech-dark' | 'classic',
+  /** 顶部小标题，空则不显示 */
+  eyebrow: '',
+  /** 主标题：lead 为普通字，accent 为高亮字 */
+  titleLead: '在数据之中，',
+  titleAccent: '做一点魔法。',
+  /** 主标题下的副标题，空则不显示（需求(5)：删除原长简介） */
+  bio: '',
+  /** 单位/附属信息，空则不显示（需求(5)：删除「浙江大学管理学院」） */
+  affiliation: '',
+  /** 主按钮 */
+  primaryAction: { label: '开始阅读', to: '/blog' },
+  /** 次按钮 */
+  secondaryAction: { label: '了解我', to: '/about' },
+  /** 侧边竖排字，空则不显示 */
+  vertical: '格物致知',
+  /** 印章字符，空则不显示印章 */
+  sealChar: '魔',
+}
+
+/**
+ * 「关于」页各 section 显隐开关（需求(7)）：后期要恢复「简介」「经历」把对应开关改为 true。
+ */
+export const ABOUT_VISIBILITY = {
+  showBio: false,
+  showTimeline: false,
+  showResearch: true,
+  showContact: true,
 }
 
 /** 首页「精选」位：契约无 pinned 字段，改由前端静态配置 slug 列表驱动 */

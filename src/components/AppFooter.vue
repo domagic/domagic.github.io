@@ -7,7 +7,7 @@ import { RouterLink } from 'vue-router'
     <div class="page footer__inner">
       <div class="footer__brand">
         <p class="footer__latin">Do Magic</p>
-        <p class="footer__tagline">在管理与数据之间，做一点魔法。</p>
+        <p class="footer__tagline">在数据之中，做一点魔法。</p>
       </div>
       <nav class="footer__nav" aria-label="页脚导航">
         <RouterLink to="/blog">博客</RouterLink>

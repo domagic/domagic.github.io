@@ -1,17 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import { api, CATEGORY_LABELS, CATEGORY_PATHS, type Category, type PostSummary, type Profile } from '@/api'
-import { FEATURED_SLUGS } from '@/config/site'
+import { api, CATEGORY_LABELS, CATEGORY_PATHS, type Category, type PostSummary } from '@/api'
+import { FEATURED_SLUGS, HOME_CONFIG } from '@/config/site'
 import { useSeo } from '@/composables/useSeo'
-import { mdToPlainText } from '@/utils/text'
 import SealStamp from '@/components/SealStamp.vue'
 import SectionHead from '@/components/SectionHead.vue'
 import PostIndexItem from '@/components/PostIndexItem.vue'
 
 useSeo({ title: '首页' })
 
-const profile = ref<Profile | null>(null)
 const featured = ref<PostSummary[]>([])
 const recent = ref<PostSummary[]>([])
 const counts = ref<Record<Exclude<Category, 'diary'>, number>>({ blog: 0, opinion: 0, academic: 0 })
@@ -26,8 +24,7 @@ const categories: { key: Exclude<Category, 'diary'>; desc: string }[] = [
 
 onMounted(async () => {
   try {
-    const [p, all] = await Promise.all([api.getProfile(), api.listPosts({ pageSize: 50 })])
-    profile.value = p
+    const all = await api.listPosts({ pageSize: 50 })
     // 契约 v1 无 pinned 字段：精选位由前端静态配置 FEATURED_SLUGS 驱动
     featured.value = FEATURED_SLUGS.map((slug) => all.items.find((post) => post.slug === slug))
       .filter((post): post is PostSummary => Boolean(post))
@@ -44,26 +41,34 @@ onMounted(async () => {
 
 <template>
   <div>
-    <section class="hero page">
+    <section class="hero page" :class="`hero--${HOME_CONFIG.theme}`">
+      <!-- 科技感装饰层：网格 + 光晕 + 流线 + 粒子，全部纯 CSS 动画，可在配置里切换主题 -->
+      <div class="hero__fx" aria-hidden="true">
+        <span class="hero__grid"></span>
+        <span class="hero__glow hero__glow--a"></span>
+        <span class="hero__glow hero__glow--b"></span>
+        <span class="hero__beam"></span>
+        <span class="hero__particles"></span>
+      </div>
       <div class="hero__text">
-        <p class="hero__eyebrow mono rise">Personal Site · Est. 2026</p>
+        <p v-if="HOME_CONFIG.eyebrow" class="hero__eyebrow mono rise">{{ HOME_CONFIG.eyebrow }}</p>
         <h1 class="hero__title rise" style="animation-delay: 0.08s">
-          在管理与数据之间，<br />做一点<em>魔法</em>。
+          {{ HOME_CONFIG.titleLead }}<em>{{ HOME_CONFIG.titleAccent }}</em>
         </h1>
-        <p class="hero__bio rise" style="animation-delay: 0.16s">
-          {{ profile ? mdToPlainText(profile.bio) : '研究、博客、观点与学术内容。' }}
+        <p v-if="HOME_CONFIG.bio" class="hero__bio rise" style="animation-delay: 0.16s">
+          {{ HOME_CONFIG.bio }}
         </p>
         <div class="hero__actions rise" style="animation-delay: 0.24s">
-          <RouterLink to="/blog" class="hero__btn hero__btn--primary">开始阅读</RouterLink>
-          <RouterLink to="/about" class="hero__btn">了解我</RouterLink>
+          <RouterLink :to="HOME_CONFIG.primaryAction.to" class="hero__btn hero__btn--primary">{{ HOME_CONFIG.primaryAction.label }}</RouterLink>
+          <RouterLink :to="HOME_CONFIG.secondaryAction.to" class="hero__btn">{{ HOME_CONFIG.secondaryAction.label }}</RouterLink>
         </div>
-        <p class="hero__affil mono rise" style="animation-delay: 0.3s">
-          {{ profile?.affiliation ?? '浙江大学管理学院' }}
+        <p v-if="HOME_CONFIG.affiliation" class="hero__affil mono rise" style="animation-delay: 0.3s">
+          {{ HOME_CONFIG.affiliation }}
         </p>
       </div>
       <div class="hero__side">
-        <span class="hero__vertical" aria-hidden="true">格物致知</span>
-        <SealStamp animated :char="profile?.sealChar ?? '魔'" />
+        <span v-if="HOME_CONFIG.vertical" class="hero__vertical" aria-hidden="true">{{ HOME_CONFIG.vertical }}</span>
+        <SealStamp v-if="HOME_CONFIG.sealChar" animated :char="HOME_CONFIG.sealChar" />
       </div>
     </section>
 
@@ -147,6 +152,7 @@ onMounted(async () => {
 
 <style scoped>
 .hero {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 2rem;
@@ -154,12 +160,182 @@ onMounted(async () => {
   padding-top: clamp(3rem, 8vh, 6rem);
   padding-bottom: clamp(2.5rem, 6vh, 4.5rem);
   min-height: 62vh;
+  overflow: hidden;
+  border-radius: 10px;
+  isolation: isolate;
 }
 
-.hero__eyebrow {
-  color: var(--cinnabar-deep);
-  margin-bottom: 1.2rem;
+/* ================= 深色 AI 科技风（默认 theme=tech-dark） ================= */
+.hero--tech-dark {
+  background:
+    radial-gradient(1200px 500px at 78% -10%, rgba(37, 99, 235, 0.28), transparent 60%),
+    radial-gradient(900px 420px at 8% 110%, rgba(139, 92, 246, 0.22), transparent 60%),
+    linear-gradient(160deg, #0a1020 0%, #0d1830 48%, #0a1226 100%);
+  color: #e8eefc;
+  box-shadow: inset 0 0 0 1px rgba(125, 160, 255, 0.14), 0 20px 60px -30px rgba(20, 40, 90, 0.55);
 }
+
+.hero--tech-dark .hero__eyebrow {
+  color: #6ee7ff;
+  letter-spacing: 0.24em;
+}
+
+.hero--tech-dark .hero__title {
+  text-shadow: 0 2px 26px rgba(80, 140, 255, 0.28);
+}
+
+.hero--tech-dark .hero__title em {
+  background: linear-gradient(92deg, #67e8f9 0%, #818cf8 45%, #f0abfc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero--tech-dark .hero__bio {
+  color: #b9c6e6;
+}
+
+.hero--tech-dark .hero__btn {
+  border-color: rgba(160, 190, 255, 0.38);
+  color: #e8eefc;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
+}
+
+.hero--tech-dark .hero__btn:hover {
+  border-color: #67e8f9;
+  color: #fff;
+  box-shadow: 0 0 22px rgba(103, 232, 249, 0.25);
+}
+
+.hero--tech-dark .hero__btn--primary {
+  background: linear-gradient(92deg, #2563eb, #7c3aed);
+  border-color: transparent;
+  color: #fff;
+}
+
+.hero--tech-dark .hero__btn--primary:hover {
+  background: linear-gradient(92deg, #3b82f6, #8b5cf6);
+  color: #fff;
+}
+
+.hero--tech-dark .hero__affil {
+  color: #8fa2c9;
+}
+
+.hero--tech-dark .hero__vertical {
+  color: rgba(160, 190, 255, 0.55);
+}
+
+/* 科技感装饰层 */
+.hero__fx {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero__grid {
+  position: absolute;
+  inset: -2px;
+  background-image:
+    linear-gradient(rgba(120, 160, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 160, 255, 0.09) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 78%);
+  animation: gridDrift 24s linear infinite;
+}
+
+.hero__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: floatGlow 12s ease-in-out infinite alternate;
+}
+
+.hero__glow--a {
+  width: 340px;
+  height: 340px;
+  top: -80px;
+  right: 8%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.7), transparent 70%);
+}
+
+.hero__glow--b {
+  width: 300px;
+  height: 300px;
+  bottom: -90px;
+  left: 4%;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.65), transparent 70%);
+  animation-delay: -6s;
+}
+
+.hero__beam {
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(103, 232, 249, 0.07), transparent);
+  transform: skewX(-18deg);
+  animation: beamSweep 9s ease-in-out infinite;
+}
+
+.hero__particles {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 12% 22%, rgba(160, 210, 255, 0.9), transparent),
+    radial-gradient(2px 2px at 28% 68%, rgba(160, 210, 255, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 52% 30%, rgba(230, 200, 255, 0.8), transparent),
+    radial-gradient(2px 2px at 68% 76%, rgba(160, 210, 255, 0.75), transparent),
+    radial-gradient(1.5px 1.5px at 84% 44%, rgba(160, 210, 255, 0.85), transparent),
+    radial-gradient(1.5px 1.5px at 40% 86%, rgba(230, 200, 255, 0.7), transparent);
+  background-size: 420px 320px;
+  animation: twinkle 6s ease-in-out infinite alternate;
+}
+
+@keyframes gridDrift {
+  from { background-position: 0 0; }
+  to { background-position: 46px 46px; }
+}
+
+@keyframes floatGlow {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(24px, 18px, 0) scale(1.12); }
+}
+
+@keyframes beamSweep {
+  0%, 100% { left: -40%; }
+  50% { left: 120%; }
+}
+
+@keyframes twinkle {
+  from { opacity: 0.45; }
+  to { opacity: 0.95; }
+}
+
+/* ================= 浅纸感经典风（后期可切换 theme=classic） ================= */
+.hero--classic {
+  background: transparent;
+  color: var(--ink);
+}
+
+.hero--classic .hero__eyebrow { color: var(--cinnabar-deep); margin-bottom: 1.2rem; }
+.hero--classic .hero__title em { font-style: normal; color: var(--cinnabar-deep); }
+.hero--classic .hero__bio { color: var(--ink-soft); }
+.hero--classic .hero__btn { border: 1px solid var(--line-strong); color: var(--ink); }
+.hero--classic .hero__btn:hover { border-color: var(--cinnabar); color: var(--cinnabar-deep); }
+.hero--classic .hero__btn--primary { background: var(--cinnabar); border-color: var(--cinnabar); color: #f6f1e7; }
+.hero--classic .hero__affil { color: var(--ink-faint); }
+.hero--classic .hero__vertical { color: var(--ink-faint); }
+.hero--classic .hero__fx { display: none; }
+
+/* ================= 共用 ================= */
+.hero__eyebrow { margin-bottom: 1.2rem; }
 
 .hero__title {
   font-family: var(--font-serif-sc);
@@ -169,17 +345,13 @@ onMounted(async () => {
 
 .hero__title em {
   font-style: normal;
-  color: var(--cinnabar-deep);
   position: relative;
 }
 
 .hero__bio {
   margin-top: 1.4rem;
   max-width: 34rem;
-  color: var(--ink-soft);
   font-size: 1.02rem;
-  /* T7-③：预留 bio 高度（占位→真实文本不撑高 hero），消除首屏 CLS。桌面 2 行≈86px。 */
-  min-height: 5.375rem;
 }
 
 .hero__actions {
@@ -190,34 +362,16 @@ onMounted(async () => {
 }
 
 .hero__btn {
-  border: 1px solid var(--line-strong);
   border-radius: 999px;
   padding: 0.6rem 1.7rem;
-  color: var(--ink);
   text-decoration: none;
   transition: all 0.25s var(--ease-out);
 }
 
-.hero__btn:hover {
-  border-color: var(--cinnabar);
-  color: var(--cinnabar-deep);
-  text-decoration: none;
-}
-
-.hero__btn--primary {
-  background: var(--cinnabar);
-  border-color: var(--cinnabar);
-  color: #f6f1e7;
-}
-
-.hero__btn--primary:hover {
-  background: var(--cinnabar-deep);
-  color: #f6f1e7;
-}
+.hero__btn:hover { text-decoration: none; }
 
 .hero__affil {
   margin-top: 2.2rem;
-  color: var(--ink-faint);
 }
 
 .hero__side {
@@ -232,7 +386,6 @@ onMounted(async () => {
   font-weight: 600;
   font-size: 1.5rem;
   letter-spacing: 0.5em;
-  color: var(--ink-faint);
 }
 
 .section {
@@ -435,10 +588,7 @@ onMounted(async () => {
   .drawers {
     grid-template-columns: 1fr;
   }
-  /* T7-③：移动端首屏预留高度（bio 3 行≈114px；精选 3 卡堆叠≈788px；索引 6 行×213px≈1278px）。 */
-  .hero__bio {
-    min-height: 7.125rem;
-  }
+  /* T7-③：移动端首屏预留高度（精选 3 卡堆叠≈788px；索引 6 行×213px≈1278px）。bio 默认隐藏，不再预留。 */
   .featured {
     min-height: 49.25rem;
   }

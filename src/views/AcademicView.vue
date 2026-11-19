@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { api, type PostSummary, type Profile } from '@/api'
+import { api, type PostSummary } from '@/api'
 import { useSeo } from '@/composables/useSeo'
 import SectionHead from '@/components/SectionHead.vue'
 import PostIndexItem from '@/components/PostIndexItem.vue'
@@ -9,30 +9,18 @@ import EmptyState from '@/components/EmptyState.vue'
 useSeo({ title: '学术', description: '论文、学术报告与项目进展。' })
 
 const posts = ref<PostSummary[]>([])
-const profile = ref<Profile | null>(null)
 const loading = ref(true)
 
 onMounted(async () => {
-  const [result, p] = await Promise.all([
-    api.listPosts({ category: 'academic', status: 'published', pageSize: 50 }),
-    api.getProfile(),
-  ])
+  const result = await api.listPosts({ category: 'academic', status: 'published', pageSize: 50 })
   posts.value = result.items
-  profile.value = p
   loading.value = false
 })
 </script>
 
 <template>
   <div class="page academic">
-    <SectionHead kicker="Academic" title="学术" note="工作论文、报告与项目进展（当前为演示数据）" />
-
-    <div v-if="profile" class="academic__areas">
-      <span class="mono academic__areas-label">Research Areas</span>
-      <ul>
-        <li v-for="area in profile.research" :key="area">{{ area }}</li>
-      </ul>
-    </div>
+    <SectionHead kicker="Academic" title="学术" />
 
     <p v-if="loading" class="mono academic__loading" role="status">Loading…</p>
     <EmptyState v-else-if="posts.length === 0" title="暂无学术内容" />

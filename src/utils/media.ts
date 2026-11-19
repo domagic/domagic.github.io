@@ -51,3 +51,23 @@ export function applyImagePolicy(html: string, section?: string): string {
   }
   return dirty ? doc.body.innerHTML : html
 }
+
+/** 正文链接策略：作品/外链一律在新标签页打开，并补 noopener/noreferrer 安全属性。
+ *  与图片策略一致——只在已 sanitize 的产物上做受控属性改写，零注入面。
+ *  仅处理正文（markdown/math 两路产物），站内导航链接不受影响。 */
+export function applyLinkPolicy(html: string): string {
+  if (!html.includes('<a')) return html
+  const doc = new DOMParser().parseFromString(html, 'text/html')
+  let dirty = false
+  for (const a of Array.from(doc.body.querySelectorAll('a'))) {
+    if (a.getAttribute('target') !== '_blank') {
+      a.setAttribute('target', '_blank')
+      dirty = true
+    }
+    if (!a.getAttribute('rel')?.includes('noopener')) {
+      a.setAttribute('rel', 'noopener noreferrer')
+      dirty = true
+    }
+  }
+  return dirty ? doc.body.innerHTML : html
+}

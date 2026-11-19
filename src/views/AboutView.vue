@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { api, type Profile } from '@/api'
+import { ABOUT_VISIBILITY } from '@/config/site'
 import { useSeo } from '@/composables/useSeo'
 import SectionHead from '@/components/SectionHead.vue'
 import SealStamp from '@/components/SealStamp.vue'
@@ -22,26 +23,26 @@ onMounted(async () => {
         <p class="mono about__kicker">About</p>
         <h1 class="about__name">{{ profile.name }}</h1>
         <p class="about__title">{{ profile.title }}</p>
-        <p class="about__affil">{{ profile.affiliation }} · {{ profile.location }}</p>
+        <p v-if="profile.affiliation || profile.location" class="about__affil">{[profile.affiliation, profile.location].filter(Boolean).join(' · ')}</p>
       </div>
       <SealStamp :char="profile.sealChar" />
     </header>
 
-    <section class="about__section">
+    <section v-if="ABOUT_VISIBILITY.showBio" class="about__section">
       <SectionHead kicker="Bio" title="简介" />
       <div class="about__bio">
         <MarkdownView :source="profile.bio" />
       </div>
     </section>
 
-    <section class="about__section">
+    <section v-if="ABOUT_VISIBILITY.showResearch" class="about__section">
       <SectionHead kicker="Research" title="研究方向" />
       <ul class="about__research">
         <li v-for="area in profile.research" :key="area">{{ area }}</li>
       </ul>
     </section>
 
-    <section class="about__section">
+    <section v-if="ABOUT_VISIBILITY.showTimeline" class="about__section">
       <SectionHead kicker="Timeline" title="经历" />
       <ol class="timeline">
         <li v-for="entry in profile.timeline" :key="entry.period" class="timeline__item">
@@ -64,7 +65,6 @@ onMounted(async () => {
           <a :href="link.url" target="_blank" rel="noopener noreferrer">{{ link.label }} ↗</a>
         </li>
       </ul>
-      <p class="about__demo mono">姓名/头衔/简介/联系链接来自 /profile；研究方向、经历、印章等为前端静态展示配置（契约 v1 无对应字段）。</p>
     </section>
   </div>
 </template>
