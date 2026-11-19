@@ -5,7 +5,7 @@ interface SeoOptions {
 
 const SITE_NAME = 'Do Magic · Magic'
 const DEFAULT_DESCRIPTION =
-  'Magic 的个人网站：研究、博客、观点与学术内容。在管理与数据之间，做一点魔法。'
+  'Magic 的个人网站：研究、博客、观点与学术内容。在数据之中，做一点魔法。'
 
 function setMeta(selector: string, attr: string, value: string): void {
   let el = document.head.querySelector<HTMLMetaElement>(selector)
