@@ -1,0 +1,40 @@
+{
+  "schema": "domagic-site-media/v1",
+  "assets": [
+    {
+      "relPath": "academic/assets/Live_streaming_channel_recommendation/fig4_framework.png",
+      "sha256": "26400c94337c49d3ef0d1d2b760afc5ab3c77810d39328aa9a891637565e73ce",
+      "bytes": 380404,
+      "mime": "image/png",
+      "urlPath": "/media/academic/Live_streaming_channel_recommendation/fig4_framework.png"
+    },
+    {
+      "relPath": "academic/assets/Live_streaming_channel_recommendation/fig5_hypergraphs.png",
+      "sha256": "e396568a43d45881d645a668d90ac64cf73d0e4e3e3eb114f34241cb8ffb2419",
+      "bytes": 278758,
+      "mime": "image/png",
+      "urlPath": "/media/academic/Live_streaming_channel_recommendation/fig5_hypergraphs.png"
+    },
+    {
+      "relPath": "academic/assets/Live_streaming_channel_recommendation/page_07.png",
+      "sha256": "aed39d254d88a914fd5cee71671351d3bdcdfac5187421764a9856aaab0c6003",
+      "bytes": 453167,
+      "mime": "image/png",
+      "urlPath": "/media/academic/Live_streaming_channel_recommendation/page_07.png"
+    },
+    {
+      "relPath": "academic/assets/Live_streaming_channel_recommendation/page_08.png",
+      "sha256": "0c6e032c2700f8c20575349bfa0de5a632119d80ef8678c7ada92df5894d8d50",
+      "bytes": 242163,
+      "mime": "image/png",
+      "urlPath": "/media/academic/Live_streaming_channel_recommendation/page_08.png"
+    },
+    {
+      "relPath": "academic/assets/Live_streaming_channel_recommendation/page_11.png",
+      "sha256": "ac393cc6e64ce3610837c1aba2f73b20ac8f87a4b795869e6049a37e4444d5e7",
+      "bytes": 224104,
+      "mime": "image/png",
+      "urlPath": "/media/academic/Live_streaming_channel_recommendation/page_11.png"
+    }
+  ]
+}
