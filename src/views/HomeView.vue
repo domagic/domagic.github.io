@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { api, CATEGORY_LABELS, CATEGORY_PATHS, type Category, type PostSummary } from '@/api'
-import { FEATURED_SLUGS, HOME_CONFIG, SEAL_VISIBLE } from '@/config/site'
+import { HOME_CONFIG, SEAL_VISIBLE } from '@/config/site'
 import { useSeo } from '@/composables/useSeo'
 import SealStamp from '@/components/SealStamp.vue'
 import SectionHead from '@/components/SectionHead.vue'
@@ -32,10 +32,9 @@ const categories: { key: Exclude<Category, 'diary'>; desc: string }[] = [
 onMounted(async () => {
   try {
     const all = await api.listPosts({ pageSize: 50 })
-    // 契约 v1 无 pinned 字段：精选位由前端静态配置 FEATURED_SLUGS 驱动
-    featured.value = FEATURED_SLUGS.map((slug) => all.items.find((post) => post.slug === slug))
-      .filter((post): post is PostSummary => Boolean(post))
-      .slice(0, 3)
+    // 精选 = 全站最新发布的 3 篇（跨栏目），不再依赖失效的演示 slug；
+    // 最新索引 = 全站最新发布的文章（跨栏目，按发布日期降序）。
+    featured.value = all.items.slice(0, 3)
     recent.value = all.items.slice(0, 6)
     for (const key of Object.keys(counts.value) as Exclude<Category, 'diary'>[]) {
       counts.value[key] = all.items.filter((post) => post.category === key).length
@@ -82,7 +81,7 @@ onMounted(async () => {
     </section>
 
     <section v-if="loading || featured.length" class="page section">
-      <SectionHead kicker="Featured" title="精选" note="编辑精选的长文与重要进展" />
+      <SectionHead kicker="Featured" title="精选" note="全站最新发布的文章" />
       <div class="featured">
         <template v-if="loading">
           <div v-for="i in 3" :key="`fs-${i}`" class="featured__card featured__card--sk" aria-hidden="true">
@@ -113,7 +112,7 @@ onMounted(async () => {
     <section class="page section">
       <SectionHead kicker="Index" title="最新索引">
         <template #action>
-          <RouterLink to="/blog" class="section-more">全部文章 →</RouterLink>
+          <RouterLink to="/archive" class="section-more">全部文章 →</RouterLink>
         </template>
       </SectionHead>
       <div class="index-list">

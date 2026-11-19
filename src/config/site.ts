@@ -85,12 +85,11 @@ export const ABOUT_VISIBILITY = {
   showContact: true,
 }
 
-/** 首页「精选」位：契约无 pinned 字段，改由前端静态配置 slug 列表驱动 */
-export const FEATURED_SLUGS: string[] = [
-  'causal-inference-notes',
-  'ai-reviewer-opinion',
-  'paper-digital-innovation',
-]
+/**
+ * 首页「精选」位：已废弃固定 slug 列表（原演示数据已删除）。
+ * 现由 HomeView 直接取全站最新发布的 N 篇文章，无需在此配置。保留此空数组仅为兼容旧引用。
+ */
+export const FEATURED_SLUGS: string[] = []
 
 export const DEMO_SOCIAL_LINKS: ProfileLink[] = [
   { label: 'GitHub', url: 'https://github.com/domagic' },

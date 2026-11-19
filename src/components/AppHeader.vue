@@ -19,19 +19,32 @@ const nav = [
   { to: '/about', label: '关于' },
 ]
 
-// 标签栏实时时钟（精确到秒）：上排日期（含星期几）、下排时间，统一按 UTC 显示；每秒刷新，卸载时清理定时器。
+// 标签栏实时时钟（精确到秒）：上排日期（含星期几）、下排时间，按系统本地时间显示，
+// 并给出当前时区相对 UTC 的偏移标签（如中国标准时间 = UTC+8）。每秒刷新，卸载时清理定时器。
 const WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
-const clock = ref({ date: '', h: '00', m: '00', s: '00' })
+const clock = ref({ date: '', h: '00', m: '00', s: '00', tz: 'UTC' })
 let clockTimer: ReturnType<typeof setInterval> | null = null
+
+// 由系统时区偏移换算成 UTC+8 / UTC-5 形式；getTimezoneOffset 为「本地比 UTC 慢的分钟数」，故取负。
+function utcOffsetLabel(d: Date): string {
+  const minutes = -d.getTimezoneOffset()
+  if (minutes === 0) return 'UTC'
+  const sign = minutes > 0 ? '+' : '-'
+  const abs = Math.abs(minutes)
+  const hours = Math.floor(abs / 60)
+  const rest = abs % 60
+  return `UTC${sign}${hours}${rest ? ':' + String(rest).padStart(2, '0') : ''}`
+}
 
 function tick() {
   const d = new Date()
-  const date = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')} ${WEEKDAYS[d.getUTCDay()]}`
+  const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${WEEKDAYS[d.getDay()]}`
   clock.value = {
     date,
-    h: String(d.getUTCHours()).padStart(2, '0'),
-    m: String(d.getUTCMinutes()).padStart(2, '0'),
-    s: String(d.getUTCSeconds()).padStart(2, '0'),
+    h: String(d.getHours()).padStart(2, '0'),
+    m: String(d.getMinutes()).padStart(2, '0'),
+    s: String(d.getSeconds()).padStart(2, '0'),
+    tz: utcOffsetLabel(d),
   }
 }
 
@@ -57,12 +70,12 @@ function closeMenu() {
           class="header__clock mono"
           role="timer"
           aria-live="off"
-          :aria-label="`UTC 日期 ${clock.date}，时间 ${clock.h}:${clock.m}:${clock.s}`"
+          :aria-label="`${clock.tz} 日期 ${clock.date}，时间 ${clock.h}:${clock.m}:${clock.s}`"
         >
           <span class="header__clock-date">{{ clock.date }}</span>
           <span class="header__clock-time">
             <span>{{ clock.h }}</span><span class="header__clock-sep">:</span><span>{{ clock.m }}</span><span class="header__clock-sep">:</span><span class="header__clock-sec">{{ clock.s }}</span>
-            <span class="header__clock-tz">UTC</span>
+            <span class="header__clock-tz">{{ clock.tz }}</span>
           </span>
         </span>
         <RouterLink to="/" class="header__brand" @click="closeMenu">
@@ -138,6 +151,10 @@ function closeMenu() {
   justify-content: space-between;
   gap: 1rem;
   height: 4.2rem;
+  /* 页头不受正文 .page 的居中与宽留白约束，贴近视口左缘 */
+  max-width: none;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .header__left {
@@ -152,21 +169,21 @@ function closeMenu() {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 0.05rem;
+  gap: 0.12rem;
   font-variant-numeric: tabular-nums;
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
-  color: var(--ink-soft);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
   padding-right: 0.9rem;
   border-right: 1px solid var(--line);
   user-select: none;
   white-space: nowrap;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 .header__clock-date {
-  font-size: 0.68rem;
-  color: var(--ink-faint);
+  font-size: 0.84rem;
+  color: var(--ink-soft);
 }
 
 .header__clock-time {
@@ -183,10 +200,10 @@ function closeMenu() {
 }
 
 .header__clock-tz {
-  margin-left: 0.35rem;
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
-  color: var(--ink-faint);
+  margin-left: 0.4rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
 }
 
 .header__brand {
@@ -205,7 +222,8 @@ function closeMenu() {
 
 .header__nav {
   display: flex;
-  gap: 2.2rem;
+  gap: 3.4rem;
+  padding-left: 1.5rem;
 }
 
 .header__link {
@@ -321,8 +339,14 @@ function closeMenu() {
     gap: 0.55rem;
   }
   .header__clock {
-    font-size: 0.76rem;
+    font-size: 0.9rem;
     padding-right: 0.55rem;
+  }
+  .header__clock-date {
+    font-size: 0.72rem;
+  }
+  .header__clock-tz {
+    font-size: 0.66rem;
   }
   .header__latin {
     font-size: 0.95rem;

@@ -203,11 +203,13 @@ const bodyContent = computed(() => {
 }
 
 .post__title {
-  /* 艺术衬线标题：字母大小一致、跨平台可用的经典字体栈，不受 variable-wonk 影响 */
-  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, 'Times New Roman', Georgia, serif;
+  /* 高对比艺术衬线（Didone）：笔画粗细对比明显、字母高度一致，视觉上更接近「艺术字」，
+     且各字母大小近似一致，不受 variable-wonk 影响。跨平台按优先级回退。 */
+  font-family: Didot, 'Bodoni MT', 'Bodoni 72', Didot LT STD, 'Baskerville Old Face', Baskerville, 'Times New Roman', serif;
+  font-weight: 700;
   font-size: clamp(1.95rem, 4.4vw, 3rem);
   line-height: 1.25;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.015em;
   margin-top: 0.8rem;
   /* 让标题行充分向右延展，消除右侧大片留白 */
   text-wrap: normal;
