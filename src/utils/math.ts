@@ -1,5 +1,6 @@
 import { Marked, type Tokens } from 'marked'
 import DOMPurify from 'dompurify'
+import { applyImagePolicy, type MarkdownRenderOptions } from './media'
 
 /** prose 严格消毒配置：与 utils/markdown.ts 逐字一致，数学特性不得放宽此路径。 */
 const PROSE_SANITIZE = {
@@ -93,8 +94,13 @@ export function hasMath(source: string): boolean {
 }
 
 /** 数学段渲染：KaTeX → 数学专用消毒 → 占位符；prose 走原严格消毒后再回填。
- *  两条路径各自消毒，数学标记不经过（也不放宽）prose 严格配置。 */
-export async function renderMarkdownWithMath(source: string): Promise<string> {
+ *  两条路径各自消毒，数学标记不经过（也不放宽）prose 严格配置。
+ *  options.section 提供时对最终 prose 产物执行随文图片策略（KaTeX 段经 MATH_SANITIZE
+ *  已禁 img，图片只可能来自 prose，映射面与 utils/markdown.ts 完全一致）。 */
+export async function renderMarkdownWithMath(
+  source: string,
+  options: MarkdownRenderOptions = {},
+): Promise<string> {
   const mod = await import('katex')
   const katex = mod.default
   const nonce = Math.random().toString(36).slice(2, 10)
@@ -161,5 +167,5 @@ export async function renderMarkdownWithMath(source: string): Promise<string> {
     const safe = store[Number(key.slice(nonce.length + 1))]
     if (typeof safe === 'string') node.innerHTML = safe
   }
-  return doc.body.innerHTML
+  return applyImagePolicy(doc.body.innerHTML, options.section)
 }

@@ -60,7 +60,7 @@ watch(
           <span v-for="tag in post.tags" :key="tag.slug" class="post__tag">#{{ tag.name }}</span>
         </div>
       </header>
-      <MarkdownView :source="post.content" />
+      <MarkdownView :source="post.content" :section="post.category" />
       <section v-if="post.academicMeta" class="post__academic" aria-label="学术元数据">
         <h2 class="post__academic-title">学术信息</h2>
         <dl class="post__academic-list">

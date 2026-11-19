@@ -3,27 +3,28 @@ import { ref, watch } from 'vue'
 import { renderMarkdown } from '@/utils/markdown'
 import { hasMath, renderMarkdownWithMath } from '@/utils/math'
 
-const props = defineProps<{ source: string }>()
+const props = defineProps<{ source: string; section?: string }>()
 const html = ref('')
 // 竞态守卫：源快速变化（如后台预览输入）时只采纳最后一次渲染结果
 let renderToken = 0
 
 watch(
-  () => props.source,
-  async (src) => {
+  () => [props.source, props.section] as const,
+  async ([src, section]) => {
     const current = ++renderToken
     const source = src ?? ''
+    const options = { section }
     // 先同步渲染 prose：无数学文章零 KaTeX 加载、零等待
-    html.value = renderMarkdown(source)
+    html.value = renderMarkdown(source, options)
     if (!hasMath(source)) return
     try {
       // 仅含数学的文章页才懒加载 KaTeX 样式与引擎（首页/列表不引入）
       await import('@/styles/katex.css')
-      const withMath = await renderMarkdownWithMath(source)
+      const withMath = await renderMarkdownWithMath(source, options)
       if (current === renderToken) html.value = withMath
     } catch {
       // 降级：引擎/样式加载失败时保留已渲染的 prose（TeX 以原文呈现），不崩页
-      if (current === renderToken) html.value = renderMarkdown(source)
+      if (current === renderToken) html.value = renderMarkdown(source, options)
     }
   },
   { immediate: true },

@@ -1,15 +1,17 @@
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
+import { applyImagePolicy, type MarkdownRenderOptions } from './media'
 
 marked.setOptions({ gfm: true, breaks: false })
 
-export function renderMarkdown(source: string): string {
+export function renderMarkdown(source: string, options: MarkdownRenderOptions = {}): string {
   const html = marked.parse(source, { async: false }) as string
-  return DOMPurify.sanitize(html, {
+  const safe = DOMPurify.sanitize(html, {
     USE_PROFILES: { html: true },
     FORBID_TAGS: ['style', 'form', 'input', 'button', 'iframe'],
     FORBID_ATTR: ['style', 'onerror', 'onclick'],
   })
+  return applyImagePolicy(safe, options.section)
 }
 
 /** Markdown → 纯文本：纯正则实现已拆分至 utils/text（不依赖 marked/DOMPurify），
