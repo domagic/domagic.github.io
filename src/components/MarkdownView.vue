@@ -112,6 +112,33 @@ watch(
   margin: 2rem 0;
 }
 
+/* 表格：显式边框，避免依赖浏览器 UA 默认（部分主题下边框缺失） */
+.markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4rem 0;
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid var(--line-strong);
+  padding: 0.55rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown th {
+  background: var(--paper-deep);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.markdown tr:nth-child(even) td {
+  background: var(--paper-elev);
+}
+
 /* F3 数学渲染：宽公式（矩阵等）在窄屏内部横向滚动，避免整页横向溢出 */
 .markdown .math-block {
   margin: 1.5rem 0;

@@ -51,8 +51,6 @@ watch(
         <h1 class="post__title">{{ post.title }}</h1>
         <div class="post__meta mono">
           <time v-if="post.publishedAt" :datetime="post.publishedAt">{{ formatDateZh(post.publishedAt) }}</time>
-          <span v-if="post.publishedAt && post.readingMinutes" aria-hidden="true">·</span>
-          <span v-if="post.readingMinutes">{{ post.readingMinutes }} 分钟读完</span>
           <span v-if="post.visibility === 'private'" class="post__badge">私密</span>
           <span v-if="post.status === 'draft'" class="post__badge">草稿</span>
         </div>
