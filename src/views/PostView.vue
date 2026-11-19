@@ -194,6 +194,9 @@ const bodyContent = computed(() => {
 
 .post__main {
   min-width: 0;
+  /* 正文阅读宽度：目录贴最左、标题可铺满，但正文限制在舒适行宽内，
+     避免宽屏下正文水平占满整个屏幕。 */
+  max-width: 48rem;
 }
 
 .post__header {
