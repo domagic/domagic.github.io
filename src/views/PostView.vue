@@ -119,8 +119,8 @@ const bodyContent = computed(() => {
   margin: 0 auto;
 }
 
-/* 带目录的学术文章页：容器铺满视口，使左侧目录贴合页面最左缘，
-   标题与正文向右延展占满剩余宽度，消除右侧大片留白。 */
+/* 带目录的文章页：容器铺满视口，使左侧目录贴合页面最左缘且左边界不变；
+   正文占据一个水平居中的独立阅读区（左右等宽留白，使内容区垂直中心线与页面重合）。 */
 .post-page--toc {
   max-width: none;
   padding-left: 1.25rem;
@@ -136,11 +136,41 @@ const bodyContent = computed(() => {
   display: block;
 }
 
-.post--with-toc .post__layout {
+/* 三列网格直接建立在整个文章容器上：左右两列等宽（各 16.5rem），中间列天然
+   水平居中于页面（其中线与页面中线重合）。目录放左列且左边界贴合页面左缘不变，
+   右列留空仅作对称配重；标题/时间/标签与正文共用中间列，宽度上限一致，
+   因此标题右缘不会超出正文卡片右边界。正文列最大 48rem，窄屏自动收窄。 */
+.post--with-toc {
   display: grid;
-  grid-template-columns: 15rem minmax(0, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: 16.5rem minmax(0, 1fr) 16.5rem;
   align-items: start;
+}
+
+/* 布局壳退让为透明容器，让目录与正文成为上面网格的直接子项 */
+.post--with-toc .post__layout {
+  display: contents;
+}
+
+.post--with-toc .post__header,
+.post--with-toc .post__main {
+  grid-column: 2;
+  width: 100%;
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.post--with-toc .post__header {
+  grid-row: 1;
+}
+
+.post--with-toc .post__toc {
+  grid-column: 1;
+  grid-row: 2;
+  width: 15rem;
+}
+
+.post--with-toc .post__main {
+  grid-row: 2;
 }
 
 .post__toc {
@@ -192,15 +222,28 @@ const bodyContent = computed(() => {
   color: var(--ink-faint);
 }
 
+/* 居中的毛玻璃正文卡片：半透明底 + 背景模糊 + 柔和发光边，
+   与页面连续渐变融合，形成独立的正文展示区。横向大小与原来基本一致（48rem）。 */
 .post__main {
   min-width: 0;
-  /* 正文阅读宽度：目录贴最左、标题可铺满，但正文限制在舒适行宽内，
-     避免宽屏下正文水平占满整个屏幕。 */
   max-width: 48rem;
+  position: relative;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.35rem, 3vw, 2.6rem);
+  background: color-mix(in srgb, var(--paper-elev) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--paper-elev) 58%, var(--line));
+  border-radius: 16px;
+  backdrop-filter: blur(16px) saturate(115%);
+  -webkit-backdrop-filter: blur(16px) saturate(115%);
+  box-shadow:
+    0 24px 60px -32px rgba(26, 35, 56, 0.34),
+    0 0 0 6px color-mix(in srgb, var(--paper-elev) 16%, transparent);
 }
 
 .post__header {
   margin-bottom: 2.4rem;
+  /* 与正文卡片同一水平内边距，使标题/时间/标签文字与正文文字左缘对齐；
+     右缘不超出正文卡片边框。 */
+  padding-inline: clamp(1.35rem, 3vw, 2.6rem);
 }
 
 .post__category {
@@ -214,8 +257,9 @@ const bodyContent = computed(() => {
   line-height: 1.25;
   letter-spacing: 0.01em;
   margin-top: 0.8rem;
-  /* 让标题行充分向右延展，消除右侧大片留白 */
-  text-wrap: normal;
+  /* 标题限制在正文列宽度内，过长时自然换行，右缘不超出正文卡片边框 */
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .post__meta {
@@ -263,12 +307,19 @@ const bodyContent = computed(() => {
   margin-bottom: 1rem;
 }
 
-/* 窄屏：目录改为正文顶部的可折叠面板，避免挤压正文 */
+/* 窄屏：单列布局，目录改为正文顶部的面板，避免挤压正文；
+   正文卡片水平居中于页面，左右留白对称。 */
 @media (max-width: 900px) {
-  .post--with-toc .post__layout {
+  .post--with-toc {
     display: block;
   }
+  .post--with-toc .post__header,
+  .post--with-toc .post__main {
+    max-width: 48rem;
+  }
   .post__toc {
+    width: auto;
+    max-width: 48rem;
     position: static;
     max-height: none;
     margin-bottom: 1.8rem;
