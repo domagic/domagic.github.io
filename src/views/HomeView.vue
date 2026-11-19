@@ -330,6 +330,52 @@ onUnmounted(() => {
   color: rgba(26, 35, 56, 0.42);
 }
 
+/* ---- 夜间模式适配：上面几处为浅底写死的颜色改为亮色，保证日/夜均可读 ----
+   data-theme 由主题仓库挂在 <html> 上，故可用祖先选择器覆盖；仅覆盖有问题的属性，
+   主按钮的蓝紫渐变、渐变高亮字本身在深色底已足够清晰，保持不变。 */
+[data-theme='ink'] .hero--tech-light .hero__title {
+  color: #eef1f8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+[data-theme='ink'] .hero--tech-light .hero__title em {
+  /* 去掉深色描边阴影，保留原本渐变高亮字的观感 */
+  text-shadow: none;
+}
+
+[data-theme='ink'] .hero--tech-light .hero__eyebrow {
+  color: #a5b4fc;
+}
+
+/* 次按钮：浅底时的半透明白底在深色底会变成灰块且浅色文字看不清，改成深色玻璃底 + 亮字 */
+[data-theme='ink'] .hero--tech-light .hero__btn:not(.hero__btn--primary) {
+  background: rgba(22, 25, 33, 0.72);
+  border-color: rgba(232, 228, 218, 0.42);
+  color: #f0eef0;
+}
+
+[data-theme='ink'] .hero--tech-light .hero__btn:not(.hero__btn--primary):hover {
+  border-color: #a5b4fc;
+  color: #a5b4fc;
+}
+
+/* 向下翻页胶囊：边框提亮，内部竖线由暗蓝改为亮蓝紫 */
+[data-theme='ink'] .hero--tech-light .hero__scroll-hint {
+  border-color: rgba(232, 228, 218, 0.55);
+}
+
+[data-theme='ink'] .hero--tech-light .hero__scroll-hint:hover {
+  border-color: #a5b4fc;
+}
+
+[data-theme='ink'] .hero--tech-light .hero__scroll-hint-line {
+  background: #a5b4fc;
+}
+
+[data-theme='ink'] .hero--tech-light .hero__vertical {
+  color: rgba(232, 228, 218, 0.62);
+}
+
 /* 科技感装饰层 */
 .hero__fx {
   position: absolute;
