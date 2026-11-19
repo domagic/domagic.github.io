@@ -37,7 +37,6 @@ const firstAuthor = computed(() => {
         <span v-if="post.visibility === 'private'" class="item__lock">私密</span>
         <span v-if="post.status === 'draft'" class="item__lock">草稿</span>
         <span class="item__tags">{{ post.tags.map((t) => `#${t.name}`).join(' ') }}</span>
-        <span v-if="post.readingMinutes" class="item__reading mono">{{ post.readingMinutes }} min</span>
       </div>
     </div>
     <RouterLink :to="to" class="item__arrow" :aria-label="`阅读：${post.title}`">→</RouterLink>

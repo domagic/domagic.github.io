@@ -76,7 +76,6 @@ export const HOME_CONFIG = {
  */
 export const FOOTER_QUOTE = {
   text: '好的研究应当既能解释世界，也能改善日常。',
-  cite: 'Magic',
 }
 
 export const ABOUT_VISIBILITY = {

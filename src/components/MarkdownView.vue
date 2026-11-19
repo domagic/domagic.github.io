@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { renderMarkdown } from '@/utils/markdown'
 import { hasMath, renderMarkdownWithMath } from '@/utils/math'
+import { decorateHeadings } from '@/utils/toc'
 
 const props = defineProps<{ source: string; section?: string }>()
+const emit = defineEmits<{ (e: 'headings', items: { id: string; text: string; level: 2 | 3 }[]): void }>()
 const html = ref('')
+// 目录：在消毒后的 HTML 上给 h2/h3 注入稳定 id，并把目录项抛给父组件渲染侧栏
+const decorated = computed(() => decorateHeadings(html.value))
+watch(
+  () => decorated.value.items,
+  (items) => emit('headings', items),
+)
 // 竞态守卫：源快速变化（如后台预览输入）时只采纳最后一次渲染结果
 let renderToken = 0
 
@@ -33,7 +41,7 @@ watch(
 
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -- 已经 DOMPurify sanitize -->
-  <div class="markdown" v-html="html"></div>
+  <div class="markdown" v-html="decorated.html"></div>
 </template>
 
 <style>
@@ -47,11 +55,14 @@ watch(
   margin: 2.2rem 0 0.9rem;
   padding-left: 0.8rem;
   border-left: 3px solid var(--cinnabar);
+  /* 目录跳转锚点偏移，避免标题被 sticky 页头遮住 */
+  scroll-margin-top: 6rem;
 }
 
 .markdown h3 {
   font-size: 1.15rem;
   margin: 1.8rem 0 0.7rem;
+  scroll-margin-top: 6rem;
 }
 
 .markdown p {

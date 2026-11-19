@@ -1,8 +1,11 @@
 :root {
-  --font-display: 'Fraunces', 'Noto Serif SC Critical', 'Noto Serif SC', 'Songti SC', 'STSong', serif;
-  --font-serif-sc: 'Noto Serif SC Critical', 'Noto Serif SC', 'Songti SC', 'STSong', serif;
-  --font-body: 'Noto Sans SC Critical', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  /* 字体统一：标题用字母大小一致的经典衬线（Georgia 优先，中文回退系统宋体），
+     正文用国际通用无衬线系统栈。彻底移除 Fraunces（wonk 轴导致字母大小不一）
+     与 *Critical 子集（拉丁覆盖不全、大小参差）的引用。 */
+  --font-display: Georgia, 'Times New Roman', 'Noto Serif CJK SC', 'Songti SC', 'SimSun', serif;
+  --font-serif-sc: Georgia, 'Times New Roman', 'Noto Serif CJK SC', 'Songti SC', 'SimSun', serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 
   /* 全站统一冷调科技配色：浅色内容区 + 蓝紫强调 + 冷灰文字，与首页 palette 保持一致 */
   --paper: #f2f5fa;

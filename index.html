@@ -20,21 +20,9 @@
     <meta property="og:description" content="研究、博客、观点与学术内容。" />
     <meta property="og:locale" content="zh_CN" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <!-- T7-③ 首屏字体优化：
-         critical.css（阻塞式，≈8KB）定义关键 CJK 子集 face（Noto Serif SC Critical 600/700/900 + Noto Sans SC Critical 变体）
-         与 Fraunces/Plex Mono 拉丁子集，font-display:swap：首屏文本先以同度量系统 CJK 字体（advance=1em）立即绘制，
-         关键子集到达后无位移交换为 Noto，LCP 不被字体下载阻塞。高优先级预载关键子集，使其尽早交换到位
-         （实测：去掉预载会让字体落入 TBT/样式重算窗口，移动端反而劣化，故保留全部预载）。
-         fonts.css（全量 526 face，供下折叠/其他页回退）非阻塞（media=print，由 main.ts 翻转为 all），移出关键渲染路径。
-         CSP script-src 'self' 禁止内联 onload，故由 main.ts 翻转。 -->
-    <link rel="preload" href="/fonts/critical-sans.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/critical-serif-900.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/critical-serif-600.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/critical-serif-700.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/fraunces/6NU78FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0KxC9TeA.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/ibm-plex-mono/-F63fjptAgt5VM-kVkqdyU8n1i8q1w.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/fonts/critical.css" />
-    <link rel="stylesheet" href="/fonts/fonts.css" media="print" data-fullfonts />
+    <!-- 字体：全站改用字母大小一致的系统字体栈（标题衬线 Georgia 系、正文无衬线系统栈、
+         代码等宽系统栈），不再加载 Fraunces（wonk 轴导致字母大小不一）与 *Critical 子集
+         （拉丁覆盖不全、大小参差）。零字体下载、零 FOIT，首屏文本即时绘制。 -->
   </head>
   <body>
     <div id="app"></div>

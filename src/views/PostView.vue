@@ -6,15 +6,21 @@ import { useSeo } from '@/composables/useSeo'
 import { formatDateZh } from '@/utils/format'
 import MarkdownView from '@/components/MarkdownView.vue'
 
+interface TocItem { id: string; text: string; level: 2 | 3 }
+
 const route = useRoute()
 const post = ref<Post | null>(null)
 const error = ref('')
 const loading = ref(true)
+// 文章目录：仅学术类文章展示左侧粘性目录；MarkdownView 渲染后回填
+const toc = ref<TocItem[]>([])
+const showToc = computed(() => post.value?.category === 'academic' && toc.value.length > 0)
 
 async function load(slug: string) {
   loading.value = true
   error.value = ''
   post.value = null
+  toc.value = []
   try {
     const result = await api.getPost(slug)
     post.value = result
@@ -60,7 +66,7 @@ const bodyContent = computed(() => {
       <p class="state__error">{{ error }}</p>
       <RouterLink to="/">返回首页</RouterLink>
     </div>
-    <article v-else-if="post" class="post">
+    <article v-else-if="post" class="post" :class="{ 'post--with-toc': showToc }">
       <header class="post__header">
         <RouterLink :to="CATEGORY_PATHS[post.category]" class="post__category mono">
           {{ CATEGORY_LABELS[post.category] }}
@@ -75,39 +81,56 @@ const bodyContent = computed(() => {
           <span v-for="tag in post.tags" :key="tag.slug" class="post__tag">#{{ tag.name }}</span>
         </div>
       </header>
-      <MarkdownView :source="bodyContent" :section="post.category" />
-      <section v-if="post.academicMeta" class="post__academic" aria-label="学术元数据">
-        <h2 class="post__academic-title">学术信息</h2>
-        <dl class="post__academic-list">
-          <div v-if="post.academicMeta.authors.length">
-            <dt>作者</dt>
-            <dd>{{ post.academicMeta.authors.join('、') }}</dd>
-          </div>
-          <div v-if="post.academicMeta.venue">
-            <dt>发表 / 场合</dt>
-            <dd>{{ post.academicMeta.venue }}</dd>
-          </div>
-          <div v-if="post.academicMeta.year">
-            <dt>年份</dt>
-            <dd>{{ post.academicMeta.year }}</dd>
-          </div>
-          <div v-if="post.academicMeta.doi">
-            <dt>DOI</dt>
-            <dd>
-              <a :href="`https://doi.org/${post.academicMeta.doi}`" rel="noopener noreferrer" target="_blank">{{ post.academicMeta.doi }}</a>
-            </dd>
-          </div>
-          <div v-if="post.academicMeta.pdfUrl">
-            <dt>全文</dt>
-            <dd>
-              <a :href="post.academicMeta.pdfUrl" rel="noopener noreferrer" target="_blank">PDF 下载</a>
-            </dd>
-          </div>
-        </dl>
-      </section>
-      <footer class="post__footer">
-        <RouterLink :to="CATEGORY_PATHS[post.category]">← 返回{{ CATEGORY_LABELS[post.category] }}</RouterLink>
-      </footer>
+      <div class="post__layout">
+        <!-- 学术文章左侧目录：点击平滑跳转到对应章节，桌面端 sticky 跟随滚动 -->
+        <aside v-if="showToc" class="post__toc" aria-label="文章目录">
+          <p class="post__toc-title mono">目录 / Contents</p>
+          <nav class="post__toc-nav">
+            <a
+              v-for="item in toc"
+              :key="item.id"
+              :href="`#${item.id}`"
+              class="post__toc-link"
+              :class="{ 'post__toc-link--sub': item.level === 3 }"
+            >{{ item.text }}</a>
+          </nav>
+        </aside>
+        <div class="post__main">
+          <MarkdownView :source="bodyContent" :section="post.category" @headings="(items) => (toc = items)" />
+          <section v-if="post.academicMeta" class="post__academic" aria-label="学术元数据">
+            <h2 class="post__academic-title">学术信息</h2>
+            <dl class="post__academic-list">
+              <div v-if="post.academicMeta.authors.length">
+                <dt>作者</dt>
+                <dd>{{ post.academicMeta.authors.join('、') }}</dd>
+              </div>
+              <div v-if="post.academicMeta.venue">
+                <dt>发表 / 场合</dt>
+                <dd>{{ post.academicMeta.venue }}</dd>
+              </div>
+              <div v-if="post.academicMeta.year">
+                <dt>年份</dt>
+                <dd>{{ post.academicMeta.year }}</dd>
+              </div>
+              <div v-if="post.academicMeta.doi">
+                <dt>DOI</dt>
+                <dd>
+                  <a :href="`https://doi.org/${post.academicMeta.doi}`" rel="noopener noreferrer" target="_blank">{{ post.academicMeta.doi }}</a>
+                </dd>
+              </div>
+              <div v-if="post.academicMeta.pdfUrl">
+                <dt>全文</dt>
+                <dd>
+                  <a :href="post.academicMeta.pdfUrl" rel="noopener noreferrer" target="_blank">PDF 下载</a>
+                </dd>
+              </div>
+            </dl>
+          </section>
+          <footer class="post__footer">
+            <RouterLink :to="CATEGORY_PATHS[post.category]">← 返回{{ CATEGORY_LABELS[post.category] }}</RouterLink>
+          </footer>
+        </div>
+      </div>
     </article>
   </div>
 </template>
@@ -121,6 +144,75 @@ const bodyContent = computed(() => {
 .post {
   max-width: 44rem;
   margin: 0 auto;
+}
+
+/* 学术文章：加宽容器，左侧放粘性目录，右侧为正文 */
+.post--with-toc {
+  max-width: 68rem;
+}
+
+.post__layout {
+  display: block;
+}
+
+.post--with-toc .post__layout {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.post__toc {
+  position: sticky;
+  top: 6rem;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  padding: 1.1rem 1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper-elev);
+  scrollbar-width: thin;
+}
+
+.post__toc-title {
+  color: var(--cinnabar-deep);
+  font-weight: 600;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.post__toc-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.post__toc-link {
+  display: block;
+  padding: 0.28rem 0.35rem;
+  border-radius: 4px;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: background-color 0.18s var(--ease-out), color 0.18s var(--ease-out);
+}
+
+.post__toc-link:hover {
+  color: var(--cinnabar-deep);
+  background: var(--cinnabar-wash);
+  text-decoration: none;
+}
+
+.post__toc-link--sub {
+  padding-left: 0.95rem;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+.post__main {
+  min-width: 0;
 }
 
 .post__header {
@@ -215,5 +307,17 @@ const bodyContent = computed(() => {
 .state__error {
   color: var(--cinnabar-deep);
   margin-bottom: 1rem;
+}
+
+/* 窄屏：目录改为正文顶部的可折叠面板，避免挤压正文 */
+@media (max-width: 900px) {
+  .post--with-toc .post__layout {
+    display: block;
+  }
+  .post__toc {
+    position: static;
+    max-height: none;
+    margin-bottom: 1.8rem;
+  }
 }
 </style>
