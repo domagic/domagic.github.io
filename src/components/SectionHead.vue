@@ -1,10 +1,10 @@
 <script setup lang="ts">
-defineProps<{ kicker: string; title: string; note?: string }>()
+defineProps<{ kicker?: string; title: string; note?: string }>()
 </script>
 
 <template>
   <header class="section-head">
-    <span class="section-head__kicker mono">{{ kicker }}</span>
+    <span v-if="kicker" class="section-head__kicker mono">{{ kicker }}</span>
     <div class="section-head__row">
       <h2 class="section-head__title">{{ title }}</h2>
       <span class="section-head__rule" aria-hidden="true"></span>

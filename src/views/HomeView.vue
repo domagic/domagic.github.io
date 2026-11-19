@@ -110,7 +110,7 @@ onMounted(async () => {
     </section>
 
     <section class="page section">
-      <SectionHead kicker="Index" title="最新索引">
+      <SectionHead title="最新索引">
         <template #action>
           <RouterLink to="/archive" class="section-more">全部文章 →</RouterLink>
         </template>

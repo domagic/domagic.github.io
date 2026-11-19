@@ -3,7 +3,7 @@ title: "一个分母引发的困惑：样本方差为什么要除以 n-1？"
 slug: sample-variance-n-minus-one
 type: blog
 tags: [statistics|统计学, mathematical-statistics|数理统计, estimator|估计量, degrees-of-freedom|自由度]
-date: 2026-11-19T00:00:00.000Z
+date: 2026-11-19T00:00:05.000Z
 visibility: public
 status: published
 summary: "你算好 100 个电阻的方差交上去，导师说：算错了。数没错，错在你没想清要描述这 100 个，还是推断整批。从一个被判错的报告讲起，把样本方差除以 n-1 的来历讲清楚。"
