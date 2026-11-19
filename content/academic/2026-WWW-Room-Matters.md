@@ -12,9 +12,11 @@ venue: Proceedings of the ACM Web Conference 2026 (WWW '26)
 year: 2026
 ---
 
+**表 1　论文基本信息**
+
 | 项目 | 内容 |
 |---|---|
-| 原题 | Room Matters: Dynamic Room-level Collaboration Information Modeling for Live Streaming Recommendation |
+| 原题 | Room matters: Dynamic room-level collaboration information modeling for live streaming recommendation |
 | 作者 | Ke Guo, Changle Qu, Xiao Zhang, Liqin Zhao, Shijun Wang, Yanan Niu, and Jun Xu |
 | 发表 | Proceedings of the ACM Web Conference 2026 (WWW ’26) |
 | 会议 | April 13–17, 2026, Dubai, United Arab Emirates |
@@ -23,15 +25,21 @@ year: 2026
 | DOI | [10.1145/3774904.3792241](https://doi.org/10.1145/3774904.3792241) |
 | 代码 | [DCGLive](https://github.com/imgkkk574/DCGLive) |
 
+![图 1　ACM 出版版论文首页（题名、作者及单位）](assets/2026-WWW-Room-matters/figure-01.png)
+
+**图 1　ACM 出版版论文首页（题名、作者及单位）**
+
 ## 一、研究现象：观众对主播、场次和当前内容的兴趣并不完全相同
 
 直播（Live Streaming）的内容在观看过程中持续生成。一个主播（Streamer）上午可能介绍城市风景，下午可能分享宠物。关注同一主播的两位观众（Users），一位可能只想看风景，另一位可能只想看宠物。如果推荐系统只记录两位观众都看过这位主播，两种兴趣就会被合并到同一个对象上。
 
 即使在同一个直播间（Live Room），观众接触的内容也取决于进入和离开的时间。有人看完街景介绍就退出，有人等到美食环节才进入。两人都有同一直播间的观看记录（Watching Behavior），这两条记录对实时兴趣的含义却不同。观看区间有较长重叠的观众，更有可能接触到相同内容。与此并行，赠送虚拟礼物（Virtual Gifts）记录了观众向主播的支持，可用来补充另一类偏好线索。
 
-![图 1　主播、直播间与观众的关系，以及同场观看时段的差异](assets/Room-Matters/fig1.png)
+![图 2　主播、直播间与观众的关系，以及同场观看时段的差异](assets/2026-WWW-Room-matters/figure-02.png)
 
-图 1 从三个层次展示这个现象。**图 1(a)** 将开播、观看和向主播互动放在同一场景中，突出直播间连接主播与观众的作用。**图 1(b)** 保持主播不变，展示不同场次的主题如何吸引不同观众。**图 1(c)** 保持场次不变，沿同一条时间轴比较三人的观看区间。观众 1 与观众 2 的区间重叠较多，观众 1 与观众 3 则分别出现在前后两个阶段。这让“看过同一间房”进一步细化为“在多大程度上看过同一时段”。图中的点赞、关注等是场景示例，DCGLive 实际构图使用观看与送礼两类行为。
+**图 2　The dynamics of room-level collaboration information.**
+
+图 2 从三个层次展示这个现象。**图 2(a)** 将开播、观看和向主播互动放在同一场景中，突出直播间连接主播与观众的作用。**图 2(b)** 保持主播不变，展示不同场次的主题如何吸引不同观众。**图 2(c)** 保持场次不变，沿同一条时间轴比较三人的观看区间。观众 1 与观众 2 的区间重叠较多，观众 1 与观众 3 则分别出现在前后两个阶段。这让“看过同一间房”进一步细化为“在多大程度上看过同一时段”。图中的点赞、关注等是场景示例，DCGLive 实际构图使用观看与送礼两类行为。
 
 ## 二、研究问题：如何预测观众下一次进入的直播间？
 
@@ -45,6 +53,8 @@ year: 2026
 
 ## 三、科学问题与设计原理
 
+**表 2　科学问题、设计原理与对应机制**
+
 | 科学问题 | 设计原理 | 对应机制 |
 |---|---|---|
 | 如何表示随事件演化的三方交互（Tripartite Interactions）？ | 保留行为的目标对象，通过共享观众状态衔接两类关系 | 观众—直播间图与观众—主播图 |
@@ -52,19 +62,21 @@ year: 2026
 | 怎样判断一次互动所带来的同场协同信息（Intra-room Collaboration Information）有多强？ | 结合历史新近性、共同交互集合，以及同房间观看时间的重叠 | LiveCI 的观众指标与房间指标 |
 | 怎样在缺少本场交互时形成初始状态？ | 将同主播跨场次的历史特征与开播前最近的主播状态结合 | 直播间表示初始化（Room Representation Initialization） |
 
-这四项设计对应几个不同的时间尺度。历史场次提供跨场次背景，最近的主播状态补充开播前的信息，新互动逐次更新观众与房间的表示。预测时还将当前观众状态投影到目标时刻，使推荐随两次互动之间的时间间隔调整。
+表 2 的四项设计对应不同的时间尺度。历史场次提供跨场次背景，最近的主播状态补充开播前的信息，新互动逐次更新观众与房间的表示。预测时还将当前观众状态投影到目标时刻，使推荐随两次互动之间的时间间隔调整。
 
 ## 四、方法速览
 
-![图 2　DCGLive 的直播间初始化、双图更新与 LiveCI](assets/Room-Matters/fig2.png)
+![图 3　DCGLive 的总体框架](assets/2026-WWW-Room-matters/figure-03.png)
+
+**图 3　Overall framework of DCGLive.**
 
 ### 4.1 左侧：给新直播间一个起点
 
-图 2(a) 的粉色节点表示直播间，绿色节点表示主播。模型先汇总该主播过往直播间结束时的表示，再结合开播前最近的主播表示，形成新直播间的初始向量。前一部分提供同主播历史场次的共性，后一部分提供主播近期状态。
+图 3(a) 的粉色节点表示直播间，绿色节点表示主播。模型先汇总该主播过往直播间结束时的表示，再结合开播前最近的主播表示，形成新直播间的初始向量。前一部分提供同主播历史场次的共性，后一部分提供主播近期状态。
 
 ### 4.2 中部：观看和送礼如何共同影响观众状态？
 
-图 2(b) 上方的观众—直播间图（User–Room Graph，U-R）记录观看，边带有观看时长。下方的观众—主播图（User–Streamer Graph，U-S）在发生送礼时记录该事件，边带有礼物数量。两张图都是连续时间动态图（Continuous-Time Dynamic Graph，CTDG）。一条新事件到达时，模型沿时间顺序更新对应图和节点表示。
+图 3(b) 上方的观众—直播间图（User–Room Graph，U-R）记录观看，边带有观看时长。下方的观众—主播图（User–Streamer Graph，U-S）在发生送礼时记录该事件，边带有礼物数量。两张图都是连续时间动态图（Continuous-Time Dynamic Graph，CTDG）。一条新事件到达时，模型沿时间顺序更新对应图和节点表示。
 
 图中蓝色向量表示观众。中部向下的虚线表示共享观众嵌入（Shared User Embedding）。每次观看先更新观众与直播间。如果这次观看还伴随送礼，U-S 图会接着更新同一个观众向量与主播向量。两个更新器使用各自的参数。
 
@@ -72,7 +84,7 @@ year: 2026
 
 ### 4.3 右侧：同场关系如何调节更新？
 
-图 2(c) 是实时协同感知指标（Live Collaboration-aware Indicators，LiveCI）。上方的房间指标（LiveCI for Room，LR）从当前房间的历史观众出发，判断新进入的观众给房间状态带来多少协同信息。比较时既考虑历史兴趣是否相近，也考虑他们在这个房间的观看时间有没有重叠。下方的观众指标（LiveCI for User，LU）从该观众看过的历史房间出发，判断当前房间给观众状态带来多少协同信息。
+图 3(c) 是实时协同感知指标（Live Collaboration-aware Indicators，LiveCI）。上方的房间指标（LiveCI for Room，LR）从当前房间的历史观众出发，判断新进入的观众给房间状态带来多少协同信息。比较时既考虑历史兴趣是否相近，也考虑他们在这个房间的观看时间有没有重叠。下方的观众指标（LiveCI for User，LU）从该观众看过的历史房间出发，判断当前房间给观众状态带来多少协同信息。
 
 两个指标都优先考虑近期邻居。它们分别调节 U-R 图中房间与观众更新时的邻居信息权重，图中黄色箭头指向的正是上方的更新路径。
 
@@ -86,6 +98,8 @@ year: 2026
 
 商业数据来自一个直播平台 2024 年 12 月至 2025 年 1 月期间连续三周的日志。公开数据使用快手（Kuaishou）的 KuaiLive 数据集经抽样与筛选后的子集。
 
+**表 3　实验数据集概况**
+
 | 数据集 | 观众数 | 房间数 | 主播数 | 交互数 | U-R 密度 | U-S 密度 |
 |---|---:|---:|---:|---:|---:|---:|
 | KuaiLive | 9,574 | 2,951 | 749 | 257,811 | 0.9125% | 0.0051% |
@@ -95,7 +109,9 @@ year: 2026
 
 ### 5.2 总体表现
 
-论文比较了四种通用推荐方法与五种动态推荐方法。下表以 NDCG@10、Recall@10 和 MRR 的主要对照为例。
+论文比较了四种通用推荐方法与五种动态推荐方法。表 4 列出三个代表性方法在 NDCG@10、Recall@10 和 MRR 上的结果。
+
+**表 4　DCGLive 与代表性基线的推荐性能比较**
 
 | 数据集 | 方法 | NDCG@10 | Recall@10 | MRR |
 |---|---|---:|---:|---:|
@@ -110,7 +126,9 @@ DCGLive 在两套数据的五项指标上均取得最高数值。以 Recall@10 �
 
 ### 5.3 消融与新房间表现
 
-消融实验（Ablation Study）分别移除送礼图、直播间初始化和 LiveCI。以下列出每种设置的 Recall@10 与 MRR。
+消融实验（Ablation Study）分别移除送礼图、直播间初始化和 LiveCI。表 5 列出每种设置的 Recall@10 与 MRR。
+
+**表 5　DCGLive 各模块的消融结果**
 
 | 设置 | KuaiLive Recall@10 | KuaiLive MRR | Commercial Recall@10 | Commercial MRR |
 |---|---:|---:|---:|---:|
@@ -242,4 +260,4 @@ $$
 
 ## 参考文献
 
-Guo, K., Qu, C., Zhang, X., Zhao, L., Wang, S., Niu, Y., & Xu, J. (2026). Room Matters: Dynamic Room-level Collaboration Information Modeling for Live Streaming Recommendation. In *Proceedings of the ACM Web Conference 2026 (WWW ’26)* (pp. 6045–6056). Association for Computing Machinery. [https://doi.org/10.1145/3774904.3792241](https://doi.org/10.1145/3774904.3792241)
+Guo, K., Qu, C., Zhang, X., Zhao, L., Wang, S., Niu, Y., & Xu, J. (2026). Room matters: Dynamic room-level collaboration information modeling for live streaming recommendation. In *Proceedings of the ACM Web Conference 2026 (WWW ’26)* (pp. 6045–6056). Association for Computing Machinery. [https://doi.org/10.1145/3774904.3792241](https://doi.org/10.1145/3774904.3792241)
