@@ -154,6 +154,20 @@
       "bytes": 76493,
       "mime": "image/png",
       "urlPath": "/media/academic/Room-Matters/fig2.png"
+    },
+    {
+      "relPath": "blog/assets/sample-variance-n-minus-one/figure-01.png",
+      "sha256": "b5cc6887857983ac7ae6ed25bc95314c85651710d2a1d4cfb8ff81548e2b30b5",
+      "bytes": 61053,
+      "mime": "image/png",
+      "urlPath": "/media/blog/sample-variance-n-minus-one/figure-01.png"
+    },
+    {
+      "relPath": "blog/assets/sample-variance-n-minus-one/figure-02.png",
+      "sha256": "2246fae54610e447504a3c1e8bd667e4faa2ccfde0650a17fe8cf0771b5fa99f",
+      "bytes": 60483,
+      "mime": "image/png",
+      "urlPath": "/media/blog/sample-variance-n-minus-one/figure-02.png"
     }
   ]
 }
