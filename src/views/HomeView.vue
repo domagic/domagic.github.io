@@ -27,6 +27,22 @@ const loading = ref(true)
 const featuredRef = ref<HTMLElement | null>(null)
 const contentIn = ref(false)
 let scrollHandler: (() => void) | null = null
+const revealListeners: [Window, string, EventListener][] = []
+
+// 只有用户主动滚动才会揭幕。除 scroll 位置判定外，再叠加“真实滚动意图”事件（滚轮/触摸/翻页键）：
+// 刷新时浏览器的滚动恢复只会派发 scroll 事件、不会派发这些事件，因此首屏始终只显示封面。
+function onRevealIntent(e?: Event) {
+  if (e && e.type === 'keydown') {
+    const k = (e as KeyboardEvent).key
+    if (!['PageDown', 'ArrowDown', 'ArrowUp', ' ', 'Spacebar', 'End'].includes(k)) return
+  }
+  contentIn.value = true
+}
+function addRevealListener(type: string) {
+  const fn = onRevealIntent as EventListener
+  window.addEventListener(type, fn, { passive: true })
+  revealListeners.push([window, type, fn])
+}
 
 // “开始阅读”按钮：像翻页一样平滑滚动到「精选」区；sticky 页头高度由 scroll-margin-top 让开。
 function goToContent() {
@@ -41,6 +57,11 @@ const categories: { key: Exclude<Category, 'diary'>; desc: string }[] = [
 ]
 
 onMounted(async () => {
+  // 关键修复：刷新 / F5 / Ctrl+F5 后浏览器默认会恢复上次滚动位置，页面若停在「精选」区，
+  // 会连同首帧 scrollY 判定一起把内容提前揭幕。这里禁用滚动恢复并强制回到封面顶部，
+  // 保证刷新后首屏只看到封面。
+  history.scrollRestoration = 'manual'
+  window.scrollTo(0, 0)
   // 仅首页启用 proximity 滚动吸附：封面与内容区各为一个翻页锚点，轻滑即可“翻页”；
   // 卸载时移除，其它路由不受影响（命名空间限定在 html.home-flip）。
   document.documentElement.classList.add('home-flip')
@@ -51,8 +72,9 @@ onMounted(async () => {
     if (window.scrollY > 24) contentIn.value = true
   }
   window.addEventListener('scroll', scrollHandler, { passive: true })
-  // 兼容刷新时浏览器恢复的历史滚动位置：首帧主动判定一次。
-  requestAnimationFrame(() => scrollHandler?.())
+  addRevealListener('wheel')
+  addRevealListener('touchmove')
+  addRevealListener('keydown')
   try {
     const all = await api.listPosts({ pageSize: 50 })
     // 精选 = 全站最新发布的 3 篇（跨栏目），不再依赖失效的演示 slug；
@@ -69,7 +91,11 @@ onMounted(async () => {
 
 onUnmounted(() => {
   if (scrollHandler) window.removeEventListener('scroll', scrollHandler)
+  revealListeners.forEach(([target, type, fn]) => target.removeEventListener(type, fn))
+  revealListeners.length = 0
   document.documentElement.classList.remove('home-flip')
+  // 离开首页时恢复浏览器默认的滚动恢复行为，避免影响其它页面。
+  history.scrollRestoration = 'auto'
 })
 </script>
 
