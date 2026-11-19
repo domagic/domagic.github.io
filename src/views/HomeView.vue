@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { api, CATEGORY_LABELS, CATEGORY_PATHS, type Category, type PostSummary } from '@/api'
-import { FEATURED_SLUGS, HOME_CONFIG } from '@/config/site'
+import { FEATURED_SLUGS, HOME_CONFIG, SEAL_VISIBLE } from '@/config/site'
 import { useSeo } from '@/composables/useSeo'
 import SealStamp from '@/components/SealStamp.vue'
 import SectionHead from '@/components/SectionHead.vue'
@@ -76,7 +76,7 @@ onMounted(async () => {
         </div>
         <div class="hero__side">
           <span v-if="HOME_CONFIG.vertical" class="hero__vertical" aria-hidden="true">{{ HOME_CONFIG.vertical }}</span>
-          <SealStamp v-if="HOME_CONFIG.sealChar" animated :char="HOME_CONFIG.sealChar" />
+          <SealStamp v-if="SEAL_VISIBLE && HOME_CONFIG.sealChar" animated :char="HOME_CONFIG.sealChar" />
         </div>
       </div>
     </section>

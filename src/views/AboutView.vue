@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { api, type Profile } from '@/api'
-import { ABOUT_VISIBILITY } from '@/config/site'
+import { ABOUT_VISIBILITY, SEAL_VISIBLE } from '@/config/site'
 import { useSeo } from '@/composables/useSeo'
 import SectionHead from '@/components/SectionHead.vue'
 import SealStamp from '@/components/SealStamp.vue'
@@ -25,7 +25,7 @@ onMounted(async () => {
         <p class="about__title">{{ profile.title }}</p>
         <p v-if="profile.affiliation || profile.location" class="about__affil">{[profile.affiliation, profile.location].filter(Boolean).join(' · ')}</p>
       </div>
-      <SealStamp :char="profile.sealChar" />
+      <SealStamp v-if="SEAL_VISIBLE" :char="profile.sealChar" />
     </header>
 
     <section v-if="ABOUT_VISIBILITY.showBio" class="about__section">

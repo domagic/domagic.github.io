@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
 import SealStamp from './SealStamp.vue'
+import { SEAL_VISIBLE } from '@/config/site'
 
 const auth = useAuthStore()
 const theme = useThemeStore()
@@ -58,7 +59,7 @@ function closeMenu() {
           <span>{{ clock.h }}</span><span class="header__clock-sep">:</span><span>{{ clock.m }}</span><span class="header__clock-sep">:</span><span class="header__clock-sec">{{ clock.s }}</span>
         </span>
         <RouterLink to="/" class="header__brand" @click="closeMenu">
-          <SealStamp size="sm" />
+          <SealStamp v-if="SEAL_VISIBLE" size="sm" />
           <span class="header__name">
             <span class="header__latin">Do Magic</span>
             <span class="header__sub mono">Magic</span>

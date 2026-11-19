@@ -8,6 +8,12 @@ import type { ProfileLink, TimelineEntry } from '@/api/types'
  * 后期维护提示：研究方向、经历、印章等在「关于」页对应的 section 由 AboutView 的
  * ABOUT_VISIBILITY 开关控制显隐；需要恢复时把开关打开、在此填回内容即可。
  */
+/**
+ * 全站印章（“魔”字红印）总开关：默认 false 隐藏。
+ * 后期若想恢复印章展示，把这里改为 true 即可（首页 / 页头 / 关于页统一受控）。
+ */
+export const SEAL_VISIBLE = false
+
 export const PROFILE_DISPLAY: {
   handle: string
   affiliation: string
