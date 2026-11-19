@@ -12,9 +12,11 @@ const route = useRoute()
 const post = ref<Post | null>(null)
 const error = ref('')
 const loading = ref(true)
-// 文章目录：仅学术类文章展示左侧粘性目录；MarkdownView 渲染后回填
+// 文章目录：学术类与博客类文章展示左侧粘性目录；MarkdownView 渲染后回填
 const toc = ref<TocItem[]>([])
-const showToc = computed(() => post.value?.category === 'academic' && toc.value.length > 0)
+const showToc = computed(() =>
+  (post.value?.category === 'academic' || post.value?.category === 'blog') && toc.value.length > 0,
+)
 
 async function load(slug: string) {
   loading.value = true
@@ -203,13 +205,11 @@ const bodyContent = computed(() => {
 }
 
 .post__title {
-  /* 高对比艺术衬线（Didone）：笔画粗细对比明显、字母高度一致，视觉上更接近「艺术字」，
-     且各字母大小近似一致，不受 variable-wonk 影响。跨平台按优先级回退。 */
-  font-family: Didot, 'Bodoni MT', 'Bodoni 72', Didot LT STD, 'Baskerville Old Face', Baskerville, 'Times New Roman', serif;
-  font-weight: 700;
+  /* 艺术衬线标题：字母大小一致、跨平台可用的经典字体栈，不受 variable-wonk 影响 */
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, 'Times New Roman', Georgia, serif;
   font-size: clamp(1.95rem, 4.4vw, 3rem);
   line-height: 1.25;
-  letter-spacing: 0.015em;
+  letter-spacing: 0.01em;
   margin-top: 0.8rem;
   /* 让标题行充分向右延展，消除右侧大片留白 */
   text-wrap: normal;
