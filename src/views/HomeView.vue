@@ -154,13 +154,6 @@ onMounted(async () => {
         </RouterLink>
       </div>
     </section>
-
-    <section class="page section">
-      <blockquote class="pullquote rise">
-        <p>「好的研究应当既能解释世界，<br />也能改善日常。」</p>
-        <cite class="mono">— Magic</cite>
-      </blockquote>
-    </section>
   </div>
 </template>
 
@@ -190,9 +183,11 @@ onMounted(async () => {
   position: absolute;
   inset: 0;
   z-index: -2;
+  /* 两端渐变：顶部由内容浅色渐入深色（衔接 sticky 页头），底部由深色渐出到内容浅色，消除上下硬切 */
   background: linear-gradient(
     180deg,
-    var(--home-deep-2) 0%,
+    var(--home-surface) 0,
+    var(--home-deep-2) 13vh,
     var(--home-deep) calc(62vh - 160px),
     var(--home-surface) calc(62vh + 70px),
     var(--home-surface) 100%
@@ -211,7 +206,8 @@ onMounted(async () => {
   gap: 2rem;
   align-items: center;
   min-height: 62vh;
-  padding-top: clamp(3rem, 8vh, 6rem);
+  /* 顶部留出渐入区（13vh），文字落在深色带上，避免浅色区文字看不清 */
+  padding-top: clamp(5rem, 16vh, 9rem);
   padding-bottom: clamp(2.5rem, 6vh, 4.5rem);
 }
 
@@ -224,8 +220,8 @@ onMounted(async () => {
 
 /* 装饰层在封面底部渐隐，避免光晕出现在变浅的过渡区 */
 .hero--tech-dark .hero__fx {
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 62%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 62%, transparent 100%);
 }
 
 .hero--tech-dark .hero__eyebrow {
@@ -540,26 +536,6 @@ onMounted(async () => {
   font-size: 0.88rem;
 }
 
-.pullquote {
-  margin: 2rem 0 0;
-  padding: 2.5rem 1rem;
-  text-align: center;
-}
-
-.pullquote p {
-  font-family: var(--font-serif-sc);
-  font-weight: 600;
-  font-size: clamp(1.4rem, 3.2vw, 2.1rem);
-  line-height: 1.8;
-}
-
-.pullquote cite {
-  display: block;
-  margin-top: 1.2rem;
-  color: var(--ink-faint);
-  font-style: normal;
-}
-
 /* T7-③：首屏异步区域骨架占位（静态，无动画以避免 TBT）。与真实内容同布局同高，数据到达零位移。 */
 .index-list {
   /* 桌面 6 行×133px≈798px；移动端在下方媒体查询覆盖为 1278px。 */
@@ -603,7 +579,7 @@ onMounted(async () => {
 
 .item--sk {
   display: grid;
-  grid-template-columns: 2.6rem 7.2rem 1fr 2rem;
+  grid-template-columns: 2.6rem 11rem 1fr 2rem;
   gap: 1.25rem;
   align-items: start;
   padding: 1.4rem 0.4rem;
@@ -634,7 +610,8 @@ onMounted(async () => {
   .home--tech-dark::before {
     background: linear-gradient(
       180deg,
-      var(--home-deep-2) 0%,
+      var(--home-surface) 0,
+      var(--home-deep-2) 11vh,
       var(--home-deep) calc(52vh - 120px),
       var(--home-surface) calc(52vh + 60px),
       var(--home-surface) 100%

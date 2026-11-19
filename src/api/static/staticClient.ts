@@ -95,6 +95,7 @@ function mapSummary(w: StaticWirePost): PostSummary {
     status: 'published',
     publishedAt: w.publishedAt,
     readingMinutes: w.readingTimeMinutes,
+    academicMeta: w.academicMeta ?? null,
   }
 }
 

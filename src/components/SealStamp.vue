@@ -17,7 +17,7 @@ withDefaults(defineProps<{ char?: string; size?: 'sm' | 'lg'; animated?: boolean
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--cinnabar), var(--cinnabar-deep));
+  background: linear-gradient(135deg, var(--seal, var(--cinnabar)), var(--seal-deep, var(--cinnabar-deep)));
   color: #f6f1e7;
   border-radius: 6px;
   transform: rotate(-3deg);

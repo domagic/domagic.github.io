@@ -74,12 +74,13 @@ export interface PostSummary {
   publishedAt: string | null
   updatedAt?: string
   readingMinutes?: number
+  /** 学术元数据（作者/期刊/年份），列表项用于快速检索；非学术文章为 null */
+  academicMeta?: AcademicMeta | null
 }
 
 export interface Post extends PostSummary {
   /** Markdown 源（契约 contentMd），渲染必须 sanitize */
   content: string
-  academicMeta?: AcademicMeta | null
 }
 
 /** 写入模型：tags 为标签 slug 数组（契约 CreatePostRequest.tags）；契约无 pinned，禁止发送 */

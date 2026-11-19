@@ -66,6 +66,7 @@ function publicSummary(post: Post): PostSummary {
     status: 'published',
     publishedAt: post.publishedAt,
     readingMinutes: post.readingMinutes,
+    academicMeta: post.academicMeta ?? null,
   }
 }
 

@@ -6,7 +6,7 @@ tags: [live-streaming|直播, recommender-system|推荐系统, hypergraph|超图
 date: 2026-11-19T00:00:00.000Z
 visibility: public
 status: published
-summary: 提出基于观众互动行为的超图推荐模型 VIBM-Hyper，将观看、弹幕、送礼、订阅、购买等多类型互动建模为超图，分别刻画观众间与频道间关联，用于直播频道个性化推荐。发表于 Decision Support Systems 184 (2024) 114272。
+summary: 直播推荐难以利用观众丰富的互动行为准确刻画兴趣。提出超图推荐模型 VIBM-Hyper，将观看、弹幕、送礼、订阅、购买等多类型互动统一建模为超图，分别刻画观众间与频道间关联，显著提升了直播频道的个性化推荐效果。
 authors: [Li Yu, Wei Gong, Dongsong Zhang]
 venue: Decision Support Systems
 year: 2024

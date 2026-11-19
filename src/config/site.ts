@@ -68,6 +68,14 @@ export const HOME_CONFIG = {
 /**
  * 「关于」页各 section 显隐开关（需求(7)）：后期要恢复「简介」「经历」把对应开关改为 true。
  */
+/**
+ * 页脚金句（后期改文案只改这里，空字符串则不渲染）。
+ */
+export const FOOTER_QUOTE = {
+  text: '好的研究应当既能解释世界，也能改善日常。',
+  cite: 'Magic',
+}
+
 export const ABOUT_VISIBILITY = {
   showBio: false,
   showTimeline: false,

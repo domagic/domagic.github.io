@@ -6,7 +6,7 @@ tags: [live-streaming|直播, dynamic-graph|动态图, collaboration|协同, rec
 date: 2026-11-19T00:00:01.000Z
 visibility: public
 status: published
-summary: 提出 DCGLive，针对直播推荐中"同一直播间内观众兴趣随时段变化"的问题，构建直播间级动态协同信息模型，联合刻画同场观看时间重叠与送礼行为，提升下一次进入直播间的预测效果。发表于 WWW '26。
+summary: 直播推荐中同一直播间内观众兴趣随时段变化，静态协同信号难以刻画。提出 DCGLive 直播间级动态协同信息模型，联合刻画同场观看时间重叠与送礼行为，有效提升了下一次进入直播间的预测效果。
 authors: [Ke Guo, Changle Qu, Xiao Zhang, Liqin Zhao, Shijun Wang, Yanan Niu, Jun Xu]
 venue: Proceedings of the ACM Web Conference 2026 (WWW '26)
 year: 2026

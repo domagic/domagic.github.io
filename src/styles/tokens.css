@@ -4,35 +4,39 @@
   --font-body: 'Noto Sans SC Critical', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
 
-  --paper: #f6f1e7;
-  --paper-deep: #ece4d3;
-  --paper-elev: #fbf8f1;
-  --ink: #23262b;
-  --ink-soft: #5f636b;
-  --ink-faint: #64686f;
-  --cinnabar: #b23a26;
-  --cinnabar-deep: #8f2d1c;
-  --cinnabar-wash: rgba(178, 58, 38, 0.08);
-  --gold: #8a641f;
-  --gold-wash: rgba(138, 100, 31, 0.1);
+  /* 全站统一冷调科技配色：浅色内容区 + 蓝紫强调 + 冷灰文字，与首页 palette 保持一致 */
+  --paper: #f2f5fa;
+  --paper-deep: #e4eaf4;
+  --paper-elev: #ffffff;
+  --ink: #1a2338;
+  --ink-soft: #4a5570;
+  --ink-faint: #6b7793;
+  --cinnabar: #4f46e5;
+  --cinnabar-deep: #4338ca;
+  --cinnabar-wash: rgba(79, 70, 229, 0.1);
+  --gold: #0e7490;
+  --gold-wash: rgba(14, 116, 144, 0.1);
+  /* 印章保留传统朱砂红作为品牌点缀，独立于全站强调色 */
+  --seal: #b23a26;
+  --seal-deep: #8f2d1c;
   /* 黛青：传统绘画中的深青绿，与朱砂、鎏金构成「朱砂·鎏金·黛青」高级三色 */
-  --dai: #2a4a52;
-  --dai-wash: rgba(42, 74, 82, 0.1);
-  --line: rgba(35, 38, 43, 0.14);
-  --line-strong: rgba(35, 38, 43, 0.32);
-  --shadow-soft: 0 18px 50px -18px rgba(35, 38, 43, 0.25);
-  --grain-opacity: 0.05;
+  --dai: #2563eb;
+  --dai-wash: rgba(37, 99, 235, 0.1);
+  --line: rgba(26, 35, 56, 0.12);
+  --line-strong: rgba(26, 35, 56, 0.28);
+  --shadow-soft: 0 18px 50px -18px rgba(26, 35, 56, 0.25);
+  --grain-opacity: 0.04;
   /* 多层极光网格背景：朱砂暖光（右上）+ 鎏金（左上）+ 黛青冷调（右下）+ 朱砂余晖（左下），
      跨色相叠加营造高端、大气的纵深氛围；静态绘制、固定定位，无逐帧主线程开销。 */
   --glow:
-    radial-gradient(46% 40% at 80% 4%, rgba(178, 58, 38, 0.16), transparent 66%),
-    radial-gradient(40% 38% at 6% 16%, rgba(138, 100, 31, 0.13), transparent 68%),
-    radial-gradient(54% 48% at 92% 86%, rgba(42, 74, 82, 0.13), transparent 70%),
-    radial-gradient(40% 40% at 14% 94%, rgba(178, 58, 38, 0.08), transparent 68%);
-  /* 暗角：边缘渐深，框住内容、增强大气感 */
-  --vignette: radial-gradient(125% 95% at 50% 36%, transparent 50%, rgba(35, 38, 43, 0.08) 100%);
-  /* 顶部光泽：柔和提亮上缘，纸面更有层次 */
-  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0) 28%);
+    radial-gradient(46% 40% at 80% 4%, rgba(79, 70, 229, 0.14), transparent 66%),
+    radial-gradient(40% 38% at 6% 16%, rgba(37, 99, 235, 0.12), transparent 68%),
+    radial-gradient(54% 48% at 92% 86%, rgba(14, 165, 233, 0.1), transparent 70%),
+    radial-gradient(40% 40% at 14% 94%, rgba(139, 92, 246, 0.1), transparent 68%);
+  /* 暗角：边缘渐深，框住内容、增强纵深 */
+  --vignette: radial-gradient(125% 95% at 50% 36%, transparent 50%, rgba(26, 35, 56, 0.07) 100%);
+  /* 顶部光泽：柔和提亮上缘，增强层次 */
+  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 28%);
 
   --space-page: clamp(1.25rem, 4vw, 4rem);
   --maxw: 72rem;
@@ -47,22 +51,24 @@
   --ink: #e8e4da;
   --ink-soft: #a9adb5;
   --ink-faint: #9a9ea7;
-  --cinnabar: #d4694f;
-  --cinnabar-deep: #e07f66;
-  --cinnabar-wash: rgba(212, 105, 79, 0.12);
-  --gold: #c9a04c;
-  --gold-wash: rgba(201, 160, 76, 0.12);
-  --dai: #7fb0bb;
-  --dai-wash: rgba(127, 176, 187, 0.12);
+  --cinnabar: #818cf8;
+  --cinnabar-deep: #a5b4fc;
+  --cinnabar-wash: rgba(129, 140, 248, 0.14);
+  --gold: #38bdf8;
+  --gold-wash: rgba(56, 189, 248, 0.12);
+  --dai: #60a5fa;
+  --dai-wash: rgba(96, 165, 250, 0.12);
+  --seal: #d4694f;
+  --seal-deep: #e07f66;
   --line: rgba(232, 228, 218, 0.14);
   --line-strong: rgba(232, 228, 218, 0.34);
   --shadow-soft: 0 18px 50px -18px rgba(0, 0, 0, 0.6);
   --grain-opacity: 0.07;
   --glow:
-    radial-gradient(46% 40% at 80% 4%, rgba(212, 105, 79, 0.2), transparent 66%),
-    radial-gradient(40% 38% at 6% 16%, rgba(201, 160, 76, 0.15), transparent 68%),
-    radial-gradient(54% 48% at 92% 86%, rgba(127, 176, 187, 0.14), transparent 70%),
-    radial-gradient(40% 40% at 14% 94%, rgba(212, 105, 79, 0.1), transparent 68%);
+    radial-gradient(46% 40% at 80% 4%, rgba(129, 140, 248, 0.2), transparent 66%),
+    radial-gradient(40% 38% at 6% 16%, rgba(56, 189, 248, 0.15), transparent 68%),
+    radial-gradient(54% 48% at 92% 86%, rgba(96, 165, 250, 0.14), transparent 70%),
+    radial-gradient(40% 40% at 14% 94%, rgba(139, 92, 246, 0.1), transparent 68%);
   --vignette: radial-gradient(125% 95% at 50% 36%, transparent 44%, rgba(0, 0, 0, 0.42) 100%);
   --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 26%);
 }

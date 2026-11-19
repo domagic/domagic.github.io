@@ -6,12 +6,27 @@ import { formatDate, indexNumber } from '@/utils/format'
 const props = defineProps<{ post: PostSummary; index?: number }>()
 
 const to = computed(() => `${CATEGORY_PATHS[props.post.category]}/${props.post.slug}`)
+
+// 学术列表项快速检索信息：第一作者、期刊/会议、年份
+const academic = computed(() => props.post.academicMeta ?? null)
+const firstAuthor = computed(() => {
+  const authors = academic.value?.authors ?? []
+  if (!authors.length) return ''
+  return authors.length > 1 ? `${authors[0]} 等` : authors[0]
+})
 </script>
 
 <template>
   <article class="item">
     <span v-if="index !== undefined" class="item__index mono" aria-hidden="true">{{ indexNumber(index + 1) }}</span>
-    <time class="item__date mono" :datetime="post.publishedAt ?? undefined">{{ formatDate(post.publishedAt) }}</time>
+    <div class="item__aside">
+      <time class="item__date mono" :datetime="post.publishedAt ?? undefined">{{ formatDate(post.publishedAt) }}</time>
+      <div v-if="academic" class="item__academic">
+        <span v-if="firstAuthor" class="item__author">{{ firstAuthor }}</span>
+        <span v-if="academic.venue" class="item__venue" :title="academic.venue">{{ academic.venue }}</span>
+        <span v-if="academic.year" class="item__year mono">{{ academic.year }}</span>
+      </div>
+    </div>
     <div class="item__body">
       <RouterLink :to="to" class="item__title">
         <h3>{{ post.title }}</h3>
@@ -32,12 +47,17 @@ const to = computed(() => `${CATEGORY_PATHS[props.post.category]}/${props.post.s
 <style scoped>
 .item {
   display: grid;
-  grid-template-columns: 2.6rem 7.2rem 1fr 2rem;
+  grid-template-columns: 2.6rem 11rem 1fr 2rem;
   gap: 1.25rem;
   align-items: start;
   padding: 1.4rem 0.4rem;
   border-bottom: 1px solid var(--line);
   transition: background-color 0.25s var(--ease-out);
+}
+
+/* 左侧日期 + 学术检索信息块 */
+.item__aside {
+  min-width: 0;
 }
 
 .item:hover {
@@ -50,8 +70,35 @@ const to = computed(() => `${CATEGORY_PATHS[props.post.category]}/${props.post.s
 }
 
 .item__date {
+  display: block;
   color: var(--ink-soft);
   padding-top: 0.35rem;
+}
+
+.item__academic {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.55rem;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.item__author {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.item__venue {
+  color: var(--cinnabar-deep);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.item__year {
+  color: var(--ink-faint);
 }
 
 .item__title {
@@ -125,9 +172,22 @@ const to = computed(() => `${CATEGORY_PATHS[props.post.category]}/${props.post.s
   .item__index {
     display: none;
   }
-  .item__date {
+  .item__aside {
     grid-column: 1 / -1;
+  }
+  .item__date {
+    display: inline-block;
     padding-top: 0;
+    margin-right: 0.8rem;
+  }
+  .item__academic {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.6rem;
+    margin-top: 0.35rem;
+  }
+  .item__venue {
+    -webkit-line-clamp: 1;
   }
 }
 </style>
