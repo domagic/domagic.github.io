@@ -248,8 +248,13 @@ const bodyContent = computed(() => {
   padding-inline: clamp(1.35rem, 3vw, 2.6rem);
 }
 
+/* 分类标签（如「学术」）：放大到接近标题字号的量级，作为醒目的眉题。
+   独占一行、与标题左缘对齐；左右边界不超出正文展示区。 */
 .post__category {
+  display: block;
   color: var(--cinnabar-deep);
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  line-height: 1.2;
 }
 
 .post__title {
@@ -259,11 +264,10 @@ const bodyContent = computed(() => {
   line-height: 1.25;
   letter-spacing: 0.01em;
   margin-top: 0.8rem;
-  /* 标题铺满正文展示宽度：每一行左右两端对齐；一行放不下就自动换行，
-     最后一行也两端对齐（text-align-last: justify），右缘不超出正文卡片边框。 */
-  text-align: justify;
-  text-align-last: justify;
-  text-justify: inter-word;
+  /* 左对齐：标题文字左缘与正文文字左缘对齐；标题区（post__header）的左右边界
+     与正文卡片（post__main）一致，因此区域左右边界相同。一行放不下自动换行，
+     文字自然结束、不再强行两端拉伸。 */
+  text-align: left;
   overflow-wrap: break-word;
 }
 
