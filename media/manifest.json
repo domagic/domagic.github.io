@@ -35,6 +35,20 @@
       "bytes": 224104,
       "mime": "image/png",
       "urlPath": "/media/academic/Live_streaming_channel_recommendation/page_11.png"
+    },
+    {
+      "relPath": "academic/assets/Room-Matters/fig1.png",
+      "sha256": "109dc14f1d54929f33a1a4e3cb343fa503fe70e013894394eb18e729ed79fdb2",
+      "bytes": 148321,
+      "mime": "image/png",
+      "urlPath": "/media/academic/Room-Matters/fig1.png"
+    },
+    {
+      "relPath": "academic/assets/Room-Matters/fig2.png",
+      "sha256": "fb194dc8afef1bf56b574fa9c39d0826a23ac8ece293495e49d716d46e79c049",
+      "bytes": 76493,
+      "mime": "image/png",
+      "urlPath": "/media/academic/Room-Matters/fig2.png"
     }
   ]
 }
