@@ -60,7 +60,7 @@ const bodyContent = computed(() => {
 </script>
 
 <template>
-  <div class="page post-page">
+  <div class="page post-page" :class="{ 'post-page--toc': showToc }">
     <p v-if="loading" class="state mono" role="status">Loading…</p>
     <div v-else-if="error" class="state" role="alert">
       <p class="state__error">{{ error }}</p>
@@ -97,35 +97,6 @@ const bodyContent = computed(() => {
         </aside>
         <div class="post__main">
           <MarkdownView :source="bodyContent" :section="post.category" @headings="(items) => (toc = items)" />
-          <section v-if="post.academicMeta" class="post__academic" aria-label="学术元数据">
-            <h2 class="post__academic-title">学术信息</h2>
-            <dl class="post__academic-list">
-              <div v-if="post.academicMeta.authors.length">
-                <dt>作者</dt>
-                <dd>{{ post.academicMeta.authors.join('、') }}</dd>
-              </div>
-              <div v-if="post.academicMeta.venue">
-                <dt>发表 / 场合</dt>
-                <dd>{{ post.academicMeta.venue }}</dd>
-              </div>
-              <div v-if="post.academicMeta.year">
-                <dt>年份</dt>
-                <dd>{{ post.academicMeta.year }}</dd>
-              </div>
-              <div v-if="post.academicMeta.doi">
-                <dt>DOI</dt>
-                <dd>
-                  <a :href="`https://doi.org/${post.academicMeta.doi}`" rel="noopener noreferrer" target="_blank">{{ post.academicMeta.doi }}</a>
-                </dd>
-              </div>
-              <div v-if="post.academicMeta.pdfUrl">
-                <dt>全文</dt>
-                <dd>
-                  <a :href="post.academicMeta.pdfUrl" rel="noopener noreferrer" target="_blank">PDF 下载</a>
-                </dd>
-              </div>
-            </dl>
-          </section>
           <footer class="post__footer">
             <RouterLink :to="CATEGORY_PATHS[post.category]">← 返回{{ CATEGORY_LABELS[post.category] }}</RouterLink>
           </footer>
@@ -146,9 +117,17 @@ const bodyContent = computed(() => {
   margin: 0 auto;
 }
 
-/* 学术文章：加宽容器，左侧放粘性目录，右侧为正文 */
-.post--with-toc {
-  max-width: 68rem;
+/* 带目录的学术文章页：容器铺满视口，使左侧目录贴合页面最左缘，
+   标题与正文向右延展占满剩余宽度，消除右侧大片留白。 */
+.post-page--toc {
+  max-width: none;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.post-page--toc .post {
+  max-width: none;
+  margin: 0;
 }
 
 .post__layout {
@@ -158,7 +137,7 @@ const bodyContent = computed(() => {
 .post--with-toc .post__layout {
   display: grid;
   grid-template-columns: 15rem minmax(0, 1fr);
-  gap: 2.5rem;
+  gap: 1.5rem;
   align-items: start;
 }
 
@@ -224,8 +203,14 @@ const bodyContent = computed(() => {
 }
 
 .post__title {
-  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  /* 艺术衬线标题：字母大小一致、跨平台可用的经典字体栈，不受 variable-wonk 影响 */
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, 'Times New Roman', Georgia, serif;
+  font-size: clamp(1.95rem, 4.4vw, 3rem);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
   margin-top: 0.8rem;
+  /* 让标题行充分向右延展，消除右侧大片留白 */
+  text-wrap: normal;
 }
 
 .post__meta {
@@ -260,42 +245,6 @@ const bodyContent = computed(() => {
   margin-top: 3rem;
   padding-top: 1.4rem;
   border-top: 1px solid var(--line);
-}
-
-.post__academic {
-  margin-top: 2.4rem;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--cinnabar);
-  border-radius: 4px;
-  padding: 1.1rem 1.3rem;
-  background: var(--paper-elev);
-}
-
-.post__academic-title {
-  font-size: 1rem;
-  margin-bottom: 0.7rem;
-}
-
-.post__academic-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  font-size: 0.9rem;
-}
-
-.post__academic-list > div {
-  display: flex;
-  gap: 0.8rem;
-}
-
-.post__academic-list dt {
-  color: var(--ink-faint);
-  min-width: 5.5rem;
-  flex-shrink: 0;
-}
-
-.post__academic-list dd {
-  margin: 0;
 }
 
 .state {

@@ -46,8 +46,15 @@ watch(
 
 <style>
 .markdown {
+  /* 正文英文统一 Times New Roman，中文回退衬线；代码/公式各自保留原字体 */
+  font-family: var(--font-reading);
   font-size: 1.02rem;
   line-height: 1.9;
+}
+
+.markdown h2,
+.markdown h3 {
+  font-family: var(--font-reading);
 }
 
 .markdown h2 {
@@ -84,7 +91,7 @@ watch(
   padding: 1rem 1.4rem;
   background: var(--cinnabar-wash);
   border-left: 3px solid var(--cinnabar);
-  font-family: var(--font-serif-sc);
+  font-family: var(--font-reading);
   font-size: 1.08rem;
 }
 
