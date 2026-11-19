@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { ApiError, api, CATEGORY_LABELS, CATEGORY_PATHS, type Post } from '@/api'
 import { useSeo } from '@/composables/useSeo'
@@ -34,6 +34,23 @@ watch(
   },
   { immediate: true },
 )
+
+/**
+ * 去掉正文开头与页面标题重复的一级标题，避免「双重标题」。
+ * 只处理正文最开头（允许前导空行）的单个 # 标题，且仅在文字与标题一致时移除；
+ * 正文内部的同级标题、或标题不一致的情况一律保留。这样所有文章文件都统一生效，
+ * 无需逐篇依赖作者删除正文标题。
+ */
+const bodyContent = computed(() => {
+  const raw = post.value?.content ?? ''
+  const title = (post.value?.title ?? '').trim()
+  if (!raw || !title) return raw
+  const match = raw.match(/^(\s*)#\s+([^\n]+)\n?/)
+  if (match && match[2].trim() === title) {
+    return raw.slice(match[0].length).replace(/^\s*\n/, '')
+  }
+  return raw
+})
 </script>
 
 <template>
@@ -58,7 +75,7 @@ watch(
           <span v-for="tag in post.tags" :key="tag.slug" class="post__tag">#{{ tag.name }}</span>
         </div>
       </header>
-      <MarkdownView :source="post.content" :section="post.category" />
+      <MarkdownView :source="bodyContent" :section="post.category" />
       <section v-if="post.academicMeta" class="post__academic" aria-label="学术元数据">
         <h2 class="post__academic-title">学术信息</h2>
         <dl class="post__academic-list">

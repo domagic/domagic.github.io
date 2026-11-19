@@ -3,7 +3,7 @@ title: "Room Matters: Dynamic Room-level Collaboration Information Modeling for 
 slug: room-matters
 type: academic
 tags: [live-streaming|直播, dynamic-graph|动态图, collaboration|协同, recommender-system|推荐系统, paper-notes|论文笔记]
-date: 2026-11-19T00:00:00.000Z
+date: 2026-11-19T00:00:01.000Z
 visibility: public
 status: published
 summary: 提出 DCGLive，针对直播推荐中"同一直播间内观众兴趣随时段变化"的问题，构建直播间级动态协同信息模型，联合刻画同场观看时间重叠与送礼行为，提升下一次进入直播间的预测效果。发表于 WWW '26。

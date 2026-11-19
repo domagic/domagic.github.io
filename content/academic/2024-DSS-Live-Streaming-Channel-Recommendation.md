@@ -12,8 +12,6 @@ venue: Decision Support Systems
 year: 2024
 ---
 
-# Live streaming channel recommendation based on viewers' interaction behavior: A hypergraph approach
-
 | 项目 | 内容 |
 |---|---|
 | 原题 | Live streaming channel recommendation based on viewers' interaction behavior: A hypergraph approach |
