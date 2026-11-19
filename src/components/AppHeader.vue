@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
 import SealStamp from './SealStamp.vue'
-import { SEAL_VISIBLE } from '@/config/site'
+import { PROFILE_DISPLAY } from '@/config/site'
 
 const auth = useAuthStore()
 const theme = useThemeStore()
@@ -19,16 +19,19 @@ const nav = [
   { to: '/about', label: '关于' },
 ]
 
-// 标签栏实时系统时钟（精确到秒）：取本地系统时间，每秒刷新；组件卸载时清理定时器。
-const clock = ref({ h: '00', m: '00', s: '00' })
+// 标签栏实时时钟（精确到秒）：上排日期（含星期几）、下排时间，统一按 UTC 显示；每秒刷新，卸载时清理定时器。
+const WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+const clock = ref({ date: '', h: '00', m: '00', s: '00' })
 let clockTimer: ReturnType<typeof setInterval> | null = null
 
 function tick() {
   const d = new Date()
+  const date = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')} ${WEEKDAYS[d.getUTCDay()]}`
   clock.value = {
-    h: String(d.getHours()).padStart(2, '0'),
-    m: String(d.getMinutes()).padStart(2, '0'),
-    s: String(d.getSeconds()).padStart(2, '0'),
+    date,
+    h: String(d.getUTCHours()).padStart(2, '0'),
+    m: String(d.getUTCMinutes()).padStart(2, '0'),
+    s: String(d.getUTCSeconds()).padStart(2, '0'),
   }
 }
 
@@ -54,16 +57,17 @@ function closeMenu() {
           class="header__clock mono"
           role="timer"
           aria-live="off"
-          :aria-label="`系统时间 ${clock.h}:${clock.m}:${clock.s}`"
+          :aria-label="`UTC 日期 ${clock.date}，时间 ${clock.h}:${clock.m}:${clock.s}`"
         >
-          <span>{{ clock.h }}</span><span class="header__clock-sep">:</span><span>{{ clock.m }}</span><span class="header__clock-sep">:</span><span class="header__clock-sec">{{ clock.s }}</span>
+          <span class="header__clock-date">{{ clock.date }}</span>
+          <span class="header__clock-time">
+            <span>{{ clock.h }}</span><span class="header__clock-sep">:</span><span>{{ clock.m }}</span><span class="header__clock-sep">:</span><span class="header__clock-sec">{{ clock.s }}</span>
+            <span class="header__clock-tz">UTC</span>
+          </span>
         </span>
         <RouterLink to="/" class="header__brand" @click="closeMenu">
-          <SealStamp v-if="SEAL_VISIBLE" size="sm" />
-          <span class="header__name">
-            <span class="header__latin">Do Magic</span>
-            <span class="header__sub mono">Magic</span>
-          </span>
+          <SealStamp :char="PROFILE_DISPLAY.sealChar" size="sm" />
+          <span class="header__latin">Magic</span>
         </RouterLink>
       </div>
 
@@ -145,7 +149,10 @@ function closeMenu() {
 
 .header__clock {
   display: inline-flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.05rem;
   font-variant-numeric: tabular-nums;
   font-size: 0.82rem;
   letter-spacing: 0.06em;
@@ -154,6 +161,17 @@ function closeMenu() {
   border-right: 1px solid var(--line);
   user-select: none;
   white-space: nowrap;
+  line-height: 1.2;
+}
+
+.header__clock-date {
+  font-size: 0.68rem;
+  color: var(--ink-faint);
+}
+
+.header__clock-time {
+  display: inline-flex;
+  align-items: center;
 }
 
 .header__clock-sep {
@@ -164,29 +182,25 @@ function closeMenu() {
   color: var(--cinnabar-deep);
 }
 
+.header__clock-tz {
+  margin-left: 0.35rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+
 .header__brand {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.55rem;
   text-decoration: none;
   color: var(--ink);
-}
-
-.header__name {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
 }
 
 .header__latin {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.05rem;
-}
-
-.header__sub {
-  color: var(--ink-faint);
-  font-size: 0.66rem;
 }
 
 .header__nav {
@@ -302,16 +316,16 @@ function closeMenu() {
 }
 
 @media (max-width: 480px) {
-  /* 窄屏隐藏品牌文字、保留印章与时钟，确保实时时钟持续可见且不溢出 */
-  .header__name {
-    display: none;
-  }
+  /* 窄屏仍保留印章 + Magic 与时钟；仅缩小字号避免溢出 */
   .header__left {
     gap: 0.55rem;
   }
   .header__clock {
     font-size: 0.76rem;
     padding-right: 0.55rem;
+  }
+  .header__latin {
+    font-size: 0.95rem;
   }
 }
 </style>
