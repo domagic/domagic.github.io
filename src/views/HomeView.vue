@@ -232,6 +232,10 @@ onUnmounted(() => {
   position: relative;
   overflow: hidden;
   scroll-snap-align: start;
+  /* 页头 sticky 占 4.2rem：不加这条时，scroll-snap 会把 hero 的吸附点算成 scrollY=68，
+     浏览器加载/刷新后自动吸附过去 → 页头被滚上去、首屏露出精选，并触发揭幕门控。
+     加 scroll-margin-top 让吸附点回到 scrollY=0，首屏稳定只显示封面。 */
+  scroll-margin-top: 4.2rem;
 }
 
 .hero__inner {
