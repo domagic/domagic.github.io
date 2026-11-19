@@ -58,21 +58,31 @@ jobs:
         run: node scripts/postbuild.mjs
 
       # A.2-6 父链法部署：远端 gh-pages HEAD 为父，全树替换，仅 FF push。
-      # CNAME 保留（C1 自审必修）：现线 gh-pages 含 CNAME=qinluolab.com，全树替换
-      # 若不回填会丢自定义域名。不加 .nojekyll（现线无此文件，dist 无下划线前缀
-      # 路径，保持与现线一致的 Pages 处理行为）。
+      # D1 修复（Manager seq=908，首跑 run=44487057677 步骤 10 红）：
+      # ①sync 覆写 FE 链跟踪件 dataset.json → 脏工作区拒 checkout：改 checkout -fB；
+      # ②未跟踪构建残留（dist/.build/public/media/src 等）会被 add -A 误提交：
+      #   dist 先暂存仓外（RUNNER_TEMP），checkout 后 git rm + git clean -ffdx 清空，
+      #   再回填 dist——部署 commit 树恰好＝dist 全内容＋CNAME，零其他文件。
+      # CNAME 保留：现线 gh-pages 含 CNAME=qinluolab.com；远端无 CNAME 时失败即删，
+      # 不留空文件。不加 .nojekyll（现线无此文件，dist 无下划线前缀路径）。
+      # CI 内 reset/clean 属临时工作区卫生，不触非 force 红线（红线约束远端 push）。
       - name: Deploy gh-pages (parent-chain, fast-forward only)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
+          STAGE_DIR="$(mktemp -d "${RUNNER_TEMP:-/tmp}/deploy-dist.XXXXXX")"
+          cp -r dist/. "$STAGE_DIR/"
           git fetch origin gh-pages --depth=1
-          git checkout -B gh-pages-deploy FETCH_HEAD
+          git checkout -fB gh-pages-deploy FETCH_HEAD
           git rm -rfq .
-          cp -r dist/. .
-          git show FETCH_HEAD:CNAME > CNAME 2>/dev/null || true
+          git clean -ffdx
+          cp -r "$STAGE_DIR/." .
+          git show FETCH_HEAD:CNAME > CNAME 2>/dev/null || rm -f CNAME
           git add -A
+          # --allow-empty：同源重跑产物树与现线全同时仍落部署 commit（幂等，
+          # 树语义不变＝dist＋CNAME；避免「nothing to commit」误红整次 run）。
           git -c user.name="github-actions[bot]" \
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-              commit -m "deploy: ${GITHUB_SHA}"
+              commit --allow-empty -m "deploy: ${GITHUB_SHA}"
           git push origin HEAD:gh-pages
