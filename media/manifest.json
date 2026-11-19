@@ -226,6 +226,20 @@
       "urlPath": "/media/academic/Room-Matters/fig2.png"
     },
     {
+      "relPath": "blog/assets/derivative-instantaneous-rate/figure-01.png",
+      "sha256": "df8b3348047366f689238ce8144e68a05cdf70cc5d84c12863b8dae42f5f0e82",
+      "bytes": 57800,
+      "mime": "image/png",
+      "urlPath": "/media/blog/derivative-instantaneous-rate/figure-01.png"
+    },
+    {
+      "relPath": "blog/assets/derivative-instantaneous-rate/figure-02.png",
+      "sha256": "0ebbfca51721cfe82ce8393cbc6a882e2f7f2003a3a9ca45e764ba83e619e3a5",
+      "bytes": 75244,
+      "mime": "image/png",
+      "urlPath": "/media/blog/derivative-instantaneous-rate/figure-02.png"
+    },
+    {
       "relPath": "blog/assets/sample-variance-n-minus-one/figure-01.png",
       "sha256": "214b701de70e7f160e5432a9ed719759f1faa1063ea62e302870b630e8ffa2b8",
       "bytes": 35990,
