@@ -3,7 +3,7 @@ interface SeoOptions {
   description?: string
 }
 
-const SITE_NAME = 'Do Magic · Magic'
+const SITE_NAME = 'Magic'
 const DEFAULT_DESCRIPTION =
   'Magic 的个人网站：研究、博客、观点与学术内容。在数据之中，做一点魔法。'
 
