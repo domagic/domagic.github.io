@@ -28,7 +28,12 @@ export async function authGuard(to: RouteLocationNormalized) {
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(_to, _from, saved) {
-    return saved ?? { top: 0 }
+    // 全局 html 设了 scroll-behavior:smooth（供页内 TOC 锚点平滑跳转用）。
+    // 但路由切换必须瞬时定位：否则从首页「精选/最新索引」（scrollY 较大）点进文章，
+    // 新页面会先停在原滚动位置，再被 smooth 动画缓慢拉回顶部，出现"卡顿+回退"的怪异感。
+    // behavior:'instant' 覆盖 CSS 的 smooth，只影响路由跳转，不影响页内锚点。
+    const pos = saved ? { ...saved } : { top: 0, left: 0 }
+    return { ...pos, behavior: 'instant' } as any
   },
   routes: [
     { path: '/', name: 'home', component: HomeView, meta: { title: '首页' } },
