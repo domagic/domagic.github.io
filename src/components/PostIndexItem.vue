@@ -18,7 +18,10 @@ const firstAuthor = computed(() => {
 
 <template>
   <RouterLink :to="to" class="item" :aria-label="`阅读：${post.title}`">
-    <span v-if="index !== undefined" class="item__index mono" aria-hidden="true">{{ indexNumber(index + 1) }}</span>
+    <div class="item__lead">
+      <span v-if="index !== undefined" class="item__index mono" aria-hidden="true">{{ indexNumber(index + 1) }}</span>
+      <span class="item__category mono">{{ CATEGORY_LABELS[post.category] }}</span>
+    </div>
     <div class="item__aside">
       <time class="item__date mono" :datetime="post.publishedAt ?? undefined">{{ formatDate(post.publishedAt) }}</time>
       <div v-if="academic" class="item__academic">
@@ -33,7 +36,6 @@ const firstAuthor = computed(() => {
       </div>
       <p class="item__excerpt">{{ post.excerpt }}</p>
       <div class="item__meta">
-        <span class="item__category">{{ CATEGORY_LABELS[post.category] }}</span>
         <span v-if="post.visibility === 'private'" class="item__lock">私密</span>
         <span v-if="post.status === 'draft'" class="item__lock">草稿</span>
         <span class="item__tags">{{ post.tags.map((t) => `#${t.name}`).join(' ') }}</span>
@@ -55,6 +57,14 @@ const firstAuthor = computed(() => {
   /* 整行可点击：去掉链接默认下划线与继承色，保留原有的文字配色 */
   color: inherit;
   text-decoration: none;
+}
+
+/* 左侧编号 + 文章类型（纵向堆叠），类型移到编号下方 */
+.item__lead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
 }
 
 /* 左侧日期 + 学术检索信息块 */
@@ -144,7 +154,10 @@ const firstAuthor = computed(() => {
 
 .item__category {
   color: var(--cinnabar-deep);
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 .item__lock {
@@ -170,6 +183,12 @@ const firstAuthor = computed(() => {
   .item {
     grid-template-columns: 1fr 2rem;
     gap: 0.5rem;
+  }
+  .item__lead {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 0.6rem;
   }
   .item__index {
     display: none;
