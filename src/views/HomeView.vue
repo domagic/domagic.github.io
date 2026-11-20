@@ -143,7 +143,7 @@ onUnmounted(() => {
       class="page section content-section"
       :class="{ 'content-section--in': contentIn }"
     >
-      <SectionHead title="精选" note="全站最新发布的文章" />
+      <SectionHead title="精选" />
       <div class="featured">
         <template v-if="loading">
           <div v-for="i in 3" :key="`fs-${i}`" class="featured__card featured__card--sk" aria-hidden="true">
