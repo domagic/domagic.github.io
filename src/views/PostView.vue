@@ -69,8 +69,14 @@ const bodyContent = computed(() => {
       <RouterLink to="/">返回首页</RouterLink>
     </div>
     <article v-else-if="post" class="post" :class="{ 'post--with-toc': showToc }">
+      <!-- 带目录文章的分类标签放到左列第 1 行（标题左侧空白列），与目录同列对齐 -->
+      <RouterLink
+        v-if="showToc"
+        :to="CATEGORY_PATHS[post.category]"
+        class="post__category mono"
+      >{{ CATEGORY_LABELS[post.category] }}</RouterLink>
       <header class="post__header">
-        <RouterLink :to="CATEGORY_PATHS[post.category]" class="post__category mono">
+        <RouterLink v-if="!showToc" :to="CATEGORY_PATHS[post.category]" class="post__category mono">
           {{ CATEGORY_LABELS[post.category] }}
         </RouterLink>
         <h1 class="post__title">{{ post.title }}</h1>
@@ -163,6 +169,15 @@ const bodyContent = computed(() => {
 
 .post--with-toc .post__header {
   grid-row: 1;
+}
+
+/* 分类标签放到左列第 1 行（标题左侧空白列），与目录同列左缘对齐，垂直对齐标题 */
+.post--with-toc > .post__category {
+  grid-column: 1;
+  grid-row: 1;
+  width: 15rem;
+  align-self: start;
+  padding-top: 0.35rem;
 }
 
 .post--with-toc .post__toc {
@@ -268,6 +283,9 @@ const bodyContent = computed(() => {
      与正文卡片（post__main）一致，因此区域左右边界相同。一行放不下自动换行，
      文字自然结束、不再强行两端拉伸。 */
   text-align: left;
+  /* 覆盖 base.css 全局 h1~h4 的 text-wrap:balance（会把文字均分到两行、每行只占
+     一半宽度，视觉上标题显得比正文窄）。normal 让每行填满容器宽度后再换行。 */
+  text-wrap: normal;
   overflow-wrap: break-word;
 }
 
