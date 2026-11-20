@@ -352,7 +352,9 @@ onUnmounted(() => {
 }
 
 .hero--tech-light .hero__vertical {
-  color: rgba(26, 35, 56, 0.42);
+  color: #1b2440;
+  /* 双层墨迹阴影：一层淡彩偏移模拟毛笔洇墨，一层极细描边强化笔锋 */
+  text-shadow: 0.05em 0.05em 0 rgba(96, 116, 180, 0.22), 0 0 1px rgba(20, 30, 60, 0.35);
 }
 
 /* ---- 夜间模式适配：上面几处为浅底写死的颜色改为亮色，保证日/夜均可读 ----
@@ -398,7 +400,8 @@ onUnmounted(() => {
 }
 
 [data-theme='ink'] .hero--tech-light .hero__vertical {
-  color: rgba(232, 228, 218, 0.62);
+  color: #eceaf2;
+  text-shadow: 0.05em 0.05em 0 rgba(150, 165, 240, 0.28), 0 0 1px rgba(255, 255, 255, 0.25);
 }
 
 /* 科技感装饰层 */
@@ -562,10 +565,13 @@ onUnmounted(() => {
 
 .hero__vertical {
   writing-mode: vertical-rl;
-  font-family: var(--font-serif-sc);
-  font-weight: 600;
-  font-size: 1.5rem;
-  letter-spacing: 0.5em;
+  /* 毛笔行书艺术字：优先系统自带的行楷/楷体，渲染出毛笔提按的笔锋质感 */
+  font-family: 'STXingkai', '华文行楷', 'STKaiti', 'KaiTi', '楷体', var(--font-serif-sc);
+  font-weight: 400;
+  /* 放大到与封面主视觉相称的尺寸，随视口收放 */
+  font-size: clamp(2.6rem, 4.4vw, 3.6rem);
+  letter-spacing: 0.18em;
+  line-height: 1.06;
 }
 
 .section {
@@ -770,7 +776,7 @@ onUnmounted(() => {
     margin-bottom: 2.2rem;
   }
   .hero__vertical {
-    font-size: 1.1rem;
+    font-size: 2rem;
   }
   .drawers {
     grid-template-columns: 1fr;
