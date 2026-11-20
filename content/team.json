@@ -1,0 +1,72 @@
+{
+  "contractVersion": "0.2",
+  "name": {
+    "zh": "秦罗万象",
+    "en": "Qin-Luo Research Group"
+  },
+  "nameStatus": {
+    "zh": "confirmed",
+    "en": "provisional"
+  },
+  "couplet": {
+    "zh": "秦月照研路，罗星汇万象",
+    "en": "The Qin moon lights the path of inquiry; the Luo stars gather all phenomena."
+  },
+  "coupletStatus": {
+    "zh": "confirmed",
+    "en": "draft"
+  },
+  "mission": {
+    "zh": "「秦罗万象」由罗朝广（Chaoguang Luo）与秦勇（Yong Qin）两位学者共同组成。我们以严谨、开放、可复现的方法开展学术研究，关注管理与数据科学交叉领域的真实问题，并在此记录与分享团队的研究进展与思考。",
+    "en": "The Qin-Luo Research Group is formed by two scholars, Chaoguang Luo and Yong Qin. We pursue rigorous, open, and reproducible research on real-world questions at the intersection of management and data science, and we share our progress and reflections here."
+  },
+  "missionStatus": {
+    "zh": "draft",
+    "en": "draft"
+  },
+  "defaultLang": "zh",
+  "langs": ["zh", "en"],
+  "memberOrder": ["luo-chao-guang", "qin-yong"],
+  "home": {
+    "hero": {
+      "eyebrow": {
+        "zh": "学术研究团队",
+        "en": "Academic Research Group"
+      },
+      "mission": {
+        "zh": "面向真实世界的科学问题，以求真为志，以协作为径。",
+        "en": "Pursuing scientific questions grounded in the real world, with truth-seeking as our aim and collaboration as our path."
+      }
+    },
+    "teasers": [
+      {
+        "id": "research",
+        "enabled": true,
+        "title": { "zh": "研究方向", "en": "Research" },
+        "text": {
+          "zh": "数据科学、决策支持与智能推荐等交叉方向。具体研究版图待两位学者确认后完整呈现。",
+          "en": "Intersections of data science, decision support, and intelligent recommendation. The full research map will be presented once confirmed by both scholars."
+        }
+      },
+      {
+        "id": "latest",
+        "enabled": true,
+        "title": { "zh": "最新成果", "en": "Latest" },
+        "text": {
+          "zh": "团队最新成果条目如下；完整清单见成果页。",
+          "en": "Latest group entries below; see the publications page for the full list."
+        }
+      },
+      {
+        "id": "members",
+        "enabled": false,
+        "title": { "zh": "成员速览", "en": "Members" },
+        "text": {
+          "zh": "两位学者 · 一个团队（履历信息待确认，不预置未经核实内容）",
+          "en": "Two scholars, one team. Biographies pending confirmation; no unverified information is pre-filled."
+        }
+      }
+    ]
+  },
+  "note": "I1 权威载体（v0.2：build 消费→QL_DATA.team＋QL_DATA.home，QinY B2 实施；harness G7′ 形状与状态标记断言消费）。home.hero.mission zh 为 owner seq=966 直授措辞（删前缀）；顶层 mission 仍为 about 页全草稿。英文名暂定（D1 owner 标定值，status 沿用 provisional 待 owner 定稿摘标）；联句英译暂译；teasers members enabled=false（owner D6 删成员速览）。不虚构任何学者履历。"
+}

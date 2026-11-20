@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>秦罗万象 · Qin-Luo Research Group</title>
+<meta name="description" content="秦罗万象——罗朝广与秦勇的双语学术研究团队。Qin-Luo Research Group.">
+<script>(function(){try{var s=localStorage.getItem('ql-theme');var l=s==='light'||(s!=='dark'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches);if(l)document.documentElement.setAttribute('data-theme','light')}catch(e){}})()</script>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="home">
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="index.html">
+      <span class="seal" aria-hidden="true">秦罗</span>
+      <span class="brand-txt"><span id="brand-main" class="brand-main"></span><span id="brand-sub" class="brand-sub"></span></span>
+    </a>
+    <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span aria-hidden="true">☰</span><span class="sr-only" data-i18n="nav.menu"></span></button>
+    <nav id="site-nav" class="site-nav">
+      <a href="index.html" data-nav="home" data-i18n="nav.home"></a>
+      <a href="about.html" data-nav="about" data-i18n="nav.about"></a>
+      <a href="members.html" data-nav="members" data-i18n="nav.members"></a>
+      <a href="publications.html" data-nav="publications" data-i18n="nav.publications"></a>
+    </nav>
+    <div class="head-btns">
+      <button id="theme-toggle" class="lang-btn" type="button"></button>
+      <button id="lang-toggle" class="lang-btn" type="button"></button>
+    </div>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <canvas id="ambient" aria-hidden="true"></canvas>
+    <div class="moon" aria-hidden="true"></div>
+    <div class="stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="wrap hero-in">
+      <div class="hero-main">
+        <p id="hero-eyebrow" class="eyebrow reveal r1"></p>
+        <h1 id="hero-name" class="team-name reveal r2"></h1>
+        <p id="hero-enname" class="hero-en reveal r3"></p>
+        <p id="hero-mission" class="mission-lg reveal r4"></p>
+        <div class="hero-cta reveal r5">
+          <a class="btn" href="about.html" data-i18n="hero.ctaAbout"></a>
+          <a class="btn ghost" href="publications.html" data-i18n="hero.ctaPubs"></a>
+        </div>
+      </div>
+      <div class="couplet-col reveal r3">
+        <div class="couplet">
+          <span id="couplet-1"></span>
+          <span id="couplet-2"></span>
+          <span class="couplet-seal" aria-hidden="true">万象</span>
+        </div>
+        <p id="couplet-status" class="couplet-status" hidden></p>
+      </div>
+    </div>
+  </section>
+  <section class="teasers-band">
+    <div class="wrap teasers" id="teasers"></div>
+  </section>
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-in">
+    <p id="foot-name" class="foot-name"></p>
+    <p id="foot-couplet" class="foot-couplet"></p>
+  </div>
+</footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
