@@ -674,14 +674,12 @@ onUnmounted(() => {
 .drawer {
   position: relative;
   padding: 1.6rem 1.3rem 1.4rem;
-  border-top: 2px solid var(--line-strong);
   text-decoration: none;
   color: var(--ink);
-  transition: border-color 0.3s var(--ease-out), background-color 0.3s var(--ease-out);
+  transition: background-color 0.3s var(--ease-out);
 }
 
 .drawer:hover {
-  border-top-color: var(--cinnabar);
   background: var(--cinnabar-wash);
   text-decoration: none;
 }
