@@ -176,7 +176,7 @@ onUnmounted(() => {
     </section>
 
     <section class="page section">
-      <SectionHead title="最新索引">
+      <SectionHead title="最新">
         <template #action>
           <RouterLink to="/archive" class="section-more">全部文章 →</RouterLink>
         </template>
