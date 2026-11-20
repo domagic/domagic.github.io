@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// P6 C5 门检 harness（契约 v0.3 §7，承 v0.2 R7 口径：G1′–G5′＋G7′；G6′ I18N 比对退役）。
+// P6 C6 门检 harness（契约 v0.3.1，承 v0.3 冻结口径：G1′–G5′＋G7′；G6′ I18N 比对退役；G8′ docs 镜像增补）。
 // v0.3 增量（R26）：attribution enum 收拢 ['team']（example 全机件退役）；team.fixture 键在场即 G7′ REJECT（fail-closed）。
+// v0.3.1 增量（R30）：G8′ docs/==dist/ 逐字节全等＋docs/CNAME trim==qinluolab.com＋docs/.nojekyll 在场；build＋push 双相 fail-closed。
 // 零 npm 依赖（Node 内置）。fm 解析＝B1 splitFrontMatter 语义＋v0.2 §2.1 引号感知列表切分（R14 正则逐字冻结，不变）。
 // 用法：node tools/gate-harness.mjs --root <dir> [--report <path>] [--phase build|push] [--gitleaks <bin>]
 // exit 0＝全绿（WARN 允许）；exit 1＝任一 REJECT_RUN（失败先落对账表再退出）。
@@ -22,7 +23,7 @@ const LANGS = ['zh', 'en']
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/
 const IMG_EXT = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp', '.ico', '.tif', '.tiff', '.avif']
 const gates = {}
-for (const g of ['G1′', 'G2′', 'G3′', 'G4′', 'G5′', 'G7′']) gates[g] = { status: 'PASS', checks: 0, violations: [] }
+for (const g of ['G1′', 'G2′', 'G3′', 'G4′', 'G5′', 'G7′', 'G8′']) gates[g] = { status: 'PASS', checks: 0, violations: [] }
 const warnings = []
 const missingTranslations = []
 const perFile = []
@@ -268,19 +269,44 @@ if (team) {
 }
 verdict('content/team.json', team && gates['G7′'].status === 'PASS' ? 'PASS' : 'REJECT', 'G7′', null)
 
+// —— G8′ docs 镜像（R30：Pages 源=master /docs；v0.3.1 增补，build＋push 双相 fail-closed）——
+const DOCS = join(ROOT, 'docs')
+const distExists = existsSync(DIST)
+const docsExists = existsSync(DOCS)
+const listFiles = (dir, base = '') => readdirSync(dir, { withFileTypes: true }).sort((a, b) => (a.name < b.name ? -1 : 1)).flatMap((e) => e.isDirectory() ? listFiles(join(dir, e.name), base ? base + '/' + e.name : e.name) : [base ? base + '/' + e.name : e.name])
+if (!distExists) {
+  check('G8′', 'docs/', !docsExists, 'dist 缺席而 docs 在场（无镜像源＝不可核验，fail-closed）')
+} else {
+  if (check('G8′', 'docs/', docsExists, 'docs/ 缺省（R30 镜像必需，fail-closed）')) {
+    const distFiles = listFiles(DIST)
+    const docsFiles = listFiles(DOCS)
+    scanned += docsFiles.length
+    const extras = docsFiles.filter((f) => !distFiles.includes(f))
+    check('G8′', 'docs/', extras.length === 2 && extras.includes('CNAME') && extras.includes('.nojekyll'), 'docs 额外文件须恰为 CNAME＋.nojekyll: ' + (extras.join(',') || '(无)'))
+    for (const f of distFiles) {
+      const dp = join(DOCS, f)
+      check('G8′', 'docs/' + f, existsSync(dp) && readFileSync(dp).equals(readFileSync(join(DIST, f))), 'docs 与 dist 逐字节不一致/缺件（镜像须全等）')
+    }
+    const cname = join(DOCS, 'CNAME')
+    check('G8′', 'docs/CNAME', existsSync(cname) && readFileSync(cname, 'utf8').trim() === 'qinluolab.com', 'CNAME 缺失或内容 trim 后≠qinluolab.com')
+    check('G8′', 'docs/.nojekyll', existsSync(join(DOCS, '.nojekyll')), '.nojekyll 缺省（Pages 须绕过 Jekyll）')
+  }
+}
+verdict('docs/', gates['G8′'].status === 'PASS' ? 'PASS' : 'REJECT', 'G8′', null)
+
 // —— 对账表双输出：失败先落表再 exit 1 ——
 const rejected = Object.values(gates).filter((g) => g.status === 'REJECT').length
 const memberPairs = new Set(parsed.filter((p) => p.kind === 'member').map((p) => p.base)).size
 const pubPairs = new Set(parsed.filter((p) => p.kind === 'publication').map((p) => p.base)).size
 const report = {
-  runAt: new Date().toISOString(), root: ROOT, phase: PHASE, contract: 'v0.3',
+  runAt: new Date().toISOString(), root: ROOT, phase: PHASE, contract: 'v0.3.1',
   gates, scanned, planned: 2 + memberPairs * 2 + pubPairs * 2 + 1, rejected,
   warnings, missingTranslations, perFile,
 }
 mkdirSync(join(REPORT, '..'), { recursive: true })
 writeFileSync(REPORT, JSON.stringify(report, null, 2) + '\n', 'utf8')
 console.log('HARNESS ' + (rejected ? 'REJECT_RUN' : 'ALL_GREEN') + ' phase=' + PHASE + ' scanned=' + scanned + ' planned=' + report.planned + ' rejectedGates=' + rejected + ' warnings=' + warnings.length)
-for (const id of ['G1′', 'G2′', 'G3′', 'G4′', 'G5′', 'G6′', 'G7′']) {
+for (const id of ['G1′', 'G2′', 'G3′', 'G4′', 'G5′', 'G6′', 'G7′', 'G8′']) {
   const g = gates[id]
   console.log('  ' + id + ' ' + (g?.status ?? 'PASS') + ' checks=' + (g?.checks ?? 0) + ' violations=' + (g?.violations.length ?? 0))
   for (const v of g?.violations ?? []) console.log('    ! ' + v.path + ' :: ' + v.reason)

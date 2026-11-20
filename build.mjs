@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // P6-B1 最小构建链：content/*.md → dist/assets/data.js ＋ src 静态件拷贝 → dist。
+// B5/R30：dist 同产物逐字节镜像 docs/＋CNAME/.nojekyll（Pages 源=master /docs）；镜像失败即 build 失败。
 // 零 npm 依赖（Node 内置模块）。用法：node build.mjs [--root <dir>]
-import { readFileSync, writeFileSync, readdirSync, mkdirSync, cpSync, existsSync } from 'node:fs'
-import { join, resolve, dirname } from 'node:path'
+import { readFileSync, writeFileSync, readdirSync, mkdirSync, cpSync, existsSync, rmSync } from 'node:fs'
+import { join, resolve, dirname, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
 
@@ -170,5 +171,28 @@ const data = { generatedAt: new Date().toISOString(), team, home, about, members
 mkdirSync(join(DIST, 'assets'), { recursive: true })
 cpSync(SRC, DIST, { recursive: true })
 writeFileSync(join(DIST, 'assets', 'data.js'), 'window.QL_DATA = ' + JSON.stringify(data, null, 2) + ';\n', 'utf8')
-console.log(`BUILD_OK about=${Object.keys(about).filter((k) => about[k]).length} members=${members.length} publications=${publications.length} warnings=${warnings.length}`)
+
+// B5/R30：docs 镜像（GitHub Pages 分支源仅根或 /docs）＝同一次构建产物逐字节复制＋CNAME/.nojekyll。
+// dist 行为与内容不变（离线入口保留）；镜像回验失败即 build 失败（fail-closed）。docs/ 由 build 生成勿手改。
+const DOCS = join(ROOT, 'docs')
+rmSync(DOCS, { recursive: true, force: true })
+cpSync(DIST, DOCS, { recursive: true })
+writeFileSync(join(DOCS, 'CNAME'), 'qinluolab.com\n', 'utf8')
+writeFileSync(join(DOCS, '.nojekyll'), '', 'utf8')
+function treeFiles(dir, base = dir, out = []) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name)
+    if (e.isDirectory()) treeFiles(p, base, out)
+    else out.push(relative(base, p).replace(/\\/g, '/'))
+  }
+  return out
+}
+const distFiles = treeFiles(DIST).sort()
+const docsFiles = treeFiles(DOCS).sort()
+if (JSON.stringify(docsFiles) !== JSON.stringify([...distFiles, 'CNAME', '.nojekyll'].sort())) throw new Error('docs 镜像文件集不等（fail-closed）')
+for (const f of distFiles) {
+  if (!readFileSync(join(DIST, f)).equals(readFileSync(join(DOCS, f)))) throw new Error(`docs 镜像逐字节不等: ${f}（fail-closed）`)
+}
+if (readFileSync(join(DOCS, 'CNAME'), 'utf8').trim() !== 'qinluolab.com') throw new Error('docs/CNAME 内容错（fail-closed）')
+console.log(`BUILD_OK about=${Object.keys(about).filter((k) => about[k]).length} members=${members.length} publications=${publications.length} warnings=${warnings.length} docs=${docsFiles.length}`)
 for (const w of warnings) console.log(`  ! ${w}`)
