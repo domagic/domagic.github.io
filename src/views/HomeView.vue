@@ -57,11 +57,12 @@ const categories: { key: Exclude<Category, 'diary'>; desc: string }[] = [
 ]
 
 onMounted(async () => {
-  // 关键修复：刷新 / F5 / Ctrl+F5 后浏览器默认会恢复上次滚动位置，页面若停在「精选」区，
-  // 会连同首帧 scrollY 判定一起把内容提前揭幕。这里禁用滚动恢复并强制回到封面顶部，
-  // 保证刷新后首屏只看到封面。
+  // 刷新 / F5 / Ctrl+F5 时禁用浏览器自带的滚动恢复，避免页面停在「精选」区而提前揭幕。
+  // 回顶完全交给 router 的 scrollBehavior：首次加载 saved 为空 → 回到封面顶部；
+  // 从文章回退时 saved 有值 → 恢复到离开前的「精选」位置。
+  // 关键：这里绝不能再调 window.scrollTo(0,0)，否则会覆盖 router 回退时的位置恢复，
+  // 导致从「精选/最新索引」点进文章后按回退，落不到原来的阅读位置。
   history.scrollRestoration = 'manual'
-  window.scrollTo(0, 0)
   // 仅首页启用 proximity 滚动吸附：封面与内容区各为一个翻页锚点，轻滑即可“翻页”；
   // 卸载时移除，其它路由不受影响（命名空间限定在 html.home-flip）。
   document.documentElement.classList.add('home-flip')
@@ -72,6 +73,9 @@ onMounted(async () => {
     if (window.scrollY > 24) contentIn.value = true
   }
   window.addEventListener('scroll', scrollHandler, { passive: true })
+  // 回退到首页时 router 会恢复上次滚动位置，可能在监听器注册前就已触发 scroll，
+  // 这里按当前 scrollY 主动补判一次，保证「精选」区直接可见而不是停在隐藏态。
+  if (window.scrollY > 24) contentIn.value = true
   addRevealListener('wheel')
   addRevealListener('touchmove')
   addRevealListener('keydown')
