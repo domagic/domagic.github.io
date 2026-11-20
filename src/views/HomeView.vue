@@ -199,7 +199,7 @@ onUnmounted(() => {
     </section>
 
     <section class="page section">
-      <SectionHead kicker="Sections" title="三个抽屉" note="博客、观点与学术，各归其位" />
+      <SectionHead title="归类" />
       <div class="drawers">
         <RouterLink
           v-for="(c, i) in categories"
@@ -208,8 +208,10 @@ onUnmounted(() => {
           class="drawer rise"
           :style="{ animationDelay: `${i * 0.07}s` }"
         >
-          <span class="drawer__count mono">{{ String(counts[c.key]).padStart(2, '0') }}</span>
-          <h3 class="drawer__title">{{ CATEGORY_LABELS[c.key] }}</h3>
+          <div class="drawer__head">
+            <h3 class="drawer__title">{{ CATEGORY_LABELS[c.key] }}</h3>
+            <span class="drawer__count" aria-hidden="true">{{ String(counts[c.key]).padStart(2, '0') }}</span>
+          </div>
           <p class="drawer__desc">{{ c.desc }}</p>
         </RouterLink>
       </div>
@@ -684,18 +686,47 @@ onUnmounted(() => {
   text-decoration: none;
 }
 
-.drawer__count {
-  color: var(--ink-faint);
-  font-size: 0.85rem;
+/* 标题移到左上角，与右侧放大的艺术数字同一行 */
+.drawer__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .drawer__title {
   font-size: 1.5rem;
-  margin-top: 0.5rem;
+  margin-top: 0;
+}
+
+/* 艺术数字：衬线斜体 + 醒目渐变色 + 描边高光，尺寸放大 */
+.drawer__count {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.6rem, 4.4vw, 3.4rem);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  background: linear-gradient(135deg, var(--cinnabar) 0%, var(--cinnabar-deep) 55%, #b0169b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--cinnabar-deep); /* 渐变不支持时的回退色 */
+  filter: drop-shadow(0 1px 1px rgba(67, 56, 202, 0.25));
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* 渐变文字在不支持 background-clip 的浏览器里补一个可见描边 */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .drawer__count {
+    -webkit-text-fill-color: currentColor;
+    color: var(--cinnabar-deep);
+  }
 }
 
 .drawer__desc {
-  margin-top: 0.5rem;
+  margin-top: 0.85rem;
   color: var(--ink-soft);
   font-size: 0.88rem;
 }
