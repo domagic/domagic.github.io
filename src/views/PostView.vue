@@ -284,8 +284,9 @@ const bodyContent = computed(() => {
      文字自然结束、不再强行两端拉伸。 */
   text-align: left;
   /* 覆盖 base.css 全局 h1~h4 的 text-wrap:balance（会把文字均分到两行、每行只占
-     一半宽度，视觉上标题显得比正文窄）。normal 让每行填满容器宽度后再换行。 */
-  text-wrap: normal;
+     一半宽度，视觉上标题显得比正文窄）。wrap 让每行填满容器宽度后再换行；
+     注意：text-wrap 不认 normal（会被忽略并沿用 balance），必须用 wrap。 */
+  text-wrap: wrap;
   overflow-wrap: break-word;
 }
 
