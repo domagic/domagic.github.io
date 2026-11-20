@@ -713,6 +713,8 @@ onUnmounted(() => {
   -webkit-text-fill-color: transparent;
   color: var(--cinnabar-deep); /* 渐变不支持时的回退色 */
   filter: drop-shadow(0 1px 1px rgba(67, 56, 202, 0.25));
+  /* 斜体字形右倾会溢出盒子，留出右内边距避免最后一笔贴到卡片右边界 */
+  padding-right: 0.5rem;
   white-space: nowrap;
   user-select: none;
 }
