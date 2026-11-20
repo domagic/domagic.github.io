@@ -25,15 +25,30 @@ export async function authGuard(to: RouteLocationNormalized) {
   return true
 }
 
+// 前进导航的目标滚动位置：由 scrollBehavior 暂存，交给 App.vue 的 Transition
+// 在新视图 enter 之前执行。这样可避免 out-in 过渡期间旧视图被滚动拉回首屏。
+export const routeScroll = {
+  pending: null as { top: number; left: number } | null,
+}
+
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(_to, _from, saved) {
-    // 全局 html 设了 scroll-behavior:smooth（供页内 TOC 锚点平滑跳转用）。
-    // 但路由切换必须瞬时定位：否则从首页「精选/最新索引」（scrollY 较大）点进文章，
-    // 新页面会先停在原滚动位置，再被 smooth 动画缓慢拉回顶部，出现"卡顿+回退"的怪异感。
-    // behavior:'instant' 覆盖 CSS 的 smooth，只影响路由跳转，不影响页内锚点。
-    const pos = saved ? { ...saved } : { top: 0, left: 0 }
-    return { ...pos, behavior: 'instant' } as any
+    // 每次导航先清空上次可能未消费的目标，避免残留影响后续跳转。
+    routeScroll.pending = null
+
+    // 回退/前进历史恢复：保持既有行为，导航确认后瞬时恢复位置（回退位置已验证正确）。
+    if (saved) {
+      return { ...saved, behavior: 'instant' } as any
+    }
+
+    // 普通前进（如从首页「精选/最新」点进文章）：
+    // App.vue 用 <Transition mode="out-in">，旧视图要先播放 0.28s 淡出动画才卸载。
+    // 若在这里立即把 window 滚回顶部，仍在文档流中的旧首页会被拉回首屏，
+    // 露出 hero「在数据之中，做一点魔法」，形成闪现。
+    // 因此这里暂时不滚动，把目标交给新视图 enter 前（DOM 已插入、尚未绘制）执行 instant 定位。
+    routeScroll.pending = { top: 0, left: 0 }
+    return false
   },
   routes: [
     { path: '/', name: 'home', component: HomeView, meta: { title: '首页' } },
