@@ -35,5 +35,5 @@ The site follows one rule: publish only what can be verified. Unconfirmed biogra
 
 ## Contact
 
-- Public conversation: open an issue in the [GitHub repository](https://github.com/domagic/domagic.github.io) for corrections, discussion or collaboration enquiries.
-Email: Yong Qin — yongqin_ahsc@163.com; Chaoguang Luo — chaoguangluo@outlook.com.
+- Yong Qin — yongqin_ahsc@163.com
+- Chaoguang Luo — chaoguangluo@outlook.com
