@@ -399,20 +399,20 @@
   // ===== 背景粒子动态配置（可编辑：调这里即可改密度/速度/颜色/流星频率，无需动绘制逻辑）=====
   var AMBIENT_CFG = {
     link: {
-      areaPerNode: 30000,   // 每多少平方像素放 1 个连线节点（越小越密）
-      min: 24, max: 68,
+      areaPerNode: 52000,   // 每多少平方像素放 1 个连线节点（稀疏化）
+      min: 16, max: 44,
       speed: 0.18,          // 节点漂移速度基准
       maxDist: 128,         // 连线触发距离
       radius: [0.7, 1.7],   // 节点半径范围
-      lineAlpha: 0.20       // 连线最大透明度（再乘主题系数）
+      lineAlpha: 0.13       // 连线最大透明度（再乘主题系数）
     },
     dust: {
-      areaPerMote: 12000,   // 每多少平方像素放 1 颗漂浮微尘
-      min: 26, max: 96,
+      areaPerMote: 42000,   // 每多少平方像素放 1 颗漂浮微尘（稀疏，避免小黑点抢戏）
+      min: 16, max: 48,
       rise: [0.05, 0.22],   // 上浮速度范围
       radius: [0.4, 1.4],   // 微尘半径范围
       twinkle: 0.016,       // 呼吸闪烁相位速度
-      alpha: [0.10, 0.55]   // 微尘透明度范围
+      alpha: [0.08, 0.4]    // 微尘透明度范围
     },
     meteor: {
       every: 4200,          // 流星平均间隔（毫秒）
@@ -421,17 +421,18 @@
       alpha: 0.55           // 流星透明度
     },
     galaxy: {
-      // 对联区星野：星点向右侧（对联）聚集，左侧文字区稀疏。
+      // 对联区细碎星点：作为立体星球的点缀，数量大幅减少，不再铺满小圆点。
       // cx/cy/rx/ry 为相对画布的比例，决定椭圆星野中心与范围。
       cx: 0.80, cy: 0.44, rx: 0.30, ry: 0.40,
-      stars: 150,           // 星野内星点数量
-      radius: [0.4, 1.9],   // 星点半径范围
-      alpha: [0.18, 0.92],  // 星点透明度范围
+      stars: 55,            // 星野内星点数量（原 150，让位给立体星球）
+      radius: [0.4, 1.6],   // 星点半径范围
+      alpha: [0.14, 0.70],  // 星点透明度范围
       twinkle: 0.014        // 闪烁相位速度
     }
   }
   // ===== 真实感星系配置（可编辑：调这里改旋臂数/密度/倾角/转速，无需动绘制逻辑）=====
   var GALAXY_CFG = {
+    // —— 右侧螺旋星系 ——
     arms: 2,              // 主旋臂数量
     perArm: 900,          // 每条旋臂星点密度
     halo: 240,            // 盘面弥散星点数量
@@ -442,6 +443,15 @@
     rotation: 0.000075,   // 整体自转角速度（弧度/毫秒）；约 84 秒一圈
     drift: 0.00011,       // 盘面弥散星独立公转速度（营造流动感）
     armWidth: 0.075,      // 旋臂径向宽度（占半径比例，越小臂越紧致）
+    galaxyCx: 0.80,       // 螺旋星系中心 x（占画布宽）
+    galaxyCy: 0.44,       // 螺旋星系中心 y（占画布高）
+    galaxyR: 0.46,        // 螺旋星系半径（占画布高）
+    // —— 全幅立体星球：左疏右密 ——
+    planets: 46,          // 星球总数
+    planetR: [5, 15],     // 星球半径范围（px，右大左小由 density 缩放）
+    planetDrift: 0.0045,  // 星球缓慢漂移速度（营造流动感）
+    planetAlpha: [0.14, 0.85], // 星球透明度范围（左淡右亮）
+    maxPlanetR: 26,       // 右侧最大星球半径（含放大）
     twinkleSpeed: 0.0016  // 星点闪烁相位速度
   }
   // 读取主题下的星系配色（RGB 三元组字符串），与 ambPalette 共用主题判断。
@@ -469,27 +479,31 @@
     if (!ctx) return
     var CFG = GALAXY_CFG
     var dpr = Math.min(window.devicePixelRatio || 1, 2)
-    var S = 0, cx = 0, cy = 0, stars = [], t0 = 0, raf = 0
+    var W = 0, H = 0, R = 0, gx = 0, gy = 0
+    var stars = [], planets = [], t0 = 0, raf = 0
 
     function resize() {
       var r = (host || cv).getBoundingClientRect()
-      S = Math.max(1, Math.round(Math.min(r.width, r.height)))
-      cx = S / 2; cy = S / 2
-      cv.width = S * dpr; cv.height = S * dpr
+      W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height))
+      gx = CFG.galaxyCx * W; gy = CFG.galaxyCy * H; R = CFG.galaxyR * H
+      cv.width = W * dpr; cv.height = H * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
-    // 生成星点：旋臂遵循对数螺旋 r = a·e^(b·θ)，沿臂加窄抖动；
-    // 盘面另撒弥散星。臂星整体刚体旋转以保持螺旋形状，盘面星独立公转营造流动。
+    // 颜色分量提亮/压暗，用于球面高光与暗面
+    function tint(rgb, amt) {
+      var p = rgb.split(',')
+      return [0, 1, 2].map(function (i) {
+        return Math.max(0, Math.min(255, parseInt(p[i], 10) + amt))
+      }).join(',')
+    }
+    // 生成螺旋星系星点：对数螺旋 r = a·e^(b·θ)，沿臂加窄抖动，盘面另撒弥散星
     function seed() {
       stars = []
-      var R = S * 0.46
-      var b = CFG.spin / (2 * Math.PI)      // 对数螺旋增长系数
-      var a = 0.085 / Math.exp(b * 0)        // 起始半径
+      var b = CFG.spin / (2 * Math.PI)
+      var a = 0.085
       function push(theta, rr, band, bright) {
         stars.push({
-          t: theta,                                  // 初始极角（弧度）
-          r: Math.max(0.05, Math.min(1, rr)),         // 归一化半径
-          band: band,                                // 0=臂A 1=臂B 2=盘面 3=亮星团
+          t: theta, r: Math.max(0.05, Math.min(1, rr)), band: band,
           size: bright ? 1.0 + Math.random() * 1.6 : 0.45 + Math.random() * (band === 2 ? 0.9 : 1.2),
           phase: Math.random() * 6.2832,
           ps: CFG.twinkleSpeed * (0.5 + Math.random()),
@@ -503,37 +517,74 @@
         var phase = k * (2 * Math.PI / CFG.arms)
         for (i = 0; i < CFG.perArm; i++) {
           var u = i / CFG.perArm
-          var theta = u * CFG.spin + phase            // 沿臂推进的极角
-          // 对数螺旋半径，归一化到接近 [0.085,1]
-          var raw = a * Math.exp(b * theta)
-          var rNorm = raw / (a * Math.exp(b * CFG.spin))
-          rNorm = 0.085 + 0.915 * rNorm
-          // 窄径向抖动：真实星系臂是细长带，不是弥散团
-          var w = CFG.armWidth * (0.4 + rNorm)
-          rNorm += (Math.random() - 0.5) * 2 * w
-          var bright = Math.random() < 0.09 && rNorm > 0.22  // 臂上散布亮星团/H II 区
+          var theta = u * CFG.spin + phase
+          var rNorm = 0.085 + 0.915 * (Math.exp(b * theta) / Math.exp(b * CFG.spin))
+          rNorm += (Math.random() - 0.5) * 2 * CFG.armWidth * (0.4 + rNorm)
+          var bright = Math.random() < 0.09 && rNorm > 0.22
           push(theta, rNorm, k % 2, bright)
         }
       }
       for (i = 0; i < CFG.halo; i++) {
-        var rr = Math.sqrt(Math.random()) // 面积均匀
-        push(Math.random() * 6.2832, rr, 2, false)
+        push(Math.random() * 6.2832, Math.sqrt(Math.random()), 2, false)
+      }
+      // 生成全幅立体星球：x 幂律分布偏右（左疏右密），越靠右越大越亮。
+      planets = []
+      for (i = 0; i < CFG.planets; i++) {
+        var nx = Math.pow(Math.random(), 0.68)   // 密度 ∝ x^0.47，右侧更密
+        planets.push({
+          nx: nx, ny: 0.06 + Math.random() * 0.88,
+          baseR: CFG.planetR[0] + Math.random() * (CFG.planetR[1] - CFG.planetR[0]),
+          hue: i % 4,                            // 0暖核 1金尘 2臂A蓝 3臂B紫
+          ring: Math.random() < 0.3,
+          ringTilt: (Math.random() - 0.5) * 1.1,
+          vx: (Math.random() - 0.5) * CFG.planetDrift,
+          vy: (Math.random() - 0.5) * CFG.planetDrift,
+          phase: Math.random() * 6.2832,
+          ps: CFG.twinkleSpeed * (0.5 + Math.random())
+        })
+      }
+    }
+    // 立体星球：外光晕 + 球面明暗（左上高光、右下暗面）+ 部分土星环
+    function drawPlanet(x, y, r, col, alpha, ring, ringTilt) {
+      var hi = tint(col, 66), lo = tint(col, -58)
+      var halo = ctx.createRadialGradient(x, y, r * 0.55, x, y, r * 2.8)
+      halo.addColorStop(0, 'rgba(' + col + ',' + (alpha * 0.30).toFixed(3) + ')')
+      halo.addColorStop(1, 'rgba(' + col + ',0)')
+      ctx.fillStyle = halo
+      ctx.beginPath(); ctx.arc(x, y, r * 2.8, 0, 6.2832); ctx.fill()
+      if (ring) {
+        ctx.save(); ctx.translate(x, y); ctx.rotate(ringTilt)
+        ctx.strokeStyle = 'rgba(' + col + ',' + (alpha * 0.55).toFixed(3) + ')'
+        ctx.lineWidth = Math.max(1, r * 0.16)
+        ctx.beginPath(); ctx.ellipse(0, 0, r * 1.9, r * 0.62, 0, 0, 6.2832); ctx.stroke()
+        ctx.restore()
+      }
+      var sph = ctx.createRadialGradient(x - r * 0.34, y - r * 0.38, r * 0.05, x, y, r * 1.08)
+      sph.addColorStop(0, 'rgba(' + hi + ',' + alpha.toFixed(3) + ')')
+      sph.addColorStop(0.5, 'rgba(' + col + ',' + alpha.toFixed(3) + ')')
+      sph.addColorStop(1, 'rgba(' + lo + ',' + alpha.toFixed(3) + ')')
+      ctx.fillStyle = sph
+      ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill()
+      if (ring) {
+        ctx.save(); ctx.translate(x, y); ctx.rotate(ringTilt)
+        ctx.strokeStyle = 'rgba(' + hi + ',' + (alpha * 0.8).toFixed(3) + ')'
+        ctx.lineWidth = Math.max(1, r * 0.16)
+        ctx.beginPath(); ctx.ellipse(0, 0, r * 1.9, r * 0.62, 0, 0, Math.PI); ctx.stroke()
+        ctx.restore()
       }
     }
     function draw(ts) {
       if (!t0) t0 = ts
       var pal = galaxyPalette()
-      ctx.clearRect(0, 0, S, S)
-      var R = S * 0.46
+      ctx.clearRect(0, 0, W, H)
       var fl = CFG.flatten, tilt = CFG.tilt
       var elapsed = reduce ? 3000 : (ts - t0)
 
+      // 1) 右侧螺旋星系（局部坐标系，圆心固定在右侧对联区）
       ctx.save()
-      ctx.translate(cx, cy)
+      ctx.translate(gx, gy)
       ctx.rotate(tilt)
-      ctx.scale(1, fl) // 倾斜压缩成椭圆盘
-
-      // 1) 盘面弥散光晕（柔和径向渐变）
+      ctx.scale(1, fl)
       var glow = ctx.createRadialGradient(0, 0, 0, 0, 0, R)
       var a1 = pal.light ? 0.16 : 0.20
       glow.addColorStop(0, 'rgba(' + pal.core + ',' + (a1 * 1.4).toFixed(3) + ')')
@@ -542,25 +593,18 @@
       glow.addColorStop(1, 'rgba(' + pal.armB + ',0)')
       ctx.fillStyle = glow
       ctx.beginPath(); ctx.arc(0, 0, R, 0, 6.2832); ctx.fill()
-
-      // 2) 星点：臂星刚体自转（保持螺旋形状），盘面星独立公转（流动感），全都闪烁
       var baseRot = elapsed * CFG.rotation
       for (var i = 0; i < stars.length; i++) {
         var s = stars[i]
-        // 盘面星比旋臂慢一拍地独立漂移；臂星跟随整体刚体旋转
         var extra = s.band === 2 ? elapsed * CFG.drift * (1.2 - s.r) : 0
         var th = s.t + baseRot + extra
         var rad = s.r * R
-        var x = Math.cos(th) * rad
-        var y = Math.sin(th) * rad
         var tw = 0.6 + 0.4 * Math.sin(s.phase + (reduce ? 0 : ts * s.ps))
         var al = Math.min(1, s.alpha * tw)
         var col = s.band === 0 ? pal.armA : s.band === 1 ? pal.armB : s.band === 3 ? pal.core : pal.dust
         ctx.fillStyle = 'rgba(' + col + ',' + al.toFixed(3) + ')'
-        ctx.beginPath(); ctx.arc(x, y, s.size, 0, 6.2832); ctx.fill()
+        ctx.beginPath(); ctx.arc(Math.cos(th) * rad, Math.sin(th) * rad, s.size, 0, 6.2832); ctx.fill()
       }
-
-      // 3) 星核 bulge：明亮暖核 + 光晕，缓慢呼吸
       var breathe = reduce ? 1 : (0.92 + 0.08 * Math.sin(ts * 0.0009))
       var cr = R * CFG.coreSize * breathe
       var core = ctx.createRadialGradient(0, 0, 0, 0, 0, cr * 3.2)
@@ -573,6 +617,22 @@
       ctx.fillStyle = 'rgba(' + pal.core + ',0.95)'
       ctx.beginPath(); ctx.arc(0, 0, cr * 0.55, 0, 6.2832); ctx.fill()
       ctx.restore()
+
+      // 2) 全幅立体星球：右大左小、右亮左淡、缓慢漂移＋闪烁
+      var pCols = [pal.core, pal.dust, pal.armA, pal.armB]
+      var av = pal.light ? 0.6 : 1   // 浅色主题整体压低，避免压住文字
+      for (i = 0; i < planets.length; i++) {
+        var p = planets[i]
+        if (!reduce) {
+          p.nx += p.vx / W; p.ny += p.vy / H
+          if (p.nx < 0.02 || p.nx > 0.995) p.vx *= -1
+          if (p.ny < 0.03 || p.ny > 0.97) p.vy *= -1
+        }
+        var r = Math.min(CFG.maxPlanetR, p.baseR * (0.4 + 1.15 * p.nx))
+        var al = (CFG.planetAlpha[0] + (CFG.planetAlpha[1] - CFG.planetAlpha[0]) * p.nx)
+              * (0.65 + 0.35 * Math.sin(p.phase + (reduce ? 0 : ts * p.ps))) * av
+        drawPlanet(p.nx * W, p.ny * H, r, pCols[p.hue], Math.max(0.05, al), p.ring, p.ringTilt)
+      }
     }
     function loop(ts) { draw(ts); raf = window.requestAnimationFrame(loop) }
 
