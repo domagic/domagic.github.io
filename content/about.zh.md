@@ -33,4 +33,4 @@ date: 2026-11-19
 ## 联系
 
 - 公开交流：欢迎在 [GitHub 仓库](https://github.com/domagic/domagic.github.io) 提交 Issue，用于勘误、讨论与合作意向。
-- 邮件联系：待两位学者确认可公开的邮箱地址后补充。
+邮件联系：秦勇 yongqin_ahsc@163.com；罗朝广 chaoguangluo@outlook.com。
