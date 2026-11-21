@@ -6,14 +6,12 @@ visibility: public
 date: 2026-11-19
 ---
 
-# Qin-Luo Research Group
-
-*English group name is provisional (pending final decision).*
+# Aethera
 
 > The Qin moon lights the path of inquiry; the Luo stars gather all phenomena.
 > *(Draft translation of the group couplet 「秦月照研路，罗星汇万象」; wording pending review.)*
 
-The **Qin-Luo Research Group** is an academic research team formed by two scholars, **Chaoguang Luo (罗朝广)** and **Yong Qin (秦勇)**. The Chinese name 「秦罗万象」 takes the first characters of the two scholars' surnames, evoking the couplet above: moonlight as the quiet illumination of scholarship, and a canopy of stars as the gathering of all phenomena.
+**Aethera** is an academic research team formed by two scholars, **Chaoguang Luo (罗朝广)** and **Yong Qin (秦勇)**. The Chinese name 「秦罗万象」 takes the first characters of the two scholars' surnames, evoking the couplet above: moonlight as the quiet illumination of scholarship, and a canopy of stars as the gathering of all phenomena.
 
 ## What we do (mission draft, pending review)
 
@@ -23,7 +21,7 @@ Detailed research directions will be added once both scholars' profiles are conf
 
 ## About this site
 
-This site is the public academic window of the Qin-Luo Research Group. It exists for a simple reason: to give two scholars' long-term collaboration a stable, cumulative home, where scattered research threads can be organised into a clear record that is easy to revisit — instead of being left in chat threads and temporary files.
+This site is the public academic window of Aethera. It exists for a simple reason: to give two scholars' long-term collaboration a stable, cumulative home, where scattered research threads can be organised into a clear record that is easy to revisit — instead of being left in chat threads and temporary files.
 
 We try to keep doing three things here:
 
