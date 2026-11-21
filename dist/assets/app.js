@@ -59,22 +59,30 @@
     moon: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 14.8A8.6 8.6 0 0 1 9.2 3.8a8.6 8.6 0 1 0 11 11z"></path></svg>'
   }
 
-  // 品牌标志（完整图案）：左侧流光 A + ∞ 图形，右侧 Aethera 字样，整体作为一枚 logo。
+  // 品牌标志（完整图案）：左侧「流光丝带 A + ∞」图形，右侧 Aethera 字样，整体作为一枚 logo。
+  // 图形为一条丝带盘绕的抽象 A：圆拱顶 + 左下环 + 横向交叉带，∞ 嵌于中部（对照官方视觉稿重绘）。
   // 整段可在此替换；配色走 CSS 变量 --mark-*，明暗主题自适应，零外部图片依赖。
-  // 文字用 SVG <text> 随图形同一坐标系缩放，保证任意尺寸下比例一致；字体族可改 --serif-en。
+  // 文字用 SVG <text> 随图形同一坐标系缩放，字样由 team.name.en 注入，字体族可改 --serif-en。
   var BRAND_MARK_SVG =
-    '<svg viewBox="0 0 300 100" aria-hidden="true" focusable="false">' +
+    '<svg viewBox="0 0 340 100" aria-hidden="true" focusable="false">' +
       '<defs><linearGradient id="qlMarkGrad" x1="0" y1="1" x2="1" y2="0">' +
         '<stop offset="0%" style="stop-color:var(--mark-c1,#f4ecda)"></stop>' +
         '<stop offset="52%" style="stop-color:var(--mark-c2,#d6c496)"></stop>' +
         '<stop offset="100%" style="stop-color:var(--mark-c3,#c9a45c)"></stop>' +
       '</linearGradient></defs>' +
-      '<g transform="translate(0,-6) scale(0.92)" fill="none" stroke="url(#qlMarkGrad)" stroke-linecap="round" stroke-linejoin="round">' +
-        '<path d="M20 84 C28 52 40 18 50 10 C60 18 72 52 80 84" stroke-width="9" opacity="0.3"></path>' +
-        '<path d="M20 84 C28 52 40 18 50 10 C60 18 72 52 80 84" stroke-width="4.6"></path>' +
-        '<path d="M50 56 C43 47 31 48 31 56 C31 64 43 65 50 56 C57 47 69 48 69 56 C69 64 57 65 50 56 Z" stroke-width="4.8"></path>' +
+      '<g transform="translate(0,5) scale(0.62)">' +
+        '<g fill="none" stroke="url(#qlMarkGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">' +
+          '<path d="M 44,105 C 52,52 88,10 112,10 C 140,10 162,55 200,132"></path>' +
+          '<path d="M 44,105 C 22,110 16,132 34,138 C 54,143 76,120 90,100"></path>' +
+          '<path d="M 30,102 C 80,90 145,98 200,132"></path>' +
+        '</g>' +
+        '<g fill="none" stroke="rgba(255,248,225,0.55)" stroke-width="1.4" stroke-linecap="round">' +
+          '<path d="M 44,105 C 52,52 88,10 112,10 C 140,10 162,55 200,132"></path>' +
+          '<path d="M 30,102 C 80,90 145,98 200,132"></path>' +
+        '</g>' +
+        '<path d="M 96,66 C 96,60 104,60 108,66 C 112,72 120,72 120,66 C 120,60 112,60 108,66 C 104,72 96,72 96,66 Z" fill="none" stroke="url(#qlMarkGrad)" stroke-width="3.6" stroke-linecap="round"></path>' +
       '</g>' +
-      '<text x="104" y="66" fill="url(#qlMarkGrad)" style="font-family:var(--serif-en);font-size:52px;letter-spacing:1px">__BRAND_WORD__</text>' +
+      '<text x="138" y="66" fill="url(#qlMarkGrad)" style="font-family:var(--serif-en);font-size:52px;letter-spacing:1px">__BRAND_WORD__</text>' +
     '</svg>'
 
   function getLang() {
