@@ -186,27 +186,20 @@ html[lang="en"] .lang-toggle { font-family: var(--serif-en); }
   color: var(--text);
 }
 
-/* ---------- 宇宙星系背景（真实感对数螺旋星系，Canvas 程序化绘制） ----------
-   分区：整层靠右侧对联区，左缘用遮罩渐隐，保证左侧文字密集区清爽。
-   画面由 app.js 的 initGalaxy() 在 .galaxy-canvas 上绘制：核心 bulge、
-   对数螺旋旋臂、盘面星点、尘埃带，并做整体自转＋星点闪烁＋差速漂移。
-   配色继续由明暗主题的 --galaxy-* 变量驱动；尺寸/中心由下方 --g-* 控制。 */
+/* ---------- 宇宙星系背景（铺满 hero：右侧螺旋星系 + 全幅立体星球） ----------
+   整层覆盖整个 hero，不再局限右侧方块。由 app.js 的 initGalaxy() 在
+   .galaxy-canvas 上绘制：右侧真实感对数螺旋星系 + 全幅散布的立体星球
+   （球面明暗＋光晕＋光环），星球密度/大小随 x 由左向右递增——左侧文字区
+   少而淡，右侧对联区多而亮。配色由明暗主题 --galaxy-* 变量驱动，
+   密度/尺寸/转速集中在 app.js 的 GALAXY_CFG，改配置即可。 */
 .galaxy {
-  --g-size: clamp(440px, 56vw, 860px);   /* 星系直径 */
-  --g-cx: 78%;                            /* 水平中心（对联区） */
-  --g-cy: 44%;                            /* 垂直中心 */
-  position: absolute; top: var(--g-cy); left: var(--g-cx);
-  width: var(--g-size); height: var(--g-size);
-  transform: translate(-50%, -50%);
+  position: absolute; inset: 0;
   z-index: 0; pointer-events: none; opacity: var(--galaxy-opacity);
-  /* 左缘淡出：文字区几乎无背景，向右到对联区逐渐浓郁 */
-  -webkit-mask-image: linear-gradient(100deg, transparent 0%, transparent 20%, rgba(0,0,0,.5) 46%, #000 70%);
-          mask-image: linear-gradient(100deg, transparent 0%, transparent 20%, rgba(0,0,0,.5) 46%, #000 70%);
 }
 .galaxy-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
-/* 窄屏：文字堆叠居中，星系缩到右上、降低强度，避免压住正文 */
+/* 窄屏：文字堆叠居中，整体降低强度避免压住正文 */
 @media (max-width: 760px) {
-  .galaxy { --g-size: 78vw; --g-cx: 74%; --g-cy: 20%; opacity: calc(var(--galaxy-opacity) * .7); }
+  .galaxy { opacity: calc(var(--galaxy-opacity) * .8); }
 }
 #ambient { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
 .moon {
