@@ -397,7 +397,9 @@ html[lang="en"] .prose blockquote { font-family: var(--serif-en); font-style: it
   --orb-near-z: 28px;         /* 悬停：靠近观察者 */
   --orb-ease: cubic-bezier(0.16, 1, 0.3, 1);
   display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
-  gap: clamp(1.6rem, 5vw, 4rem); padding-block: 2.6rem 3.4rem;
+  /* 行距加大以容纳图标下方的姓名标签；列距保持原值 */
+  gap: clamp(2.8rem, 6vw, 4.6rem) clamp(1.6rem, 5vw, 4rem);
+  padding-block: 2.6rem 3.4rem;
 }
 html[data-theme="light"] .members-orbit {
   --orb-teal: #2f706a; --orb-teal-soft: rgba(47, 112, 106, 0.10);
@@ -478,6 +480,16 @@ html[data-theme="light"] .members-orbit {
 html[lang="en"] .orb-initial { font-family: var(--serif-en); font-size: 1.05rem; }
 /* 照片头像：绝对定位填满圆形容器，避免按原图宽高比把圆形拉成椭圆；object-position 上移保留面部 */
 .orb-photo { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: center 22%; }
+/* 图标下方的成员姓名标签：绝对定位到圆盘正下方，留出间距；不进入 orb-stack 的 3D 变换，
+   因此悬停由远及近时文字保持稳定、不随圆盘缩放。中文用宋体、英文用衬线，与详情页一致。 */
+.orb-caption {
+  position: absolute; top: calc(100% + 0.85rem); left: 50%; transform: translateX(-50%);
+  font-family: var(--serif-zh); font-size: 1.05rem; letter-spacing: 0.1em;
+  color: var(--text); white-space: nowrap; text-align: center;
+  opacity: 0.9; transition: color 0.4s, opacity 0.4s;
+}
+html[lang^="en"] .orb-caption { font-family: var(--serif-en); letter-spacing: 0.02em; font-size: 1rem; }
+.member-orb:hover .orb-caption, .member-orb:focus-within .orb-caption { color: var(--orb-accent); opacity: 1; }
 /* 成员简介详情页（member.html?id=...）：成员文字只在这里出现 */
 .member-back { margin-bottom: 1.6rem; font-size: 0.9rem; }
 .member-back a { color: var(--gold-light); text-decoration: none; border-bottom: 1px solid var(--line); }
