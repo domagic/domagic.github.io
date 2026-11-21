@@ -497,7 +497,11 @@ html[lang="en"] .orb-initial { font-family: var(--serif-en); font-size: 1.05rem;
   letter-spacing: 0.12em; line-height: 1.3; font-weight: 600;
 }
 html[lang="en"] .member-detail-name { font-family: var(--serif-en); letter-spacing: 0.02em; font-weight: 400; }
-.member-detail-alt { font-family: var(--serif-en); font-size: 1.05rem; color: var(--text-soft); }
+/* 姓名并列：主名后紧跟括号内的另一种语言名（中文页「秦勇（Yong Qin）」，英文页反过来）。
+   字号用 em 相对主名缩放，响应式下比例一致；中文页括号内是英文名用衬线西文字体，
+   英文页括号内是中文名则换回中文衬线，保证两种语言都能正确呈现。 */
+.member-detail-alt { font-family: var(--serif-en); font-size: 0.42em; color: var(--text-soft); letter-spacing: 0.02em; font-weight: 400; margin-left: 0.15em; white-space: nowrap; }
+html[lang^="en"] .member-detail-alt { font-family: var(--serif-zh); letter-spacing: 0.08em; }
 .member-detail-role { margin-top: 0.7rem; color: var(--text-soft); font-size: 1rem; }
 .member-detail-badge { margin-top: 0.6rem; }
 .member-detail-bio { margin-top: 2rem; max-width: 72ch; }
