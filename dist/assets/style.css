@@ -307,6 +307,10 @@ html[lang="en"] .teaser-title { font-family: var(--serif-en); letter-spacing: 0.
 .page-head h1 { font-family: var(--serif-zh); font-size: clamp(2.1rem, 4.6vw, 3.1rem); letter-spacing: 0.12em; font-weight: 600; }
 html[lang="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400; letter-spacing: 0.01em; }
 .page-head::after { content: ""; display: block; width: 3.2rem; height: 2px; background: var(--gold); margin-top: 1.2rem; }
+/* 成员页：金线宽度与标题文字等宽（包一层 inline-block，伪元素挂在包容器上取 100%） */
+.page-head-title { display: inline-block; }
+.page-head-title::after { content: ""; display: block; width: 100%; height: 2px; background: var(--gold); margin-top: 1.2rem; }
+.page-head:has(.page-head-title)::after { content: none; }
 .page-sub { margin-top: 1.1rem; color: var(--text-soft); font-size: 0.98rem; max-width: 60ch; }
 .prose { max-width: 72ch; }
 .prose p { margin-bottom: 1.15em; }
@@ -326,16 +330,19 @@ html[lang="en"] .prose blockquote { font-family: var(--serif-en); font-style: it
 .prose code { font-family: Consolas, monospace; font-size: 0.88em; background: var(--code-bg); padding: 0.1em 0.35em; }
 .prose hr { border: none; border-top: 1px solid var(--line-soft); margin: 2em 0; }
 
-/* ---------- 成员星群：圆形头像 + 悬停浮起（3D） ----------
-   默认浅色沉底；hover / 键盘 focus 时去灰、变色、上浮放大并抬到最表层。
+/* ---------- 成员星群：三层圆盘 + 悬停逐层浮起（底层→中层→表层 3D） ----------
+   每个成员由三层同心圆盘构成：底层（深/投影）、中层（主色盘）、表层（图标）。
+   默认三层贴合、浅色、沉在底部；hover / 键盘 focus 时三层按不同 translateZ 上浮、
+   表层再放大并变亮，形成可见的纵深层次。尺寸/配色由 CSS 变量控制，
    图形与配色由 team.json.memberVisuals + app.js.ORB_GLYPHS 驱动，换人只改配置。 */
 .members-orbit {
   --orb-teal: #7fb5ae; --orb-teal-soft: rgba(127, 181, 174, 0.16);
   --orb-bronze: #d6c496; --orb-bronze-soft: rgba(214, 196, 150, 0.16);
   --orb-idle: rgba(231, 228, 220, 0.08);
+  --orb-size: clamp(84px, 10vw, 112px);
   display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
-  gap: clamp(1.2rem, 4vw, 3.2rem); padding-block: 1.5rem 2.5rem;
-  perspective: 900px;
+  gap: clamp(1.6rem, 5vw, 4rem); padding-block: 2.6rem 3.4rem;
+  perspective: 1000px; perspective-origin: 50% 35%;
 }
 html[data-theme="light"] .members-orbit {
   --orb-teal: #2f706a; --orb-teal-soft: rgba(47, 112, 106, 0.10);
@@ -346,39 +353,64 @@ html[data-theme="light"] .members-orbit {
   --orb-accent: var(--orb-bronze);
   --orb-accent-soft: var(--orb-bronze-soft);
   position: relative; z-index: 1;
+  width: var(--orb-size); height: var(--orb-size);
   display: block; text-decoration: none; outline: none;
   transform-style: preserve-3d;
-  transition: transform 0.38s cubic-bezier(0.2, 0.8, 0.25, 1), z-index 0s 0.38s;
 }
 .member-orb.orb-accent-teal { --orb-accent: var(--orb-teal); --orb-accent-soft: var(--orb-teal-soft); }
-.member-orb:hover, .member-orb:focus-within {
-  z-index: 20;
-  transform: translateY(-16px) scale(1.07) rotateX(5deg);
-  transition: transform 0.38s cubic-bezier(0.2, 0.8, 0.25, 1), z-index 0s;
+/* stack 作为整体轻微上浮，制造离开底面的感觉；层次感由内部三层 translateZ 承担 */
+.member-orb:hover, .member-orb:focus-within { z-index: 20; }
+.orb-stack {
+  position: absolute; inset: 0; display: block;
+  transform-style: preserve-3d;
+  transform: translateZ(0);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.25, 1);
 }
-.orb-face {
-  position: relative; width: clamp(112px, 14vw, 146px); aspect-ratio: 1;
-  border-radius: 50%; display: grid; place-items: center;
+.member-orb:hover .orb-stack, .member-orb:focus-within .orb-stack {
+  transform: translateY(-6px) rotateX(10deg);
+}
+.orb-layer {
+  position: absolute; inset: 0; border-radius: 50%; display: grid; place-items: center;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.25, 1),
+              background 0.45s, border-color 0.45s, box-shadow 0.45s, filter 0.45s, opacity 0.45s;
+}
+/* 底层：初始与中层贴合（浅色圆盘 + 阴影），hover 时下沉并扩散投影，成为最深一层 */
+.orb-layer-base {
+  background: var(--orb-idle); border: 1px solid var(--line-soft);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.10);
+  transform: translateZ(0);
+}
+.member-orb:hover .orb-layer-base, .member-orb:focus-within .orb-layer-base {
+  transform: translateY(10px) translateZ(-22px) scale(0.88);
+  background: var(--orb-accent-soft); border-color: var(--line-soft);
+  box-shadow: 0 26px 40px -12px var(--orb-accent);
+}
+/* 中层：初始贴合，hover 时抬升到中层并着色 */
+.orb-layer-mid {
   background: var(--orb-idle); border: 1px solid var(--line-soft);
   color: var(--text-soft); filter: saturate(0.25) opacity(0.72);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08), inset 0 0 0 6px rgba(255, 255, 255, 0.02);
-  transform: translateZ(0);
-  transition: filter 0.38s, background 0.38s, border-color 0.38s, box-shadow 0.38s, transform 0.38s, color 0.38s;
+  transform: translateZ(1px);
 }
-.member-orb:hover .orb-face, .member-orb:focus-within .orb-face {
-  filter: none; color: var(--orb-accent);
+.member-orb:hover .orb-layer-mid, .member-orb:focus-within .orb-layer-mid {
+  transform: translateY(2px) translateZ(18px); filter: saturate(0.85);
   background: var(--orb-accent-soft); border-color: var(--orb-accent);
-  box-shadow: 0 22px 42px -14px var(--orb-accent), 0 0 0 6px var(--orb-accent-soft),
-              inset 0 2px 12px rgba(255, 255, 255, 0.12);
-  transform: translateZ(28px);
+  box-shadow: 0 14px 26px -8px var(--orb-accent);
 }
-.orb-glyph { position: absolute; inset: 12%; display: grid; place-items: center; }
+/* 表层：图标始终在最上，初始浅色，hover 时升到最高、放大并恢复全彩 */
+.orb-layer-top {
+  color: var(--text-soft); filter: saturate(0.25) opacity(0.75);
+  transform: translateZ(2px);
+}
+.member-orb:hover .orb-layer-top, .member-orb:focus-within .orb-layer-top {
+  transform: translateY(-6px) translateZ(40px) scale(1.04); filter: none; color: var(--orb-accent);
+}
+.orb-glyph { position: absolute; inset: 14%; display: grid; place-items: center; }
 .orb-glyph svg { width: 100%; height: 100%; }
 .orb-initial {
-  position: relative; font-family: var(--serif-zh); font-size: 1.55rem;
+  position: relative; font-family: var(--serif-zh); font-size: 1.3rem;
   color: var(--orb-accent); opacity: 0.9; text-shadow: 0 2px 10px var(--bg);
 }
-html[lang="en"] .orb-initial { font-family: var(--serif-en); font-size: 1.25rem; }
+html[lang="en"] .orb-initial { font-family: var(--serif-en); font-size: 1.05rem; }
 .orb-photo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 /* 成员简介详情页（member.html?id=...）：成员文字只在这里出现 */
 .member-back { margin-bottom: 1.6rem; font-size: 0.9rem; }
@@ -394,7 +426,7 @@ html[lang="en"] .member-detail-name { font-family: var(--serif-en); letter-spaci
 .member-detail-badge { margin-top: 0.6rem; }
 .member-detail-bio { margin-top: 2rem; max-width: 72ch; }
 @media (prefers-reduced-motion: reduce) {
-  .member-orb, .orb-face { transition: none; }
+  .orb-stack, .orb-layer { transition: none; }
 }
 
 /* ---------- 成果列表 ---------- */
