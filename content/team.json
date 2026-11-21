@@ -30,7 +30,7 @@
   "memberOrder": ["luo-chao-guang", "qin-yong"],
   "memberVisuals": {
     "luo-chao-guang": { "glyph": "orbit", "accent": "teal" },
-    "qin-yong": { "glyph": "lattice", "accent": "bronze" }
+    "qin-yong": { "glyph": "lattice", "accent": "bronze", "photo": "assets/qin-yong.jpg" }
   },
   "home": {
     "hero": {
