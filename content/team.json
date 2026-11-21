@@ -28,6 +28,10 @@
   "defaultLang": "zh",
   "langs": ["zh", "en"],
   "memberOrder": ["luo-chao-guang", "qin-yong"],
+  "memberVisuals": {
+    "luo-chao-guang": { "glyph": "orbit", "accent": "teal" },
+    "qin-yong": { "glyph": "lattice", "accent": "bronze" }
+  },
   "home": {
     "hero": {
       "eyebrow": {
