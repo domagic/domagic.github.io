@@ -4,7 +4,7 @@ lang: en
 id: luo-chao-guang
 name: Chaoguang Luo
 title_line: Assistant Researcher & Postdoctoral Fellow · School of Management, Zhejiang University
-order: 1
+order: 2
 status: confirmed
 visibility: public
 date: 2026-11-22
