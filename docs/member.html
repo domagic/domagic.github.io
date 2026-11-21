@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>成员简介 · 秦罗万象</title>
+<script>(function(){try{var s=localStorage.getItem('ql-theme');var l=s==='light'||(s!=='dark'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches);if(l)document.documentElement.setAttribute('data-theme','light')}catch(e){}})()</script>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="member">
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="index.html">
+      <span id="brand-seal" class="seal" aria-hidden="true"></span>
+      <span class="brand-txt"><span id="brand-main" class="brand-main"></span><span id="brand-sub" class="brand-sub"></span></span>
+    </a>
+    <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span aria-hidden="true">☰</span><span class="sr-only" data-i18n="nav.menu"></span></button>
+    <nav id="site-nav" class="site-nav">
+      <a href="index.html" data-nav="home" data-i18n="nav.home"></a>
+      <a href="about.html" data-nav="about" data-i18n="nav.about"></a>
+      <a href="members.html" data-nav="members" data-i18n="nav.members"></a>
+      <a href="publications.html" data-nav="publications" data-i18n="nav.publications"></a>
+    </nav>
+    <div class="head-btns">
+      <div class="lang-wrap">
+        <button id="lang-toggle" class="lang-toggle" type="button" aria-haspopup="menu" aria-expanded="false"></button>
+        <div id="lang-menu" class="lang-menu" role="menu" hidden></div>
+      </div>
+      <button id="theme-toggle" class="icon-btn" type="button"></button>
+    </div>
+  </div>
+</header>
+<main class="wrap page">
+  <div class="page-head">
+    <h1 data-i18n="member.heading"></h1>
+  </div>
+  <div id="member-detail" class="prose"></div>
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-in">
+    <p id="foot-name" class="foot-name"></p>
+    <p id="foot-couplet" class="foot-couplet"></p>
+  </div>
+</footer>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
