@@ -1,5 +1,5 @@
 window.QL_DATA = {
-  "generatedAt": "2026-11-20T17:17:49.765Z",
+  "generatedAt": "2026-11-21T03:13:18.712Z",
   "team": {
     "contractVersion": "0.2",
     "name": {
@@ -8,8 +8,9 @@ window.QL_DATA = {
     },
     "nameStatus": {
       "zh": "confirmed",
-      "en": "provisional"
+      "en": "confirmed"
     },
+    "seal": "秦罗",
     "couplet": {
       "zh": "秦月照研路，罗星汇万象",
       "en": "The Qin moon lights the path of inquiry; the Luo stars gather all phenomena."

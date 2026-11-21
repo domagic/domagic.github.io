@@ -25,7 +25,7 @@
       'pubs.empty': '成果清单待成员供给，暂无条目。',
       'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表',
       'pubs.kind.paper-note': '论文笔记', 'pubs.kind.paper': '论文', 'pubs.kind.project': '项目', 'pubs.kind.talk': '报告',
-      'langBtn': 'EN', 'langBtnAria': 'Switch to English',
+      'langBtn': '语言', 'langBtnAria': '切换到英文',
       'theme.toLight': '亮色', 'theme.toLightAria': '切换到亮色模式',
       'theme.toDark': '暗色', 'theme.toDarkAria': '切换到暗色模式'
     },
@@ -46,10 +46,17 @@
       'pubs.empty': 'The publication list awaits member supply; no entries yet.',
       'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in',
       'pubs.kind.paper-note': 'Paper note', 'pubs.kind.paper': 'Paper', 'pubs.kind.project': 'Project', 'pubs.kind.talk': 'Talk',
-      'langBtn': '中', 'langBtnAria': '切换到中文',
+      'langBtn': 'Languages', 'langBtnAria': 'Switch to Chinese',
       'theme.toLight': 'Light', 'theme.toLightAria': 'Switch to light mode',
       'theme.toDark': 'Dark', 'theme.toDarkAria': 'Switch to dark mode'
     }
+  }
+
+  // 主题切换图标：内联 SVG，零外部依赖，可在此统一替换（后期换图标只改这里）。
+  // 当前暗色→显示太阳（点按切亮）；当前亮色→显示月亮（点按切暗）。
+  var THEME_ICONS = {
+    sun: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.1"></circle><path d="M12 2.6v2.7M12 18.7v2.7M2.6 12h2.7M18.7 12h2.7M5.35 5.35l1.9 1.9M16.75 16.75l1.9 1.9M18.65 5.35l-1.9 1.9M7.25 16.75l-1.9 1.9"></path></svg>',
+    moon: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 14.8A8.6 8.6 0 0 1 9.2 3.8a8.6 8.6 0 1 0 11 11z"></path></svg>'
   }
 
   function getLang() {
@@ -197,14 +204,37 @@
     }).join('')
   }
 
-  // 首页夜幕 ambient：星座网络低幅缓漂（AI 科技意象），CSS 月轮晕呼吸另见 style.css。
-  // prefers-reduced-motion 全关；document.hidden 暂停；零外部依赖。
-  // B3：连线/节点配色随明暗主题逐帧读取（暗＝青铜金／亮＝墨青），切换即时生效。
+  // ===== 背景粒子动态配置（可编辑：调这里即可改密度/速度/颜色/流星频率，无需动绘制逻辑）=====
+  var AMBIENT_CFG = {
+    link: {
+      areaPerNode: 30000,   // 每多少平方像素放 1 个连线节点（越小越密）
+      min: 24, max: 68,
+      speed: 0.18,          // 节点漂移速度基准
+      maxDist: 128,         // 连线触发距离
+      radius: [0.7, 1.7],   // 节点半径范围
+      lineAlpha: 0.20       // 连线最大透明度（再乘主题系数）
+    },
+    dust: {
+      areaPerMote: 12000,   // 每多少平方像素放 1 颗漂浮微尘
+      min: 26, max: 96,
+      rise: [0.05, 0.22],   // 上浮速度范围
+      radius: [0.4, 1.4],   // 微尘半径范围
+      twinkle: 0.016,       // 呼吸闪烁相位速度
+      alpha: [0.10, 0.55]   // 微尘透明度范围
+    },
+    meteor: {
+      every: 4200,          // 流星平均间隔（毫秒）
+      speed: 6.2,           // 流星速度（像素/帧）
+      length: 140,          // 尾迹长度
+      alpha: 0.55           // 流星透明度
+    }
+  }
+  // 主题配色（暗＝青铜金／亮＝墨青）；lineK 为亮色下连线的补偿系数。
   function ambPalette() {
     if (document.documentElement.getAttribute('data-theme') === 'light') {
-      return { line: '28,39,51', node: 'rgba(28,39,51,0.40)', a: 0.16 }
+      return { rgb: '28,39,51', lineK: 0.85 }
     }
-    return { line: '214,196,150', node: 'rgba(230,215,174,0.55)', a: 0.20 }
+    return { rgb: '214,196,150', lineK: 1 }
   }
   function initAmbient() {
     var cv = document.getElementById('ambient')
@@ -215,8 +245,11 @@
     if (reduce) { cv.style.display = 'none'; return }
     var ctx = cv.getContext('2d')
     if (!ctx) return
+    var CFG = AMBIENT_CFG
     var dpr = Math.min(window.devicePixelRatio || 1, 2)
-    var W = 0, H = 0, nodes = [], raf = 0, last = 0
+    var W = 0, H = 0, nodes = [], motes = [], meteor = null
+    var raf = 0, last = 0, nextMeteor = 0
+    function rand(a, b) { return a + Math.random() * (b - a) }
     function resize() {
       var r = cv.parentElement.getBoundingClientRect()
       W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height))
@@ -225,38 +258,95 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
     function seed() {
+      var area = W * H
+      var ln = Math.min(CFG.link.max, Math.max(CFG.link.min, Math.round(area / CFG.link.areaPerNode)))
       nodes = []
-      var n = Math.min(46, Math.max(24, Math.round(W / 34)))
-      for (var i = 0; i < n; i++) {
-        nodes.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.16, r: 0.8 + Math.random() * 1.1 })
+      for (var i = 0; i < ln; i++) {
+        nodes.push({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - 0.5) * CFG.link.speed,
+          vy: (Math.random() - 0.5) * CFG.link.speed,
+          r: rand(CFG.link.radius[0], CFG.link.radius[1])
+        })
+      }
+      var mn = Math.min(CFG.dust.max, Math.max(CFG.dust.min, Math.round(area / CFG.dust.areaPerMote)))
+      motes = []
+      for (var k = 0; k < mn; k++) {
+        motes.push({
+          x: Math.random() * W, y: Math.random() * H,
+          vy: -rand(CFG.dust.rise[0], CFG.dust.rise[1]), // 缓慢上浮
+          r: rand(CFG.dust.radius[0], CFG.dust.radius[1]),
+          phase: Math.random() * 6.2832,
+          ps: rand(CFG.dust.twinkle * 0.6, CFG.dust.twinkle * 1.4)
+        })
+      }
+      meteor = null
+      nextMeteor = tsSafe() + CFG.meteor.every
+    }
+    function tsSafe() { try { return performance.now() } catch (e) { return Date.now() } }
+    function spawnMeteor() {
+      var dir = Math.random() < 0.5 ? 1 : -1
+      meteor = {
+        x: rand(W * 0.45, W * 1.15),
+        y: rand(-40, H * 0.45),
+        vx: -CFG.meteor.speed * dir,
+        vy: CFG.meteor.speed * rand(0.45, 0.75)
       }
     }
     function step(ts) {
       raf = window.requestAnimationFrame(step)
-      if (ts - last < 33) return
+      if (ts - last < 30) return
       last = ts
       ctx.clearRect(0, 0, W, H)
       var pal = ambPalette()
       var i, j, a, b, dx, dy, d
+
+      // 1) 漂浮微尘（底层）：缓慢上浮 + 呼吸闪烁，越界从底部回绕
+      for (i = 0; i < motes.length; i++) {
+        a = motes[i]
+        a.y += a.vy; a.phase += a.ps
+        if (a.y < -6) { a.y = H + 6; a.x = Math.random() * W }
+        var tw = 0.5 + 0.5 * Math.sin(a.phase)
+        var ma = CFG.dust.alpha[0] + (CFG.dust.alpha[1] - CFG.dust.alpha[0]) * tw
+        ctx.fillStyle = 'rgba(' + pal.rgb + ',' + ma.toFixed(3) + ')'
+        ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, 6.2832); ctx.fill()
+      }
+
+      // 2) 连线网络：节点缓漂 + 邻近连线随距离淡出
       for (i = 0; i < nodes.length; i++) {
         a = nodes[i]
         a.x += a.vx; a.y += a.vy
-        if (a.x < -4) a.x = W + 4; if (a.x > W + 4) a.x = -4
-        if (a.y < -4) a.y = H + 4; if (a.y > H + 4) a.y = -4
+        if (a.x < -6) a.x = W + 6; if (a.x > W + 6) a.x = -6
+        if (a.y < -6) a.y = H + 6; if (a.y > H + 6) a.y = -6
       }
       ctx.lineWidth = 0.6
       for (i = 0; i < nodes.length; i++) for (j = i + 1; j < nodes.length; j++) {
         a = nodes[i]; b = nodes[j]
         dx = a.x - b.x; dy = a.y - b.y; d = Math.sqrt(dx * dx + dy * dy)
-        if (d < 120) {
-          ctx.strokeStyle = 'rgba(' + pal.line + ',' + ((1 - d / 120) * pal.a).toFixed(3) + ')'
+        if (d < CFG.link.maxDist) {
+          ctx.strokeStyle = 'rgba(' + pal.rgb + ',' + ((1 - d / CFG.link.maxDist) * CFG.link.lineAlpha * pal.lineK).toFixed(3) + ')'
           ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke()
         }
       }
       for (i = 0; i < nodes.length; i++) {
         a = nodes[i]
-        ctx.fillStyle = pal.node
+        ctx.fillStyle = 'rgba(' + pal.rgb + ',0.55)'
         ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, 6.2832); ctx.fill()
+      }
+
+      // 3) 流星：定时生成，带渐隐尾迹，划出即回收
+      if (!meteor && ts > nextMeteor) { spawnMeteor(); nextMeteor = ts + CFG.meteor.every * rand(0.7, 1.3) }
+      if (meteor) {
+        var m = meteor
+        var tx = m.x - m.vx * CFG.meteor.length / CFG.meteor.speed
+        var ty = m.y - m.vy * CFG.meteor.length / CFG.meteor.speed
+        var grad = ctx.createLinearGradient(m.x, m.y, tx, ty)
+        grad.addColorStop(0, 'rgba(' + pal.rgb + ',' + CFG.meteor.alpha + ')')
+        grad.addColorStop(1, 'rgba(' + pal.rgb + ',0)')
+        ctx.strokeStyle = grad; ctx.lineWidth = 1.4
+        ctx.beginPath(); ctx.moveTo(m.x, m.y); ctx.lineTo(tx, ty); ctx.stroke()
+        m.x += m.vx; m.y += m.vy
+        if (m.x < -CFG.meteor.length || m.x > W + CFG.meteor.length || m.y > H + CFG.meteor.length) meteor = null
       }
     }
     resize(); seed()
@@ -265,7 +355,7 @@
     window.addEventListener('resize', function () { resize(); seed() })
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) { window.cancelAnimationFrame(raf); window.__qlAmbient.active = false }
-      else if (!window.__qlAmbient.active) { window.__qlAmbient.active = true; last = 0; raf = window.requestAnimationFrame(step) }
+      else if (!window.__qlAmbient.active) { window.__qlAmbient.active = true; last = 0; nextMeteor = tsSafe() + CFG.meteor.every; raf = window.requestAnimationFrame(step) }
     })
   }
 
@@ -281,13 +371,17 @@
     for (var i = 0; i < nodes.length; i++) nodes[i].textContent = t(lang, nodes[i].getAttribute('data-i18n'))
     var bm = document.getElementById('brand-main'); if (bm) bm.textContent = name
     var bs = document.getElementById('brand-sub'); if (bs) bs.textContent = alt
+    // 印章文字数据化：取 team.seal，缺省回退到中文队名前两字（不写死在 HTML）。
+    var sealEl = document.getElementById('brand-seal')
+    if (sealEl) sealEl.textContent = team.seal || ((team.name || {}).zh || '').slice(0, 2)
     var btn = document.getElementById('lang-toggle')
     if (btn) { btn.textContent = t(lang, 'langBtn'); btn.setAttribute('aria-label', t(lang, 'langBtnAria')) }
     var tb = document.getElementById('theme-toggle')
     if (tb) {
       var toLight = getTheme() !== 'light'
-      tb.textContent = t(lang, toLight ? 'theme.toLight' : 'theme.toDark')
+      tb.innerHTML = toLight ? THEME_ICONS.sun : THEME_ICONS.moon
       tb.setAttribute('aria-label', t(lang, toLight ? 'theme.toLightAria' : 'theme.toDarkAria'))
+      tb.setAttribute('title', t(lang, toLight ? 'theme.toLight' : 'theme.toDark'))
     }
     var links = document.querySelectorAll('[data-nav]')
     for (var j = 0; j < links.length; j++) {
