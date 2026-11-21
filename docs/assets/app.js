@@ -20,6 +20,7 @@
       'members.eyebrow': 'Members', 'members.heading': '团队成员',
       'members.sub': '两位学者 · 一个团队（履历信息待确认，不预置未经核实内容）',
       'members.titleFallback': '头衔待确认',
+      'member.heading': '成员简介', 'member.back': '返回成员列表', 'member.notFound': '未找到该成员简介。',
       'pubs.eyebrow': 'Publications', 'pubs.heading': '成果',
       'pubs.sub': '团队成果清单按发表日期排序；清单与归属口径待 owner 确认。',
       'pubs.empty': '成果清单待成员供给，暂无条目。',
@@ -41,6 +42,7 @@
       'members.eyebrow': 'Members', 'members.heading': 'Members',
       'members.sub': 'Two scholars, one team. Biographies pending confirmation; no unverified information is pre-filled.',
       'members.titleFallback': 'Title pending confirmation',
+      'member.heading': 'Member Profile', 'member.back': 'Back to members', 'member.notFound': 'Profile not found.',
       'pubs.eyebrow': 'Publications', 'pubs.heading': 'Publications',
       'pubs.sub': 'Team publication list ordered by publication date; list scope and attribution pending owner confirmation.',
       'pubs.empty': 'The publication list awaits member supply; no entries yet.',
@@ -50,6 +52,51 @@
       'theme.toLight': 'Light', 'theme.toLightAria': 'Switch to light mode',
       'theme.toDark': 'Dark', 'theme.toDarkAria': 'Switch to dark mode'
     }
+  }
+
+  // ===== 多语种配置（可编辑：增删语言只改这里，前端按 base 取文案再按地区做轻量转换）=====
+  // 站点内容权威源仍是 content/*.{zh,en}.md 与 team.json 的 zh/en 双语；
+  // zh-TW 由 zh 文案做简→繁转换，en-GB 由 en 文案做美式→英式拼写转换，en-US 保持原样。
+  // 若要为某地区写独立文案，可给 LOCALES 项加 "overlay" 字段并在 localeText() 中接入。
+  var DEFAULT_LOCALE = 'zh-CN'
+  var LOCALES = [
+    { code: 'zh-CN', label: '简体中文', base: 'zh' },
+    { code: 'zh-TW', label: '繁體中文', base: 'zh' },
+    { code: 'en-GB', label: 'United Kingdom', base: 'en' },
+    { code: 'en-US', label: 'United States', base: 'en' }
+  ]
+  var LOCALE_CODES = LOCALES.map(function (l) { return l.code })
+  function localeInfo(code) {
+    for (var i = 0; i < LOCALES.length; i++) if (LOCALES[i].code === code) return LOCALES[i]
+    return LOCALES[0]
+  }
+  function baseLang(code) { return localeInfo(code).base }
+
+  // 简→繁常用字表（逐字映射；只列本站会用到的安全字，避免一对多误转）。
+  var ZH_HANT_MAP = {
+    '们':'們','这':'這','个':'個','为':'為','与':'與','说':'說','学':'學','术':'術','团':'團','队':'隊','员':'員',
+    '简':'簡','历':'歷','时':'時','间':'間','数':'數','据':'據','传':'傳','记':'記','录':'錄','开':'開','关':'關',
+    '语':'語','页':'頁','观':'觀','击':'擊','选':'選','项':'項','显':'顯','隐':'隱','题':'題','内':'內','联':'聯',
+    '获':'獲','奖':'獎','参':'參','进':'進','发':'發','现':'現','场':'場','长':'長','门':'門','问':'問','闻':'聞',
+    '见':'見','觉':'覺','应':'應','该':'該','对':'對','处':'處','边':'邊','过':'過','还':'還','将':'將','从':'從',
+    '会':'會','来':'來','东':'東','车':'車','马':'馬','鸟':'鳥','风':'風','书':'書','画':'畫','读':'讀','写':'寫',
+    '课':'課','论':'論','结':'結','构':'構','类':'類','别':'別','种':'種','领':'領','实':'實','验':'驗','证':'證',
+    '严':'嚴','谨':'謹','复':'複','变':'變','称':'稱','断':'斷','测':'測','预':'預','设':'設','计':'計','划':'劃',
+    '释':'釋','义':'義','总':'總','号':'號','码':'碼','随':'隨','机':'機','产':'產','业':'業','览':'覽','馆':'館',
+    '访':'訪','谈':'談','图':'圖','标':'標','签':'簽','顶':'頂','栏':'欄','钮':'鈕','颜':'顏','词':'詞','译':'譯',
+    '审':'審','暂':'暫','积':'積','极':'極','众':'眾','优':'優','级':'級','继':'繼','续':'續','贡':'貢','献':'獻',
+    '状':'狀','态':'態','环':'環','镜':'鏡','层':'層','叠':'疊','骤':'驟','离':'離','闭':'閉','启':'啟','动':'動',
+    '静':'靜','缘':'緣','细':'細','节':'節','约':'約','归':'歸','纳':'納','释':'釋','汇':'匯','聚':'聚','领':'領'
+  }
+  // 美式→英式拼写（仅整词匹配，保留首字母大小写）。
+  var EN_GB_MAP = {
+    'color':'colour','colors':'colours','organize':'organise','organizes':'organises','organized':'organised',
+    'organization':'organisation','organizations':'organisations','recognize':'recognise','recognized':'recognised',
+    'analyze':'analyse','analyzed':'analysed','analysis':'analysis','center':'centre','centers':'centres',
+    'behavior':'behaviour','favorite':'favourite','modeling':'modelling','labeled':'labelled','traveling':'travelling',
+    'catalog':'catalogue','defense':'defence','license':'licence','program':'programme','canceled':'cancelled',
+    'realize':'realise','optimize':'optimise','optimized':'optimised','summarize':'summarise','emphasize':'emphasise',
+    'generalize':'generalise','localize':'localise','visualize':'visualise','prioritize':'prioritise'
   }
 
   // 主题切换图标：内联 SVG，零外部依赖，可在此统一替换（后期换图标只改这里）。
@@ -86,10 +133,17 @@
     '</svg>'
 
   function getLang() {
-    try { var v = localStorage.getItem(KEY); if (v === 'zh' || v === 'en') return v } catch (e) {}
-    return 'zh'
+    var v = null
+    try { v = localStorage.getItem(KEY) } catch (e) {}
+    if (LOCALE_CODES.indexOf(v) >= 0) return v   // 新格式：zh-CN / zh-TW / en-GB / en-US
+    if (v === 'zh') return 'zh-CN'               // 兼容旧版两语言存储值
+    if (v === 'en') return 'en-US'
+    return DEFAULT_LOCALE
   }
-  function setLang(l) { try { localStorage.setItem(KEY, l) } catch (e) {} }
+  function setLang(l) {
+    if (LOCALE_CODES.indexOf(l) < 0) l = DEFAULT_LOCALE
+    try { localStorage.setItem(KEY, l) } catch (e) {}
+  }
   // R25 主题 C：存储覆盖优先；无存储＝系统偏好（live 跟随见 DOMContentLoaded）。
   function storedTheme() {
     try { var v = localStorage.getItem(KEY_THEME); if (v === 'light' || v === 'dark') return v } catch (e) {}
@@ -105,6 +159,43 @@
     else document.documentElement.removeAttribute('data-theme')
   }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;') }
+
+  // 地区变体落地：只改文本节点，不动标签与属性；脚本/样式/文本域/SVG 字标跳过。
+  // 每次 render 都会先按 base 文案重设文本，再跑本函数，因此不会重复叠加转换。
+  function applyVariant(root, locale) {
+    if (locale !== 'zh-TW' && locale !== 'en-GB') return
+    if (!document.createTreeWalker || !window.NodeFilter) return
+    var isZh = locale === 'zh-TW'
+    var map = isZh ? ZH_HANT_MAP : EN_GB_MAP
+    var keys = Object.keys(map)
+    if (!keys.length) return
+    var pattern = isZh ? '[' + keys.join('') + ']' : '\\b(' + keys.join('|') + ')\\b'
+    var reTest = new RegExp(pattern, isZh ? '' : 'i')   // 检测用非全局，避免 lastIndex 推进漏节点
+    var reReplace = new RegExp(pattern, isZh ? 'g' : 'gi') // 替换用全局，确保整段文本全部转换
+    var targets = []
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false)
+    while (walker.nextNode()) {
+      var n = walker.currentNode
+      var p = n.parentNode
+      if (!p || !n.nodeValue) continue
+      var tag = p.nodeName.toLowerCase()
+      if (tag === 'script' || tag === 'style' || tag === 'textarea' || tag === 'text') continue
+      if (reTest.test(n.nodeValue)) targets.push(n)
+    }
+    for (var i = 0; i < targets.length; i++) {
+      var s = targets[i].nodeValue
+      if (isZh) {
+        targets[i].nodeValue = s.replace(reReplace, function (ch) { return map[ch] || ch })
+      } else {
+        targets[i].nodeValue = s.replace(reReplace, function (w) {
+          var rep = map[w.toLowerCase()]
+          if (!rep) return w
+          return w.charAt(0) === w.charAt(0).toUpperCase() ? rep.charAt(0).toUpperCase() + rep.slice(1) : rep
+        })
+      }
+    }
+  }
+
   function t(lang, key) { return (I18N[lang] && I18N[lang][key]) || I18N.zh[key] || key }
   function badge(lang, cls, key) { return '<span class="badge ' + cls + '">' + esc(t(lang, key)) + '</span>' }
   function bi(lang, obj) {
@@ -178,6 +269,37 @@
     el.innerHTML = (missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + (pick ? pick.html : '')
   }
 
+  // ===== 成员头像图形库（可编辑：新增一个 key 即可给成员换「脸」）=====
+  // 每个成员在 team.json 的 memberVisuals 里指定 glyph 与 accent，形成不同角色视觉；
+  // 未配置时回退 default。颜色走 CSS 变量 --orb-*，明暗主题自适应。
+  var ORB_GLYPHS = {
+    orbit:
+      '<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">' +
+        '<circle cx="60" cy="60" r="43" fill="none" stroke="currentColor" stroke-width="1.1" opacity=".45"></circle>' +
+        '<ellipse cx="60" cy="60" rx="43" ry="16" fill="none" stroke="currentColor" stroke-width="1.7" transform="rotate(-28 60 60)"></ellipse>' +
+        '<ellipse cx="60" cy="60" rx="43" ry="16" fill="none" stroke="currentColor" stroke-width="1" opacity=".55" transform="rotate(36 60 60)"></ellipse>' +
+        '<circle cx="60" cy="60" r="10" fill="currentColor" opacity=".9"></circle>' +
+        '<circle cx="23" cy="80" r="3.4" fill="currentColor"></circle>' +
+        '<circle cx="97" cy="41" r="2.6" fill="currentColor"></circle>' +
+      '</svg>',
+    lattice:
+      '<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">' +
+        '<path d="M60 16 L104 60 L60 104 L16 60 Z" fill="none" stroke="currentColor" stroke-width="1.5"></path>' +
+        '<path d="M60 34 L86 60 L60 86 L34 60 Z" fill="none" stroke="currentColor" stroke-width="1" opacity=".6"></path>' +
+        '<path d="M16 60 H104 M60 16 V104" stroke="currentColor" stroke-width=".9" opacity=".4"></path>' +
+        '<circle cx="60" cy="60" r="8" fill="currentColor"></circle>' +
+        '<circle cx="60" cy="16" r="3" fill="currentColor"></circle>' +
+        '<circle cx="104" cy="60" r="3" fill="currentColor"></circle>' +
+        '<circle cx="16" cy="60" r="3" fill="currentColor"></circle>' +
+        '<circle cx="60" cy="104" r="3" fill="currentColor"></circle>' +
+      '</svg>',
+    default:
+      '<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">' +
+        '<circle cx="60" cy="44" r="17" fill="none" stroke="currentColor" stroke-width="1.7"></circle>' +
+        '<path d="M30 96 C30 72 46 64 60 64 C74 64 90 72 90 96" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>' +
+      '</svg>'
+  }
+
   function sealChar(m, lang) {
     if (lang === 'zh') return (m.name.zh || '?').charAt(0)
     return (m.name.en || '?').split(/\s+/).map(function (w) { return w.charAt(0) }).join('').slice(0, 2).toUpperCase()
@@ -185,21 +307,51 @@
   function renderMembers(lang) {
     var el = document.getElementById('members-grid')
     if (!el) return
+    var visuals = (D.team && D.team.memberVisuals) || {}
+    el.className = 'members-orbit'
     el.innerHTML = D.members.map(function (m) {
-      var bio = bi(lang, m.bio)
+      var vis = visuals[m.id] || {}
+      var glyph = ORB_GLYPHS[vis.glyph] || ORB_GLYPHS.default
+      var accent = /^[a-z0-9_-]+$/.test(vis.accent || '') ? vis.accent : 'bronze'
+      var name = esc(m.name[lang] || m.name.zh)
       var titleLine = m.titleLine[lang] || m.titleLine[lang === 'zh' ? 'en' : 'zh'] || t(lang, 'members.titleFallback')
-      var portrait = m.photo
-        ? '<img class="portrait-img" src="' + esc(m.photo) + '" alt="' + esc(m.name[lang]) + '">'
-        : '<div class="portrait" aria-hidden="true"><span>' + esc(sealChar(m, lang)) + '</span></div>'
-      return '<article class="member-card">' + portrait +
-        '<div class="member-body">' +
-        '<h2 class="member-name">' + esc(m.name[lang] || m.name.zh) +
-        ' <span class="member-alt">' + esc(m.name[lang === 'zh' ? 'en' : 'zh']) + '</span></h2>' +
-        '<p class="member-title">' + esc(titleLine) + '</p>' +
-        (m.status === 'placeholder' ? '<p class="member-badge">' + badge(lang, '', 'badge.pending') + '</p>' : '') +
-        '<div class="member-bio prose">' + (bio.missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + bio.html + '</div>' +
-        '</div></article>'
+      var face = m.photo
+        ? '<img class="orb-photo" src="' + esc(m.photo) + '" alt="">'
+        : '<span class="orb-glyph" aria-hidden="true">' + glyph + '</span>' +
+          '<span class="orb-initial" aria-hidden="true">' + esc(sealChar(m, lang)) + '</span>'
+      // 图标下不放文字；文字详情只在 member.html?id=... 页展示。aria-label 供屏幕阅读器与悬停提示使用。
+      return '<a class="member-orb orb-accent-' + accent + '" href="member.html?id=' + encodeURIComponent(m.id) + '"' +
+        ' aria-label="' + name + ' · ' + esc(titleLine) + '">' +
+        '<span class="orb-face">' + face + '</span>' +
+        '</a>'
     }).join('')
+  }
+
+  // 成员简介详情页：由 URL 的 id 从 D.members 取人，文字来自 content/members/*.md（不写死）。
+  function renderMemberDetail(lang) {
+    var el = document.getElementById('member-detail')
+    if (!el) return
+    var id = ''
+    var qm = location.search.match(/[?&]id=([^&]+)/)
+    if (qm) { try { id = decodeURIComponent(qm[1]) } catch (e) { id = qm[1] } }
+    var member = null
+    for (var i = 0; i < D.members.length; i++) if (D.members[i].id === id) { member = D.members[i]; break }
+    if (!member) {
+      el.innerHTML = '<p class="muted">' + esc(t(lang, 'member.notFound')) + '</p>' +
+        '<p><a href="members.html">' + esc(t(lang, 'member.back')) + '</a></p>'
+      return
+    }
+    var bio = bi(lang, member.bio)
+    var titleLine = member.titleLine[lang] || member.titleLine[lang === 'zh' ? 'en' : 'zh'] || t(lang, 'members.titleFallback')
+    var name = esc(member.name[lang] || member.name.zh)
+    var alt = esc(member.name[lang === 'zh' ? 'en' : 'zh'])
+    el.innerHTML =
+      '<p class="member-back"><a href="members.html">← ' + esc(t(lang, 'member.back')) + '</a></p>' +
+      '<h1 class="member-detail-name">' + name + '</h1>' +
+      '<p class="member-detail-alt">' + alt + '</p>' +
+      '<p class="member-detail-role">' + esc(titleLine) + '</p>' +
+      (member.status === 'placeholder' ? '<p class="member-detail-badge">' + badge(lang, '', 'badge.pending') + '</p>' : '') +
+      '<div class="member-detail-bio prose">' + (bio.missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + bio.html + '</div>'
   }
 
   function renderPubs(lang) {
@@ -382,11 +534,23 @@
     })
   }
 
+  function renderLangMenu(locale) {
+    var menu = document.getElementById('lang-menu')
+    if (!menu) return
+    menu.innerHTML = LOCALES.map(function (l) {
+      var on = l.code === locale
+      return '<button type="button" class="lang-option' + (on ? ' selected' : '') +
+        '" role="menuitem" data-locale="' + l.code + '" lang="' + l.code + '"' +
+        (on ? ' aria-current="true"' : '') + '>' + esc(l.label) + '</button>'
+    }).join('')
+  }
+
   function render() {
-    var lang = getLang()
+    var locale = getLang()
+    var lang = baseLang(locale)
     var page = document.body.getAttribute('data-page') || 'home'
     var team = D.team || {}
-    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en'
+    document.documentElement.lang = locale
     var name = (team.name || {})[lang] || '秦罗万象'
     var alt = (team.name || {})[lang === 'zh' ? 'en' : 'zh'] || ''
     document.title = page === 'home' ? name + ' · ' + alt : t(lang, page + '.heading') + ' · ' + name
@@ -402,7 +566,13 @@
     var sealEl = document.getElementById('brand-seal')
     if (sealEl) sealEl.innerHTML = BRAND_MARK_SVG.replace('__BRAND_WORD__', enName)
     var btn = document.getElementById('lang-toggle')
-    if (btn) { btn.textContent = t(lang, 'langBtn'); btn.setAttribute('aria-label', t(lang, 'langBtnAria')) }
+    if (btn) {
+      btn.textContent = t(lang, 'langBtn')
+      btn.setAttribute('aria-label', t(lang, 'langBtnAria'))
+      btn.setAttribute('aria-haspopup', 'menu')
+      btn.setAttribute('aria-expanded', btn.getAttribute('aria-expanded') || 'false')
+    }
+    renderLangMenu(locale)
     var tb = document.getElementById('theme-toggle')
     if (tb) {
       var toLight = getTheme() !== 'light'
@@ -411,8 +581,9 @@
       tb.setAttribute('title', t(lang, toLight ? 'theme.toLight' : 'theme.toDark'))
     }
     var links = document.querySelectorAll('[data-nav]')
+    var navKey = page === 'member' ? 'members' : page  // 成员详情页高亮「团队成员」
     for (var j = 0; j < links.length; j++) {
-      var on = links[j].getAttribute('data-nav') === page
+      var on = links[j].getAttribute('data-nav') === navKey
       links[j].classList.toggle('active', on)
       if (on) links[j].setAttribute('aria-current', 'page'); else links[j].removeAttribute('aria-current')
     }
@@ -422,8 +593,11 @@
     if (page === 'home') renderHome(lang)
     if (page === 'about') renderAbout(lang)
     if (page === 'members') renderMembers(lang)
+    if (page === 'member') renderMemberDetail(lang)
     if (page === 'publications') renderPubs(lang)
     if (page !== 'home') { var fc = document.getElementById('foot-couplet'); if (fc) fc.textContent = coupletParts(lang).join(' · ') }
+    // 地区变体最后落地（繁体/英式拼写），基于 base 文案转换，不累积。
+    applyVariant(document.body, locale)
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -431,7 +605,36 @@
     render()
     if ((document.body.getAttribute('data-page') || 'home') === 'home') initAmbient()
     var btn = document.getElementById('lang-toggle')
-    if (btn) btn.addEventListener('click', function () { setLang(getLang() === 'zh' ? 'en' : 'zh'); render() })
+    var menu = document.getElementById('lang-menu')
+    function closeLangMenu() {
+      if (!menu) return
+      menu.hidden = true
+      if (btn) btn.setAttribute('aria-expanded', 'false')
+    }
+    if (btn && menu) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation()
+        var open = menu.hidden
+        menu.hidden = !open
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false')
+        if (open) renderLangMenu(getLang())
+      })
+      menu.addEventListener('click', function (e) {
+        var opt = e.target && e.target.closest ? e.target.closest('[data-locale]') : null
+        if (!opt || !menu.contains(opt)) return
+        setLang(opt.getAttribute('data-locale'))
+        closeLangMenu()
+        render()
+      })
+      document.addEventListener('click', function (e) {
+        if (menu.hidden) return
+        if (btn.contains(e.target) || menu.contains(e.target)) return
+        closeLangMenu()
+      })
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !menu.hidden) { closeLangMenu(); btn.focus() }
+      })
+    }
     var tb = document.getElementById('theme-toggle')
     if (tb) tb.addEventListener('click', function () { setTheme(getTheme() === 'light' ? 'dark' : 'light'); applyTheme(); render() })
     // R25：无存储期间系统主题 live 变化即时跟随；有存储覆盖时不跟随。
