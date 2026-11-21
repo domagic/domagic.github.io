@@ -333,7 +333,7 @@
         '<span class="orb-stack">' +
           '<span class="orb-layer orb-layer-base" aria-hidden="true"></span>' +
           '<span class="orb-layer orb-layer-mid" aria-hidden="true"></span>' +
-          '<span class="orb-layer orb-layer-top">' + topInner + '</span>' +
+          '<span class="orb-layer orb-layer-top' + (photo ? ' has-photo' : '') + '">' + topInner + '</span>' +
         '</span>' +
         '</a>'
     }).join('')
