@@ -102,16 +102,17 @@ a { color: inherit; }
 .site-head { background: var(--bg); border-bottom: 1px solid var(--line-soft); position: sticky; top: 0; z-index: 20; transition: background-color 0.35s ease, border-color 0.35s ease; }
 .head-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
 .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
-/* 品牌标志：流光 A+∞ SVG，由 JS 注入（BRAND_MARK_SVG）；配色/尺寸走 CSS 变量，不写死 */
+/* 品牌 logo：完整图案 SVG（A+∞ 图形 + 英文名），由 JS 注入（BRAND_MARK_SVG）；
+   配色/高度走 CSS 变量，宽度按 3:1 比例自适应；零外部图片依赖，不写死 */
 .seal {
-  width: var(--mark-size); height: var(--mark-size); flex: none;
+  height: var(--mark-size); width: calc(var(--mark-size) * 3); flex: none;
   display: grid; place-items: center;
 }
 .seal svg { width: 100%; height: 100%; display: block; overflow: visible;
   filter: drop-shadow(0 0 3px var(--mark-glow)); }
 .brand-txt { display: flex; flex-direction: column; line-height: 1.3; }
-.brand-main { font-family: var(--serif-zh); font-size: 1.15rem; letter-spacing: 0.14em; }
-html[lang="en"] .brand-main { font-family: var(--serif-en); letter-spacing: 0.02em; font-size: 1.05rem; }
+.brand-main { font-family: var(--serif-zh); font-size: 1.05rem; letter-spacing: 0.12em; }
+html[lang="en"] .brand-main { font-family: var(--serif-zh); letter-spacing: 0.12em; font-size: 1.05rem; }
 .brand-sub { font-size: 0.72rem; color: var(--text-soft); letter-spacing: 0.08em; font-family: var(--serif-en); }
 .site-nav { display: flex; align-items: center; gap: clamp(0.9rem, 2.4vw, 1.9rem); margin-left: auto; }
 .site-nav a {
