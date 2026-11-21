@@ -59,20 +59,22 @@
     moon: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 14.8A8.6 8.6 0 0 1 9.2 3.8a8.6 8.6 0 1 0 11 11z"></path></svg>'
   }
 
-  // 品牌标志：流光 A + ∞ 无限符号（Aethera）。整段可在此替换；配色走 CSS 变量 --mark-*，
-  // 明暗主题自适应，零外部图片依赖。渐变用 style 内联以正确解析 CSS 变量。
+  // 品牌标志（完整图案）：左侧流光 A + ∞ 图形，右侧 Aethera 字样，整体作为一枚 logo。
+  // 整段可在此替换；配色走 CSS 变量 --mark-*，明暗主题自适应，零外部图片依赖。
+  // 文字用 SVG <text> 随图形同一坐标系缩放，保证任意尺寸下比例一致；字体族可改 --serif-en。
   var BRAND_MARK_SVG =
-    '<svg viewBox="-6 -9 112 112" aria-hidden="true" focusable="false">' +
+    '<svg viewBox="0 0 300 100" aria-hidden="true" focusable="false">' +
       '<defs><linearGradient id="qlMarkGrad" x1="0" y1="1" x2="1" y2="0">' +
         '<stop offset="0%" style="stop-color:var(--mark-c1,#f4ecda)"></stop>' +
         '<stop offset="52%" style="stop-color:var(--mark-c2,#d6c496)"></stop>' +
         '<stop offset="100%" style="stop-color:var(--mark-c3,#c9a45c)"></stop>' +
       '</linearGradient></defs>' +
-      '<g fill="none" stroke="url(#qlMarkGrad)" stroke-linecap="round" stroke-linejoin="round">' +
+      '<g transform="translate(0,-6) scale(0.92)" fill="none" stroke="url(#qlMarkGrad)" stroke-linecap="round" stroke-linejoin="round">' +
         '<path d="M20 84 C28 52 40 18 50 10 C60 18 72 52 80 84" stroke-width="9" opacity="0.3"></path>' +
         '<path d="M20 84 C28 52 40 18 50 10 C60 18 72 52 80 84" stroke-width="4.6"></path>' +
         '<path d="M50 56 C43 47 31 48 31 56 C31 64 43 65 50 56 C57 47 69 48 69 56 C69 64 57 65 50 56 Z" stroke-width="4.8"></path>' +
       '</g>' +
+      '<text x="104" y="66" fill="url(#qlMarkGrad)" style="font-family:var(--serif-en);font-size:52px;letter-spacing:1px">__BRAND_WORD__</text>' +
     '</svg>'
 
   function getLang() {
@@ -385,11 +387,15 @@
     document.title = page === 'home' ? name + ' · ' + alt : t(lang, page + '.heading') + ' · ' + name
     var nodes = document.querySelectorAll('[data-i18n]')
     for (var i = 0; i < nodes.length; i++) nodes[i].textContent = t(lang, nodes[i].getAttribute('data-i18n'))
-    var bm = document.getElementById('brand-main'); if (bm) bm.textContent = name
-    var bs = document.getElementById('brand-sub'); if (bs) bs.textContent = alt
-    // 品牌标志：注入流光 A+∞ SVG（常量 BRAND_MARK_SVG，配色走 CSS 变量；后期换标志只改那处）。
+    // 品牌区：印章 = 完整图案（A+∞ 图形 + 英文名 Aethera），由 team.name.en 驱动；
+    // 旁边仅保留中文名作为辅助（避免与印章内英文名重复）。logo 固定，不随界面语言切换。
+    var enName = (team.name || {}).en || 'Aethera'
+    var zhName = (team.name || {}).zh || '秦罗万象'
+    var bm = document.getElementById('brand-main'); if (bm) bm.textContent = zhName
+    var bs = document.getElementById('brand-sub'); if (bs) bs.textContent = ''
+    // 完整图案：注入含 A+∞ 图形与英文字样的 SVG；字样由 team.name.en 注入，配色走 CSS 变量。
     var sealEl = document.getElementById('brand-seal')
-    if (sealEl) sealEl.innerHTML = BRAND_MARK_SVG
+    if (sealEl) sealEl.innerHTML = BRAND_MARK_SVG.replace('__BRAND_WORD__', enName)
     var btn = document.getElementById('lang-toggle')
     if (btn) { btn.textContent = t(lang, 'langBtn'); btn.setAttribute('aria-label', t(lang, 'langBtnAria')) }
     var tb = document.getElementById('theme-toggle')
