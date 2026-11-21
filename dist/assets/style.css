@@ -106,7 +106,7 @@ body {
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.35s ease, color 0.35s ease;
 }
-html[lang="en"] body { font-family: var(--serif-en); line-height: 1.7; }
+html[lang^="en"] body { font-family: var(--serif-en); line-height: 1.7; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 .wrap { max-width: 1120px; margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
@@ -158,7 +158,7 @@ a { color: inherit; }
   transition: border-color 0.25s, color 0.25s;
   white-space: nowrap;
 }
-html[lang="en"] .lang-toggle { font-family: var(--serif-en); }
+html[lang^="en"] .lang-toggle { font-family: var(--serif-en); }
 .lang-toggle:hover, .lang-toggle[aria-expanded="true"] {
   background: none; color: var(--gold); border-bottom-color: var(--gold);
 }
@@ -259,7 +259,7 @@ html[lang="en"] .lang-toggle { font-family: var(--serif-en); }
   -webkit-text-stroke: 0.5px var(--art-stroke);
   filter: drop-shadow(0 2px 10px rgba(180, 145, 70, 0.18));
 }
-html[lang="en"] .team-name {
+html[lang^="en"] .team-name {
   font-family: var(--serif-en); font-weight: 600;
   font-size: clamp(2.4rem, 5.4vw, 4.3rem); letter-spacing: 0.01em; line-height: 1.2;
   background: linear-gradient(100deg, var(--art-en-a) 0%, var(--art-en-b) 100%);
@@ -271,7 +271,7 @@ html[lang="en"] .team-name {
   font-family: var(--serif-zh); font-size: clamp(1.35rem, 2.6vw, 2.05rem);
   line-height: 1.8; letter-spacing: 0.05em; color: var(--text);
 }
-html[lang="en"] .mission-lg { font-family: var(--serif-en); font-size: clamp(1.15rem, 2.1vw, 1.6rem); line-height: 1.65; letter-spacing: 0.01em; max-width: 30em; }
+html[lang^="en"] .mission-lg { font-family: var(--serif-en); font-size: clamp(1.15rem, 2.1vw, 1.6rem); line-height: 1.65; letter-spacing: 0.01em; max-width: 30em; }
 .hero-cta { margin-top: 2.6rem; display: flex; gap: 1rem; flex-wrap: wrap; }
 .btn {
   display: inline-block; text-decoration: none; font-size: 0.92rem; letter-spacing: 0.14em;
@@ -293,16 +293,12 @@ html[lang="en"] .mission-lg { font-family: var(--serif-en); font-size: clamp(1.1
 html[data-theme="light"] .couplet { text-shadow: none; }
 .couplet span { border-right: 1px solid var(--night-line); padding-right: 1.15rem; }
 .couplet span:first-child { color: var(--gold-strong); }
-.couplet-status {
-  font-size: 0.75rem; letter-spacing: 0.12em; color: var(--gold-light);
-  border: 1px solid var(--night-line); padding: 0.1rem 0.6rem;
-}
-html[lang="en"] .couplet {
+html[lang^="en"] .couplet {
   writing-mode: horizontal-tb; text-orientation: mixed; flex-direction: column;
   height: auto; max-width: 260px; font-family: var(--serif-en); font-style: italic;
   font-size: 1.12rem; letter-spacing: 0.03em; line-height: 1.7; gap: 1rem;
 }
-html[lang="en"] .couplet span { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 1rem; }
+html[lang^="en"] .couplet span { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 1rem; }
 
 /* 载入分层浮现（一次，克制） */
 .reveal { opacity: 0; transform: translateY(16px); animation: rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
@@ -324,7 +320,7 @@ html[lang="en"] .couplet span { border-right: none; padding-right: 0; border-lef
 .teasers { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(1.8rem, 4vw, 3rem); padding-block: clamp(3.2rem, 7vh, 5rem); }
 .teaser { border-top: 1px solid var(--line); padding-top: 1.5rem; }
 .teaser-title { font-family: var(--serif-zh); font-size: 1.25rem; letter-spacing: 0.18em; margin-bottom: 1rem; color: var(--gold-light); }
-html[lang="en"] .teaser-title { font-family: var(--serif-en); letter-spacing: 0.04em; }
+html[lang^="en"] .teaser-title { font-family: var(--serif-en); letter-spacing: 0.04em; }
 .teaser-title::before { content: ""; display: inline-block; width: 1.6rem; height: 1px; background: var(--gold-light); vertical-align: middle; margin-right: 0.7rem; }
 .teaser-text { color: var(--text-soft); font-size: 0.98rem; }
 .teaser-badge { margin-top: 1rem; }
@@ -351,7 +347,7 @@ html[lang="en"] .teaser-title { font-family: var(--serif-en); letter-spacing: 0.
 }
 .page-head { margin-bottom: clamp(2.2rem, 5vh, 3.4rem); }
 .page-head h1 { font-family: var(--serif-zh); font-size: clamp(2.1rem, 4.6vw, 3.1rem); letter-spacing: 0.12em; font-weight: 600; }
-html[lang="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400; letter-spacing: 0.01em; }
+html[lang^="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400; letter-spacing: 0.01em; }
 .page-head::after { content: ""; display: block; width: 3.2rem; height: 2px; background: var(--gold); margin-top: 1.2rem; }
 /* 成员页：金线宽度与标题文字等宽（包一层 inline-block，伪元素挂在包容器上取 100%） */
 .page-head-title { display: inline-block; }
@@ -361,14 +357,14 @@ html[lang="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400; 
 .prose { max-width: 72ch; }
 .prose p { margin-bottom: 1.15em; }
 .prose h2 { font-family: var(--serif-zh); font-size: 1.3rem; letter-spacing: 0.1em; margin: 2em 0 0.8em; padding-left: 0.85rem; border-left: 3px solid var(--gold); }
-html[lang="en"] .prose h2 { font-family: var(--serif-en); letter-spacing: 0.02em; }
+html[lang^="en"] .prose h2 { font-family: var(--serif-en); letter-spacing: 0.02em; }
 .prose h3 { font-size: 1.08rem; margin: 1.6em 0 0.6em; }
 .prose blockquote {
   font-family: var(--fangsong); color: var(--text-soft);
   border-left: 2px solid var(--gold); background: var(--quote-bg);
   padding: 0.9rem 1.3rem; margin-bottom: 1.4em;
 }
-html[lang="en"] .prose blockquote { font-family: var(--serif-en); font-style: italic; }
+html[lang^="en"] .prose blockquote { font-family: var(--serif-en); font-style: italic; }
 .prose blockquote p { margin-bottom: 0; }
 .prose ul, .prose ol { padding-left: 1.6em; margin-bottom: 1.15em; }
 .prose a { color: var(--gold-light); text-decoration: none; border-bottom: 1px solid var(--line); }
@@ -479,7 +475,7 @@ html[data-theme="light"] .members-orbit {
   position: relative; font-family: var(--serif-zh); font-size: 1.3rem;
   color: var(--orb-accent); opacity: 0.9; text-shadow: 0 2px 10px var(--bg);
 }
-html[lang="en"] .orb-initial { font-family: var(--serif-en); font-size: 1.05rem; }
+html[lang^="en"] .orb-initial { font-family: var(--serif-en); font-size: 1.05rem; }
 /* 照片头像：绝对定位填满圆形容器，避免按原图宽高比把圆形拉成椭圆；object-position 上移保留面部 */
 .orb-photo { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: center 22%; }
 /* 图标下方的成员姓名标签：绝对定位到圆盘正下方，留出间距；不进入 orb-stack 的 3D 变换，
@@ -510,7 +506,7 @@ html[lang^="en"] .orb-caption { font-family: var(--serif-en); letter-spacing: 0.
   font-family: var(--serif-zh); font-size: clamp(2rem, 4.2vw, 3rem);
   letter-spacing: 0.12em; line-height: 1.3; font-weight: 600;
 }
-html[lang="en"] .member-detail-name { font-family: var(--serif-en); letter-spacing: 0.02em; font-weight: 400; }
+html[lang^="en"] .member-detail-name { font-family: var(--serif-en); letter-spacing: 0.02em; font-weight: 400; }
 /* 姓名并列：主名后紧跟括号内的另一种语言名（中文页「秦勇（Yong Qin）」，英文页反过来）。
    字号用 em 相对主名缩放，响应式下比例一致；中文页括号内是英文名用衬线西文字体，
    英文页括号内是中文名则换回中文衬线，保证两种语言都能正确呈现。 */
@@ -553,9 +549,9 @@ html[lang^="en"] .member-detail-alt { font-family: var(--serif-zh); letter-spaci
 /* 页脚队名＋联句下移到页脚中下部（上留白加大、底部保留少量），可随主题/字号自适应 */
 .foot-in { padding-block: clamp(5rem, 11vh, 8rem) 2.6rem; text-align: center; }
 .foot-name { font-family: var(--serif-zh); color: var(--text-faint); letter-spacing: 0.24em; font-size: 0.95rem; margin-bottom: 0.7rem; }
-html[lang="en"] .foot-name { font-family: var(--serif-en); letter-spacing: 0.06em; }
+html[lang^="en"] .foot-name { font-family: var(--serif-en); letter-spacing: 0.06em; }
 .foot-couplet { font-family: var(--fangsong); color: var(--gold-light); letter-spacing: 0.24em; font-size: 1.02rem; }
-html[lang="en"] .foot-couplet { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.03em; font-size: 0.95rem; }
+html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.03em; font-size: 0.95rem; }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 900px) {
@@ -583,11 +579,11 @@ html[lang="en"] .foot-couplet { font-family: var(--serif-en); font-style: italic
   .moon { width: 300px; height: 300px; top: -100px; right: -60px; }
   .mission-lg { font-size: clamp(1.2rem, 5vw, 1.5rem); max-width: none; }
   .couplet-col { align-items: flex-start; }
-  .couplet, html[lang="en"] .couplet {
+  .couplet, html[lang^="en"] .couplet {
     writing-mode: horizontal-tb; text-orientation: mixed; flex-direction: column;
     height: auto; max-width: none; font-size: clamp(1.3rem, 5.6vw, 1.7rem); letter-spacing: 0.22em; gap: 0.6rem;
   }
-  .couplet span, html[lang="en"] .couplet span { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 0.9rem; }
+  .couplet span, html[lang^="en"] .couplet span { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 0.9rem; }
   .pub-item { grid-template-columns: 1fr; gap: 0.4rem; }
   .pub-year { font-size: 1.15rem; }
   .members-orbit { flex-direction: column; align-items: center; }
