@@ -383,6 +383,8 @@ html[lang="en"] .prose blockquote { font-family: var(--serif-en); font-style: it
   --orb-idle-border: var(--line-soft);
   --orb-idle-ink: var(--text);
   --orb-idle-filter: blur(0.8px) saturate(0.3) opacity(0.72);
+  /* 真人照片绝不去色（灰色人像不吉利）：远景只轻微失焦+降透明，保留原始肤色。 */
+  --orb-photo-idle-filter: blur(0.5px) opacity(0.82);
   --orb-size: clamp(84px, 10vw, 112px);
   --orb-perspective: 680px;   /* 每个成员自己的相机距离 */
   --orb-far-z: -90px;         /* 默认：远离观察者 */
@@ -398,6 +400,7 @@ html[data-theme="light"] .members-orbit {
   --orb-idle-border: var(--line-soft);
   --orb-idle-ink: var(--text-soft);
   --orb-idle-filter: blur(0.8px) saturate(0.2) opacity(0.6);
+  --orb-photo-idle-filter: blur(0.5px) opacity(0.9);
 }
 .member-orb {
   --orb-accent: var(--orb-bronze);
@@ -455,6 +458,8 @@ html[data-theme="light"] .members-orbit {
   color: var(--orb-idle-ink); filter: var(--orb-idle-filter);
   transform: translateZ(4px) scale(0.96);
 }
+/* 真人照片覆盖：用照片专用滤镜，远景只轻微失焦+降透明，不去色不变灰 */
+.orb-layer-top.has-photo { filter: var(--orb-photo-idle-filter); }
 .member-orb:hover .orb-layer-top, .member-orb:focus-within .orb-layer-top {
   transform: translateZ(34px) scale(1.06); filter: none; color: var(--orb-accent);
 }
