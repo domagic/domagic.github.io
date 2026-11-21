@@ -320,7 +320,9 @@
         ? '<img class="orb-photo" src="' + esc(photo) + '" alt="">'
         : '<span class="orb-glyph" aria-hidden="true">' + glyph + '</span>' +
           '<span class="orb-initial" aria-hidden="true">' + esc(sealChar(m, lang)) + '</span>'
-      // 图标下不放文字；文字详情只在 member.html?id=... 页展示。aria-label 供屏幕阅读器与悬停提示使用。
+      // 图标下方标注成员姓名（当前界面语言）；点击整张卡片进入 member.html?id=... 看详情。
+      // 名称用绝对定位放在圆盘下方、不参与 3D 飞行，避免影响悬停「由远及近」效果；
+      // aria-hidden 防止与 aria-label 重复朗读。姓名由 name[lang] 驱动，换语言自动切换。
       return '<a class="member-orb orb-accent-' + accent + '" href="member.html?id=' + encodeURIComponent(m.id) + '"' +
         ' aria-label="' + name + ' · ' + esc(titleLine) + '">' +
         '<span class="orb-stack">' +
@@ -328,6 +330,7 @@
           '<span class="orb-layer orb-layer-mid" aria-hidden="true"></span>' +
           '<span class="orb-layer orb-layer-top' + (photo ? ' has-photo' : '') + '">' + topInner + '</span>' +
         '</span>' +
+        '<span class="orb-caption" aria-hidden="true">' + name + '</span>' +
         '</a>'
     }).join('')
   }
