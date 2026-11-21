@@ -430,6 +430,162 @@
       twinkle: 0.014        // 闪烁相位速度
     }
   }
+  // ===== 真实感星系配置（可编辑：调这里改旋臂数/密度/倾角/转速，无需动绘制逻辑）=====
+  var GALAXY_CFG = {
+    arms: 2,              // 主旋臂数量
+    perArm: 900,          // 每条旋臂星点密度
+    halo: 240,            // 盘面弥散星点数量
+    coreSize: 0.11,       // 星核半径占画布半径比例
+    spin: 5.6,            // 螺旋缠绕圈数（θ 上限，越大臂绕得越多）
+    tilt: -0.34,          // 盘面倾角（弧度，负值为右下倾）
+    flatten: 0.58,        // 盘面压扁系数（正视=1，越小越侧视）
+    rotation: 0.000075,   // 整体自转角速度（弧度/毫秒）；约 84 秒一圈
+    drift: 0.00011,       // 盘面弥散星独立公转速度（营造流动感）
+    armWidth: 0.075,      // 旋臂径向宽度（占半径比例，越小臂越紧致）
+    twinkleSpeed: 0.0016  // 星点闪烁相位速度
+  }
+  // 读取主题下的星系配色（RGB 三元组字符串），与 ambPalette 共用主题判断。
+  function galaxyPalette() {
+    var cs = getComputedStyle(document.documentElement)
+    function rgb(name, fallback) {
+      var v = (cs.getPropertyValue(name) || '').trim()
+      return v || fallback
+    }
+    var light = document.documentElement.getAttribute('data-theme') === 'light'
+    return {
+      core: rgb('--galaxy-core', light ? '120, 138, 168' : '255, 236, 190'),
+      armA: rgb('--galaxy-arm-a', light ? '96, 126, 170' : '122, 158, 214'),
+      armB: rgb('--galaxy-arm-b', light ? '146, 126, 178' : '176, 150, 220'),
+      dust: rgb('--galaxy-dust', light ? '138, 109, 31' : '214, 196, 150'),
+      light: light
+    }
+  }
+  function initGalaxy() {
+    var cv = document.querySelector('.galaxy-canvas')
+    if (!cv) return
+    var reduce = false, host = document.querySelector('.galaxy')
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches } catch (e) {}
+    var ctx = cv.getContext('2d')
+    if (!ctx) return
+    var CFG = GALAXY_CFG
+    var dpr = Math.min(window.devicePixelRatio || 1, 2)
+    var S = 0, cx = 0, cy = 0, stars = [], t0 = 0, raf = 0
+
+    function resize() {
+      var r = (host || cv).getBoundingClientRect()
+      S = Math.max(1, Math.round(Math.min(r.width, r.height)))
+      cx = S / 2; cy = S / 2
+      cv.width = S * dpr; cv.height = S * dpr
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    }
+    // 生成星点：旋臂遵循对数螺旋 r = a·e^(b·θ)，沿臂加窄抖动；
+    // 盘面另撒弥散星。臂星整体刚体旋转以保持螺旋形状，盘面星独立公转营造流动。
+    function seed() {
+      stars = []
+      var R = S * 0.46
+      var b = CFG.spin / (2 * Math.PI)      // 对数螺旋增长系数
+      var a = 0.085 / Math.exp(b * 0)        // 起始半径
+      function push(theta, rr, band, bright) {
+        stars.push({
+          t: theta,                                  // 初始极角（弧度）
+          r: Math.max(0.05, Math.min(1, rr)),         // 归一化半径
+          band: band,                                // 0=臂A 1=臂B 2=盘面 3=亮星团
+          size: bright ? 1.0 + Math.random() * 1.6 : 0.45 + Math.random() * (band === 2 ? 0.9 : 1.2),
+          phase: Math.random() * 6.2832,
+          ps: CFG.twinkleSpeed * (0.5 + Math.random()),
+          alpha: band === 2 ? 0.22 + Math.random() * 0.34
+               : bright ? 0.85 + Math.random() * 0.15
+               : 0.5 + Math.random() * 0.5
+        })
+      }
+      var i, k
+      for (k = 0; k < CFG.arms; k++) {
+        var phase = k * (2 * Math.PI / CFG.arms)
+        for (i = 0; i < CFG.perArm; i++) {
+          var u = i / CFG.perArm
+          var theta = u * CFG.spin + phase            // 沿臂推进的极角
+          // 对数螺旋半径，归一化到接近 [0.085,1]
+          var raw = a * Math.exp(b * theta)
+          var rNorm = raw / (a * Math.exp(b * CFG.spin))
+          rNorm = 0.085 + 0.915 * rNorm
+          // 窄径向抖动：真实星系臂是细长带，不是弥散团
+          var w = CFG.armWidth * (0.4 + rNorm)
+          rNorm += (Math.random() - 0.5) * 2 * w
+          var bright = Math.random() < 0.09 && rNorm > 0.22  // 臂上散布亮星团/H II 区
+          push(theta, rNorm, k % 2, bright)
+        }
+      }
+      for (i = 0; i < CFG.halo; i++) {
+        var rr = Math.sqrt(Math.random()) // 面积均匀
+        push(Math.random() * 6.2832, rr, 2, false)
+      }
+    }
+    function draw(ts) {
+      if (!t0) t0 = ts
+      var pal = galaxyPalette()
+      ctx.clearRect(0, 0, S, S)
+      var R = S * 0.46
+      var fl = CFG.flatten, tilt = CFG.tilt
+      var elapsed = reduce ? 3000 : (ts - t0)
+
+      ctx.save()
+      ctx.translate(cx, cy)
+      ctx.rotate(tilt)
+      ctx.scale(1, fl) // 倾斜压缩成椭圆盘
+
+      // 1) 盘面弥散光晕（柔和径向渐变）
+      var glow = ctx.createRadialGradient(0, 0, 0, 0, 0, R)
+      var a1 = pal.light ? 0.16 : 0.20
+      glow.addColorStop(0, 'rgba(' + pal.core + ',' + (a1 * 1.4).toFixed(3) + ')')
+      glow.addColorStop(0.35, 'rgba(' + pal.armA + ',' + a1.toFixed(3) + ')')
+      glow.addColorStop(0.72, 'rgba(' + pal.armB + ',' + (a1 * 0.5).toFixed(3) + ')')
+      glow.addColorStop(1, 'rgba(' + pal.armB + ',0)')
+      ctx.fillStyle = glow
+      ctx.beginPath(); ctx.arc(0, 0, R, 0, 6.2832); ctx.fill()
+
+      // 2) 星点：臂星刚体自转（保持螺旋形状），盘面星独立公转（流动感），全都闪烁
+      var baseRot = elapsed * CFG.rotation
+      for (var i = 0; i < stars.length; i++) {
+        var s = stars[i]
+        // 盘面星比旋臂慢一拍地独立漂移；臂星跟随整体刚体旋转
+        var extra = s.band === 2 ? elapsed * CFG.drift * (1.2 - s.r) : 0
+        var th = s.t + baseRot + extra
+        var rad = s.r * R
+        var x = Math.cos(th) * rad
+        var y = Math.sin(th) * rad
+        var tw = 0.6 + 0.4 * Math.sin(s.phase + (reduce ? 0 : ts * s.ps))
+        var al = Math.min(1, s.alpha * tw)
+        var col = s.band === 0 ? pal.armA : s.band === 1 ? pal.armB : s.band === 3 ? pal.core : pal.dust
+        ctx.fillStyle = 'rgba(' + col + ',' + al.toFixed(3) + ')'
+        ctx.beginPath(); ctx.arc(x, y, s.size, 0, 6.2832); ctx.fill()
+      }
+
+      // 3) 星核 bulge：明亮暖核 + 光晕，缓慢呼吸
+      var breathe = reduce ? 1 : (0.92 + 0.08 * Math.sin(ts * 0.0009))
+      var cr = R * CFG.coreSize * breathe
+      var core = ctx.createRadialGradient(0, 0, 0, 0, 0, cr * 3.2)
+      core.addColorStop(0, 'rgba(' + pal.core + ',0.98)')
+      core.addColorStop(0.28, 'rgba(' + pal.core + ',0.62)')
+      core.addColorStop(0.6, 'rgba(' + pal.dust + ',0.22)')
+      core.addColorStop(1, 'rgba(' + pal.dust + ',0)')
+      ctx.fillStyle = core
+      ctx.beginPath(); ctx.arc(0, 0, cr * 3.2, 0, 6.2832); ctx.fill()
+      ctx.fillStyle = 'rgba(' + pal.core + ',0.95)'
+      ctx.beginPath(); ctx.arc(0, 0, cr * 0.55, 0, 6.2832); ctx.fill()
+      ctx.restore()
+    }
+    function loop(ts) { draw(ts); raf = window.requestAnimationFrame(loop) }
+
+    resize(); seed()
+    if (reduce) { draw(0) }
+    else { raf = window.requestAnimationFrame(loop) }
+    var rt
+    window.addEventListener('resize', function () {
+      clearTimeout(rt)
+      rt = setTimeout(function () { resize(); seed() }, 180)
+    })
+  }
+
   // 主题配色（暗＝青铜金／亮＝墨青）；lineK 为亮色下连线的补偿系数。
   function ambPalette() {
     if (document.documentElement.getAttribute('data-theme') === 'light') {
@@ -656,7 +812,10 @@
   document.addEventListener('DOMContentLoaded', function () {
     applyTheme()
     render()
-    if ((document.body.getAttribute('data-page') || 'home') === 'home') initAmbient()
+    if ((document.body.getAttribute('data-page') || 'home') === 'home') {
+      initGalaxy()
+      initAmbient()
+    }
     var btn = document.getElementById('lang-toggle')
     var menu = document.getElementById('lang-menu')
     function closeLangMenu() {
