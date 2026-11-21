@@ -304,6 +304,12 @@
     if (lang === 'zh') return (m.name.zh || '?').charAt(0)
     return (m.name.en || '?').split(/\s+/).map(function (w) { return w.charAt(0) }).join('').slice(0, 2).toUpperCase()
   }
+  // 成员照片：由 team.json.memberVisuals[id].photo 配置（内容层无图片契约 G3′ 不破），
+  // 兼容早期 m.photo 字段。路径为仓库静态资源相对地址，换照片只改 team.json。
+  function memberPhoto(m, vis) {
+    var p = (vis && vis.photo) || m.photo
+    return (typeof p === 'string' && /^(assets\/|\.\/assets\/)/.test(p)) ? p : ''
+  }
   function renderMembers(lang) {
     var el = document.getElementById('members-grid')
     if (!el) return
@@ -315,9 +321,10 @@
       var accent = /^[a-z0-9_-]+$/.test(vis.accent || '') ? vis.accent : 'bronze'
       var name = esc(m.name[lang] || m.name.zh)
       var titleLine = m.titleLine[lang] || m.titleLine[lang === 'zh' ? 'en' : 'zh'] || t(lang, 'members.titleFallback')
+      var photo = memberPhoto(m, vis)
       // 三层立体结构：底层底座 / 中层圆盘 / 表层图标；hover 时逐层上浮，形成底层→表层 3D 效果。
-      var topInner = m.photo
-        ? '<img class="orb-photo" src="' + esc(m.photo) + '" alt="">'
+      var topInner = photo
+        ? '<img class="orb-photo" src="' + esc(photo) + '" alt="">'
         : '<span class="orb-glyph" aria-hidden="true">' + glyph + '</span>' +
           '<span class="orb-initial" aria-hidden="true">' + esc(sealChar(m, lang)) + '</span>'
       // 图标下不放文字；文字详情只在 member.html?id=... 页展示。aria-label 供屏幕阅读器与悬停提示使用。
@@ -350,12 +357,17 @@
     var titleLine = member.titleLine[lang] || member.titleLine[lang === 'zh' ? 'en' : 'zh'] || t(lang, 'members.titleFallback')
     var name = esc(member.name[lang] || member.name.zh)
     var alt = esc(member.name[lang === 'zh' ? 'en' : 'zh'])
+    var visuals = (D.team && D.team.memberVisuals) || {}
+    var photo = memberPhoto(member, visuals[id] || {})
+    var photoHtml = photo ? '<img class="member-detail-photo" src="' + esc(photo) + '" alt="' + name + '">' : ''
     el.innerHTML =
       '<p class="member-back"><a href="members.html">← ' + esc(t(lang, 'member.back')) + '</a></p>' +
+      '<div class="member-detail-head">' + photoHtml + '<div class="member-detail-id">' +
       '<h1 class="member-detail-name">' + name + '</h1>' +
       '<p class="member-detail-alt">' + alt + '</p>' +
       '<p class="member-detail-role">' + esc(titleLine) + '</p>' +
       (member.status === 'placeholder' ? '<p class="member-detail-badge">' + badge(lang, '', 'badge.pending') + '</p>' : '') +
+      '</div></div>' +
       '<div class="member-detail-bio prose">' + (bio.missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + bio.html + '</div>'
   }
 
