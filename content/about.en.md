@@ -35,5 +35,5 @@ The site follows one rule: publish only what can be verified. Unconfirmed biogra
 
 ## Contact
 
-- Yong Qin — yongqin_ahsc@163.com
-- Chaoguang Luo — chaoguangluo@outlook.com
+- Yong Qin — [yongqin_ahsc@163.com](mailto:yongqin_ahsc@163.com)
+- Chaoguang Luo — [chaoguangluo@outlook.com](mailto:chaoguangluo@outlook.com)
