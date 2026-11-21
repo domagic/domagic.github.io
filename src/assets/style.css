@@ -116,7 +116,9 @@ a { color: inherit; }
 
 /* ---------- 顶栏 ---------- */
 .site-head { background: var(--bg); border-bottom: 1px solid var(--line-soft); position: sticky; top: 0; z-index: 20; transition: background-color 0.35s ease, border-color 0.35s ease; }
-.head-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
+/* --nav-gap：导航项之间的统一间距。导航链接内部、以及「成果」到「语言」按钮之间都用它，
+   保证整排导航间隔一致（改这里即可整体调整）。 */
+.head-in { --nav-gap: clamp(0.9rem, 2.4vw, 1.9rem); display: flex; align-items: center; justify-content: space-between; gap: var(--nav-gap); min-height: 68px; }
 .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
 /* 品牌图形标志：专业几何 A（正方形 SVG，由 JS 注入 BRAND_MARK_SVG）；尺寸/配色走 CSS 变量 */
 .seal {
@@ -139,7 +141,7 @@ a { color: inherit; }
   letter-spacing: var(--mark-sub-track); color: var(--text-soft); line-height: 1.2;
   -webkit-text-fill-color: currentColor;
 }
-.site-nav { display: flex; align-items: center; gap: clamp(0.9rem, 2.4vw, 1.9rem); margin-left: auto; }
+.site-nav { display: flex; align-items: center; gap: var(--nav-gap); margin-left: auto; }
 .site-nav a {
   text-decoration: none; font-size: 0.95rem; letter-spacing: 0.06em;
   padding-block: 0.35rem; border-bottom: 1px solid transparent;
