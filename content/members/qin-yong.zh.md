@@ -4,7 +4,7 @@ lang: zh
 id: qin-yong
 name: 秦勇
 title_line: 研究员 · 成都理工大学管理科学学院数据系
-order: 2
+order: 1
 status: confirmed
 visibility: public
 date: 2026-11-21
