@@ -62,16 +62,16 @@
   // 品牌标志：流光 A + ∞ 无限符号（Aethera）。整段可在此替换；配色走 CSS 变量 --mark-*，
   // 明暗主题自适应，零外部图片依赖。渐变用 style 内联以正确解析 CSS 变量。
   var BRAND_MARK_SVG =
-    '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">' +
+    '<svg viewBox="-6 -9 112 112" aria-hidden="true" focusable="false">' +
       '<defs><linearGradient id="qlMarkGrad" x1="0" y1="1" x2="1" y2="0">' +
-        '<stop offset="0%" style="stop-color:var(--mark-c1,#5aa9ff)"></stop>' +
-        '<stop offset="52%" style="stop-color:var(--mark-c2,#9b7bff)"></stop>' +
-        '<stop offset="100%" style="stop-color:var(--mark-c3,#e08cff)"></stop>' +
+        '<stop offset="0%" style="stop-color:var(--mark-c1,#f4ecda)"></stop>' +
+        '<stop offset="52%" style="stop-color:var(--mark-c2,#d6c496)"></stop>' +
+        '<stop offset="100%" style="stop-color:var(--mark-c3,#c9a45c)"></stop>' +
       '</linearGradient></defs>' +
       '<g fill="none" stroke="url(#qlMarkGrad)" stroke-linecap="round" stroke-linejoin="round">' +
         '<path d="M20 84 C28 52 40 18 50 10 C60 18 72 52 80 84" stroke-width="9" opacity="0.3"></path>' +
         '<path d="M20 84 C28 52 40 18 50 10 C60 18 72 52 80 84" stroke-width="4.6"></path>' +
-        '<path d="M50 56 C43 47 31 48 31 56 C31 64 43 65 50 56 C57 47 69 48 69 56 C69 64 57 65 50 56 Z" stroke-width="4.2"></path>' +
+        '<path d="M50 56 C43 47 31 48 31 56 C31 64 43 65 50 56 C57 47 69 48 69 56 C69 64 57 65 50 56 Z" stroke-width="4.8"></path>' +
       '</g>' +
     '</svg>'
 
