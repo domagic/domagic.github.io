@@ -203,15 +203,6 @@ html[lang="en"] .team-name {
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: transparent;
 }
-.hero-en {
-  /* 英文副标题：字号仅比中文主标题小 1~2 号（主标题桌面约 7rem，此处约 5rem） */
-  margin-top: 0.6rem; font-family: var(--serif-en); font-size: clamp(2.2rem, 6vw, 5rem);
-  letter-spacing: 0.06em; line-height: 1.15;
-  font-weight: 600;
-  background: linear-gradient(90deg, var(--art-en-a), var(--art-en-b));
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-}
 .mission-lg {
   margin-top: 2.3rem; max-width: 24em;
   font-family: var(--serif-zh); font-size: clamp(1.35rem, 2.6vw, 2.05rem);
