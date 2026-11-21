@@ -4,7 +4,7 @@ lang: zh
 id: luo-chao-guang
 name: 罗朝广
 title_line: 助理研究员、博士后 · 浙江大学管理学院
-order: 1
+order: 2
 status: confirmed
 visibility: public
 date: 2026-11-22
