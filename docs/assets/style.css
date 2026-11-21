@@ -105,7 +105,7 @@ a { color: inherit; }
 /* 品牌 logo：完整图案 SVG（A+∞ 图形 + 英文名），由 JS 注入（BRAND_MARK_SVG）；
    配色/高度走 CSS 变量，宽度按 3:1 比例自适应；零外部图片依赖，不写死 */
 .seal {
-  height: var(--mark-size); width: calc(var(--mark-size) * 3); flex: none;
+  height: var(--mark-size); width: calc(var(--mark-size) * 3.4); flex: none;
   display: grid; place-items: center;
 }
 .seal svg { width: 100%; height: 100%; display: block; overflow: visible;
