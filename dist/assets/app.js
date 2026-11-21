@@ -59,6 +59,22 @@
     moon: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 14.8A8.6 8.6 0 0 1 9.2 3.8a8.6 8.6 0 1 0 11 11z"></path></svg>'
   }
 
+  // 品牌标志：流光 A + ∞ 无限符号（Aethera）。整段可在此替换；配色走 CSS 变量 --mark-*，
+  // 明暗主题自适应，零外部图片依赖。渐变用 style 内联以正确解析 CSS 变量。
+  var BRAND_MARK_SVG =
+    '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">' +
+      '<defs><linearGradient id="qlMarkGrad" x1="0" y1="1" x2="1" y2="0">' +
+        '<stop offset="0%" style="stop-color:var(--mark-c1,#5aa9ff)"></stop>' +
+        '<stop offset="52%" style="stop-color:var(--mark-c2,#9b7bff)"></stop>' +
+        '<stop offset="100%" style="stop-color:var(--mark-c3,#e08cff)"></stop>' +
+      '</linearGradient></defs>' +
+      '<g fill="none" stroke="url(#qlMarkGrad)" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M20 84 C28 52 40 18 50 10 C60 18 72 52 80 84" stroke-width="9" opacity="0.3"></path>' +
+        '<path d="M20 84 C28 52 40 18 50 10 C60 18 72 52 80 84" stroke-width="4.6"></path>' +
+        '<path d="M50 56 C43 47 31 48 31 56 C31 64 43 65 50 56 C57 47 69 48 69 56 C69 64 57 65 50 56 Z" stroke-width="4.2"></path>' +
+      '</g>' +
+    '</svg>'
+
   function getLang() {
     try { var v = localStorage.getItem(KEY); if (v === 'zh' || v === 'en') return v } catch (e) {}
     return 'zh'
@@ -371,9 +387,9 @@
     for (var i = 0; i < nodes.length; i++) nodes[i].textContent = t(lang, nodes[i].getAttribute('data-i18n'))
     var bm = document.getElementById('brand-main'); if (bm) bm.textContent = name
     var bs = document.getElementById('brand-sub'); if (bs) bs.textContent = alt
-    // 印章文字数据化：取 team.seal，缺省回退到中文队名前两字（不写死在 HTML）。
+    // 品牌标志：注入流光 A+∞ SVG（常量 BRAND_MARK_SVG，配色走 CSS 变量；后期换标志只改那处）。
     var sealEl = document.getElementById('brand-seal')
-    if (sealEl) sealEl.textContent = team.seal || ((team.name || {}).zh || '').slice(0, 2)
+    if (sealEl) sealEl.innerHTML = BRAND_MARK_SVG
     var btn = document.getElementById('lang-toggle')
     if (btn) { btn.textContent = t(lang, 'langBtn'); btn.setAttribute('aria-label', t(lang, 'langBtnAria')) }
     var tb = document.getElementById('theme-toggle')

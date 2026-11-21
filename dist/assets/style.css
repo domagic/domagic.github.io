@@ -33,11 +33,11 @@
   --fangsong: FangSong, STFangsong, "Noto Serif SC", serif;
   --serif-en: "Times New Roman", Times, Georgia, serif;
 
-  /* 印章（跨主题一致的深墨底金线篆刻感；改这里即可换配色/尺寸） */
-  --seal-bg: #1a2634;
-  --seal-ink: #ecdcae;
-  --seal-line: #c9a45c;
-  --seal-size: 46px;
+  /* 品牌标志 Aethera（流光 A+∞ SVG；改 --mark-c* 即可换配色，--mark-size 换尺寸） */
+  --mark-c1: #5aa9ff;
+  --mark-c2: #9b7bff;
+  --mark-c3: #e08cff;
+  --mark-size: 46px;
 
   /* 艺术字渐变（暗色主题，CSS 渐变实现，零外部字体；改这里即可换配色） */
   --art-zh-a: #f4ecda; --art-zh-b: #d8b877; --art-zh-c: #a17e3c;
@@ -72,6 +72,9 @@ html[data-theme="light"] {
   --art-zh-a: #1c2733; --art-zh-b: #6b5518; --art-zh-c: #a8872f;
   --art-en-a: #2b2412; --art-en-b: #6b5518;
   --art-stroke: rgba(28, 39, 51, 0.10);
+
+  /* 亮色主题品牌标志：降饱和以适配浅底 */
+  --mark-c1: #3f7fd4; --mark-c2: #7358c9; --mark-c3: #a855c7;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -96,21 +99,13 @@ a { color: inherit; }
 .site-head { background: var(--bg); border-bottom: 1px solid var(--line-soft); position: sticky; top: 0; z-index: 20; transition: background-color 0.35s ease, border-color 0.35s ease; }
 .head-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
 .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
-/* 印章：CSS 绘制的篆刻方章，文字由 JS 注入（team.seal），不写死 */
+/* 品牌标志：流光 A+∞ SVG，由 JS 注入（BRAND_MARK_SVG）；配色/尺寸走 CSS 变量，不写死 */
 .seal {
-  position: relative;
-  width: var(--seal-size); height: var(--seal-size); flex: none;
-  background: var(--seal-bg); color: var(--seal-ink);
-  border: 2px solid var(--seal-line);
-  border-radius: 2px;
-  font-family: var(--serif-zh); font-weight: 600; font-size: 1.02rem; line-height: 1.05;
-  display: grid; place-items: center; letter-spacing: 0.04em;
-  box-shadow: inset 0 0 0 1px var(--seal-bg), inset 0 0 0 2px rgba(0, 0, 0, 0.28);
+  width: var(--mark-size); height: var(--mark-size); flex: none;
+  display: grid; place-items: center;
 }
-.seal::after {
-  content: ""; position: absolute; inset: 3px;
-  border: 1px solid rgba(201, 164, 92, 0.5); border-radius: 1px; pointer-events: none;
-}
+.seal svg { width: 100%; height: 100%; display: block; overflow: visible;
+  filter: drop-shadow(0 0 4px var(--mark-c2)); }
 .brand-txt { display: flex; flex-direction: column; line-height: 1.3; }
 .brand-main { font-family: var(--serif-zh); font-size: 1.15rem; letter-spacing: 0.14em; }
 html[lang="en"] .brand-main { font-family: var(--serif-en); letter-spacing: 0.02em; font-size: 1.05rem; }
