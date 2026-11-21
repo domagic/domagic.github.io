@@ -4,7 +4,7 @@ lang: en
 id: qin-yong
 name: Yong Qin
 title_line: Researcher · Dept. of Data Science, School of Management Science, Chengdu University of Technology
-order: 2
+order: 1
 status: confirmed
 visibility: public
 date: 2026-11-21
