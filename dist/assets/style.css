@@ -341,7 +341,12 @@ html[lang="en"] .prose blockquote { font-family: var(--serif-en); font-style: it
 .members-orbit {
   --orb-teal: #7fb5ae; --orb-teal-soft: rgba(127, 181, 174, 0.16);
   --orb-bronze: #d6c496; --orb-bronze-soft: rgba(214, 196, 150, 0.16);
-  --orb-idle: rgba(231, 228, 220, 0.08);
+  /* 初始态（浅色沉底）：暗色主题下用暖白图形 + 稍亮圆盘，保证深色背景上清晰可辨；
+     hover 仍由 --orb-accent 着色并浮起，形成明显反差。换配色只改这几行。 */
+  --orb-idle: rgba(231, 228, 220, 0.13);
+  --orb-idle-border: var(--line);
+  --orb-idle-ink: var(--text);
+  --orb-idle-filter: none;
   --orb-size: clamp(84px, 10vw, 112px);
   display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
   gap: clamp(1.6rem, 5vw, 4rem); padding-block: 2.6rem 3.4rem;
@@ -351,6 +356,9 @@ html[data-theme="light"] .members-orbit {
   --orb-teal: #2f706a; --orb-teal-soft: rgba(47, 112, 106, 0.10);
   --orb-bronze: #8a6d1f; --orb-bronze-soft: rgba(138, 109, 31, 0.10);
   --orb-idle: rgba(28, 39, 51, 0.05);
+  --orb-idle-border: var(--line-soft);
+  --orb-idle-ink: var(--text-soft);
+  --orb-idle-filter: saturate(0.25) opacity(0.75);
 }
 .member-orb {
   --orb-accent: var(--orb-bronze);
@@ -379,7 +387,7 @@ html[data-theme="light"] .members-orbit {
 }
 /* 底层：初始与中层贴合（浅色圆盘 + 阴影），hover 时下沉并扩散投影，成为最深一层 */
 .orb-layer-base {
-  background: var(--orb-idle); border: 1px solid var(--line-soft);
+  background: var(--orb-idle); border: 1px solid var(--orb-idle-border);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.10);
   transform: translateZ(0);
 }
@@ -390,8 +398,8 @@ html[data-theme="light"] .members-orbit {
 }
 /* 中层：初始贴合，hover 时抬升到中层并着色 */
 .orb-layer-mid {
-  background: var(--orb-idle); border: 1px solid var(--line-soft);
-  color: var(--text-soft); filter: saturate(0.25) opacity(0.72);
+  background: var(--orb-idle); border: 1px solid var(--orb-idle-border);
+  color: var(--orb-idle-ink); filter: var(--orb-idle-filter);
   transform: translateZ(1px);
 }
 .member-orb:hover .orb-layer-mid, .member-orb:focus-within .orb-layer-mid {
@@ -401,7 +409,7 @@ html[data-theme="light"] .members-orbit {
 }
 /* 表层：图标始终在最上，初始浅色，hover 时升到最高、放大并恢复全彩 */
 .orb-layer-top {
-  color: var(--text-soft); filter: saturate(0.25) opacity(0.75);
+  color: var(--orb-idle-ink); filter: var(--orb-idle-filter);
   transform: translateZ(2px);
 }
 .member-orb:hover .orb-layer-top, .member-orb:focus-within .orb-layer-top {
