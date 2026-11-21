@@ -407,6 +407,15 @@
       speed: 6.2,           // 流星速度（像素/帧）
       length: 140,          // 尾迹长度
       alpha: 0.55           // 流星透明度
+    },
+    galaxy: {
+      // 对联区星野：星点向右侧（对联）聚集，左侧文字区稀疏。
+      // cx/cy/rx/ry 为相对画布的比例，决定椭圆星野中心与范围。
+      cx: 0.80, cy: 0.44, rx: 0.30, ry: 0.40,
+      stars: 150,           // 星野内星点数量
+      radius: [0.4, 1.9],   // 星点半径范围
+      alpha: [0.18, 0.92],  // 星点透明度范围
+      twinkle: 0.014        // 闪烁相位速度
     }
   }
   // 主题配色（暗＝青铜金／亮＝墨青）；lineK 为亮色下连线的补偿系数。
@@ -427,7 +436,7 @@
     if (!ctx) return
     var CFG = AMBIENT_CFG
     var dpr = Math.min(window.devicePixelRatio || 1, 2)
-    var W = 0, H = 0, nodes = [], motes = [], meteor = null
+    var W = 0, H = 0, nodes = [], motes = [], gstars = [], meteor = null
     var raf = 0, last = 0, nextMeteor = 0
     function rand(a, b) { return a + Math.random() * (b - a) }
     function resize() {
@@ -460,6 +469,23 @@
           ps: rand(CFG.dust.twinkle * 0.6, CFG.dust.twinkle * 1.4)
         })
       }
+      // 对联区星野：在以 (cx,cy) 为中心、半径 (rx,ry) 的椭圆内按高斯聚集撒点，
+      // 越靠中心越密，形成星系核附近的密集星场；左侧文字区自然稀疏。
+      var G = CFG.galaxy
+      gstars = []
+      var gcx = G.cx * W, gcy = G.cy * H
+      for (var g = 0; g < G.stars; g++) {
+        // 两个均匀数求平均→近似三角分布，中心更密
+        var u = (Math.random() + Math.random()) / 2 - 0.5   // [-0.5,0.5] 偏中
+        var v = (Math.random() + Math.random()) / 2 - 0.5
+        gstars.push({
+          x: gcx + u * 2 * G.rx * W,
+          y: gcy + v * 2 * G.ry * H,
+          r: rand(G.radius[0], G.radius[1]),
+          phase: Math.random() * 6.2832,
+          ps: rand(G.twinkle * 0.5, G.twinkle * 1.5)
+        })
+      }
       meteor = null
       nextMeteor = tsSafe() + CFG.meteor.every
     }
@@ -480,6 +506,16 @@
       ctx.clearRect(0, 0, W, H)
       var pal = ambPalette()
       var i, j, a, b, dx, dy, d
+
+      // 0) 对联区星野：密集星点 + 闪烁，构成 CSS 星系之上的实体星场
+      var G = CFG.galaxy
+      for (i = 0; i < gstars.length; i++) {
+        a = gstars[i]
+        a.phase += a.ps
+        var sa = G.alpha[0] + (G.alpha[1] - G.alpha[0]) * (0.5 + 0.5 * Math.sin(a.phase))
+        ctx.fillStyle = 'rgba(' + pal.rgb + ',' + sa.toFixed(3) + ')'
+        ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, 6.2832); ctx.fill()
+      }
 
       // 1) 漂浮微尘（底层）：缓慢上浮 + 呼吸闪烁，越界从底部回绕
       for (i = 0; i < motes.length; i++) {
