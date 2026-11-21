@@ -149,7 +149,6 @@ html[lang="en"] .lang-toggle { font-family: var(--serif-en); }
   position: relative; overflow: hidden;
   background:
     radial-gradient(ellipse 62% 46% at 76% 8%, var(--hero-tint), transparent 70%),
-    repeating-linear-gradient(90deg, var(--hero-rule) 0 1px, transparent 1px 140px),
     linear-gradient(160deg, var(--hero-a) 0%, var(--hero-b) 52%, var(--bg) 100%);
   color: var(--text);
 }
@@ -182,8 +181,8 @@ html[lang="en"] .lang-toggle { font-family: var(--serif-en); }
   align-items: center; min-height: min(86vh, 820px); padding-block: clamp(4rem, 9vh, 6.5rem);
 }
 .eyebrow {
-  color: var(--gold-light); font-size: 1.02rem; letter-spacing: 0.38em;
-  text-transform: uppercase; margin-bottom: 1.6rem; font-family: var(--serif-en);
+  color: var(--gold-light); font-size: 1.45rem; letter-spacing: 0.34em;
+  text-transform: uppercase; margin-bottom: 1.7rem; font-family: var(--serif-en);
   font-weight: 600;
 }
 /* 艺术字：CSS 渐变填充 + 细描边 + 柔光，零外部字体；配色见主题变量 */
@@ -204,7 +203,9 @@ html[lang="en"] .team-name {
   -webkit-text-fill-color: transparent; color: transparent;
 }
 .hero-en {
-  margin-top: 1.1rem; font-family: var(--serif-en); font-size: 1.06rem; letter-spacing: 0.16em;
+  /* 英文副标题：字号仅比中文主标题小 1~2 号（主标题桌面约 7rem，此处约 5rem） */
+  margin-top: 0.6rem; font-family: var(--serif-en); font-size: clamp(2.2rem, 6vw, 5rem);
+  letter-spacing: 0.06em; line-height: 1.15;
   font-weight: 600;
   background: linear-gradient(90deg, var(--art-en-a), var(--art-en-b));
   -webkit-background-clip: text; background-clip: text;
