@@ -32,5 +32,5 @@ date: 2026-11-19
 
 ## 联系
 
-- 秦勇 yongqin_ahsc@163.com
-- 罗朝广 chaoguangluo@outlook.com
+- 秦勇 [yongqin_ahsc@163.com](mailto:yongqin_ahsc@163.com)
+- 罗朝广 [chaoguangluo@outlook.com](mailto:chaoguangluo@outlook.com)
