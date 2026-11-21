@@ -3,16 +3,22 @@ title: 秦勇
 lang: zh
 id: qin-yong
 name: 秦勇
-title_line: 研究员 · 成都理工大学管理学院
+title_line: 研究员 · 成都理工大学管理科学学院数据系
 order: 2
 status: confirmed
 visibility: public
-date: 2026-11-19
+date: 2026-11-21
 ---
 
-## 现职
+## 现职与学术任职
 
-研究员 · 成都理工大学管理学院。
+- **成都理工大学 · 管理科学学院 · 数据系**：研究员。
+- **香港理工大学 · 酒店及旅游管理学院（School of Hotel and Tourism Management）**：博士后（Postdoctoral Fellow）。个人主页：[polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/)。
+- **四川工商学院**：2025 年 12 月受邀出席数字经济学术前沿与学科建设研讨会并作主旨报告，主题为高效论文写作工具与系统化工作流。[会议报道](https://kjc.stbu.edu.cn/news/2025/1222/80028.html)。
+
+## 学术链接
+
+- Google Scholar：[引用主页](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
 
 ## 教育经历
 
