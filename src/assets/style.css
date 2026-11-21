@@ -39,13 +39,17 @@
   --fangsong: FangSong, STFangsong, "Noto Serif SC", serif;
   --serif-en: "Times New Roman", Times, Georgia, serif;
 
-  /* 品牌标志 Aethera（流光 A+∞ SVG；配色与主页青铜金同系）
-     改 --mark-c* 换渐变、--mark-glow 换光晕、--mark-size 换尺寸 */
+  /* 品牌标志 Aethera（专业几何 A 图形 + 英文主字标 + 中文副标；青铜金同系）
+     改 --mark-c* 换渐变、--mark-glow 换光晕、--mark-size 换图形尺寸、--mark-word-* 换字标字号/字距 */
   --mark-c1: #f4ecda;
   --mark-c2: #d6c496;
   --mark-c3: #c9a45c;
   --mark-glow: rgba(214, 196, 150, 0.28);
-  --mark-size: 46px;
+  --mark-size: 44px;
+  --mark-word-size: 1.32rem;      /* 英文主字标字号 */
+  --mark-word-track: 0.16em;      /* 英文主字标字距 */
+  --mark-sub-size: 0.72rem;       /* 中文副标字号 */
+  --mark-sub-track: 0.34em;       /* 中文副标字距 */
 
   /* 艺术字渐变（暗色主题，CSS 渐变实现，零外部字体；改这里即可换配色） */
   --art-zh-a: #f4ecda; --art-zh-b: #d8b877; --art-zh-c: #a17e3c;
@@ -113,19 +117,28 @@ a { color: inherit; }
 /* ---------- 顶栏 ---------- */
 .site-head { background: var(--bg); border-bottom: 1px solid var(--line-soft); position: sticky; top: 0; z-index: 20; transition: background-color 0.35s ease, border-color 0.35s ease; }
 .head-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
-.brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
-/* 品牌 logo：完整图案 SVG（A+∞ 图形 + 英文名），由 JS 注入（BRAND_MARK_SVG）；
-   配色/高度走 CSS 变量，宽度按 3:1 比例自适应；零外部图片依赖，不写死 */
+.brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+/* 品牌图形标志：专业几何 A（正方形 SVG，由 JS 注入 BRAND_MARK_SVG）；尺寸/配色走 CSS 变量 */
 .seal {
-  height: var(--mark-size); width: calc(var(--mark-size) * 3.4); flex: none;
+  height: var(--mark-size); width: var(--mark-size); flex: none;
   display: grid; place-items: center;
 }
 .seal svg { width: 100%; height: 100%; display: block; overflow: visible;
   filter: drop-shadow(0 0 3px var(--mark-glow)); }
-.brand-txt { display: flex; flex-direction: column; line-height: 1.3; }
-.brand-main { font-family: var(--serif-zh); font-size: 1.05rem; letter-spacing: 0.12em; }
-html[lang="en"] .brand-main { font-family: var(--serif-zh); letter-spacing: 0.12em; font-size: 1.05rem; }
-.brand-sub { font-size: 0.72rem; color: var(--text-soft); letter-spacing: 0.08em; font-family: var(--serif-en); }
+/* 品牌文字锁组合：英文主字标（全大写衬线＋金属渐变＋宽字距）＋中文副标（小字宽字距） */
+.brand-txt { display: flex; flex-direction: column; gap: 0.12rem; }
+.brand-main {
+  font-family: var(--serif-en); font-weight: 600; text-transform: uppercase;
+  font-size: var(--mark-word-size); letter-spacing: var(--mark-word-track); line-height: 1.1;
+  background: linear-gradient(100deg, var(--mark-c1), var(--mark-c2) 55%, var(--mark-c3));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: var(--mark-c2);
+}
+.brand-sub {
+  font-family: var(--serif-zh); font-size: var(--mark-sub-size);
+  letter-spacing: var(--mark-sub-track); color: var(--text-soft); line-height: 1.2;
+  -webkit-text-fill-color: currentColor;
+}
 .site-nav { display: flex; align-items: center; gap: clamp(0.9rem, 2.4vw, 1.9rem); margin-left: auto; }
 .site-nav a {
   text-decoration: none; font-size: 0.95rem; letter-spacing: 0.06em;
@@ -532,7 +545,7 @@ html[lang="en"] .foot-couplet { font-family: var(--serif-en); font-style: italic
 }
 @media (max-width: 760px) {
   .head-in { gap: 0.6rem; }
-  html[lang="en"] .brand-main { font-size: 0.95rem; }
+  :root { --mark-size: 36px; --mark-word-size: 1.08rem; --mark-word-track: 0.1em; --mark-sub-size: 0.62rem; --mark-sub-track: 0.22em; }
   .lang-toggle { padding: 0.35rem 0; font-size: 0.78rem; }
   /* 窄屏改为右对齐按钮，避免菜单从左侧溢出视口 */
   .lang-menu { left: auto; right: 0; min-width: 11.5rem; }
