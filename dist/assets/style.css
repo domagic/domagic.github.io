@@ -72,12 +72,12 @@ html[data-theme="light"] {
   --hero-b: #dfe6ec;
   --hero-tint: rgba(28, 39, 51, 0.07);
   --hero-rule: rgba(28, 39, 51, 0.045);
-  /* 宇宙星系（亮色）：淡墨蓝水彩星系，浅底仍清晰可视 */
-  --galaxy-core: 120, 138, 168;
-  --galaxy-arm-a: 96, 126, 170;
-  --galaxy-arm-b: 146, 126, 178;
+  /* 宇宙星系（亮色）：暖金星核 + 墨蓝/紫旋臂，浅底清晰但不刺眼 */
+  --galaxy-core: 150, 122, 52;
+  --galaxy-arm-a: 74, 106, 158;
+  --galaxy-arm-b: 122, 92, 156;
   --galaxy-dust: 138, 109, 31;
-  --galaxy-opacity: 0.95;
+  --galaxy-opacity: 1;
   --card: #ffffff;
   --code-bg: rgba(28, 39, 51, 0.06);
   --quote-bg: rgba(138, 109, 31, 0.06);
@@ -186,74 +186,24 @@ html[lang="en"] .lang-toggle { font-family: var(--serif-en); }
   color: var(--text);
 }
 
-/* ---------- 宇宙星系背景（可配置：中心/尺寸/配色见主题变量与下方 --g-* ） ----------
+/* ---------- 宇宙星系背景（真实感对数螺旋星系，Canvas 程序化绘制） ----------
    分区：整层靠右侧对联区，左缘用遮罩渐隐，保证左侧文字密集区清爽。
-   四层：halo 星云外晕 / disk 盘中光 / arms 旋臂 / core 星核。
-   纯 CSS 渐变绘制，零外部图片；明暗两套配色由 --galaxy-* 变量切换。 */
+   画面由 app.js 的 initGalaxy() 在 .galaxy-canvas 上绘制：核心 bulge、
+   对数螺旋旋臂、盘面星点、尘埃带，并做整体自转＋星点闪烁＋差速漂移。
+   配色继续由明暗主题的 --galaxy-* 变量驱动；尺寸/中心由下方 --g-* 控制。 */
 .galaxy {
   --g-size: clamp(440px, 56vw, 860px);   /* 星系直径 */
   --g-cx: 78%;                            /* 水平中心（对联区） */
   --g-cy: 44%;                            /* 垂直中心 */
-  --g-spin-dur: 90s;                      /* 旋臂自转周期 */
   position: absolute; top: var(--g-cy); left: var(--g-cx);
   width: var(--g-size); height: var(--g-size);
   transform: translate(-50%, -50%);
   z-index: 0; pointer-events: none; opacity: var(--galaxy-opacity);
   /* 左缘淡出：文字区几乎无背景，向右到对联区逐渐浓郁 */
-  -webkit-mask-image: linear-gradient(100deg, transparent 0%, transparent 22%, rgba(0,0,0,.45) 46%, #000 72%);
-          mask-image: linear-gradient(100deg, transparent 0%, transparent 22%, rgba(0,0,0,.45) 46%, #000 72%);
+  -webkit-mask-image: linear-gradient(100deg, transparent 0%, transparent 20%, rgba(0,0,0,.5) 46%, #000 70%);
+          mask-image: linear-gradient(100deg, transparent 0%, transparent 20%, rgba(0,0,0,.5) 46%, #000 70%);
 }
-.galaxy > span { position: absolute; inset: 0; border-radius: 50%; display: block; }
-/* 外晕：深空星云弥散光，椭圆铺开 */
-.galaxy-halo {
-  background:
-    radial-gradient(ellipse 62% 44% at 50% 50%, rgba(var(--galaxy-arm-a), .20), transparent 70%),
-    radial-gradient(ellipse 44% 60% at 52% 50%, rgba(var(--galaxy-arm-b), .14), transparent 72%);
-  filter: blur(14px);
-}
-/* 盘中光：倾斜的星系盘，中间亮、边缘淡 */
-.galaxy-disk {
-  inset: 14%;
-  background: radial-gradient(ellipse 50% 50% at 50% 50%,
-    rgba(var(--galaxy-dust), .28) 0%,
-    rgba(var(--galaxy-arm-a), .16) 38%,
-    transparent 70%);
-  transform: rotate(-24deg) scaleY(.6);
-  filter: blur(6px);
-}
-/* 旋臂：两组错位的斜向光带交叠，配合椭圆盘形成螺旋臂错觉；缓慢自转 */
-.galaxy-arms {
-  inset: 6%;
-  background:
-    conic-gradient(from 0deg at 50% 50%,
-      transparent 0deg,
-      rgba(var(--galaxy-arm-a), .42) 34deg,
-      rgba(var(--galaxy-arm-b), .22) 62deg,
-      transparent 104deg,
-      transparent 168deg,
-      rgba(var(--galaxy-arm-b), .42) 202deg,
-      rgba(var(--galaxy-arm-a), .22) 230deg,
-      transparent 272deg,
-      transparent 360deg);
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 6%, #000 24%, #000 56%, transparent 76%);
-          mask-image: radial-gradient(circle at 50% 50%, transparent 6%, #000 24%, #000 56%, transparent 76%);
-  transform: rotate(-24deg) scaleY(.6);
-  filter: blur(4px);
-  animation: galaxy-spin var(--g-spin-dur) linear infinite;
-}
-/* 星核：明亮暖白核心 + 光晕脉动 */
-.galaxy-core {
-  inset: 42%;
-  background: radial-gradient(circle at 50% 50%,
-    rgba(var(--galaxy-core), .95) 0%,
-    rgba(var(--galaxy-core), .55) 30%,
-    rgba(var(--galaxy-dust), .28) 55%,
-    transparent 78%);
-  box-shadow: 0 0 46px 14px rgba(var(--galaxy-core), .28);
-  animation: core-breathe 8s ease-in-out infinite alternate;
-}
-@keyframes galaxy-spin { to { transform: rotate(-24deg) scaleY(.6) rotate(360deg); } }
-@keyframes core-breathe { from { opacity: .8; transform: scale(.94); } to { opacity: 1; transform: scale(1.06); } }
+.galaxy-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 /* 窄屏：文字堆叠居中，星系缩到右上、降低强度，避免压住正文 */
 @media (max-width: 760px) {
   .galaxy { --g-size: 78vw; --g-cx: 74%; --g-cy: 20%; opacity: calc(var(--galaxy-opacity) * .7); }
