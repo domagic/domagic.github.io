@@ -29,7 +29,7 @@
   "langs": ["zh", "en"],
   "memberOrder": ["luo-chao-guang", "qin-yong"],
   "memberVisuals": {
-    "luo-chao-guang": { "glyph": "orbit", "accent": "teal" },
+    "luo-chao-guang": { "glyph": "orbit", "accent": "teal", "photo": "assets/luo-chao-guang.jpg" },
     "qin-yong": { "glyph": "lattice", "accent": "bronze", "photo": "assets/qin-yong.jpg" }
   },
   "home": {
