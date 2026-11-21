@@ -214,12 +214,6 @@
     var parts = coupletParts(lang)
     set('couplet-1', parts[0] || '')
     set('couplet-2', parts[1] || '')
-    var cs = document.getElementById('couplet-status')
-    if (cs) {
-      var draft = lang === 'en' && team.coupletStatus && team.coupletStatus.en === 'draft'
-      cs.hidden = !draft
-      cs.textContent = draft ? t(lang, 'marker.draftTrans') : ''
-    }
     var box = document.getElementById('teasers')
     if (box) {
       box.innerHTML = (home.teasers || []).filter(function (x) { return x && x.enabled }).map(function (x) {
