@@ -356,8 +356,7 @@
     el.innerHTML =
       '<p class="member-back"><a href="members.html">← ' + esc(t(lang, 'member.back')) + '</a></p>' +
       '<div class="member-detail-head">' + photoHtml + '<div class="member-detail-id">' +
-      '<h1 class="member-detail-name">' + name + '</h1>' +
-      '<p class="member-detail-alt">' + alt + '</p>' +
+      '<h1 class="member-detail-name">' + name + '<span class="member-detail-alt">（' + alt + '）</span></h1>' +
       '<p class="member-detail-role">' + esc(titleLine) + '</p>' +
       (member.status === 'placeholder' ? '<p class="member-detail-badge">' + badge(lang, '', 'badge.pending') + '</p>' : '') +
       '</div></div>' +
