@@ -122,18 +122,21 @@ html[lang="en"] .brand-main { font-family: var(--serif-zh); letter-spacing: 0.12
 }
 .site-nav a:hover { border-bottom-color: var(--gold); color: var(--gold); }
 .site-nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
-/* 语言切换：文字按钮 + 下拉菜单（菜单项由 app.js 的 LOCALES 配置生成） */
+/* 语言切换：与导航文字同款的纯文字按钮 + 下拉菜单（菜单项由 app.js 的 LOCALES 配置生成） */
 .lang-wrap { position: relative; }
 .lang-toggle {
-  font-family: var(--sans-zh); font-size: 0.82rem; letter-spacing: 0.08em;
-  background: none; border: 1px solid var(--gold); color: var(--gold);
-  padding: 0.3rem 0.8rem; cursor: pointer; transition: background 0.25s, color 0.25s;
+  font-family: var(--sans-zh); font-size: 0.95rem; letter-spacing: 0.06em;
+  background: none; border: 0; border-bottom: 1px solid transparent;
+  color: inherit; padding: 0.35rem 0; cursor: pointer;
+  transition: border-color 0.25s, color 0.25s;
   white-space: nowrap;
 }
 html[lang="en"] .lang-toggle { font-family: var(--serif-en); }
-.lang-toggle:hover, .lang-toggle[aria-expanded="true"] { background: var(--gold); color: var(--bg); }
+.lang-toggle:hover, .lang-toggle[aria-expanded="true"] {
+  background: none; color: var(--gold); border-bottom-color: var(--gold);
+}
 .lang-menu {
-  position: absolute; top: calc(100% + 0.6rem); right: 0; z-index: 60;
+  position: absolute; top: calc(100% + 0.6rem); left: 0; z-index: 60;
   min-width: 13rem; padding: 0.35rem 0;
   background: var(--card); border: 1px solid var(--line);
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
@@ -462,8 +465,9 @@ html[lang="en"] .foot-couplet { font-family: var(--serif-en); font-style: italic
 @media (max-width: 760px) {
   .head-in { gap: 0.6rem; }
   html[lang="en"] .brand-main { font-size: 0.95rem; }
-  .lang-toggle { padding: 0.28rem 0.6rem; font-size: 0.78rem; }
-  .lang-menu { min-width: 11.5rem; }
+  .lang-toggle { padding: 0.35rem 0; font-size: 0.78rem; }
+  /* 窄屏改为右对齐按钮，避免菜单从左侧溢出视口 */
+  .lang-menu { left: auto; right: 0; min-width: 11.5rem; }
   .icon-btn { width: 2.5rem; height: 2.5rem; }
   .icon-btn svg { width: 1.3rem; height: 1.3rem; }
   .nav-toggle { display: inline-flex; align-items: center; }
