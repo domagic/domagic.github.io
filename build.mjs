@@ -49,7 +49,7 @@ function inline(s) {
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" rel="noopener noreferrer">$1</a>')
+    .replace(/\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^)\s]+)\)/g, '<a href="$2" rel="noopener noreferrer">$1</a>')
 }
 // 最小 md 渲染（构建期）：先转义再变换；标题/段落/列表/引用/分隔线。
 function mdToHtml(md) {
