@@ -106,23 +106,47 @@
     moon: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 14.8A8.6 8.6 0 0 1 9.2 3.8a8.6 8.6 0 1 0 11 11z"></path></svg>'
   }
 
-  // 品牌图形标志（专业几何 A）：对称双弧构成字母 A，丝带横带贯穿，顶点嵌一颗星辰。
-  // 正方形 viewBox、几何对称、统一描边＋金属渐变＋内侧高光，放大缩小都清晰。
-  // 不含文字：英文主字标与中文副标改由 HTML/CSS 排版（见 .brand-main/.brand-sub），
-  // 文字仍由 team.name 驱动。配色走 --mark-* 变量，明暗主题自适应，零外部图片依赖。
+  // 品牌图形标志（Aethera 圆形封印）：双层圆环构成印章外廓，环内缎带 A 以金属渐变＋内侧高光绘成，
+  // A 的开口中嵌无穷符号 ∞（承接最初参考图的意象），顶端四角星收束。
+  // 正方形 viewBox、几何对称，放大缩小都清晰；不含文字（字标由 HTML/CSS 排版，文案由 team.name 驱动）。
+  // 配色全部走 --mark-* 变量：--mark-c1/2/3 渐变、--mark-glow 光晕、--mark-size 尺寸，明暗主题自适应，零外部图片依赖。
   var BRAND_MARK_SVG =
     '<svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">' +
-      '<defs><linearGradient id="qlMarkGrad" x1="20" y1="88" x2="80" y2="12" gradientUnits="userSpaceOnUse">' +
-        '<stop offset="0%" style="stop-color:var(--mark-c1,#f4ecda)"></stop>' +
-        '<stop offset="52%" style="stop-color:var(--mark-c2,#d6c496)"></stop>' +
-        '<stop offset="100%" style="stop-color:var(--mark-c3,#c9a45c)"></stop>' +
-      '</linearGradient></defs>' +
-      '<g fill="none" stroke-linecap="round" stroke-linejoin="round">' +
-        '<path d="M21 86 C 29 54 39 27 50 15 C 61 27 71 54 79 86" stroke="url(#qlMarkGrad)" stroke-width="7.5"></path>' +
-        '<path d="M31 58 C 41 51 59 51 69 58" stroke="url(#qlMarkGrad)" stroke-width="6"></path>' +
-        '<path d="M24 83 C 32 53 41 28 49 18" stroke="rgba(255,248,225,0.4)" stroke-width="1.4"></path>' +
+      '<defs>' +
+        '<linearGradient id="qlMarkGold" x1="18" y1="88" x2="82" y2="12" gradientUnits="userSpaceOnUse">' +
+          '<stop offset="0%" style="stop-color:var(--mark-c1,#f4ecda)"></stop>' +
+          '<stop offset="48%" style="stop-color:var(--mark-c2,#d6c496)"></stop>' +
+          '<stop offset="100%" style="stop-color:var(--mark-c3,#c9a45c)"></stop>' +
+        '</linearGradient>' +
+        '<linearGradient id="qlMarkSheen" x1="0" y1="0" x2="0" y2="1">' +
+          '<stop offset="0%" style="stop-color:rgba(255,255,255,0.55)"></stop>' +
+          '<stop offset="100%" style="stop-color:rgba(255,255,255,0)"></stop>' +
+        '</linearGradient>' +
+      '</defs>' +
+      // 印章外廓：双环＋四处方位刻点
+      '<g fill="none" stroke="url(#qlMarkGold)">' +
+        '<circle cx="50" cy="50" r="46.5" stroke-width="1.5"></circle>' +
+        '<circle cx="50" cy="50" r="42" stroke-width="0.6" opacity="0.65"></circle>' +
       '</g>' +
-      '<path d="M50 5 L51.3 10.7 L57 12 L51.3 13.3 L50 19 L48.7 13.3 L43 12 L48.7 10.7 Z" fill="url(#qlMarkGrad)"></path>' +
+      '<g fill="url(#qlMarkGold)" opacity="0.85">' +
+        '<path d="M50 4.1 L51.5 5.9 L50 7.7 L48.5 5.9 Z"></path>' +
+        '<path d="M50 92.3 L51.5 94.1 L50 95.9 L48.5 94.1 Z"></path>' +
+        '<path d="M4.1 50 L5.9 48.5 L7.7 50 L5.9 51.5 Z"></path>' +
+        '<path d="M92.3 50 L94.1 48.5 L95.9 50 L94.1 51.5 Z"></path>' +
+      '</g>' +
+      // 缎带 A：每条笔画＝宽底渐变＋居中细高光（缎带磅凸），无偏移杂线
+      '<g fill="none" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M23 82 C 30 58 38 34 50 16" stroke="url(#qlMarkGold)" stroke-width="6.4"></path>' +
+        '<path d="M77 82 C 70 58 62 34 50 16" stroke="url(#qlMarkGold)" stroke-width="6.4"></path>' +
+        '<path d="M30 63 C 42 57 58 57 70 63" stroke="url(#qlMarkGold)" stroke-width="3.8"></path>' +
+        '<path d="M24 80 C 31 57 39 34 50 18" stroke="url(#qlMarkSheen)" stroke-width="1.4"></path>' +
+        '<path d="M76 80 C 69 57 61 34 50 18" stroke="url(#qlMarkSheen)" stroke-width="1.4"></path>' +
+        '<path d="M32 62 C 43 56.5 57 56.5 68 62" stroke="url(#qlMarkSheen)" stroke-width="1.1"></path>' +
+      '</g>' +
+      // 无穷符号 ∞：位于 A 的开口内，是最初参考图的核心意象
+      '<path d="M50 38 C 45.5 32.5 40 32.5 40 38 C 40 43.5 45.5 43.5 50 38 C 54.5 32.5 60 32.5 60 38 C 60 43.5 54.5 43.5 50 38 Z" fill="none" stroke="url(#qlMarkGold)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>' +
+      // 顶端四角星
+      '<path d="M50 8 L51 10.5 L53.5 11.5 L51 12.5 L50 15 L49 12.5 L46.5 11.5 L49 10.5 Z" fill="url(#qlMarkGold)"></path>' +
     '</svg>'
 
   function getLang() {
