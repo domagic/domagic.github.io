@@ -9,7 +9,7 @@ date: 2026-11-19
 # Aethera
 
 > The Qin moon lights the path of inquiry; the Luo stars gather all phenomena.
-> *(Draft translation of the group couplet 「秦月照研路，罗星汇万象」; wording pending review.)*
+> 「秦月照研路，罗星汇万象」
 
 **Aethera** is an academic research team formed by two scholars, **Chaoguang Luo (罗朝广)** and **Yong Qin (秦勇)**. The Chinese name 「秦罗万象」 takes the first characters of the two scholars' surnames, evoking the couplet above: moonlight as the quiet illumination of scholarship, and a canopy of stars as the gathering of all phenomena.
 
