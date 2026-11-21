@@ -3,18 +3,24 @@ title: Yong Qin
 lang: en
 id: qin-yong
 name: Yong Qin
-title_line: Researcher · School of Management, Chengdu University of Technology
+title_line: Researcher · Dept. of Data Science, School of Management Science, Chengdu University of Technology
 order: 2
 status: confirmed
 visibility: public
-date: 2026-11-19
+date: 2026-11-21
 ---
 
 Draft translation of the owner-supplied Chinese CV, pending review.
 
-## Current position
+## Current position & appointments
 
-Researcher · School of Management, Chengdu University of Technology.
+- **Chengdu University of Technology · School of Management Science · Department of Data Science**: Researcher.
+- **The Hong Kong Polytechnic University · School of Hotel and Tourism Management**: Postdoctoral Fellow. Profile: [polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/).
+- **Sichuan Technology and Business University**: Invited speaker at the Symposium on Digital Economy Frontiers and Discipline Development (Dec 2025), presenting on efficient academic writing tools and systematic workflows. [News report](https://kjc.stbu.edu.cn/news/2025/1222/80028.html).
+
+## Academic links
+
+- Google Scholar: [citation profile](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
 
 ## Education
 
