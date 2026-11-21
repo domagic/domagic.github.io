@@ -126,9 +126,6 @@
     function set(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt == null ? '' : txt }
     set('hero-eyebrow', (hero.eyebrow || {})[lang])
     set('hero-name', (team.name || {})[lang])
-    var altName = lang === 'zh' ? (team.name || {}).en : (team.name || {}).zh
-    var prov = team.nameStatus && team.nameStatus.en === 'provisional'
-    set('hero-enname', altName + (prov ? ' · ' + t(lang, 'marker.provisional') : ''))
     set('hero-mission', (hero.mission || {})[lang])
     var parts = coupletParts(lang)
     set('couplet-1', parts[0] || '')
