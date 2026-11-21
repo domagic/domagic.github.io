@@ -315,14 +315,19 @@
       var accent = /^[a-z0-9_-]+$/.test(vis.accent || '') ? vis.accent : 'bronze'
       var name = esc(m.name[lang] || m.name.zh)
       var titleLine = m.titleLine[lang] || m.titleLine[lang === 'zh' ? 'en' : 'zh'] || t(lang, 'members.titleFallback')
-      var face = m.photo
+      // 三层立体结构：底层底座 / 中层圆盘 / 表层图标；hover 时逐层上浮，形成底层→表层 3D 效果。
+      var topInner = m.photo
         ? '<img class="orb-photo" src="' + esc(m.photo) + '" alt="">'
         : '<span class="orb-glyph" aria-hidden="true">' + glyph + '</span>' +
           '<span class="orb-initial" aria-hidden="true">' + esc(sealChar(m, lang)) + '</span>'
       // 图标下不放文字；文字详情只在 member.html?id=... 页展示。aria-label 供屏幕阅读器与悬停提示使用。
       return '<a class="member-orb orb-accent-' + accent + '" href="member.html?id=' + encodeURIComponent(m.id) + '"' +
         ' aria-label="' + name + ' · ' + esc(titleLine) + '">' +
-        '<span class="orb-face">' + face + '</span>' +
+        '<span class="orb-stack">' +
+          '<span class="orb-layer orb-layer-base" aria-hidden="true"></span>' +
+          '<span class="orb-layer orb-layer-mid" aria-hidden="true"></span>' +
+          '<span class="orb-layer orb-layer-top">' + topInner + '</span>' +
+        '</span>' +
         '</a>'
     }).join('')
   }
