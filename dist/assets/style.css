@@ -293,12 +293,13 @@ html[lang^="en"] .mission-lg { font-family: var(--serif-en); font-size: clamp(1.
 html[data-theme="light"] .couplet { text-shadow: none; }
 .couplet span { border-right: 1px solid var(--night-line); padding-right: 1.15rem; }
 .couplet span:first-child { color: var(--gold-strong); }
+/* 英文对联模仿中文竖排：两列自右向左；字母用 mixed 随行旋转 90°，保持整句可读（不用 upright，否则散成单字母） */
 html[lang^="en"] .couplet {
-  writing-mode: horizontal-tb; text-orientation: mixed; flex-direction: column;
-  height: auto; max-width: 260px; font-family: var(--serif-en); font-style: italic;
-  font-size: 1.12rem; letter-spacing: 0.03em; line-height: 1.7; gap: 1rem;
+  writing-mode: vertical-rl; text-orientation: mixed; flex-direction: column;
+  height: clamp(360px, 52vh, 510px); font-family: var(--serif-en); font-style: italic;
+  font-size: clamp(0.92rem, 1.55vw, 1.12rem); letter-spacing: 0.04em; gap: 1.2rem;
 }
-html[lang^="en"] .couplet span { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 1rem; }
+html[lang^="en"] .couplet span { border-right: 1px solid var(--night-line); padding-right: 0.9rem; border-left: none; padding-left: 0; }
 
 /* 载入分层浮现（一次，克制） */
 .reveal { opacity: 0; transform: translateY(16px); animation: rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
