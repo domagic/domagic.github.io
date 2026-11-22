@@ -28,7 +28,8 @@ Knowledge decision-making; business intelligence; data mining; management scienc
 
 ## Academic links
 
-- Personal website: [polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/)
+- Personal website: [qinluolab.com/qingy/](https://qinluolab.com/qingy/)
+- Hong Kong Polytechnic University profile: [polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/)
 - Google Scholar: [profile](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
 
 ## Publication overview
