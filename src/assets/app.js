@@ -24,7 +24,7 @@
       'pubs.eyebrow': 'Publications', 'pubs.heading': '团队成果',
       'pubs.sub': '团队成果清单按发表日期排序；清单与归属口径待 owner 确认。',
       'pubs.empty': '成果清单待成员供给，暂无条目。',
-      'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表', 'pubs.citeLabel': '引用',
+      'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表', 'pubs.citeLabel': '引用', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': '官方发表记录 · 据出版商版本',
       'pubs.kind.paper-note': '论文笔记', 'pubs.kind.paper': '论文', 'pubs.kind.project': '项目', 'pubs.kind.talk': '报告',
       'langBtn': '语言', 'langBtnAria': '切换到英文',
       'theme.toLight': '亮色', 'theme.toLightAria': '切换到亮色模式',
@@ -46,7 +46,7 @@
       'pubs.eyebrow': 'Publications', 'pubs.heading': 'Publications',
       'pubs.sub': 'Team publication list ordered by publication date; list scope and attribution pending owner confirmation.',
       'pubs.empty': 'The publication list awaits member supply; no entries yet.',
-      'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in', 'pubs.citeLabel': 'Reference',
+      'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in', 'pubs.citeLabel': 'Reference', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': 'Official publication record · publisher version',
       'pubs.kind.paper-note': 'Paper note', 'pubs.kind.paper': 'Paper', 'pubs.kind.project': 'Project', 'pubs.kind.talk': 'Talk',
       'langBtn': 'Languages', 'langBtnAria': 'Switch to Chinese',
       'theme.toLight': 'Light', 'theme.toLightAria': 'Switch to light mode',
@@ -419,14 +419,16 @@
       '<div class="member-detail-bio prose">' + (bio.missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + bio.html + '</div>'
   }
 
+  var doiPreviewLang = 'zh'
   function renderPubs(lang) {
+    doiPreviewLang = lang
     var el = document.getElementById('pub-list')
     if (!el) return
     if (!D.publications.length) {
       el.innerHTML = '<p class="pub-empty muted">' + esc(t(lang, 'pubs.empty')) + '</p>'
       return
     }
-    el.innerHTML = D.publications.map(function (p) {
+    el.innerHTML = D.publications.map(function (p, pIdx) {
       var ti = bi(lang, p.title)
       var su = bi(lang, p.summary)
       // 把摘要里的著录引导行（"著录（…）：" / "Bibliographic record (…):"）
@@ -436,6 +438,16 @@
         return '<p><span class="lbl">' + citeLbl + '</span>' + paren
       })
       var kind = t(lang, 'pubs.kind.' + p.kind)
+      // 有 DOI 时：用与"作者/发表/引用"同款的金色标签"DOI"，链接只显示 DOI 号；
+      // 无 DOI 时：保留灰色类型标签（论文/项目/报告）。
+      var metaHtml = '<p class="pub-meta">'
+      if (p.doi) {
+        metaHtml += '<span class="lbl">' + esc(t(lang, 'pubs.doiLabel')) + '</span>' +
+          '<a class="doi" data-pub-idx="' + pIdx + '" href="https://doi.org/' + esc(p.doi) + '" rel="noopener noreferrer">' + esc(p.doi) + '</a>'
+      } else {
+        metaHtml += '<span class="kind">' + esc(kind) + '</span>'
+      }
+      metaHtml += '</p>'
       return '<article class="pub-item">' +
         '<div class="pub-year" aria-hidden="true">' + esc(p.year || '') + '</div>' +
         '<div class="pub-body">' +
@@ -443,11 +455,70 @@
         '<p class="pub-authors"><span class="lbl">' + esc(t(lang, 'pubs.authorsLabel')) + '</span> ' + esc(p.authors.join(' · ')) + '</p>' +
         '<p class="pub-venue"><span class="lbl">' + esc(t(lang, 'pubs.venueLabel')) + '</span> <em>' + esc(p.venue) + '</em>' + (p.year ? ' (' + esc(p.year) + ')' : '') + '</p>' +
         '<div class="pub-summary prose">' + suHtml + '</div>' +
-        '<p class="pub-meta">' +
-        '<span class="kind">' + esc(kind) + '</span>' +
-        (p.doi ? ' <a class="doi" href="https://doi.org/' + esc(p.doi) + '" rel="noopener noreferrer">DOI: ' + esc(p.doi) + '</a>' : '') +
-        '</p></div></article>'
+        metaHtml +
+        '</div></article>'
     }).join('')
+    initDoiPreview()
+  }
+
+  // ===== DOI 悬停预览卡：显示该文官方著录信息，跟随鼠标出现在右侧 =====
+  var doiPreviewInited = false
+  function initDoiPreview() {
+    if (doiPreviewInited) return
+    doiPreviewInited = true
+    var card = document.createElement('div')
+    card.className = 'doi-preview'
+    card.setAttribute('role', 'tooltip')
+    card.setAttribute('aria-hidden', 'true')
+    document.body.appendChild(card)
+    var list = document.getElementById('pub-list')
+    if (!list) return
+    var offset = 18
+    function place(x, y) {
+      var w = card.offsetWidth || 340, h = card.offsetHeight || 220
+      var left = x + offset, top = y + offset
+      if (left + w > window.innerWidth - 12) left = x - w - offset
+      if (left < 12) left = 12
+      if (top + h > window.innerHeight - 12) top = window.innerHeight - h - 12
+      if (top < 12) top = 12
+      card.style.left = left + 'px'
+      card.style.top = top + 'px'
+    }
+    function fill(p) {
+      var lang = doiPreviewLang
+      var ti = bi(lang, p.title)
+      var su = bi(lang, p.summary)
+      // 从著录引导行提取来源说明，如"据出版商正式版 PDF，The Internet and Higher Education 72 (2027) 101115"
+      var recMatch = su.html.match(/[（(](据出版商正式版 PDF[^）)]*|from the publisher's final PDF[^)]*)[）)]/)
+      var rec = recMatch ? recMatch[1] : ''
+      card.innerHTML =
+        '<div class="dp-venue">' + esc(p.venue) + (p.year ? ' · ' + esc(p.year) : '') + '</div>' +
+        '<div class="dp-title">' + ti.html + '</div>' +
+        '<div class="dp-authors">' + esc(p.authors.join(', ')) + '</div>' +
+        (rec ? '<div class="dp-rec">' + esc(rec) + '</div>' : '') +
+        '<div class="dp-doi">DOI: ' + esc(p.doi) + '</div>' +
+        '<div class="dp-note">' + esc(t(lang, 'pubs.previewNote')) + '</div>'
+    }
+    list.addEventListener('mouseover', function (e) {
+      var a = e.target.closest ? e.target.closest('a.doi[data-pub-idx]') : null
+      if (!a) return
+      var p = D.publications[+a.getAttribute('data-pub-idx')]
+      if (!p || !p.doi) return
+      fill(p)
+      place(e.clientX, e.clientY)
+      card.classList.add('visible')
+      card.setAttribute('aria-hidden', 'false')
+    })
+    list.addEventListener('mousemove', function (e) {
+      if (!card.classList.contains('visible')) return
+      if (e.target.closest && e.target.closest('a.doi[data-pub-idx]')) place(e.clientX, e.clientY)
+    })
+    list.addEventListener('mouseout', function (e) {
+      var a = e.target.closest ? e.target.closest('a.doi[data-pub-idx]') : null
+      if (!a) return
+      card.classList.remove('visible')
+      card.setAttribute('aria-hidden', 'true')
+    })
   }
 
   // ===== 背景粒子动态配置（可编辑：调这里即可改密度/速度/颜色/流星频率，无需动绘制逻辑）=====
