@@ -362,7 +362,42 @@ html[lang^="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400;
 .prose p { margin-bottom: 1.15em; }
 .prose h2 { font-family: var(--serif-zh); font-size: 1.3rem; letter-spacing: 0.1em; margin: 2em 0 0.8em; padding-left: 0.85rem; border-left: 3px solid var(--gold); }
 html[lang^="en"] .prose h2 { font-family: var(--serif-en); letter-spacing: 0.02em; }
-.prose h3 { font-size: 1.08rem; margin: 1.6em 0 0.6em; }
+/* 节内小标题：缩进＋变体字形，和正文拉开层级（中文宋体／英文小型大写＋菱形标记＋短金线） */
+.prose h3 {
+  position: relative;
+  margin: 2.1em 0 0.85em;
+  padding-left: 1.95rem;
+  font-family: var(--serif-zh);
+  font-size: 1.18rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  color: var(--gold-light);
+}
+.prose h3::before {
+  content: "◈";
+  position: absolute;
+  left: 0;
+  top: 0.08em;
+  font-family: var(--serif-en);
+  font-size: 0.76em;
+  color: var(--gold);
+}
+.prose h3::after {
+  content: "";
+  display: block;
+  width: 2.7rem;
+  height: 1px;
+  margin-top: 0.48rem;
+  background: var(--line);
+}
+html[lang^="en"] .prose h3 {
+  font-family: var(--serif-en);
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  font-variant: small-caps;
+}
 .prose blockquote {
   font-family: var(--fangsong); color: var(--text-soft);
   border-left: 2px solid var(--gold); background: var(--quote-bg);
