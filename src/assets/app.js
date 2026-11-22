@@ -353,6 +353,41 @@
     }).join('')
   }
 
+  // 气泡浮现入场：成员区滚入视口时，头像像气泡从水底浮上水面（短促、肉眼可见）。
+  // 只播放一次；语言/主题切换导致重渲染后直接呈现终态，不重复播放。
+  var membersRevealed = false
+  function revealMembersOrbs() {
+    var grid = document.getElementById('members-grid')
+    if (!grid) return
+    var orbs = grid.querySelectorAll('.member-orb')
+    if (!orbs.length) return
+    function play() {
+      for (var i = 0; i < orbs.length; i++) {
+        (function (orb) {
+          orb.classList.add('bubble-in')
+          orb.addEventListener('animationend', function (e) {
+            if (e.animationName !== 'bubble-surface') return
+            orb.classList.remove('bubble-in')
+            orb.classList.add('surfaced')
+          })
+        })(orbs[i])
+      }
+    }
+    if (membersRevealed) {
+      for (var j = 0; j < orbs.length; j++) orbs[j].classList.add('surfaced')
+      return
+    }
+    // 无 IntersectionObserver 时直接播放；否则等滚入视口再播，确保能看到
+    if (!('IntersectionObserver' in window)) { membersRevealed = true; play(); return }
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return
+      membersRevealed = true
+      io.disconnect()
+      play()
+    }, { threshold: 0.15 })
+    io.observe(grid)
+  }
+
   // 成员简介详情页：由 URL 的 id 从 D.members 取人，文字来自 content/members/*.md（不写死）。
   function renderMemberDetail(lang) {
     var el = document.getElementById('member-detail')
@@ -873,7 +908,7 @@
     if (fn) fn.textContent = (team.name || {})[lang] || ''
     if (page === 'home') renderHome(lang)
     if (page === 'about') renderAbout(lang)
-    if (page === 'members') renderMembers(lang)
+    if (page === 'members') { renderMembers(lang); revealMembersOrbs() }
     if (page === 'member') renderMemberDetail(lang)
     if (page === 'publications') renderPubs(lang)
     if (page !== 'home') { var fc = document.getElementById('foot-couplet'); if (fc) fc.textContent = coupletParts(lang).join(' · ') }
