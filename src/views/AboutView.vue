@@ -20,7 +20,6 @@ onMounted(async () => {
   <div class="page about" v-if="profile">
     <header class="about__header">
       <div>
-        <p class="mono about__kicker">About</p>
         <h1 class="about__name">{{ profile.name }}</h1>
         <p class="about__title">{{ profile.title }}</p>
       </div>
@@ -28,21 +27,21 @@ onMounted(async () => {
     </header>
 
     <section v-if="ABOUT_VISIBILITY.showBio" class="about__section">
-      <SectionHead kicker="Bio" title="简介" />
+      <SectionHead title="简介" />
       <div class="about__bio">
         <MarkdownView :source="profile.bio" />
       </div>
     </section>
 
     <section v-if="ABOUT_VISIBILITY.showResearch" class="about__section">
-      <SectionHead kicker="Research" title="研究方向" />
+      <SectionHead title="研究方向" />
       <ul class="about__research">
         <li v-for="area in profile.research" :key="area">{{ area }}</li>
       </ul>
     </section>
 
     <section v-if="ABOUT_VISIBILITY.showTimeline" class="about__section">
-      <SectionHead kicker="Timeline" title="经历" />
+      <SectionHead title="经历" />
       <ol class="timeline">
         <li v-for="entry in profile.timeline" :key="entry.period" class="timeline__item">
           <span class="timeline__period mono">{{ entry.period }}</span>
@@ -55,7 +54,7 @@ onMounted(async () => {
     </section>
 
     <section class="about__section">
-      <SectionHead kicker="Contact" title="联系" />
+      <SectionHead title="联系" />
       <ul class="about__links">
         <li v-if="profile.email">
           <a :href="`mailto:${profile.email}`">{{ profile.email }}</a>
