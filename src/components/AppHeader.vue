@@ -94,6 +94,14 @@ function closeMenu() {
         >
           {{ item.label }}
         </RouterLink>
+        <a
+          href="https://qinluolab.com/"
+          class="header__team"
+          title="返回团队首页（站外）"
+        >
+          <span class="header__team-icon" aria-hidden="true">⌂</span>
+          <span>团队首页</span>
+        </a>
       </nav>
 
       <div class="header__actions">
@@ -131,6 +139,11 @@ function closeMenu() {
       >
         {{ item.label }}
       </RouterLink>
+      <a href="https://qinluolab.com/" class="header__mobile-team" @click="closeMenu">
+        <span class="header__team-icon" aria-hidden="true">⌂</span>
+        <span>团队首页</span>
+        <span class="header__mobile-team-tag">团队站</span>
+      </a>
     </nav>
   </header>
 </template>
@@ -262,6 +275,34 @@ function closeMenu() {
   font-weight: 500;
 }
 
+/* 团队首页：站外入口，用朱红实心胶囊与站内文字导航明确区分 */
+.header__team {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.95rem;
+  border-radius: 999px;
+  background: var(--cinnabar);
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.header__team:hover {
+  background: var(--cinnabar-deep);
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.header__team-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
 .header__actions {
   display: flex;
   align-items: center;
@@ -335,6 +376,28 @@ function closeMenu() {
   .header__mobile-link[aria-current='page'] {
     color: var(--cinnabar-deep);
     font-weight: 500;
+  }
+  .header__mobile-team {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 999px;
+    background: var(--cinnabar);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .header__mobile-team:hover {
+    background: var(--cinnabar-deep);
+    text-decoration: none;
+  }
+  .header__mobile-team-tag {
+    margin-left: auto;
+    font-size: 0.72rem;
+    font-weight: 400;
+    opacity: 0.85;
   }
 }
 
