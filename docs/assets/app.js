@@ -9,7 +9,7 @@
 
   var I18N = {
     zh: {
-      'nav.home': '首页', 'nav.about': '团队简介', 'nav.members': '团队成员', 'nav.publications': '成果',
+      'nav.home': '首页', 'nav.about': '团队简介', 'nav.members': '团队成员', 'nav.publications': '团队成果',
       'nav.menu': '打开菜单',
       'hero.ctaAbout': '了解团队', 'hero.ctaPubs': '查看成果',
       'teaser.morePubs': '全部成果 →', 'teaser.moreMembers': '认识成员 →',
@@ -21,7 +21,7 @@
       'members.sub': '两位学者 · 一个团队（履历信息待确认，不预置未经核实内容）',
       'members.titleFallback': '头衔待确认',
       'member.heading': '成员简介', 'member.back': '返回成员列表', 'member.notFound': '未找到该成员简介。',
-      'pubs.eyebrow': 'Publications', 'pubs.heading': '成果',
+      'pubs.eyebrow': 'Publications', 'pubs.heading': '团队成果',
       'pubs.sub': '团队成果清单按发表日期排序；清单与归属口径待 owner 确认。',
       'pubs.empty': '成果清单待成员供给，暂无条目。',
       'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表',
