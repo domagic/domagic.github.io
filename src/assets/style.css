@@ -358,7 +358,7 @@ html[lang^="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400;
 .page-head-title::after { content: ""; display: block; width: 100%; height: 2px; background: var(--gold); margin-top: 1.2rem; }
 .page-head:has(.page-head-title)::after { content: none; }
 .page-sub { margin-top: 1.1rem; color: var(--text-soft); font-size: 0.98rem; max-width: 60ch; }
-.prose { max-width: 900px; }
+.prose { max-width: 72ch; }
 .prose p { margin-bottom: 1.15em; }
 .prose h2 { font-family: var(--serif-zh); font-size: 1.3rem; letter-spacing: 0.1em; margin: 2em 0 0.8em; padding-left: 0.85rem; border-left: 3px solid var(--gold); }
 html[lang^="en"] .prose h2 { font-family: var(--serif-en); letter-spacing: 0.02em; }
@@ -376,22 +376,13 @@ html[lang^="en"] .prose h2 + p {
   font-size: 1.18rem;
   letter-spacing: 0.18em;
 }
-/* 英文名称后的读音标注：小字号、柔和色，与名称本体区分 */
-.prose h2 + p em {
-  font-style: normal;
-  font-size: 1em;
-  letter-spacing: 0.02em;
-  color: var(--text-soft);
-}
 /* 节内小标题：缩进＋变体字形，和正文拉开层级（中文宋体／英文小型大写＋菱形标记＋短金线） */
 .prose h3 {
   position: relative;
-  width: fit-content;
-  max-width: 100%;
   margin: 2.1em 0 0.85em;
   padding-left: 1.95rem;
   font-family: var(--serif-zh);
-  font-size: 1.5rem;
+  font-size: 1.18rem;
   font-weight: 500;
   letter-spacing: 0.16em;
   line-height: 1.5;
@@ -409,14 +400,14 @@ html[lang^="en"] .prose h2 + p {
 .prose h3::after {
   content: "";
   display: block;
-  width: 100%;
+  width: 2.7rem;
   height: 1px;
   margin-top: 0.48rem;
   background: var(--line);
 }
 html[lang^="en"] .prose h3 {
   font-family: var(--serif-en);
-  font-size: 1.32rem;
+  font-size: 1.05rem;
   font-weight: 400;
   letter-spacing: 0.05em;
   font-variant: small-caps;
@@ -429,8 +420,6 @@ html[lang^="en"] .prose h3 {
 html[lang^="en"] .prose blockquote { font-family: var(--serif-en); font-style: italic; }
 .prose blockquote p { margin-bottom: 0; }
 .prose ul, .prose ol { padding-left: 1.6em; margin-bottom: 1.15em; }
-/* 论文列表中的加粗作者名（表示本人）：加粗＋下划线＋金色，区别于机构名等普通加粗 */
-.prose ol strong { font-weight: 700; color: var(--gold-light); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 .prose a { color: var(--gold-light); text-decoration: none; border-bottom: 1px solid var(--line); }
 .prose a:hover { border-bottom-color: var(--gold-light); }
 .prose code { font-family: Consolas, monospace; font-size: 0.88em; background: var(--code-bg); padding: 0.1em 0.35em; }
@@ -597,7 +586,7 @@ html[lang^="en"] .member-detail-name { font-family: var(--serif-en); letter-spac
 html[lang^="en"] .member-detail-alt { font-family: var(--serif-zh); letter-spacing: 0.08em; }
 .member-detail-role { margin-top: 0.7rem; color: var(--text-soft); font-size: 1rem; }
 .member-detail-badge { margin-top: 0.6rem; }
-.member-detail-bio { margin-top: 2rem; max-width: 900px; }
+.member-detail-bio { margin-top: 2rem; max-width: 72ch; }
 @media (prefers-reduced-motion: reduce) {
   /* 关闭动效：头像直接呈现终态，不隐藏、不上浮 */
   .member-orb, .member-orb.bubble-in, .member-orb.surfaced { opacity: 1; animation: none; transform: none; filter: none; }
@@ -620,37 +609,14 @@ html[lang^="en"] .member-detail-alt { font-family: var(--serif-zh); letter-spaci
 .pub-year { font-family: var(--serif-en); font-size: 1.7rem; color: var(--gold); line-height: 1.3; }
 .pub-title { font-family: var(--serif-en); font-size: 1.24rem; font-weight: 600; line-height: 1.55; letter-spacing: 0.01em; }
 .pub-authors, .pub-venue { margin-top: 0.5rem; font-size: 0.94rem; color: var(--text-soft); }
-/* 英文/数字内容（作者名、期刊名、年份、DOI）统一 Times；中文标签统一宋体，两组互不混用 */
-.pub-authors, .pub-venue { font-family: var(--serif-en); }
-.lbl { font-family: var(--serif-zh); font-size: 0.92rem; letter-spacing: 0.14em; color: var(--gold); margin-right: 0.55rem; vertical-align: 0.02em; }
-html[lang^="en"] .lbl { font-family: var(--serif-en); letter-spacing: 0.06em; }
-.lbl-en { font-family: var(--serif-en); letter-spacing: 0.06em; }
+.pub-authors { font-family: var(--serif-en); }
+.lbl { font-size: 0.75rem; letter-spacing: 0.16em; color: var(--gold); margin-right: 0.5rem; }
 .pub-summary { margin-top: 0.9rem; font-size: 0.94rem; color: var(--text-soft); }
-.pub-meta { margin-top: 1rem; font-size: 0.9rem; }
-.kind { color: var(--text-soft); letter-spacing: 0.08em; }
-.doi { font-family: var(--serif-en); color: var(--gold-light); text-decoration: none; border-bottom: 1px solid var(--line); }
+.pub-meta { margin-top: 1rem; font-size: 0.85rem; }
+.kind { color: var(--text-soft); letter-spacing: 0.08em; margin-left: 0.4rem; }
+.doi { font-family: var(--serif-en); color: var(--gold-light); text-decoration: none; border-bottom: 1px solid var(--line); margin-left: 0.6rem; }
 .doi:hover { border-bottom-color: var(--gold-light); }
 .pub-empty { padding-block: 2rem; }
-
-/* DOI 悬停预览卡：跟随鼠标出现在右侧，展示官方著录信息 */
-.doi-preview {
-  position: fixed; z-index: 9999; top: 0; left: 0; width: min(360px, 78vw);
-  padding: 1.05rem 1.15rem 0.95rem; pointer-events: none;
-  background: var(--bg-2); color: var(--text);
-  border: 1px solid var(--gold); border-radius: 4px;
-  box-shadow: 0 16px 44px rgba(0,0,0,0.38);
-  opacity: 0; visibility: hidden; transform: translateY(6px);
-  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
-  font-size: 0.86rem; line-height: 1.6;
-}
-.doi-preview.visible { opacity: 1; visibility: visible; transform: none; }
-.doi-preview .dp-venue { font-family: var(--serif-en); color: var(--gold); font-size: 0.9rem; margin-bottom: 0.5rem; }
-.doi-preview .dp-title { font-family: var(--serif-en); font-size: 0.9rem; margin-bottom: 0.5rem; }
-.doi-preview .dp-authors { color: var(--text-soft); font-family: var(--serif-en); font-size: 0.82rem; margin-bottom: 0.6rem; }
-.doi-preview .dp-rec { color: var(--text-soft); font-size: 0.78rem; padding-top: 0.55rem; border-top: 1px solid var(--line-soft); }
-.doi-preview .dp-doi { color: var(--text-soft); font-family: var(--serif-en); font-size: 0.78rem; margin-top: 0.3rem; word-break: break-all; }
-.doi-preview .dp-note { color: var(--text-faint); font-size: 0.7rem; letter-spacing: 0.08em; margin-top: 0.65rem; }
-@media (prefers-reduced-motion: reduce) { .doi-preview { transition: none; } }
 
 /* ---------- 页脚（渐变首色＝teaser 尾色，衔接无断层） ---------- */
 .site-foot { background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-deep) 100%); color: var(--text-faint); margin-top: auto; }

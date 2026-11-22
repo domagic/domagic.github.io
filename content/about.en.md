@@ -33,6 +33,8 @@ We try to keep doing three things here:
 - **Share methods**: make reproducible ideas, tools and the writing process visible, not only the conclusions.
 - **Connect**: offer a reliable, traceable entry point for readers interested in the intersection of management and data science.
 
+The site publishes only verified content. Navigation supports Chinese and English as well as light/dark themes; your choice is stored locally and restored on your next visit.
+
 ## Contact
 
 - Yong Qin — [yongqin_ahsc@163.com](mailto:yongqin_ahsc@163.com)

@@ -9,7 +9,7 @@
 
   var I18N = {
     zh: {
-      'nav.home': '首页', 'nav.about': '团队简介', 'nav.members': '团队成员', 'nav.publications': '团队成果',
+      'nav.home': '首页', 'nav.about': '团队简介', 'nav.members': '团队成员', 'nav.publications': '成果',
       'nav.menu': '打开菜单',
       'hero.ctaAbout': '了解团队', 'hero.ctaPubs': '查看成果',
       'teaser.morePubs': '全部成果 →', 'teaser.moreMembers': '认识成员 →',
@@ -21,10 +21,10 @@
       'members.sub': '两位学者 · 一个团队（履历信息待确认，不预置未经核实内容）',
       'members.titleFallback': '头衔待确认',
       'member.heading': '成员简介', 'member.back': '返回成员列表', 'member.notFound': '未找到该成员简介。',
-      'pubs.eyebrow': 'Publications', 'pubs.heading': '团队成果',
+      'pubs.eyebrow': 'Publications', 'pubs.heading': '成果',
       'pubs.sub': '团队成果清单按发表日期排序；清单与归属口径待 owner 确认。',
       'pubs.empty': '成果清单待成员供给，暂无条目。',
-      'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表', 'pubs.citeLabel': '引用', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': '官方发表记录 · 据出版商版本',
+      'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表',
       'pubs.kind.paper-note': '论文笔记', 'pubs.kind.paper': '论文', 'pubs.kind.project': '项目', 'pubs.kind.talk': '报告',
       'langBtn': '语言', 'langBtnAria': '切换到英文',
       'theme.toLight': '亮色', 'theme.toLightAria': '切换到亮色模式',
@@ -46,7 +46,7 @@
       'pubs.eyebrow': 'Publications', 'pubs.heading': 'Publications',
       'pubs.sub': 'Team publication list ordered by publication date; list scope and attribution pending owner confirmation.',
       'pubs.empty': 'The publication list awaits member supply; no entries yet.',
-      'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in', 'pubs.citeLabel': 'Reference', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': 'Official publication record · publisher version',
+      'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in',
       'pubs.kind.paper-note': 'Paper note', 'pubs.kind.paper': 'Paper', 'pubs.kind.project': 'Project', 'pubs.kind.talk': 'Talk',
       'langBtn': 'Languages', 'langBtnAria': 'Switch to Chinese',
       'theme.toLight': 'Light', 'theme.toLightAria': 'Switch to light mode',
@@ -419,152 +419,29 @@
       '<div class="member-detail-bio prose">' + (bio.missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + bio.html + '</div>'
   }
 
-  var doiPreviewLang = 'zh'
   function renderPubs(lang) {
-    doiPreviewLang = lang
     var el = document.getElementById('pub-list')
     if (!el) return
     if (!D.publications.length) {
       el.innerHTML = '<p class="pub-empty muted">' + esc(t(lang, 'pubs.empty')) + '</p>'
       return
     }
-    el.innerHTML = D.publications.map(function (p, pIdx) {
+    el.innerHTML = D.publications.map(function (p) {
       var ti = bi(lang, p.title)
       var su = bi(lang, p.summary)
-      // 把摘要里的著录引导行整段（"著录（…）：" / "Bibliographic record (…):"，含括号内的来源说明）
-      // 替换为与"作者/发表"同款的金色小标签"引用"，APA-7 引用紧随其后，不再显示来源说明。
-      var citeLbl = esc(t(lang, 'pubs.citeLabel'))
-      var suHtml = su.html.replace(/<p>(?:著录|Bibliographic record)\s*[（(].*?[）)]\s*[:：]\s*<\/p>/g, function () {
-        return '<p><span class="lbl">' + citeLbl + '</span></p>'
-      })
-      // "摘要（…）：" / "关键词：" / "Abstract:" / "Keywords:" 的行首词改成与"作者"同款金色标签，去掉冒号
-      suHtml = suHtml.replace(/<p>(摘要|关键词|Abstract|Keywords)(（[^）]*）)?\s*[:：]\s*/g, function (m, word, note) {
-        return '<p><span class="lbl">' + word + '</span>' + (note || '') + ' '
-      })
       var kind = t(lang, 'pubs.kind.' + p.kind)
-      // 有 DOI 时：用与"作者/发表/引用"同款的金色标签"DOI"，链接只显示 DOI 号；
-      // 无 DOI 时：保留灰色类型标签（论文/项目/报告）。
-      var metaHtml = '<p class="pub-meta">'
-      if (p.doi) {
-        metaHtml += '<span class="lbl lbl-en">' + esc(t(lang, 'pubs.doiLabel')) + '</span>' +
-          '<a class="doi" data-pub-idx="' + pIdx + '" href="https://doi.org/' + esc(p.doi) + '" rel="noopener noreferrer">' + esc(p.doi) + '</a>'
-      } else {
-        metaHtml += '<span class="kind">' + esc(kind) + '</span>'
-      }
-      metaHtml += '</p>'
       return '<article class="pub-item">' +
         '<div class="pub-year" aria-hidden="true">' + esc(p.year || '') + '</div>' +
         '<div class="pub-body">' +
         '<h2 class="pub-title">' + esc(ti.html) + (ti.missing ? ' ' + badge(lang, '', 'badge.missing') : '') + '</h2>' +
         '<p class="pub-authors"><span class="lbl">' + esc(t(lang, 'pubs.authorsLabel')) + '</span> ' + esc(p.authors.join(' · ')) + '</p>' +
         '<p class="pub-venue"><span class="lbl">' + esc(t(lang, 'pubs.venueLabel')) + '</span> <em>' + esc(p.venue) + '</em>' + (p.year ? ' (' + esc(p.year) + ')' : '') + '</p>' +
-        '<div class="pub-summary prose">' + suHtml + '</div>' +
-        metaHtml +
-        '</div></article>'
+        '<div class="pub-summary prose">' + su.html + '</div>' +
+        '<p class="pub-meta">' +
+        '<span class="kind">' + esc(kind) + '</span>' +
+        (p.doi ? ' <a class="doi" href="https://doi.org/' + esc(p.doi) + '" rel="noopener noreferrer">DOI: ' + esc(p.doi) + '</a>' : '') +
+        '</p></div></article>'
     }).join('')
-    initDoiPreview()
-  }
-
-  // ===== DOI 悬停预览卡：显示该文官方著录信息，跟随鼠标出现在右侧 =====
-  // 官方著录数据取自各 DOI 的 Crossref 注册记录（作者全名、卷期、文章号、出版月份），
-  // 与出版商论文页面一致；按 DOI 键索引，仅覆盖有 DOI 的条目。
-  var OFFICIAL_PUBS = {
-    '10.1016/j.iheduc.2026.101115': {
-      title: 'Unveiling determinants of learner satisfaction in online courses: An explainable machine learning technique using unstructured reviews',
-      venue: 'The Internet and Higher Education', authors: 'Yong Qin, Chaoguang Luo, Yuyan Luo, Luwei Wang',
-      volume: '72', article: '101115', date: 'January 2027'
-    },
-    '10.1016/j.asoc.2026.115552': {
-      title: 'Visual-textual fusion for multi-attribute product ranking: A soft computing framework based on topic mining and regret modeling',
-      venue: 'Applied Soft Computing', authors: 'Chaoguang Luo, Yong Qin',
-      volume: '201', article: '115552', date: 'September 2026'
-    },
-    '10.1016/j.ipm.2025.104545': {
-      title: 'Configurational patterns for forecasting customer satisfaction enhancement based on online reviews: A multi-attribute attitude perspective',
-      venue: 'Information Processing & Management', authors: 'Yong Qin, Chaoguang Luo, Yuyan Luo, Eric W.T. Ngai',
-      volume: '63', issue: '3', article: '104545', date: 'April 2026'
-    },
-    '10.1016/j.neucom.2024.128905': {
-      title: 'Diversified recommendation with weighted hypergraph embedding: Case study in music',
-      venue: 'Neurocomputing', authors: 'Chaoguang Luo, Liuying Wen, Yong Qin, Philip S. Yu, Liangwei Yang, Zhineng Hu',
-      volume: '616', article: '128905', date: 'February 2025'
-    },
-    '10.3846/tede.2025.23251': {
-      title: 'Decoding tourist satisfaction for sustainable economic development: a multi-method configuration framework using online reviews',
-      venue: 'Technological and Economic Development of Economy', authors: 'Yong Qin, Chaoguang Luo, Zeshui Xu, Xinxin Wang, Marinko Škare',
-      volume: '31', issue: '6', article: '1801-1839', date: 'July 2025'
-    },
-    '10.1016/j.tourman.2025.105181': {
-      title: 'Deconstructing customer satisfaction recipes: A dynamic configurational framework leveraging the power of online reviews in tourism contexts',
-      venue: 'Tourism Management', authors: 'Yong Qin, Chaoguang Luo, Eric W.T. Ngai',
-      volume: '110', article: '105181', date: 'October 2025'
-    },
-    '10.1016/j.resourpol.2023.104445': {
-      title: 'Investigating the nexus among resource curse, energy transition and sustainable development: Evidence from a global panel data',
-      venue: 'Resources Policy', authors: 'Yong Qin, Zeshui Xu, Chaoguang Luo, Marinko Skare',
-      volume: '88', article: '104445', date: 'January 2024'
-    }
-  }
-  var doiPreviewInited = false
-  function initDoiPreview() {
-    if (doiPreviewInited) return
-    doiPreviewInited = true
-    var card = document.createElement('div')
-    card.className = 'doi-preview'
-    card.setAttribute('role', 'tooltip')
-    card.setAttribute('aria-hidden', 'true')
-    document.body.appendChild(card)
-    var list = document.getElementById('pub-list')
-    if (!list) return
-    var offset = 18
-    function place(x, y) {
-      var w = card.offsetWidth || 340, h = card.offsetHeight || 220
-      var left = x + offset, top = y + offset
-      if (left + w > window.innerWidth - 12) left = x - w - offset
-      if (left < 12) left = 12
-      if (top + h > window.innerHeight - 12) top = window.innerHeight - h - 12
-      if (top < 12) top = 12
-      card.style.left = left + 'px'
-      card.style.top = top + 'px'
-    }
-    function fill(p) {
-      var lang = doiPreviewLang
-      var off = OFFICIAL_PUBS[p.doi] || {}
-      var title = off.title || bi(lang, p.title).html
-      var authors = off.authors || p.authors.join(', ')
-      var venue = off.venue || p.venue
-      var when = off.date || (p.year ? String(p.year) : '')
-      var parts = []
-      if (off.volume) parts.push('Volume ' + off.volume + (off.issue ? ', Issue ' + off.issue : ''))
-      if (off.article) parts.push('Article ' + off.article)
-      card.innerHTML =
-        '<div class="dp-venue">' + esc(venue) + (when ? ' · ' + esc(when) : '') + '</div>' +
-        '<div class="dp-title">' + esc(title) + '</div>' +
-        '<div class="dp-authors">' + esc(authors) + '</div>' +
-        (parts.length ? '<div class="dp-rec">' + esc(parts.join(' · ')) + '</div>' : '') +
-        '<div class="dp-doi">DOI: ' + esc(p.doi) + '</div>' +
-        '<div class="dp-note">' + esc(t(lang, 'pubs.previewNote')) + '</div>'
-    }
-    list.addEventListener('mouseover', function (e) {
-      var a = e.target.closest ? e.target.closest('a.doi[data-pub-idx]') : null
-      if (!a) return
-      var p = D.publications[+a.getAttribute('data-pub-idx')]
-      if (!p || !p.doi) return
-      fill(p)
-      place(e.clientX, e.clientY)
-      card.classList.add('visible')
-      card.setAttribute('aria-hidden', 'false')
-    })
-    list.addEventListener('mousemove', function (e) {
-      if (!card.classList.contains('visible')) return
-      if (e.target.closest && e.target.closest('a.doi[data-pub-idx]')) place(e.clientX, e.clientY)
-    })
-    list.addEventListener('mouseout', function (e) {
-      var a = e.target.closest ? e.target.closest('a.doi[data-pub-idx]') : null
-      if (!a) return
-      card.classList.remove('visible')
-      card.setAttribute('aria-hidden', 'true')
-    })
   }
 
   // ===== 背景粒子动态配置（可编辑：调这里即可改密度/速度/颜色/流星频率，无需动绘制逻辑）=====

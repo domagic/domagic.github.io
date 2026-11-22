@@ -1,5 +1,5 @@
 {
-  "runAt": "2026-11-22T11:41:28.777Z",
+  "runAt": "2026-11-22T14:39:42.079Z",
   "root": ".",
   "phase": "push",
   "contract": "v0.3.1",
@@ -36,7 +36,7 @@
     },
     "G8′": {
       "status": "PASS",
-      "checks": 351,
+      "checks": 368,
       "violations": []
     },
     "G6′": {
@@ -46,7 +46,7 @@
       "reason": "R7：I18N 比对形态退役，首页数据化单一来源"
     }
   },
-  "scanned": 396,
+  "scanned": 413,
   "planned": 45,
   "rejected": 0,
   "warnings": [],
