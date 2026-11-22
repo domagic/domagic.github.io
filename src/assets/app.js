@@ -462,6 +462,45 @@
   }
 
   // ===== DOI 悬停预览卡：显示该文官方著录信息，跟随鼠标出现在右侧 =====
+  // 官方著录数据取自各 DOI 的 Crossref 注册记录（作者全名、卷期、文章号、出版月份），
+  // 与出版商论文页面一致；按 DOI 键索引，仅覆盖有 DOI 的条目。
+  var OFFICIAL_PUBS = {
+    '10.1016/j.iheduc.2026.101115': {
+      title: 'Unveiling determinants of learner satisfaction in online courses: An explainable machine learning technique using unstructured reviews',
+      venue: 'The Internet and Higher Education', authors: 'Yong Qin, Chaoguang Luo, Yuyan Luo, Luwei Wang',
+      volume: '72', article: '101115', date: 'January 2027'
+    },
+    '10.1016/j.asoc.2026.115552': {
+      title: 'Visual-textual fusion for multi-attribute product ranking: A soft computing framework based on topic mining and regret modeling',
+      venue: 'Applied Soft Computing', authors: 'Chaoguang Luo, Yong Qin',
+      volume: '201', article: '115552', date: 'September 2026'
+    },
+    '10.1016/j.ipm.2025.104545': {
+      title: 'Configurational patterns for forecasting customer satisfaction enhancement based on online reviews: A multi-attribute attitude perspective',
+      venue: 'Information Processing & Management', authors: 'Yong Qin, Chaoguang Luo, Yuyan Luo, Eric W.T. Ngai',
+      volume: '63', issue: '3', article: '104545', date: 'April 2026'
+    },
+    '10.1016/j.neucom.2024.128905': {
+      title: 'Diversified recommendation with weighted hypergraph embedding: Case study in music',
+      venue: 'Neurocomputing', authors: 'Chaoguang Luo, Liuying Wen, Yong Qin, Philip S. Yu, Liangwei Yang, Zhineng Hu',
+      volume: '616', article: '128905', date: 'February 2025'
+    },
+    '10.3846/tede.2025.23251': {
+      title: 'Decoding tourist satisfaction for sustainable economic development: a multi-method configuration framework using online reviews',
+      venue: 'Technological and Economic Development of Economy', authors: 'Yong Qin, Chaoguang Luo, Zeshui Xu, Xinxin Wang, Marinko Škare',
+      volume: '31', issue: '6', article: '1801-1839', date: 'July 2025'
+    },
+    '10.1016/j.tourman.2025.105181': {
+      title: 'Deconstructing customer satisfaction recipes: A dynamic configurational framework leveraging the power of online reviews in tourism contexts',
+      venue: 'Tourism Management', authors: 'Yong Qin, Chaoguang Luo, Eric W.T. Ngai',
+      volume: '110', article: '105181', date: 'October 2025'
+    },
+    '10.1016/j.resourpol.2023.104445': {
+      title: 'Investigating the nexus among resource curse, energy transition and sustainable development: Evidence from a global panel data',
+      venue: 'Resources Policy', authors: 'Yong Qin, Zeshui Xu, Chaoguang Luo, Marinko Skare',
+      volume: '88', article: '104445', date: 'January 2024'
+    }
+  }
   var doiPreviewInited = false
   function initDoiPreview() {
     if (doiPreviewInited) return
@@ -486,16 +525,19 @@
     }
     function fill(p) {
       var lang = doiPreviewLang
-      var ti = bi(lang, p.title)
-      var su = bi(lang, p.summary)
-      // 从著录引导行提取来源说明，如"据出版商正式版 PDF，The Internet and Higher Education 72 (2027) 101115"
-      var recMatch = su.html.match(/[（(](据出版商正式版 PDF[^）)]*|from the publisher's final PDF[^)]*)[）)]/)
-      var rec = recMatch ? recMatch[1] : ''
+      var off = OFFICIAL_PUBS[p.doi] || {}
+      var title = off.title || bi(lang, p.title).html
+      var authors = off.authors || p.authors.join(', ')
+      var venue = off.venue || p.venue
+      var when = off.date || (p.year ? String(p.year) : '')
+      var parts = []
+      if (off.volume) parts.push('Volume ' + off.volume + (off.issue ? ', Issue ' + off.issue : ''))
+      if (off.article) parts.push('Article ' + off.article)
       card.innerHTML =
-        '<div class="dp-venue">' + esc(p.venue) + (p.year ? ' · ' + esc(p.year) : '') + '</div>' +
-        '<div class="dp-title">' + ti.html + '</div>' +
-        '<div class="dp-authors">' + esc(p.authors.join(', ')) + '</div>' +
-        (rec ? '<div class="dp-rec">' + esc(rec) + '</div>' : '') +
+        '<div class="dp-venue">' + esc(venue) + (when ? ' · ' + esc(when) : '') + '</div>' +
+        '<div class="dp-title">' + esc(title) + '</div>' +
+        '<div class="dp-authors">' + esc(authors) + '</div>' +
+        (parts.length ? '<div class="dp-rec">' + esc(parts.join(' · ')) + '</div>' : '') +
         '<div class="dp-doi">DOI: ' + esc(p.doi) + '</div>' +
         '<div class="dp-note">' + esc(t(lang, 'pubs.previewNote')) + '</div>'
     }
