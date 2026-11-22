@@ -72,4 +72,13 @@ date: 2026-11-22
 
 ## 学术服务
 
-担任 Annals of Tourism Research（ATR）、Information Processing & Management（IPM）、Pattern Recognition（PR）、Journal of Retailing and Consumer Services（JRCS）、Energy Sources, Part B: Economics, Planning, and Policy（ESB）、New Review of Hypermedia and Multimedia（NRHM）、Energies、Environmental Engineering and Management Journal（EEMJ）等期刊匿名审稿人。
+担任以下期刊匿名审稿人：
+
+- Annals of Tourism Research（ATR）
+- Information Processing & Management（IPM）
+- Pattern Recognition（PR）
+- Journal of Retailing and Consumer Services（JRCS）
+- Energy Sources, Part B: Economics, Planning, and Policy（ESB）
+- New Review of Hypermedia and Multimedia（NRHM）
+- Energies
+- Environmental Engineering and Management Journal（EEMJ）
