@@ -38,7 +38,16 @@ Knowledge decision-making; business intelligence; data mining; management scienc
 
 ## Projects
 
-Principal investigator of one Fundamental Research Funds for the Central Universities project (graduate innovation): Sichuan University Business School 2023 graduate research innovation project (No. 2023ZY-SX019, "Tourist-generated-content-driven destination recommendation strategies and competitiveness improvement paths", 2023/05–2024/05, completed). Participant in 20+ projects including two NSFC general projects (No. 72071135, probabilistic preference decision theory with water-resources emergency management applications; No. 72271173, probabilistic preference intelligent decision theory for medical auxiliary diagnosis), the China Postdoctoral Science Foundation general program, and the MOE Humanities and Social Sciences Youth Fund.
+Principal investigator of one Fundamental Research Funds for the Central Universities project (graduate innovation):
+
+- 2023/05—2024/05: Business School, Sichuan University; graduate research innovation project (No. 2023ZY-SX019, "Tourist-generated-content-driven destination recommendation strategies and competitiveness improvement paths"); completed.
+
+Participant in 20+ projects including NSFC general projects, the China Postdoctoral Science Foundation general program, and the MOE Humanities and Social Sciences Youth Fund, among which:
+
+- NSFC general project No. 72071135, probabilistic preference decision theory with water-resources emergency management applications.
+- NSFC general project No. 72271173, probabilistic preference intelligent decision theory for medical auxiliary diagnosis.
+- China Postdoctoral Science Foundation general program.
+- MOE Humanities and Social Sciences Youth Fund.
 
 ## Selected honors
 
