@@ -10,8 +10,6 @@ visibility: public
 date: 2026-11-21
 ---
 
-Draft translation of the owner-supplied Chinese CV, pending review.
-
 ## Current position & appointments
 
 - Chengdu University of Technology · School of Management Science · Department of Data Science, Researcher.
@@ -34,7 +32,7 @@ Knowledge decision-making; business intelligence; data mining; management scienc
 
 ## Publication overview
 
-45 papers in important domestic and international journals, including 15 SCI/SSCI papers as first or corresponding author; 9 papers under submission. Google Scholar citations: 960; h-index: 15. (Figures as stated in the CV at the time of supply.)
+45 papers in important domestic and international journals, including 15 SCI/SSCI papers as first or corresponding author; 9 papers under submission. Google Scholar citations: 960; h-index: 15.
 
 ## Projects
 
