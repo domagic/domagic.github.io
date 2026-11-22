@@ -284,25 +284,44 @@ html[lang^="en"] .mission-lg { font-family: var(--serif-en); font-size: clamp(1.
 /* 联句（承 B2 放大＋金墨层次＋界栏＋印章；竖排保留） */
 .couplet-col { display: flex; flex-direction: column; align-items: center; gap: 1.1rem; }
 .couplet {
-  display: flex; flex-direction: column; gap: 1.6rem;
+  display: flex; flex-direction: column; gap: clamp(2.4rem, 4vw, 4rem);
   writing-mode: vertical-rl; text-orientation: upright;
   font-family: var(--fangsong); font-size: clamp(1.9rem, 3.2vw, 2.7rem); letter-spacing: 0.34em;
   color: var(--gold-light); height: clamp(400px, 56vh, 540px);
   text-shadow: 0 0 22px var(--moon-glow);
 }
 html[data-theme="light"] .couplet { text-shadow: none; }
-.couplet span { border-right: 1px solid var(--night-line); padding-right: 1.15rem; }
-.couplet span:first-child { color: var(--gold-strong); }
+.couplet > span:not(.couplet-core) { border-right: 1px solid var(--night-line); padding-right: 1.15rem; }
+.couplet > span:first-child { color: var(--gold-strong); }
+/* 两联之间的中心光斑：稳定的金色发光星球，两联分居其左右，互不遮挡（对齐星系核心意象） */
+.couplet-core {
+  flex: 0 0 auto; align-self: center; position: relative;
+  width: clamp(38px, 3.6vw, 56px); height: clamp(38px, 3.6vw, 56px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #fff6e2 0%, #f3dfae 32%, #d8b474 60%, rgba(190, 150, 80, 0.32) 100%);
+  box-shadow: 0 0 22px 7px rgba(214, 196, 150, 0.38), 0 0 58px 18px rgba(214, 196, 150, 0.14), inset -4px -5px 10px rgba(70, 52, 28, 0.32);
+}
+.couplet-core::after {
+  content: ""; position: absolute; left: -44%; top: 41%; width: 188%; height: 20%;
+  border: 1.5px solid rgba(214, 196, 150, 0.5); border-radius: 50%; transform: rotate(-20deg);
+}
+html[data-theme="light"] .couplet-core {
+  background: radial-gradient(circle at 38% 34%, #fffaf0 0%, #e9d49c 34%, #b8964f 62%, rgba(138, 109, 31, 0.28) 100%);
+  box-shadow: 0 0 18px 5px rgba(138, 109, 31, 0.30), 0 0 46px 14px rgba(138, 109, 31, 0.12), inset -4px -5px 10px rgba(70, 52, 28, 0.28);
+}
+html[data-theme="light"] .couplet-core::after { border-color: rgba(138, 109, 31, 0.45); }
 /* 英文对联：横向两行，每行一句；字母不旋转（不用 upright/vertical-rl，否则散成单字母或需侧头阅读） */
 html[lang^="en"] .couplet {
   writing-mode: horizontal-tb; text-orientation: mixed; flex-direction: column;
   height: auto; max-width: none; font-family: var(--serif-en); font-style: italic;
   font-size: clamp(1.02rem, 1.5vw, 1.18rem); letter-spacing: 0.03em; line-height: 1.7; gap: 1rem;
 }
-html[lang^="en"] .couplet span { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 1rem; white-space: nowrap; }
+html[lang^="en"] .couplet > span:not(.couplet-core) { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 1rem; white-space: nowrap; }
 html[lang^="en"] .couplet-col { align-self: start; margin-top: clamp(1.5rem, 7vh, 5rem); }
 html[lang^="en"] .couplet { text-shadow: 0 1px 12px rgba(4, 7, 14, 0.9); }
 html[data-theme="light"][lang^="en"] .couplet { text-shadow: none; }
+/* 英文横排无中轴留白，隐藏中心光斑 */
+html[lang^="en"] .couplet-core { display: none; }
 
 /* 载入分层浮现（一次，克制） */
 .reveal { opacity: 0; transform: translateY(16px); animation: rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
@@ -693,7 +712,8 @@ html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: itali
     writing-mode: horizontal-tb; text-orientation: mixed; flex-direction: column;
     height: auto; max-width: none; font-size: clamp(1.3rem, 5.6vw, 1.7rem); letter-spacing: 0.22em; gap: 0.6rem;
   }
-  .couplet span, html[lang^="en"] .couplet span { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 0.9rem; }
+  .couplet > span:not(.couplet-core), html[lang^="en"] .couplet > span:not(.couplet-core) { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 0.9rem; }
+  .couplet-core { display: none; }
   /* 英文对联窄屏仍保持每句一行：收敛字号与字距，不套用中文竖排放大的参数 */
   html[lang^="en"] .couplet { font-size: clamp(0.78rem, 3.4vw, 1.35rem); letter-spacing: 0.02em; }
   html[lang^="en"] .couplet span { white-space: nowrap; }
