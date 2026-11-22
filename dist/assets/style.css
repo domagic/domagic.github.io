@@ -379,10 +379,9 @@ html[lang^="en"] .prose h2 + p {
 /* 英文名称后的读音标注：小字号、柔和色，与名称本体区分 */
 .prose h2 + p em {
   font-style: normal;
-  font-size: 0.6em;
+  font-size: 1em;
   letter-spacing: 0.02em;
   color: var(--text-soft);
-  vertical-align: 0.08em;
 }
 /* 节内小标题：缩进＋变体字形，和正文拉开层级（中文宋体／英文小型大写＋菱形标记＋短金线） */
 .prose h3 {
