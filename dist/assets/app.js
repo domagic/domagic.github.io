@@ -24,7 +24,7 @@
       'pubs.eyebrow': 'Publications', 'pubs.heading': '团队成果',
       'pubs.sub': '团队成果清单按发表日期排序；清单与归属口径待 owner 确认。',
       'pubs.empty': '成果清单待成员供给，暂无条目。',
-      'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表',
+      'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表', 'pubs.citeLabel': '引用',
       'pubs.kind.paper-note': '论文笔记', 'pubs.kind.paper': '论文', 'pubs.kind.project': '项目', 'pubs.kind.talk': '报告',
       'langBtn': '语言', 'langBtnAria': '切换到英文',
       'theme.toLight': '亮色', 'theme.toLightAria': '切换到亮色模式',
@@ -46,7 +46,7 @@
       'pubs.eyebrow': 'Publications', 'pubs.heading': 'Publications',
       'pubs.sub': 'Team publication list ordered by publication date; list scope and attribution pending owner confirmation.',
       'pubs.empty': 'The publication list awaits member supply; no entries yet.',
-      'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in',
+      'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in', 'pubs.citeLabel': 'Reference',
       'pubs.kind.paper-note': 'Paper note', 'pubs.kind.paper': 'Paper', 'pubs.kind.project': 'Project', 'pubs.kind.talk': 'Talk',
       'langBtn': 'Languages', 'langBtnAria': 'Switch to Chinese',
       'theme.toLight': 'Light', 'theme.toLightAria': 'Switch to light mode',
@@ -429,6 +429,12 @@
     el.innerHTML = D.publications.map(function (p) {
       var ti = bi(lang, p.title)
       var su = bi(lang, p.summary)
+      // 把摘要里的著录引导行（"著录（…）：" / "Bibliographic record (…):"）
+      // 改成与"作者/发表"同款的金色小标签"引用"，APA-7 引用紧随其后。
+      var citeLbl = esc(t(lang, 'pubs.citeLabel'))
+      var suHtml = su.html.replace(/<p>(著录|Bibliographic record)(\s*[（(])/, function (m, word, paren) {
+        return '<p><span class="lbl">' + citeLbl + '</span>' + paren
+      })
       var kind = t(lang, 'pubs.kind.' + p.kind)
       return '<article class="pub-item">' +
         '<div class="pub-year" aria-hidden="true">' + esc(p.year || '') + '</div>' +
@@ -436,7 +442,7 @@
         '<h2 class="pub-title">' + esc(ti.html) + (ti.missing ? ' ' + badge(lang, '', 'badge.missing') : '') + '</h2>' +
         '<p class="pub-authors"><span class="lbl">' + esc(t(lang, 'pubs.authorsLabel')) + '</span> ' + esc(p.authors.join(' · ')) + '</p>' +
         '<p class="pub-venue"><span class="lbl">' + esc(t(lang, 'pubs.venueLabel')) + '</span> <em>' + esc(p.venue) + '</em>' + (p.year ? ' (' + esc(p.year) + ')' : '') + '</p>' +
-        '<div class="pub-summary prose">' + su.html + '</div>' +
+        '<div class="pub-summary prose">' + suHtml + '</div>' +
         '<p class="pub-meta">' +
         '<span class="kind">' + esc(kind) + '</span>' +
         (p.doi ? ' <a class="doi" href="https://doi.org/' + esc(p.doi) + '" rel="noopener noreferrer">DOI: ' + esc(p.doi) + '</a>' : '') +
