@@ -316,7 +316,14 @@ html[lang^="en"] .couplet {
   height: auto; max-width: none; font-family: var(--serif-en); font-style: italic;
   font-size: clamp(1.02rem, 1.5vw, 1.18rem); letter-spacing: 0.03em; line-height: 1.7; gap: 1rem;
 }
+/* 宽屏给明确宽度基准：首句靠左、次句靠右，形成错落（红线标注版式）。
+   中窄屏不设固定宽度，避免 nowrap 英文溢出；次句 flex-end 仍在内容宽度内右移。 */
+@media (min-width: 1100px) {
+  html[lang^="en"] .couplet { width: 400px; }
+}
 html[lang^="en"] .couplet > span:not(.couplet-core) { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 1rem; white-space: nowrap; }
+/* 英文愿景错落：首句 The Qin… 左对齐保持，次句 the Luo… 整体右对齐（竖线随文字靠右） */
+html[lang^="en"] .couplet > #couplet-2 { align-self: flex-end; }
 html[lang^="en"] .couplet-col { align-self: start; margin-top: clamp(1.5rem, 7vh, 5rem); }
 html[lang^="en"] .couplet { text-shadow: 0 1px 12px rgba(4, 7, 14, 0.9); }
 html[data-theme="light"][lang^="en"] .couplet { text-shadow: none; }
@@ -714,9 +721,10 @@ html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: itali
   }
   .couplet > span:not(.couplet-core), html[lang^="en"] .couplet > span:not(.couplet-core) { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 0.9rem; }
   .couplet-core { display: none; }
-  /* 英文对联窄屏仍保持每句一行：收敛字号与字距，不套用中文竖排放大的参数 */
-  html[lang^="en"] .couplet { font-size: clamp(0.78rem, 3.4vw, 1.35rem); letter-spacing: 0.02em; }
+  /* 英文对联窄屏仍保持每句一行：收敛字号与字距，不套用中文竖排放大的参数；宽度还原、次句取消右对齐避免参差溢出 */
+  html[lang^="en"] .couplet { font-size: clamp(0.78rem, 3.4vw, 1.35rem); letter-spacing: 0.02em; width: auto; }
   html[lang^="en"] .couplet span { white-space: nowrap; }
+  html[lang^="en"] .couplet > #couplet-2 { align-self: flex-start; }
   .pub-item { grid-template-columns: 1fr; gap: 0.4rem; }
   .pub-year { font-size: 1.15rem; }
   .members-orbit { flex-direction: column; align-items: center; }
