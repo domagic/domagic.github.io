@@ -3,7 +3,7 @@ title: 罗朝广
 lang: zh
 id: luo-chao-guang
 name: 罗朝广
-title_line: 助理研究员、博士后 · 浙江大学管理学院
+title_line: 助理研究员、博士后 · 浙江大学 · 管理学院
 order: 2
 status: confirmed
 visibility: public
@@ -12,14 +12,14 @@ date: 2026-11-22
 
 ## 现职与学术任职
 
-- **浙江大学管理学院**：助理研究员、博士后（2026/01 至今，合作导师：陈熹教授）。
+- **浙江大学 · 管理学院**：助理研究员、博士后（2026/01 至今，合作导师：陈熹教授）。
 - **成都工业学院 · 汽车与交通学院**：讲师（2025/09—2025/12）。
 
 ## 教育经历
 
-- 2021/09—2025/06：四川大学商学院，管理科学与工程，管理学博士；导师：胡知能教授。
-- 2018/09—2021/06：西南石油大学计算机科学学院，计算机科学与技术，理学硕士。
-- 2014/09—2018/06：西南石油大学计算机科学学院，计算机科学与技术，工学学士。
+- 2021/09—2025/06：四川大学 · 商学院，管理科学与工程，管理学博士；导师：胡知能教授。
+- 2018/09—2021/06：西南石油大学 · 计算机科学学院，计算机科学与技术，理学硕士。
+- 2014/09—2018/06：西南石油大学 · 计算机科学学院，计算机科学与技术，工学学士。
 
 ## 研究概况
 
@@ -33,7 +33,7 @@ date: 2026-11-22
 
 - Email：[chaoguangluo@outlook.com](mailto:chaoguangluo@outlook.com)
 - 谷歌学术：[Google Scholar 主页](https://scholar.google.com/citations?user=FziuKWgAAAAJ&hl=en)
-- 个人主页：[qinluolab.com/magic/](https://qinluolab.com/magic/)
+- 个人主页：[domagic.github.io](https://github.com/domagic/domagic.github.io/blob/publish-main/index.html)
 
 ## 代表性论文
 
