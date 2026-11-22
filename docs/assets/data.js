@@ -1,5 +1,5 @@
 window.QL_DATA = {
-  "generatedAt": "2026-11-22T11:09:27.086Z",
+  "generatedAt": "2026-11-22T11:41:11.664Z",
   "team": {
     "contractVersion": "0.2",
     "name": {

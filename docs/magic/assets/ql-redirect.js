@@ -1,1 +1,1 @@
-try{var r=sessionStorage.getItem('magic:redirect');if(r){sessionStorage.removeItem('magic:redirect');history.replaceState(null,'',r)}}catch(e){}
+(function(){try{var q=new URLSearchParams(location.search).get('redirect');if(q&&q.indexOf('/magic/')===0){history.replaceState(null,'',q)}}catch(e){}})();

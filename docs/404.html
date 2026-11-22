@@ -10,8 +10,8 @@
     h1{font-size:1.6rem;font-weight:500;letter-spacing:.04em}
     p{color:#a9a49a;line-height:1.7}
     a{color:#d9b26a;text-decoration:none;border-bottom:1px solid rgba(217,178,106,.5)}
-    </style>
-  </head>
+  </style>
+</head>
 <body>
   <main>
     <h1>页面未找到</h1>
@@ -19,13 +19,10 @@
   </main>
   <script>
     (function () {
-      try {
-        var p = location.pathname
-        if (p.indexOf('/magic/') === 0) {
-          sessionStorage.setItem('magic:redirect', p + location.search + location.hash)
-          location.replace('/magic/index.html')
-        }
-      } catch (e) {}
+      var p = location.pathname
+      if (p.indexOf('/magic/') === 0) {
+        location.replace('/magic/index.html?redirect=' + encodeURIComponent(p + location.search + location.hash))
+      }
     })()
   </script>
 </body>

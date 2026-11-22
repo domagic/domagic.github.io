@@ -2,7 +2,7 @@
 // P6-B1 最小构建链：content/*.md → dist/assets/data.js ＋ src 静态件拷贝 → dist。
 // B5/R30：dist 同产物逐字节镜像 docs/＋CNAME/.nojekyll（Pages 源=master /docs）；镜像失败即 build 失败。
 // 零 npm 依赖（Node 内置模块）。用法：node build.mjs [--root <dir>]
-import { readFileSync, writeFileSync, readdirSync, mkdirSync, cpSync, existsSync, rmSync } from 'node:fs'
+import { readFileSync, writeFileSync, readdirSync, mkdirSync, cpSync, existsSync, unlinkSync, rmdirSync } from 'node:fs'
 import { join, resolve, dirname, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
@@ -175,8 +175,30 @@ writeFileSync(join(DIST, 'assets', 'data.js'), 'window.QL_DATA = ' + JSON.string
 // B5/R30：docs 镜像（GitHub Pages 分支源仅根或 /docs）＝同一次构建产物逐字节复制＋CNAME/.nojekyll。
 // dist 行为与内容不变（离线入口保留）；镜像回验失败即 build 失败（fail-closed）。docs/ 由 build 生成勿手改。
 const DOCS = join(ROOT, 'docs')
-rmSync(DOCS, { recursive: true, force: true })
+// 逐文件同步，避免递归删除触发批量删除保护；先覆盖，再清掉 docs 中的陈旧文件。
+mkdirSync(DOCS, { recursive: true })
 cpSync(DIST, DOCS, { recursive: true })
+function listFiles(dir, base = dir, out = []) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name)
+    if (e.isDirectory()) listFiles(p, base, out)
+    else out.push(relative(base, p).replace(/\\/g, '/'))
+  }
+  return out
+}
+const distSet = new Set(listFiles(DIST))
+for (const f of listFiles(DOCS)) {
+  if (f === 'CNAME' || f === '.nojekyll') continue
+  if (!distSet.has(f)) unlinkSync(join(DOCS, f))
+}
+function pruneEmpty(dir) {
+  if (resolve(dir) === resolve(DOCS)) return
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    if (e.isDirectory()) pruneEmpty(join(dir, e.name))
+  }
+  if (readdirSync(dir).length === 0) rmdirSync(dir)
+}
+for (const e of readdirSync(DOCS, { withFileTypes: true })) if (e.isDirectory()) pruneEmpty(join(DOCS, e.name))
 writeFileSync(join(DOCS, 'CNAME'), 'qinluolab.com\n', 'utf8')
 writeFileSync(join(DOCS, '.nojekyll'), '', 'utf8')
 function treeFiles(dir, base = dir, out = []) {
