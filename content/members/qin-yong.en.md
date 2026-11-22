@@ -18,7 +18,7 @@ date: 2026-11-21
 
 ## Education
 
-- Sep 2019 ~ present: Business School, Sichuan University; Management Science and Engineering, combined master–doctoral track; supervisor: Prof. Zeshui Xu, Chair Professor at Sichuan University and Academician of the European Academy of Sciences, the European Academy of Sciences and Arts, and the International Academy of Systems and Control Sciences.
+- Sep 2019 ~ Jun 2025: Business School, Sichuan University; Management Science and Engineering, combined master–doctoral track; supervisor: Prof. Zeshui Xu, Chair Professor at Sichuan University and Academician of the European Academy of Sciences, the European Academy of Sciences and Arts, and the International Academy of Systems and Control Sciences.
 - Aug 2023 ~ Aug 2024: Faculty of Business, The Hong Kong Polytechnic University (ranked 57th in the QS World University Rankings 2025); Management and Marketing, joint training; co-supervisor: Prof. Eric W.T. Ngai, associate editor of Information & Management and Decision Support Systems.
 - Sep 2015 ~ Jun 2019: School of Management Science, Chengdu University of Technology; Information Management and Information Systems, undergraduate.
 
