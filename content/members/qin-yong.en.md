@@ -18,10 +18,6 @@ Draft translation of the owner-supplied Chinese CV, pending review.
 - The Hong Kong Polytechnic University · School of Hotel and Tourism Management, Postdoctoral Fellow; Profile: [polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/).
 - Dec 2025: Sichuan Technology and Business University, invited speaker at the Symposium on Digital Economy Frontiers and Discipline Development, presenting on efficient academic writing tools and systematic workflows. [News report](https://kjc.stbu.edu.cn/news/2025/1222/80028.html).
 
-## Academic links
-
-- Google Scholar: [citation profile](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
-
 ## Education
 
 - 2019/09 – present: Business School, Sichuan University; Management Science and Engineering (combined master–doctoral track); supervisor: Professor Zeshui Xu, Chair Professor at Sichuan University and Academician of the European Academy of Sciences, the European Academy of Sciences and Arts, and the International Academy of Systems and Control Sciences.
@@ -31,6 +27,10 @@ Draft translation of the owner-supplied Chinese CV, pending review.
 ## Research interests
 
 Knowledge decision-making; business intelligence; data mining; management science.
+
+## Academic links
+
+- Google Scholar: [citation profile](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
 
 ## Publication overview
 
