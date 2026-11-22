@@ -437,6 +437,10 @@
       var suHtml = su.html.replace(/<p>(?:著录|Bibliographic record)\s*[（(].*?[）)]\s*[:：]\s*<\/p>/g, function () {
         return '<p><span class="lbl">' + citeLbl + '</span></p>'
       })
+      // "摘要（…）：" / "关键词：" / "Abstract:" / "Keywords:" 的行首词改成与"作者"同款金色标签，去掉冒号
+      suHtml = suHtml.replace(/<p>(摘要|关键词|Abstract|Keywords)(（[^）]*）)?\s*[:：]\s*/g, function (m, word, note) {
+        return '<p><span class="lbl">' + word + '</span>' + (note || '') + ' '
+      })
       var kind = t(lang, 'pubs.kind.' + p.kind)
       // 有 DOI 时：用与"作者/发表/引用"同款的金色标签"DOI"，链接只显示 DOI 号；
       // 无 DOI 时：保留灰色类型标签（论文/项目/报告）。
