@@ -16,10 +16,6 @@ date: 2026-11-21
 - 香港理工大学 · 酒店及旅游管理学院（School of Hotel and Tourism Management），博士后（Postdoctoral Fellow）；个人主页：[polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/)。
 - 2025/12：四川工商学院，受邀出席数字经济学术前沿与学科建设研讨会并作主旨报告，主题为高效论文写作工具与系统化工作流。[会议报道](https://kjc.stbu.edu.cn/news/2025/1222/80028.html)。
 
-## 学术链接
-
-- Google Scholar：[引用主页](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
-
 ## 教育经历
 
 - 2019/09—至今：四川大学 · 商学院，管理科学与工程（硕博连读）；导师：徐泽水教授（四川大学讲席教授、欧洲科学院院士、欧洲科学与艺术院院士、国际系统与控制科学院院士）。
@@ -29,6 +25,10 @@ date: 2026-11-21
 ## 研究方向
 
 知识决策；商业智能；数据挖掘；管理科学。
+
+## 学术链接
+
+- Google Scholar：[引用主页](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
 
 ## 学术产出概览
 
