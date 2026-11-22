@@ -28,7 +28,7 @@ date: 2026-11-21
 
 ## 学术链接
 
-- 个人主页：[qinluolab.com/qingy/](https://qinluolab.com/qingy/)
+- 个人主页：[qinluolab.com/qiny/](https://qinluolab.com/qiny/)
 - 香港理工大学主页：[polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/)
 - 谷歌学术：[Google Scholar 引用主页](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
 
