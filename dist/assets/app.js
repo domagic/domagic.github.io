@@ -594,7 +594,8 @@
     galaxy: {
       // 对联区细碎星点：作为立体星球的点缀，数量大幅减少，不再铺满小圆点。
       // cx/cy/rx/ry 为相对画布的比例，决定椭圆星野中心与范围。
-      cx: 0.80, cy: 0.44, rx: 0.30, ry: 0.40,
+      // cx/cy 对齐对联中心光斑，让「秦月」「罗星」两联分列光斑两侧。
+      cx: 0.742, cy: 0.50, rx: 0.30, ry: 0.40,
       stars: 55,            // 星野内星点数量（原 150，让位给立体星球）
       radius: [0.4, 1.6],   // 星点半径范围
       alpha: [0.14, 0.70],  // 星点透明度范围
@@ -614,8 +615,8 @@
     rotation: 0.000075,   // 整体自转角速度（弧度/毫秒）；约 84 秒一圈
     drift: 0.00011,       // 盘面弥散星独立公转速度（营造流动感）
     armWidth: 0.075,      // 旋臂径向宽度（占半径比例，越小臂越紧致）
-    galaxyCx: 0.80,       // 螺旋星系中心 x（占画布宽）
-    galaxyCy: 0.44,       // 螺旋星系中心 y（占画布高）
+    galaxyCx: 0.742,      // 螺旋星系中心 x（占画布宽，对齐对联中心光斑）
+    galaxyCy: 0.50,       // 螺旋星系中心 y（占画布高）
     galaxyR: 0.46,        // 螺旋星系半径（占画布高）
     // —— 全幅立体星球：左疏右密 ——
     planets: 46,          // 星球总数
@@ -652,6 +653,23 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 2)
     var W = 0, H = 0, R = 0, gx = 0, gy = 0
     var stars = [], planets = [], t0 = 0, raf = 0
+    // 对联文字保护区：随机星球落入此区不绘制，避免发光星球压住竖排两联。
+    var zoneRect = null, lastZoneMeasure = -1e9
+    function measureZone(ts) {
+      if (zoneRect && ts - lastZoneMeasure < 400) return
+      lastZoneMeasure = ts
+      var cp = document.querySelector('.couplet')
+      if (!cp) { zoneRect = null; return }
+      var cr = cp.getBoundingClientRect(), vr = cv.getBoundingClientRect()
+      var pad = 28
+      zoneRect = {
+        l: cr.left - vr.left - pad, t: cr.top - vr.top - pad,
+        r: cr.right - vr.left + pad, b: cr.bottom - vr.top + pad
+      }
+    }
+    function inZone(x, y) {
+      return zoneRect && x > zoneRect.l && x < zoneRect.r && y > zoneRect.t && y < zoneRect.b
+    }
 
     function resize() {
       var r = (host || cv).getBoundingClientRect()
@@ -659,6 +677,7 @@
       gx = CFG.galaxyCx * W; gy = CFG.galaxyCy * H; R = CFG.galaxyR * H
       cv.width = W * dpr; cv.height = H * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      lastZoneMeasure = -1e9
     }
     // 颜色分量提亮/压暗，用于球面高光与暗面
     function tint(rgb, amt) {
@@ -748,6 +767,7 @@
       if (!t0) t0 = ts
       var pal = galaxyPalette()
       ctx.clearRect(0, 0, W, H)
+      measureZone(ts)
       var fl = CFG.flatten, tilt = CFG.tilt
       var elapsed = reduce ? 3000 : (ts - t0)
 
@@ -799,10 +819,12 @@
           if (p.nx < 0.02 || p.nx > 0.995) p.vx *= -1
           if (p.ny < 0.03 || p.ny > 0.97) p.vy *= -1
         }
+        var px = p.nx * W, py = p.ny * H
+        if (inZone(px, py)) continue   // 对联文字区不绘制随机星球，避免光斑遮挡两联
         var r = Math.min(CFG.maxPlanetR, p.baseR * (0.4 + 1.15 * p.nx))
         var al = (CFG.planetAlpha[0] + (CFG.planetAlpha[1] - CFG.planetAlpha[0]) * p.nx)
               * (0.65 + 0.35 * Math.sin(p.phase + (reduce ? 0 : ts * p.ps))) * av
-        drawPlanet(p.nx * W, p.ny * H, r, pCols[p.hue], Math.max(0.05, al), p.ring, p.ringTilt)
+        drawPlanet(px, py, r, pCols[p.hue], Math.max(0.05, al), p.ring, p.ringTilt)
       }
     }
     function loop(ts) { draw(ts); raf = window.requestAnimationFrame(loop) }
