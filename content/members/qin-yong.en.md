@@ -16,7 +16,7 @@ Draft translation of the owner-supplied Chinese CV, pending review.
 
 - Chengdu University of Technology · School of Management Science · Department of Data Science, Researcher.
 - The Hong Kong Polytechnic University · School of Hotel and Tourism Management, Postdoctoral Fellow; Profile: [polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/).
-- Dec 2025: Sichuan Technology and Business University, invited speaker at the Symposium on Digital Economy Frontiers and Discipline Development, presenting on efficient academic writing tools and systematic workflows. [News report](https://kjc.stbu.edu.cn/news/2025/1222/80028.html).
+- Dec 2025 – present: Sichuan Technology and Business University, External Expert.
 
 ## Education
 
