@@ -14,7 +14,7 @@ date: 2026-11-21
 
 - 成都理工大学 · 管理科学学院 · 数据系，研究员。
 - 香港理工大学 · 酒店及旅游管理学院（School of Hotel and Tourism Management），博士后（Postdoctoral Fellow）；个人主页：[polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/)。
-- 2025/12：四川工商学院，受邀出席数字经济学术前沿与学科建设研讨会并作主旨报告，主题为高效论文写作工具与系统化工作流。[会议报道](https://kjc.stbu.edu.cn/news/2025/1222/80028.html)。
+- 2025/12 至今：四川工商学院，外聘专家。
 
 ## 教育经历
 
