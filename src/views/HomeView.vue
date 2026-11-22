@@ -19,7 +19,7 @@ const themeVars = computed(() => {
 
 const featured = ref<PostSummary[]>([])
 const recent = ref<PostSummary[]>([])
-const counts = ref<Record<Exclude<Category, 'diary'>, number>>({ blog: 0, opinion: 0, academic: 0 })
+const counts = ref<Record<Exclude<Category, 'diary'>, number>>({ blog: 0, opinion: 0, academic: 0, group: 0 })
 // T7-③：首屏异步区域（精选/最新索引/bio）以骨架占位预留高度，避免数据到达后撑高页面导致 CLS。
 const loading = ref(true)
 
@@ -54,6 +54,7 @@ const categories: { key: Exclude<Category, 'diary'>; desc: string }[] = [
   { key: 'blog', desc: '方法、工具与长篇思考' },
   { key: 'opinion', desc: '对学术与行业的立场' },
   { key: 'academic', desc: '论文、报告与项目' },
+  { key: 'group', desc: '每周组会报告与讨论' },
 ]
 
 onMounted(async () => {

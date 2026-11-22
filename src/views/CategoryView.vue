@@ -37,6 +37,7 @@ const descriptions: Record<Category, string> = {
   opinion: '对学术生态与行业趋势的明确立场。',
   diary: '写给自己的私人记录，仅本人可见。',
   academic: '论文、报告与项目进展。',
+  group: '每周组会报告与讨论记录。',
 }
 
 useSeo({ title: CATEGORY_LABELS[category.value], description: descriptions[category.value] })

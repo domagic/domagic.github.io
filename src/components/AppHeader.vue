@@ -15,6 +15,7 @@ const nav = [
   { to: '/blog', label: '博客' },
   { to: '/opinions', label: '观点' },
   { to: '/academic', label: '学术' },
+  { to: '/group', label: '组会' },
   { to: '/archive', label: '归档' },
   { to: '/about', label: '关于' },
 ]

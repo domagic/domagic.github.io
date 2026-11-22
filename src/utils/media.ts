@@ -8,7 +8,7 @@ export interface MarkdownRenderOptions {
 }
 
 /** 与 api Category 值域一致的栏目白名单；非法值一律不映射（防路径注入）。 */
-const MEDIA_SECTIONS = new Set(['blog', 'opinion', 'diary', 'academic'])
+const MEDIA_SECTIONS = new Set(['blog', 'opinion', 'diary', 'academic', 'group'])
 
 /** 契约 v1.2 §1-A：一层图片目录 [A-Za-z0-9_-]+，位图扩展白名单限小写（SVG 首期禁）。
  *  大小写口径与 sync/postbuild 门逐字一致：大写扩展引用不改写也不上站（构建期已被断链门拒绝）。 */

@@ -21,7 +21,7 @@ const ROOT = resolve(HERE, '..')
 const TARGET = resolve(ROOT, 'src/api/static/data/dataset.json')
 const MEDIA_MANIFEST_OUT = join(ROOT, 'public/media/manifest.json')
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
-const TYPES = new Set(['blog', 'opinion', 'diary', 'academic'])
+const TYPES = new Set(['blog', 'opinion', 'diary', 'academic', 'group'])
 const FORBIDDEN_KEY = /(_enc$|password|secret|token|privatekey|encryptionkey)/i
 
 // —— 契约 v1.2 §1-A.5 守卫常量 ——
@@ -32,7 +32,7 @@ const ASSET_MAX_TOTAL = 150 * 1024 * 1024 // 总字节 ≤150 MiB
 // R1 实测口径（QinY 本地 import:content --dry-run @00dada8，2026-11-19）：
 // import CLI 的 relPath 以 contentDir 为基准，实形不含 content/ 前缀；
 // 契约 §1-A 源树写法含之前缀作可选容忍（两写法同映射，语义不变，口径归 Manager 裁定）。
-const ASSET_REL_PATH = /^(?:content\/)?(blog|opinion|academic)\/assets\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+\.(?:png|jpe?g|gif|webp))$/
+const ASSET_REL_PATH = /^(?:content\/)?(blog|opinion|academic|group)\/assets\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+\.(?:png|jpe?g|gif|webp))$/
 const SHA256_HEX = /^[0-9a-f]{64}$/
 const MIME_BY_EXT = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp' }
 

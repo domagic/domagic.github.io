@@ -19,7 +19,7 @@ export const SLUG_MAX = 160
 export const TAG_SLUG_MAX = 80
 export const TAGS_MAX = 10
 
-const CATEGORIES: Category[] = ['blog', 'opinion', 'diary', 'academic']
+const CATEGORIES: Category[] = ['blog', 'opinion', 'diary', 'academic', 'group']
 const VISIBILITIES: Visibility[] = ['public', 'private']
 const STATUSES: PostStatus[] = ['published', 'draft']
 

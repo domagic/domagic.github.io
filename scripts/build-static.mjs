@@ -28,7 +28,7 @@ import { createHash } from 'node:crypto'
 
 const SCHEMA = 'domagic-static-export/v1'
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
-const DIR_TYPES = ['blog', 'opinion', 'academic']
+const DIR_TYPES = ['blog', 'opinion', 'academic', 'group']
 const IMG_EXT = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif', webp: 'image/webp' }
 const ASSET_MAX_SINGLE = 5 * 1024 * 1024
 const ASSET_MAX_COUNT = 300

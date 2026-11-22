@@ -72,6 +72,18 @@ export const router = createRouter({
       meta: { title: '学术' },
     },
     {
+      path: '/group',
+      name: 'group',
+      component: () => import('@/views/CategoryView.vue'),
+      meta: { title: '组会', category: 'group' },
+    },
+    {
+      path: '/group/:slug',
+      name: 'post-group',
+      component: () => import('@/views/PostView.vue'),
+      meta: { title: '组会' },
+    },
+    {
       path: '/blog/:slug',
       name: 'post-blog',
       component: () => import('@/views/PostView.vue'),

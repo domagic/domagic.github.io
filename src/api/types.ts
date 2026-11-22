@@ -1,4 +1,4 @@
-export type Category = 'blog' | 'opinion' | 'diary' | 'academic'
+export type Category = 'blog' | 'opinion' | 'diary' | 'academic' | 'group'
 export type Visibility = 'public' | 'private'
 export type PostStatus = 'published' | 'draft'
 
@@ -224,6 +224,7 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   opinion: '观点',
   diary: '日记',
   academic: '学术',
+  group: '组会',
 }
 
 export const CATEGORY_PATHS: Record<Category, string> = {
@@ -231,4 +232,5 @@ export const CATEGORY_PATHS: Record<Category, string> = {
   opinion: '/opinions',
   diary: '/diary',
   academic: '/academic',
+  group: '/group',
 }

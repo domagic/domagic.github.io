@@ -8,7 +8,7 @@ const siteUrl = 'https://domagic.github.io'
 // GitHub Pages SPA 回退：未知路径返回 404.html，由前端路由接管渲染
 copyFileSync(join(dist, 'index.html'), join(dist, '404.html'))
 
-const routes = ['/', '/about', '/blog', '/opinions', '/academic', '/privacy']
+const routes = ['/', '/about', '/blog', '/opinions', '/academic', '/group', '/privacy']
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${routes.map((r) => `  <url><loc>${siteUrl}${r}</loc></url>`).join('\n')}

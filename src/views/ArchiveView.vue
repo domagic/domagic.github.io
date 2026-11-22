@@ -158,7 +158,8 @@ void load()
   padding: 0.05rem 0.5rem;
 }
 
-.archive__type[data-type='academic'] {
+.archive__type[data-type='academic'],
+.archive__type[data-type='group'] {
   color: var(--cinnabar-deep);
   border-color: var(--cinnabar);
 }
