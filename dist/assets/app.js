@@ -13,17 +13,17 @@
       'nav.menu': '打开菜单',
       'hero.ctaAbout': '了解团队', 'hero.ctaPubs': '查看成果',
       'teaser.morePubs': '全部成果 →', 'teaser.moreMembers': '认识成员 →',
-      'badge.pending': '待确认', 'badge.exploring': '探索中',
-      'badge.provisional': '暂定', 'badge.translation': '暂译', 'badge.missing': '译文待补',
-      'marker.provisional': '英文名暂定', 'marker.draftTrans': '暂译',
+      'badge.pending': '整理中', 'badge.exploring': '探索中',
+      'badge.provisional': '拟定', 'badge.translation': '译注', 'badge.missing': '译文暂无',
+      'marker.provisional': '英文名', 'marker.draftTrans': '译注',
       'about.eyebrow': 'About', 'about.heading': '团队简介',
       'members.eyebrow': 'Members', 'members.heading': '团队成员',
-      'members.sub': '两位学者 · 一个团队（履历信息待确认，不预置未经核实内容）',
-      'members.titleFallback': '头衔待确认',
+      'members.sub': '两位学者 · 一个团队',
+      'members.titleFallback': '研究者',
       'member.heading': '成员简介', 'member.back': '返回成员列表', 'member.notFound': '未找到该成员简介。',
       'pubs.eyebrow': 'Publications', 'pubs.heading': '团队成果',
-      'pubs.sub': '团队成果清单按发表日期排序；清单与归属口径待 owner 确认。',
-      'pubs.empty': '成果清单待成员供给，暂无条目。',
+      'pubs.sub': '团队成果清单按发表日期排序。',
+      'pubs.empty': '暂无成果条目。',
       'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表', 'pubs.citeLabel': '引用', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': '官方发表记录 · 据出版商版本',
       'pubs.kind.paper-note': '论文笔记', 'pubs.kind.paper': '论文', 'pubs.kind.project': '项目', 'pubs.kind.talk': '报告',
       'langBtn': '语言', 'langBtnAria': '切换到英文',
@@ -35,17 +35,17 @@
       'nav.menu': 'Open menu',
       'hero.ctaAbout': 'About the Group', 'hero.ctaPubs': 'Publications',
       'teaser.morePubs': 'All publications →', 'teaser.moreMembers': 'Meet the members →',
-      'badge.pending': 'Pending confirmation', 'badge.exploring': 'In progress',
-      'badge.provisional': 'Provisional', 'badge.translation': 'Provisional translation', 'badge.missing': 'Translation pending',
-      'marker.provisional': 'English name provisional', 'marker.draftTrans': 'Draft translation',
+      'badge.pending': 'In preparation', 'badge.exploring': 'In progress',
+      'badge.provisional': 'Tentative', 'badge.translation': 'Annotated translation', 'badge.missing': 'No translation yet',
+      'marker.provisional': 'English name', 'marker.draftTrans': 'Annotated translation',
       'about.eyebrow': 'About', 'about.heading': 'About the Group',
       'members.eyebrow': 'Members', 'members.heading': 'Members',
-      'members.sub': 'Two scholars, one team. Biographies pending confirmation; no unverified information is pre-filled.',
-      'members.titleFallback': 'Title pending confirmation',
+      'members.sub': 'Two scholars, one team.',
+      'members.titleFallback': 'Researcher',
       'member.heading': 'Member Profile', 'member.back': 'Back to members', 'member.notFound': 'Profile not found.',
       'pubs.eyebrow': 'Publications', 'pubs.heading': 'Publications',
-      'pubs.sub': 'Team publication list ordered by publication date; list scope and attribution pending owner confirmation.',
-      'pubs.empty': 'The publication list awaits member supply; no entries yet.',
+      'pubs.sub': 'Team publications ordered by date.',
+      'pubs.empty': 'No entries yet.',
       'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in', 'pubs.citeLabel': 'Reference', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': 'Official publication record · publisher version',
       'pubs.kind.paper-note': 'Paper note', 'pubs.kind.paper': 'Paper', 'pubs.kind.project': 'Project', 'pubs.kind.talk': 'Talk',
       'langBtn': 'Languages', 'langBtnAria': 'Switch to Chinese',
@@ -434,7 +434,7 @@
       // 把摘要里的著录引导行整段（"著录（…）：" / "Bibliographic record (…):"，含括号内的来源说明）
       // 替换为与"作者/发表"同款的金色小标签"引用"，APA-7 引用紧随其后，不再显示来源说明。
       var citeLbl = esc(t(lang, 'pubs.citeLabel'))
-      var suHtml = su.html.replace(/<p>(?:著录|Bibliographic record)\s*[（(].*?[）)]\s*[:：]\s*<\/p>/g, function () {
+      var suHtml = su.html.replace(/<p>(?:著录|Bibliographic record)(?:\s*[（(].*?[）)])?\s*[:：]\s*<\/p>/g, function () {
         return '<p><span class="lbl">' + citeLbl + '</span></p>'
       })
       // "摘要（…）：" / "关键词：" / "Abstract:" / "Keywords:" 的行首词改成与"作者"同款金色标签，去掉冒号
