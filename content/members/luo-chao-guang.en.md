@@ -12,8 +12,8 @@ date: 2026-11-22
 
 ## Current position & appointments
 
-- **School of Management, Zhejiang University**: Assistant Researcher and Postdoctoral Fellow (since Jan 2026; co-supervisor: Prof. Xi Chen).
-- **School of Automotive and Transportation, Chengdu Industrial University**: Lecturer (Sep 2025 – Dec 2025).
+- Jan 2026 – present: School of Management, Zhejiang University; Assistant Researcher and Postdoctoral Fellow; co-supervisor: Prof. Xi Chen.
+- Sep 2025 – Dec 2025: School of Automotive and Transportation, Chengdu Industrial University; Lecturer.
 
 ## Education
 
