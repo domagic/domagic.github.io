@@ -18,8 +18,8 @@ date: 2026-11-22
 ## Education
 
 - Sep 2021 – Jun 2025: Business School, Sichuan University; Management Science and Engineering, PhD in Management; supervisor: Prof. Zhineng Hu.
-- Sep 2018 – Jun 2021: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, MSc.
-- Sep 2014 – Jun 2018: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, BEng.
+- Sep 2018 – Jun 2021: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, MSc; supervisor: Liuying Wen.
+- Sep 2014 – Jun 2018: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, BEng; undergraduate thesis supervisor: Jing Yue.
 
 ## Research overview
 
