@@ -55,5 +55,3 @@ Participant in 20+ projects including NSFC general projects, the China Postdocto
 - Baosteel Scholarship (Nov 2023)
 - National Scholarship for Master's Students (Dec 2021)
 - Sichuan Provincial Outstanding Graduate (Oct 2024)
-
-(University-level honors omitted; full list in the owner-supplied CV.)
