@@ -8,7 +8,7 @@ date: 2026-11-19
 
 ## Name
 
-# Aethera
+# AETHERA
 
 秦罗万象
 
@@ -32,8 +32,6 @@ We try to keep doing three things here:
 - **Record progress**: keep research questions, interim findings and open problems in a time-ordered archive, so that each step can be examined later.
 - **Share methods**: make reproducible ideas, tools and the writing process visible, not only the conclusions.
 - **Connect**: offer a reliable, traceable entry point for readers interested in the intersection of management and data science.
-
-The site publishes only verified content. Navigation supports Chinese and English as well as light/dark themes; your choice is stored locally and restored on your next visit.
 
 ## Contact
 
