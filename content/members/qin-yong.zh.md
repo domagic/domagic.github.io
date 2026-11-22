@@ -12,15 +12,15 @@ date: 2026-11-21
 
 ## 现职与学术任职
 
-- 成都理工大学 · 管理科学学院 · 数据系，研究员。
-- 香港理工大学 · 酒店及旅游管理学院（School of Hotel and Tourism Management），博士后（Postdoctoral Fellow）；个人主页：[polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/)。
+- 成都理工大学 · 管理科学学院，数据系研究员。
+- 香港理工大学 · 酒店及旅游管理学院，博士后；个人主页：[polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/)。
 - 2025/12 至今：四川工商学院，外聘专家。
 
 ## 教育经历
 
-- 2019/09—至今：四川大学 · 商学院，管理科学与工程（硕博连读）；导师：徐泽水教授（四川大学讲席教授、欧洲科学院院士、欧洲科学与艺术院院士、国际系统与控制科学院院士）。
-- 2023/08—2024/08：香港理工大学 · 商学院，管理和市场营销（联合培养；该校 2025 年 QS 世界大学排名位列第 57 位）；合作导师：Eric W.T. Ngai 教授（《Information & Management》与《Decision Support Systems》副主编）。
-- 2015/09—2019/06：成都理工大学 · 管理科学学院，信息管理与信息系统（本科）。
+- 2019/09—至今：四川大学 · 商学院，管理科学与工程，硕博连读；导师：徐泽水教授，四川大学讲席教授、欧洲科学院院士、欧洲科学与艺术学院院士、国际系统与控制科学院院士。
+- 2023/08—2024/08：香港理工大学 · 商学院，管理和市场营销，联合培养（该校 2025 年 QS 世界大学排名位列第 57 位）；合作导师：Eric W.T. Ngai 教授，《Information & Management》与《Decision Support Systems》副主编。
+- 2015/09—2019/06：成都理工大学 · 管理科学学院，信息管理与信息系统，本科。
 
 ## 研究方向
 
@@ -28,7 +28,7 @@ date: 2026-11-21
 
 ## 学术链接
 
-- Google Scholar：[引用主页](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
+- 谷歌学术：[Google Scholar 引用主页](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
 
 ## 学术产出概览
 
