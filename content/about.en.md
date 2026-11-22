@@ -6,22 +6,24 @@ visibility: public
 date: 2026-11-19
 ---
 
+## Team Name
+
 # Aethera
+
+## Team Vision
 
 > The Qin moon lights the path of inquiry; the Luo stars gather all phenomena.
 > 「秦月照研路，罗星汇万象」
 
-**Aethera** is an academic research team formed by two scholars, **Yong Qin (秦勇)** and **Chaoguang Luo (罗朝广)**. The Chinese name 「秦罗万象」 takes the first characters of the two scholars' surnames, evoking the couplet above: moonlight as the quiet illumination of scholarship, and a canopy of stars as the gathering of all phenomena.
+**Aethera** is an academic research team formed by two scholars, **Yong Qin (秦勇)** and **Chaoguang Luo (罗朝广)**. The Chinese name 「秦罗万象」 takes the first characters of the two scholars' surnames, evoking the vision above: moonlight as the quiet illumination of scholarship, and a canopy of stars as the gathering of all phenomena.
 
-## What we do (mission draft, pending review)
+## Mission
 
-We pursue rigorous, open, and reproducible research on real-world questions at the intersection of management and data science, and we share our progress and reflections here.
-
-Detailed research directions will be added once both scholars' profiles are confirmed; nothing is fabricated here.
+We pursue rigorous, open, and reproducible research on real-world questions at the intersection of management and data science, and maintain this site as a cumulative record of our progress and reflections.
 
 ## About this site
 
-This site is the public academic window of Aethera. It exists for a simple reason: to give two scholars' long-term collaboration a stable, cumulative home, where scattered research threads can be organised into a clear record that is easy to revisit — instead of being left in chat threads and temporary files.
+This site is the public academic window of Aethera. Its purpose is simple: to give the two scholars' long-term collaboration a stable, cumulative home, where scattered research threads are organised into a clear record that is easy to revisit — rather than being left in chat threads and temporary files.
 
 We try to keep doing three things here:
 
@@ -29,7 +31,7 @@ We try to keep doing three things here:
 - **Share methods**: make reproducible ideas, tools and the writing process visible, not only the conclusions.
 - **Connect**: offer a reliable, traceable entry point for readers interested in the intersection of management and data science.
 
-The site follows one rule: publish only what can be verified. Unconfirmed biographies or results are never pre-filled, and draft or provisional material is labelled as such so readers can judge how much to rely on it. Navigation supports Chinese and English as well as light/dark themes; your choice is stored locally and restored on your next visit.
+The site publishes only verified content. Navigation supports Chinese and English as well as light/dark themes; your choice is stored locally and restored on your next visit.
 
 ## Contact
 
