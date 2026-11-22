@@ -33,7 +33,7 @@ date: 2026-11-22
 
 - Email：[chaoguangluo@outlook.com](mailto:chaoguangluo@outlook.com)
 - 谷歌学术：[Google Scholar 主页](https://scholar.google.com/citations?user=FziuKWgAAAAJ&hl=en)
-- 个人主页：[domagic.github.io](https://github.com/domagic/domagic.github.io/blob/publish-main/index.html)
+- 个人主页：[domagic.github.io](https://domagic.github.io/)
 
 ## 代表性论文
 
