@@ -25,7 +25,7 @@ export const PROFILE_DISPLAY: {
   handle: 'domagic',
   // 需求(5)：删除「浙江大学管理学院」展示
   affiliation: '',
-  email: 'hello@domagic.example.com',
+  email: '',
   sealChar: '魔',
   // 需求(3)(7)：删除旧的四个方向，改为「信息系统」「人工智能」
   research: ['信息系统', '人工智能'],

@@ -1,14 +1,9 @@
 {
-  "displayName": "lcg_magic",
-  "headline": "管理科学与工程 · 科研工作者",
+  "displayName": "Magic",
+  "headline": "科研工作者",
   "bio": "在数据之中，做一点魔法。",
   "avatarUrl": null,
   "location": "杭州",
-  "socialLinks": [
-    {
-      "label": "GitHub",
-      "url": "https://github.com/domagic"
-    }
-  ],
-  "updatedAt": "2026-11-12T16:37:32.949Z"
+  "socialLinks": [],
+  "updatedAt": "2026-11-22T14:37:06.856Z"
 }

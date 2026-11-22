@@ -23,7 +23,6 @@ onMounted(async () => {
         <p class="mono about__kicker">About</p>
         <h1 class="about__name">{{ profile.name }}</h1>
         <p class="about__title">{{ profile.title }}</p>
-        <p v-if="profile.affiliation || profile.location" class="about__affil">{[profile.affiliation, profile.location].filter(Boolean).join(' · ')}</p>
       </div>
       <SealStamp v-if="SEAL_VISIBLE" :char="profile.sealChar" />
     </header>
@@ -58,7 +57,7 @@ onMounted(async () => {
     <section class="about__section">
       <SectionHead kicker="Contact" title="联系" />
       <ul class="about__links">
-        <li>
+        <li v-if="profile.email">
           <a :href="`mailto:${profile.email}`">{{ profile.email }}</a>
         </li>
         <li v-for="link in profile.links" :key="link.url">
