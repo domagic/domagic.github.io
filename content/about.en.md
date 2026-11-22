@@ -23,7 +23,7 @@ We pursue rigorous, open, and reproducible research on real-world questions at t
 
 ## About this site
 
-This site is the public academic window of Aethera. Its purpose is simple: to give the two scholars' long-term collaboration a stable, cumulative home, where scattered research threads are organised into a clear record that is easy to revisit — rather than being left in chat threads and temporary files.
+This site is the public academic window of Aethera, designed to give scholarly collaboration a stable, cumulative space where scattered research threads are organised into a clear, revisitable trail and the real questions at the intersection of management and data science are explored in depth.
 
 We try to keep doing three things here:
 
