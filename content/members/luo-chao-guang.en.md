@@ -12,14 +12,14 @@ date: 2026-11-22
 
 ## Current position & appointments
 
-- **School of Management, Zhejiang University**: Assistant Researcher and Postdoctoral Fellow (since Jan 2026; co-supervisor: Prof. Xi Chen).
-- **School of Automotive and Transportation, Chengdu Industrial University**: Lecturer (Sep 2025 – Dec 2025).
+- Jan 2026 ~ present: School of Management, Zhejiang University; Assistant Researcher and Postdoctoral Fellow; co-supervisor: Prof. Xi Chen.
+- Sep 2025 ~ Dec 2025: School of Automotive and Transportation, Chengdu Industrial University; Lecturer.
 
 ## Education
 
-- Sep 2021 – Jun 2025: Business School, Sichuan University; Management Science and Engineering, PhD in Management; supervisor: Prof. Zhineng Hu.
-- Sep 2018 – Jun 2021: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, MSc.
-- Sep 2014 – Jun 2018: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, BEng.
+- Sep 2021 ~ Jun 2025: Business School, Sichuan University; Management Science and Engineering, PhD in Management; supervisor: Prof. Zhineng Hu.
+- Sep 2018 ~ Jun 2021: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, MSc; supervisor: Liuying Wen.
+- Sep 2014 ~ Jun 2018: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, BEng; undergraduate thesis supervisor: Jing Yue.
 
 ## Research overview
 
@@ -72,6 +72,13 @@ Note: bold indicates the author himself.
 
 ## Academic service
 
-Reviewer for Annals of Tourism Research, Information Processing & Management, Pattern Recognition, Journal of Retailing and Consumer Services, Energy Sources, Part B: Economics, Planning, and Policy, New Review of Hypermedia and Multimedia, Energies, and Environmental Engineering and Management Journal.
+Anonymous reviewer for the following journals:
 
-(Compiled from the CV supplied by the owner; figures and titles reflect the CV at the time of supply.)
+- Annals of Tourism Research (ATR)
+- Information Processing & Management (IPM)
+- Pattern Recognition (PR)
+- Journal of Retailing and Consumer Services (JRCS)
+- Energy Sources, Part B: Economics, Planning, and Policy (ESB)
+- New Review of Hypermedia and Multimedia (NRHM)
+- Energies
+- Environmental Engineering and Management Journal (EEMJ)
