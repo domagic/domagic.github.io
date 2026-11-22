@@ -6,11 +6,13 @@ visibility: public
 date: 2026-11-19
 ---
 
-## Team Name
+## Name
 
 # Aethera
 
-## Team Vision
+秦罗万象
+
+## Vision
 
 > The Qin moon lights the path of inquiry; the Luo stars gather all phenomena.
 > 「秦月照研路，罗星汇万象」
@@ -21,7 +23,7 @@ date: 2026-11-19
 
 We pursue rigorous, open, and reproducible research on real-world questions at the intersection of management and data science, and maintain this site as a cumulative record of our progress and reflections.
 
-## About this site
+## Site
 
 This site is the public academic window of Aethera, designed to give scholarly collaboration a stable, cumulative space where scattered research threads are organised into a clear, revisitable trail and the real questions at the intersection of management and data science are explored in depth.
 
