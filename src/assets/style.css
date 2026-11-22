@@ -386,6 +386,8 @@ html[lang^="en"] .prose h2 + p {
 /* 节内小标题：缩进＋变体字形，和正文拉开层级（中文宋体／英文小型大写＋菱形标记＋短金线） */
 .prose h3 {
   position: relative;
+  width: fit-content;
+  max-width: 100%;
   margin: 2.1em 0 0.85em;
   padding-left: 1.95rem;
   font-family: var(--serif-zh);
@@ -407,7 +409,7 @@ html[lang^="en"] .prose h2 + p {
 .prose h3::after {
   content: "";
   display: block;
-  width: 2.7rem;
+  width: 100%;
   height: 1px;
   margin-top: 0.48rem;
   background: var(--line);
