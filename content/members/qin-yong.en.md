@@ -14,22 +14,19 @@ Draft translation of the owner-supplied Chinese CV, pending review.
 
 ## Current position & appointments
 
-- **Chengdu University of Technology · School of Management Science · Department of Data Science**: Researcher.
-- **The Hong Kong Polytechnic University · School of Hotel and Tourism Management**: Postdoctoral Fellow. Profile: [polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/).
-- **Sichuan Technology and Business University**: Invited speaker at the Symposium on Digital Economy Frontiers and Discipline Development (Dec 2025), presenting on efficient academic writing tools and systematic workflows. [News report](https://kjc.stbu.edu.cn/news/2025/1222/80028.html).
+- Chengdu University of Technology · School of Management Science · Department of Data Science, Researcher.
+- The Hong Kong Polytechnic University · School of Hotel and Tourism Management, Postdoctoral Fellow; Profile: [polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/).
+- Dec 2025: Sichuan Technology and Business University, invited speaker at the Symposium on Digital Economy Frontiers and Discipline Development, presenting on efficient academic writing tools and systematic workflows. [News report](https://kjc.stbu.edu.cn/news/2025/1222/80028.html).
 
 ## Academic links
 
 - Google Scholar: [citation profile](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
-- Personal website: [qinluolab.com/qiny/](https://qinluolab.com/qiny/)
 
 ## Education
 
-- 2019/09 – present: Business School, Sichuan University; Management Science and Engineering (combined master–doctoral track).
-- 2023/08 – 2024/08: Faculty of Business, The Hong Kong Polytechnic University (ranked 57th in the QS World University Rankings 2025); Management and Marketing (joint training). Co-supervisor: Professor Eric W.T. Ngai, associate editor of Information & Management and Decision Support Systems.
+- 2019/09 – present: Business School, Sichuan University; Management Science and Engineering (combined master–doctoral track); supervisor: Professor Zeshui Xu, Chair Professor at Sichuan University and Academician of the European Academy of Sciences, the European Academy of Sciences and Arts, and the International Academy of Systems and Control Sciences.
+- 2023/08 – 2024/08: Faculty of Business, The Hong Kong Polytechnic University (ranked 57th in the QS World University Rankings 2025); Management and Marketing (joint training); co-supervisor: Professor Eric W.T. Ngai, associate editor of Information & Management and Decision Support Systems.
 - 2015/09 – 2019/06: School of Management Science, Chengdu University of Technology; Information Management and Information Systems (undergraduate).
-
-Doctoral supervisor: Professor Zeshui Xu, Chair Professor at Sichuan University; Academician of the European Academy of Sciences, the European Academy of Sciences and Arts, and the International Academy of Systems and Control Sciences.
 
 ## Research interests
 
