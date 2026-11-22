@@ -72,4 +72,13 @@ Note: bold indicates the author himself.
 
 ## Academic service
 
-Anonymous reviewer for Annals of Tourism Research (ATR), Information Processing & Management (IPM), Pattern Recognition (PR), Journal of Retailing and Consumer Services (JRCS), Energy Sources, Part B: Economics, Planning, and Policy (ESB), New Review of Hypermedia and Multimedia (NRHM), Energies, and Environmental Engineering and Management Journal (EEMJ).
+Anonymous reviewer for the following journals:
+
+- Annals of Tourism Research (ATR)
+- Information Processing & Management (IPM)
+- Pattern Recognition (PR)
+- Journal of Retailing and Consumer Services (JRCS)
+- Energy Sources, Part B: Economics, Planning, and Policy (ESB)
+- New Review of Hypermedia and Multimedia (NRHM)
+- Energies
+- Environmental Engineering and Management Journal (EEMJ)
