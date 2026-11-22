@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      CSP 基线（04-安全设计.md §6）。frame-ancestors 仅响应头有效，meta 中会被浏览器忽略，
+      GitHub Pages 无法自定义响应头 → 此项为已知残留风险，迁移托管后补 HTTP 头。
+      字体已自托管（T7-①）：public/fonts/（woff2 子集 + OFL 许可），第三方字体源已从放行列表移除。
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' https: data:; connect-src 'self' https://api.domagic.invalid; base-uri 'self'; form-action 'self'; object-src 'none'"
+    />
+    <title>Magic 的个人网站</title>
+    <meta name="description" content="Magic 的个人网站：研究、博客、观点与学术内容。在数据之中，做一点魔法。" />
+    <meta name="author" content="Magic" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Magic 的个人网站" />
+    <meta property="og:description" content="研究、博客、观点与学术内容。" />
+    <meta property="og:locale" content="zh_CN" />
+    <link rel="icon" type="image/svg+xml" href="/magic/favicon.svg" />
+    <!-- 字体：全站改用字母大小一致的系统字体栈（标题衬线 Georgia 系、正文无衬线系统栈、
+         代码等宽系统栈），不再加载 Fraunces（wonk 轴导致字母大小不一）与 *Critical 子集
+         （拉丁覆盖不全、大小参差）。零字体下载、零 FOIT，首屏文本即时绘制。 -->
+    <script src="/magic/assets/ql-redirect.js"></script>
+    <script type="module" crossorigin src="/magic/assets/index-B3BlkfaA.js"></script>
+    <link rel="modulepreload" crossorigin href="/magic/assets/useSeo-Xt5Fc_J1.js">
+    <link rel="modulepreload" crossorigin href="/magic/assets/index-7KYLQ2mk.js">
+    <link rel="modulepreload" crossorigin href="/magic/assets/auth-Drld4Ewp.js">
+    <link rel="modulepreload" crossorigin href="/magic/assets/vue-router-BG4tMwtt.js">
+    <link rel="modulepreload" crossorigin href="/magic/assets/SealStamp-CIGBP0DO.js">
+    <link rel="modulepreload" crossorigin href="/magic/assets/site-DJlCesiI.js">
+    <link rel="modulepreload" crossorigin href="/magic/assets/SectionHead-CckvJGqA.js">
+    <link rel="modulepreload" crossorigin href="/magic/assets/format-DemK9dnJ.js">
+    <link rel="modulepreload" crossorigin href="/magic/assets/types-br4PmeRt.js">
+    <link rel="modulepreload" crossorigin href="/magic/assets/PostIndexItem-BVME6WIy.js">
+    <link rel="stylesheet" crossorigin href="/magic/assets/SealStamp-BFyNYkj2.css">
+    <link rel="stylesheet" crossorigin href="/magic/assets/SectionHead-CTRAHzlF.css">
+    <link rel="stylesheet" crossorigin href="/magic/assets/PostIndexItem-C0pn4Ice.css">
+    <link rel="stylesheet" crossorigin href="/magic/assets/index-DT0FHa4H.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

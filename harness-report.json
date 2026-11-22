@@ -1,0 +1,332 @@
+{
+  "runAt": "2026-11-22T11:09:40.228Z",
+  "root": ".",
+  "phase": "push",
+  "contract": "v0.3.1",
+  "gates": {
+    "G1′": {
+      "status": "PASS",
+      "checks": 88,
+      "violations": []
+    },
+    "G2′": {
+      "status": "PASS",
+      "checks": 0,
+      "violations": []
+    },
+    "G3′": {
+      "status": "PASS",
+      "checks": 48,
+      "violations": []
+    },
+    "G4′": {
+      "status": "PASS",
+      "checks": 380,
+      "violations": []
+    },
+    "G5′": {
+      "status": "PASS",
+      "checks": 3,
+      "violations": []
+    },
+    "G7′": {
+      "status": "PASS",
+      "checks": 33,
+      "violations": []
+    },
+    "G8′": {
+      "status": "PASS",
+      "checks": 351,
+      "violations": []
+    },
+    "G6′": {
+      "status": "RETIRED",
+      "checks": 0,
+      "violations": [],
+      "reason": "R7：I18N 比对形态退役，首页数据化单一来源"
+    }
+  },
+  "scanned": 396,
+  "planned": 45,
+  "rejected": 0,
+  "warnings": [],
+  "missingTranslations": [],
+  "perFile": [
+    {
+      "path": "content/about.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/about.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/members/luo-chao-guang.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/members/luo-chao-guang.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/members/qin-yong.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/members/qin-yong.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2021-er-ei-poverty-cycles.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2021-er-ei-poverty-cycles.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2021-iemj-family-firms-economic-policy.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2021-iemj-family-firms-economic-policy.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2021-ijfs-tourism-attraction-selection.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2021-ijfs-tourism-attraction-selection.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2021-tede-financial-cycles-china.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2021-tede-financial-cycles-china.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2022-er-ei-hesitant-fuzzy-smart.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2022-er-ei-hesitant-fuzzy-smart.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2022-ijfs-ranking-tourist-attractions.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2022-ijfs-ranking-tourist-attractions.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2022-rser-green-energy-adoption.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2022-rser-green-energy-adoption.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2023-cmes-graduate-thesis-quality.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2023-cmes-graduate-thesis-quality.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2023-eap-financial-institutions-green.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2023-eap-financial-institutions-green.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2023-ijebr-globalization-family-firms.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2023-ijebr-globalization-family-firms.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2023-jcp-low-carbon-network.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2023-jcp-low-carbon-network.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2024-jke-ai-economic-development.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2024-jke-ai-economic-development.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2024-rp-resource-curse-energy.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2024-rp-resource-curse-energy.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2025-neuro-diversified-recommendation.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2025-neuro-diversified-recommendation.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2025-tede-tourist-satisfaction.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2025-tede-tourist-satisfaction.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2025-tm-customer-satisfaction-recipes.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2025-tm-customer-satisfaction-recipes.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2026-asoc-visual-textual-ranking.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2026-asoc-visual-textual-ranking.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2026-ipm-configurational-satisfaction.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2026-ipm-configurational-satisfaction.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2027-tihe-learner-satisfaction.en.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/publications/2027-tihe-learner-satisfaction.zh.md",
+      "verdict": "PASS",
+      "gate": null,
+      "reason": null
+    },
+    {
+      "path": "content/team.json",
+      "verdict": "PASS",
+      "gate": "G7′",
+      "reason": null
+    },
+    {
+      "path": "docs/",
+      "verdict": "PASS",
+      "gate": "G8′",
+      "reason": null
+    }
+  ]
+}

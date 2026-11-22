@@ -19,6 +19,7 @@ date: 2026-11-21
 ## 学术链接
 
 - Google Scholar：[引用主页](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
+- 个人主页：[qinluolab.com/qiny/](https://qinluolab.com/qiny/)
 
 ## 教育经历
 

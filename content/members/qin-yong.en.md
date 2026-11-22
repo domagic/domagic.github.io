@@ -21,6 +21,7 @@ Draft translation of the owner-supplied Chinese CV, pending review.
 ## Academic links
 
 - Google Scholar: [citation profile](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
+- Personal website: [qinluolab.com/qiny/](https://qinluolab.com/qiny/)
 
 ## Education
 

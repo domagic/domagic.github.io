@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /magic/admin
+Disallow: /magic/login
+Disallow: /magic/diary
+
+Sitemap: https://qinluolab.com/magic/sitemap.xml

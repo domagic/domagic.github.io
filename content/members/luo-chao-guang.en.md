@@ -33,7 +33,7 @@ Recommender systems; online review mining; graph and hypergraph learning; data m
 
 - Email: [chaoguangluo@outlook.com](mailto:chaoguangluo@outlook.com)
 - Google Scholar: [profile](https://scholar.google.com/citations?user=FziuKWgAAAAJ&hl=en)
-- Personal website: [domagic.github.io](https://domagic.github.io/)
+- Personal website: [qinluolab.com/magic/](https://qinluolab.com/magic/)
 
 ## Selected publications
 

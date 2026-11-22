@@ -1,0 +1,8 @@
+/* T7-③ metric-compatible fallbacks：webfont swap 时消除布局位移（CLS）。
+   由 tools/fonts-work/gen-fallbacks.mjs 生成（fontkit 实测度量），勿手改。
+   size-adjust 按 Latin 平均字宽对齐；CJK 字形 advance 恒为 1em，无需缩放。
+   ascent/descent/line-gap 按 webfont 度量归一，保证行盒与基线一致。 */
+@font-face{font-family:'Noto Sans SC Fallback';src:local('Microsoft YaHei');size-adjust:100%;ascent-override:116%;descent-override:28.8%;line-gap-override:0%;}
+@font-face{font-family:'Noto Serif SC Fallback';src:local('SimSun');size-adjust:100%;ascent-override:115.1%;descent-override:28.6%;line-gap-override:0%;}
+@font-face{font-family:'Fraunces Fallback';src:local('Times New Roman');size-adjust:122.25%;ascent-override:80%;descent-override:20.86%;line-gap-override:0%;}
+@font-face{font-family:'IBM Plex Mono Fallback';src:local('Consolas');size-adjust:109.13%;ascent-override:93.92%;descent-override:25.2%;line-gap-override:0%;}
