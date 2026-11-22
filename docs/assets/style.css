@@ -391,7 +391,7 @@ html[lang^="en"] .prose h2 + p {
   margin: 2.1em 0 0.85em;
   padding-left: 1.95rem;
   font-family: var(--serif-zh);
-  font-size: 1.18rem;
+  font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: 0.16em;
   line-height: 1.5;
@@ -416,7 +416,7 @@ html[lang^="en"] .prose h2 + p {
 }
 html[lang^="en"] .prose h3 {
   font-family: var(--serif-en);
-  font-size: 1.05rem;
+  font-size: 1.32rem;
   font-weight: 400;
   letter-spacing: 0.05em;
   font-variant: small-caps;
