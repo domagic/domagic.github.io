@@ -442,7 +442,7 @@
       // 无 DOI 时：保留灰色类型标签（论文/项目/报告）。
       var metaHtml = '<p class="pub-meta">'
       if (p.doi) {
-        metaHtml += '<span class="lbl">' + esc(t(lang, 'pubs.doiLabel')) + '</span>' +
+        metaHtml += '<span class="lbl lbl-en">' + esc(t(lang, 'pubs.doiLabel')) + '</span>' +
           '<a class="doi" data-pub-idx="' + pIdx + '" href="https://doi.org/' + esc(p.doi) + '" rel="noopener noreferrer">' + esc(p.doi) + '</a>'
       } else {
         metaHtml += '<span class="kind">' + esc(kind) + '</span>'
