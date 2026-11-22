@@ -358,7 +358,7 @@ html[lang^="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400;
 .page-head-title::after { content: ""; display: block; width: 100%; height: 2px; background: var(--gold); margin-top: 1.2rem; }
 .page-head:has(.page-head-title)::after { content: none; }
 .page-sub { margin-top: 1.1rem; color: var(--text-soft); font-size: 0.98rem; max-width: 60ch; }
-.prose { max-width: 900px; }
+.prose { max-width: 100%; }
 .prose p { margin-bottom: 1.15em; }
 .prose h2 { font-family: var(--serif-zh); font-size: 1.3rem; letter-spacing: 0.1em; margin: 2em 0 0.8em; padding-left: 0.85rem; border-left: 3px solid var(--gold); }
 html[lang^="en"] .prose h2 { font-family: var(--serif-en); letter-spacing: 0.02em; }
@@ -409,7 +409,9 @@ html[lang^="en"] .prose h2 + p {
 .prose h3::after {
   content: "";
   display: block;
-  width: 100%;
+  /* 横线覆盖标题整体（含左侧 ◈ 标记），与标题视觉长度一致 */
+  width: calc(100% + 1.95rem);
+  margin-left: -1.95rem;
   height: 1px;
   margin-top: 0.48rem;
   background: var(--line);
@@ -597,7 +599,7 @@ html[lang^="en"] .member-detail-name { font-family: var(--serif-en); letter-spac
 html[lang^="en"] .member-detail-alt { font-family: var(--serif-zh); letter-spacing: 0.08em; }
 .member-detail-role { margin-top: 0.7rem; color: var(--text-soft); font-size: 1rem; }
 .member-detail-badge { margin-top: 0.6rem; }
-.member-detail-bio { margin-top: 2rem; max-width: 900px; }
+.member-detail-bio { margin-top: 2rem; max-width: 100%; }
 @media (prefers-reduced-motion: reduce) {
   /* 关闭动效：头像直接呈现终态，不隐藏、不上浮 */
   .member-orb, .member-orb.bubble-in, .member-orb.surfaced { opacity: 1; animation: none; transform: none; filter: none; }
