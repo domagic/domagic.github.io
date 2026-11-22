@@ -431,11 +431,11 @@
     el.innerHTML = D.publications.map(function (p, pIdx) {
       var ti = bi(lang, p.title)
       var su = bi(lang, p.summary)
-      // 把摘要里的著录引导行（"著录（…）：" / "Bibliographic record (…):"）
-      // 改成与"作者/发表"同款的金色小标签"引用"，APA-7 引用紧随其后。
+      // 把摘要里的著录引导行整段（"著录（…）：" / "Bibliographic record (…):"，含括号内的来源说明）
+      // 替换为与"作者/发表"同款的金色小标签"引用"，APA-7 引用紧随其后，不再显示来源说明。
       var citeLbl = esc(t(lang, 'pubs.citeLabel'))
-      var suHtml = su.html.replace(/<p>(著录|Bibliographic record)(\s*[（(])/, function (m, word, paren) {
-        return '<p><span class="lbl">' + citeLbl + '</span>' + paren
+      var suHtml = su.html.replace(/<p>(?:著录|Bibliographic record)\s*[（(].*?[）)]\s*[:：]\s*<\/p>/g, function () {
+        return '<p><span class="lbl">' + citeLbl + '</span></p>'
       })
       var kind = t(lang, 'pubs.kind.' + p.kind)
       // 有 DOI 时：用与"作者/发表/引用"同款的金色标签"DOI"，链接只显示 DOI 号；
