@@ -362,6 +362,20 @@ html[lang^="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400;
 .prose p { margin-bottom: 1.15em; }
 .prose h2 { font-family: var(--serif-zh); font-size: 1.3rem; letter-spacing: 0.1em; margin: 2em 0 0.8em; padding-left: 0.85rem; border-left: 3px solid var(--gold); }
 html[lang^="en"] .prose h2 { font-family: var(--serif-en); letter-spacing: 0.02em; }
+/* 名称节：主名之下的另一语种名称，同节并置，不另加“中文名称／英文名称”标签 */
+.prose h2 + p {
+  margin-top: -0.42rem;
+  padding-left: calc(0.85rem + 3px);
+  font-family: var(--serif-en);
+  font-size: 1.22rem;
+  letter-spacing: 0.16em;
+  color: var(--gold-light);
+}
+html[lang^="en"] .prose h2 + p {
+  font-family: var(--serif-zh);
+  font-size: 1.18rem;
+  letter-spacing: 0.18em;
+}
 /* 节内小标题：缩进＋变体字形，和正文拉开层级（中文宋体／英文小型大写＋菱形标记＋短金线） */
 .prose h3 {
   position: relative;
