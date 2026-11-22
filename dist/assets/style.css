@@ -492,6 +492,25 @@ html[lang^="en"] .orb-initial { font-family: var(--serif-en); font-size: 1.05rem
 }
 html[lang^="en"] .orb-caption { font-family: var(--serif-en); letter-spacing: 0.02em; font-size: 1rem; }
 .member-orb:hover .orb-caption, .member-orb:focus-within .orb-caption { color: var(--orb-accent); opacity: 1; }
+
+/* ---------- 气泡浮现入场：头像像气泡从水底深处浮上水面 ----------
+   观察者在「水面」，透过水看到气泡从深处上浮：由下往上、由模糊到清晰、
+   由小到大、由水下暗淡到水面鲜明；末尾极轻微的过冲模拟破水而出的瞬间。
+   过程短促可见（0.78s，两枚错峰）。动画只作用在外层 .member-orb，
+   与内层 .orb-stack 的 hover「由远及近」3D 交互互不干扰。
+   滚入视口时由 JS 加 .bubble-in 触发一次，播完换 .surfaced 固定终态。 */
+.member-orb { opacity: 0; }
+.member-orb.bubble-in { animation: bubble-surface 0.78s cubic-bezier(0.22, 0.92, 0.28, 1) both; }
+.member-orb.surfaced { opacity: 1; }
+.members-orbit .member-orb:nth-child(1).bubble-in { animation-delay: 0.02s; }
+.members-orbit .member-orb:nth-child(2).bubble-in { animation-delay: 0.16s; }
+.members-orbit .member-orb:nth-child(3).bubble-in { animation-delay: 0.30s; }
+@keyframes bubble-surface {
+  0%   { opacity: 0.06; transform: translateY(30px) scale(0.82); filter: blur(8px) saturate(0.55) brightness(0.82); }
+  55%  { opacity: 0.9; }
+  86%  { opacity: 1; transform: translateY(-3px) scale(1.035); filter: blur(0.4px) saturate(1) brightness(1.08); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px) saturate(1) brightness(1); }
+}
 /* 成员简介详情页（member.html?id=...）：成员文字只在这里出现 */
 .member-back { margin-bottom: 1.6rem; font-size: 0.9rem; }
 .member-back a { color: var(--gold-light); text-decoration: none; border-bottom: 1px solid var(--line); }
@@ -520,6 +539,8 @@ html[lang^="en"] .member-detail-alt { font-family: var(--serif-zh); letter-spaci
 .member-detail-badge { margin-top: 0.6rem; }
 .member-detail-bio { margin-top: 2rem; max-width: 72ch; }
 @media (prefers-reduced-motion: reduce) {
+  /* 关闭动效：头像直接呈现终态，不隐藏、不上浮 */
+  .member-orb, .member-orb.bubble-in, .member-orb.surfaced { opacity: 1; animation: none; transform: none; filter: none; }
   .orb-stack, .orb-layer { transition: none; }
   /* 关闭动效时不做远景缩放：保持静止的正常大小，仅保留颜色变化 */
   .orb-stack, .member-orb:hover .orb-stack, .member-orb:focus-within .orb-stack { transform: none; }
