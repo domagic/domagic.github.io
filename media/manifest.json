@@ -261,6 +261,27 @@
       "urlPath": "/media/blog/derivative-instantaneous-rate/figure-02.png"
     },
     {
+      "relPath": "blog/assets/fibonacci-sequence-golden-ratio-phyllotaxis/figure-01.png",
+      "sha256": "6484245a06169603723bbf146ff577afdc9e31887252eb34112909b2faa0c63a",
+      "bytes": 407060,
+      "mime": "image/png",
+      "urlPath": "/media/blog/fibonacci-sequence-golden-ratio-phyllotaxis/figure-01.png"
+    },
+    {
+      "relPath": "blog/assets/fibonacci-sequence-golden-ratio-phyllotaxis/figure-02.png",
+      "sha256": "87ecf1d57f17d5041218fd5b6415214d33f9cfec4e5e1fe698034578509328bd",
+      "bytes": 70084,
+      "mime": "image/png",
+      "urlPath": "/media/blog/fibonacci-sequence-golden-ratio-phyllotaxis/figure-02.png"
+    },
+    {
+      "relPath": "blog/assets/fibonacci-sequence-golden-ratio-phyllotaxis/figure-03.png",
+      "sha256": "2c811c97f0c0d0d5af563f2a58b7b447c7acced3df58cac82ef320d864beacc7",
+      "bytes": 274742,
+      "mime": "image/png",
+      "urlPath": "/media/blog/fibonacci-sequence-golden-ratio-phyllotaxis/figure-03.png"
+    },
+    {
       "relPath": "blog/assets/sample-variance-n-minus-one/figure-01.png",
       "sha256": "214b701de70e7f160e5432a9ed719759f1faa1063ea62e302870b630e8ffa2b8",
       "bytes": 35990,
