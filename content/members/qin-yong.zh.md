@@ -36,6 +36,21 @@ date: 2026-11-21
 
 在国内外重要期刊发表论文 77 篇，其中以第一作者或通讯作者发表 SCI/SSCI 论文 20 篇，在投论文 9 篇。论文在 Google Scholar 中被引 2055 次，H 指数 21，i10 指数 40。
 
+## 代表性论文
+
+说明：加粗表示本人；星号表示通讯作者。
+
+1. **Qin, Y.**, Luo, C. G., Luo, Y. Y., & Wang, L. W. (2027). Unveiling determinants of learner satisfaction in online courses: An explainable machine learning technique using unstructured reviews. *The Internet and Higher Education*, 72, 101115. 中科院一区 Top。
+2. **Qin, Y.**, Luo, C. G., Luo, Y. Y., & Ngai, E. W. T. (2026). Configurational patterns for forecasting customer satisfaction enhancement based on online reviews: A multi-attribute attitude perspective. *Information Processing & Management*, 63(3), 104545. 中科院一区 Top；ABS 2。
+3. **Qin, Y.**, Luo, C. G., & Ngai, E. W. T. (2025). Deconstructing customer satisfaction recipes: A dynamic configurational framework leveraging the power of online reviews in tourism contexts. *Tourism Management*, 110, 105181. 中科院一区 Top；ABS 4。
+4. **Qin, Y.**, Luo, C. G., Xu, Z. S., Wang, X. X., & Škare, M. (2025). Decoding tourist satisfaction for sustainable economic development: A multi-method configuration framework using online reviews. *Technological and Economic Development of Economy*, 31(6), 1801–1839. 中科院三区。
+5. **Qin, Y.**, Xu, Z. S., Luo, C. G., & Škare, M. (2024). Investigating the nexus among resource curse, energy transition and sustainable development: Evidence from a global panel data. *Resources Policy*, 88, 104445. ABS 2。
+6. **Qin, Y.**, Xu, Z. S., Wang, X. X., & Škare, M. (2024). Artificial intelligence and economic development: An evolutionary investigation and systematic review. *Journal of the Knowledge Economy*, 15, 1736–1770. 中科院三区。
+7. Liu, P., **Qin, Y.***, Luo, Y. Y., Wang, X. X., & Guo, X. W. (2023). Structure of low-carbon economy spatial correlation network in urban agglomeration. *Journal of Cleaner Production*, 394, 136359. 中科院一区 Top。
+8. **Qin, Y.**, Xu, Z. S., Wang, X. X., & Škare, M. (2023). The effects of financial institutions on the green energy transition: A cross-sectional panel study. *Economic Analysis and Policy*, 78, 524–542. 中科院二区。
+9. **Qin, Y.**, Wang, X. X., Xu, Z. S., & Škare, M. (2023). The effects of globalization on family firms' business model in Europe. *International Journal of Entrepreneurial Behavior & Research*, 29(1), 27–48. 中科院二区。
+10. Luo, Y. Y., Zhang, X. X., Tong, T., **Qin, Y.***, & Yang, Z. (2023). Multidimensional quality evaluation of graduate thesis: Based on the probabilistic linguistic MABAC method. *CMES-Computer Modeling in Engineering and Sciences*, 137(2), 2049–2076. 中科院四区。
+
 ## 科研项目
 
 主持中央高校基本科研业务费项目（研究生创新项目）1 项：
