@@ -474,8 +474,8 @@
       // 把摘要里的著录引导行整段（"著录（…）：" / "Bibliographic record (…):"，含括号内的来源说明）
       // 替换为与"作者/发表"同款的金色小标签"引用"，APA-7 引用紧随其后，不再显示来源说明。
       var citeLbl = esc(t(lang, 'pubs.citeLabel'))
-      var suHtml = su.html.replace(/<p>(?:著录|Bibliographic record)(?:\s*[（(].*?[）)])?\s*[:：]\s*<\/p>/g, function () {
-        return '<p><span class="lbl">' + citeLbl + '</span></p>'
+      var suHtml = su.html.replace(/(<p>)(?:著录|Bibliographic record)(?:\s*[（(].*?[）)])?\s*[:：]\s*(<\/p>\s*<p>)/g, function (m, open, tail) {
+        return open + '<span class="lbl">' + citeLbl + '</span>' + tail.replace('<p>', '<p class="pub-cite">')
       })
       // "摘要（…）：" / "关键词：" / "Abstract:" / "Keywords:" 的行首词改成与"作者"同款金色标签，去掉冒号
       suHtml = suHtml.replace(/<p>(摘要|关键词|Abstract|Keywords)(（[^）]*）)?\s*[:：]\s*/g, function (m, word, note) {
