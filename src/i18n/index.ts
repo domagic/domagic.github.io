@@ -107,7 +107,7 @@ const enGB: Dict = {
   'home.titleAccent': 'a little magic.',
   'home.primary': 'Start reading',
   'home.secondary': 'About me',
-  'home.vertical': 'Explore',
+  'home.vertical': 'The investigation of things and the extension of knowledge',
   'home.featured': 'Featured',
   'home.recent': 'Recent',
   'home.categories': 'Categories',

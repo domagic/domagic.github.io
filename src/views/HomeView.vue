@@ -145,7 +145,12 @@ onUnmounted(() => {
           </p>
         </div>
         <div class="hero__side">
-          <span v-if="HOME_CONFIG.vertical" class="hero__vertical" aria-hidden="true">{{ isEn ? t('home.vertical') : HOME_CONFIG.vertical }}</span>
+          <span
+            v-if="HOME_CONFIG.vertical"
+            class="hero__vertical"
+            :class="{ 'hero__vertical--en': isEn }"
+            :aria-hidden="isEn ? undefined : 'true'"
+          >{{ isEn ? t('home.vertical') : HOME_CONFIG.vertical }}</span>
           <SealStamp v-if="SEAL_VISIBLE && HOME_CONFIG.sealChar" animated :char="HOME_CONFIG.sealChar" />
         </div>
       </div>
@@ -590,6 +595,21 @@ onUnmounted(() => {
   line-height: 1.06;
 }
 
+/* 英文模式：完整译名是长句，改用竖排窄幅引言排版，保留右侧竖排书法位的设计语言。
+   用 writing-mode 维持竖排、缩小字号并加大行高，让整句可读且不溢出首屏。
+   text-orientation: mixed 让字母侧躺、单词沿竖轴连读，符合英文竖排惯例。 */
+.hero__vertical--en {
+  font-family: var(--font-serif-sc);
+  font-size: clamp(0.95rem, 1.35vw, 1.15rem);
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  max-height: min(62vh, 30rem);
+  overflow-wrap: anywhere;
+  text-shadow: none;
+  border-inline-end: 1px solid var(--line-strong);
+  padding-inline-end: 0.9rem;
+}
+
 .section {
   padding-top: 2.8rem;
 }
@@ -822,6 +842,10 @@ onUnmounted(() => {
   }
   .hero__vertical {
     font-size: 2rem;
+  }
+  .hero__vertical--en {
+    font-size: 0.9rem;
+    max-height: 34vh;
   }
   .drawers {
     grid-template-columns: 1fr;
