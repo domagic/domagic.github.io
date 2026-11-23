@@ -126,6 +126,18 @@ for (const [i, y] of data.archive.entries()) {
 mkdirSync(dirname(TARGET), { recursive: true })
 writeFileSync(TARGET, JSON.stringify(data, null, 2) + '\n', 'utf8')
 
+// —— 英文数据集：同步中文主数据集时自动生成（workflow 无需额外步骤）——
+// 仅当同步目标是中文 dataset.json、且语料目录存在 content-en/ 时触发；英文稿缺稿或
+// 残留中文由 build-en.mjs fail-closed 拒绝，整次构建失败 → 线上保持旧版。
+const isZhTarget = process.argv.indexOf('--out') < 0
+const enContentDir = join(ROOT, 'content-en')
+if (isZhTarget && existsSync(enContentDir)) {
+  const { spawnSync } = await import('node:child_process')
+  const enOut = join(ROOT, 'src/api/static/data/dataset.en.json')
+  const r = spawnSync(process.execPath, [join(ROOT, 'scripts/build-en.mjs'), resolve(src), enContentDir, enOut], { stdio: 'inherit' })
+  if (r.status !== 0) fail('英文数据集构建失败（content-en/ 门）')
+}
+
 // —— v1.2 随文图片 manifest：形状校验 + 规范化透传（断链与字节级断言在 postbuild 门执行）——
 let assetCount = 0
 let assetBytes = 0
