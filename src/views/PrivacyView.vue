@@ -7,7 +7,7 @@ useSeo({ title: '隐私声明', description: '本站的数据收集、私密内�
 
 <template>
   <div class="page privacy">
-    <SectionHead kicker="Privacy" title="隐私声明" note="最近更新：2026-11-13（与 v1.1 安全实现对齐）" />
+    <SectionHead title="隐私声明" note="最近更新：2026-11-13（与 v1.1 安全实现对齐）" />
     <div class="privacy__body">
       <h2>我们收集什么</h2>
       <p>本站为个人网站，不要求访客注册或提供个人信息，公开内容（博客、观点、学术）可匿名浏览；不植入第三方追踪或广告脚本。服务端运行日志仅以哈希形式记录网络地址等技术信息，用于安全追溯与故障排查，不用于画像或广告。</p>

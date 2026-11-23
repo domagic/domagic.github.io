@@ -257,7 +257,6 @@ onMounted(load)
   <div class="page admin">
     <header class="admin__header">
       <div>
-        <p class="mono admin__kicker">Admin</p>
         <h1>内容管理</h1>
         <p class="admin__user">已登录：{{ auth.user?.name }}（{{ auth.user?.role }}）</p>
       </div>

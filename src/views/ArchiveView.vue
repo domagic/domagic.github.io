@@ -34,7 +34,7 @@ void load()
 
 <template>
   <div class="page archive">
-    <SectionHead kicker="Archive" title="归档" note="公开文章按年份整理；私密内容不在归档中出现。" />
+    <SectionHead title="归档" note="公开文章按年份整理；私密内容不在归档中出现。" />
 
     <p v-if="error" class="archive__error" role="alert">{{ error }}</p>
     <p v-else-if="loading" class="archive__loading mono" role="status">Loading…</p>

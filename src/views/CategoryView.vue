@@ -111,7 +111,6 @@ void loadTags()
 <template>
   <div class="page section-page">
     <SectionHead
-      :kicker="category"
       :title="CATEGORY_LABELS[category]"
       :note="descriptions[category]"
     />

@@ -20,7 +20,7 @@ onMounted(async () => {
 
 <template>
   <div class="page academic">
-    <SectionHead kicker="Academic" title="学术" />
+    <SectionHead title="学术" />
 
     <p v-if="loading" class="mono academic__loading" role="status">Loading…</p>
     <EmptyState v-else-if="posts.length === 0" title="暂无学术内容" />
