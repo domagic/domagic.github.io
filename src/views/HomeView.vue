@@ -595,19 +595,27 @@ onUnmounted(() => {
   line-height: 1.06;
 }
 
-/* 英文模式：完整译名是长句，改用竖排窄幅引言排版，保留右侧竖排书法位的设计语言。
-   用 writing-mode 维持竖排、缩小字号并加大行高，让整句可读且不溢出首屏。
-   text-orientation: mixed 让字母侧躺、单词沿竖轴连读，符合英文竖排惯例。 */
+/* 英文模式：完整译名是 49 字符长句，竖排会让字母侧躺、难以辨读。
+   改为横排花体艺术字（英文书法手写体），像一句竖线引出的题词，清晰且有艺术感。 */
 .hero__vertical--en {
-  font-family: var(--font-serif-sc);
-  font-size: clamp(0.95rem, 1.35vw, 1.15rem);
-  letter-spacing: 0.08em;
-  line-height: 1.5;
-  max-height: min(62vh, 30rem);
-  overflow-wrap: anywhere;
+  writing-mode: horizontal-tb;
+  font-family: 'Segoe Script', 'Brush Script MT', 'Edwardian Script ITC',
+               'Monotype Corsiva', 'Snell Roundhand', 'Apple Chancery',
+               'URW Chancery L', cursive;
+  font-size: clamp(1.15rem, 1.9vw, 1.6rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.55;
+  max-width: 15rem;
+  max-height: none;
+  text-align: left;
+  overflow-wrap: normal;
   text-shadow: none;
-  border-inline-end: 1px solid var(--line-strong);
-  padding-inline-end: 0.9rem;
+  border-inline-end: 0;
+  border-inline-start: 1px solid var(--line-strong);
+  padding-inline-start: 1rem;
+  padding-inline-end: 0;
 }
 
 .section {
@@ -844,8 +852,8 @@ onUnmounted(() => {
     font-size: 2rem;
   }
   .hero__vertical--en {
-    font-size: 0.9rem;
-    max-height: 34vh;
+    font-size: 1.05rem;
+    max-width: 12rem;
   }
   .drawers {
     grid-template-columns: 1fr;
