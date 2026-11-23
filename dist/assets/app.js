@@ -388,6 +388,34 @@
     io.observe(grid)
   }
 
+  // 秦勇「学术产出概览」：把原文中的数值拆成等宽信息卡；数据仍取自 content/members/*.md，
+  // 不在渲染层写死数字，中英都按原段落中数字出现的顺序生成卡片。
+  function statCard(value, label) {
+    return '<div class="stat-card"><strong class="stat-num">' + esc(value) + '</strong>' +
+      '<span class="stat-label">' + esc(label) + '</span></div>'
+  }
+  function formatMemberStats(html, lang, id) {
+    if (id !== 'qin-yong') return html
+    var en = /^en/.test(lang)
+    var heading = en ? '<h3>Publication overview</h3>' : '<h3>学术产出概览</h3>'
+    var at = html.indexOf(heading)
+    if (at < 0) return html
+    var p1 = html.indexOf('<p>', at + heading.length)
+    if (p1 < 0) return html
+    var p2 = html.indexOf('</p>', p1)
+    if (p2 < 0) return html
+    var text = html.slice(p1 + 3, p2).replace(/<[^>]+>/g, '')
+    var nums = (text.match(/\d+/g) || []).slice(0, 5)
+    if (nums.length < 5) return html
+    var labels = en
+      ? ['Papers', 'First/corresponding SCI/SSCI', 'Under submission', 'Citations', 'h-index']
+      : ['论文', '一作/通讯 SCI/SSCI', '在投论文', '引用', 'H 指数']
+    var cards = '<div class="stat-grid">'
+    for (var i = 0; i < labels.length; i++) cards += statCard(nums[i], labels[i])
+    cards += '</div>'
+    return html.slice(0, p1) + cards + html.slice(p2 + 4)
+  }
+
   // 成员简介详情页：由 URL 的 id 从 D.members 取人，文字来自 content/members/*.md（不写死）。
   function renderMemberDetail(lang) {
     var el = document.getElementById('member-detail')
@@ -403,6 +431,7 @@
       return
     }
     var bio = bi(lang, member.bio)
+    var bioHtml = formatMemberStats(bio.html, lang, id)
     var titleLine = member.titleLine[lang] || member.titleLine[lang === 'zh' ? 'en' : 'zh'] || t(lang, 'members.titleFallback')
     var name = esc(member.name[lang] || member.name.zh)
     var alt = esc(member.name[lang === 'zh' ? 'en' : 'zh'])
@@ -416,7 +445,7 @@
       '<p class="member-detail-role">' + esc(titleLine) + '</p>' +
       (member.status === 'placeholder' ? '<p class="member-detail-badge">' + badge(lang, '', 'badge.pending') + '</p>' : '') +
       '</div></div>' +
-      '<div class="member-detail-bio prose">' + (bio.missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + bio.html + '</div>'
+      '<div class="member-detail-bio prose">' + (bio.missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + bioHtml + '</div>'
   }
 
   var doiPreviewLang = 'zh'
