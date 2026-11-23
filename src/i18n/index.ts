@@ -103,7 +103,7 @@ const enGB: Dict = {
   'common.allPosts': 'All posts →',
   'common.back': 'Back to',
   'common.retry': 'Failed to load. Please try again later.',
-  'home.titleLead': 'In data,',
+  'home.titleLead': 'In data, ',
   'home.titleAccent': 'a little magic.',
   'home.primary': 'Start reading',
   'home.secondary': 'About me',

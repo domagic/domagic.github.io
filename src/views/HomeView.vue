@@ -602,17 +602,17 @@ onUnmounted(() => {
 }
 
 /* 英文模式：完整译名是 49 字符长句，竖排会让字母侧躺、难以辨读。
-   改为横排花体艺术字（英文书法手写体），像一句竖线引出的题词，清晰且有艺术感。 */
+   改为横排古典衬线斜体（书卷气题词），比手写花体更雅致耐看，清晰且有艺术感。 */
 .hero__vertical--en {
   writing-mode: horizontal-tb;
-  font-family: 'Segoe Script', 'Brush Script MT', 'Edwardian Script ITC',
-               'Monotype Corsiva', 'Snell Roundhand', 'Apple Chancery',
-               'URW Chancery L', cursive;
-  font-size: clamp(1.15rem, 1.9vw, 1.6rem);
+  font-family: 'Baskerville', 'Baskerville Old Face', 'Iowan Old Style',
+               'Palatino Linotype', 'Book Antiqua', Palatino, Georgia,
+               'Times New Roman', serif;
+  font-size: clamp(1.2rem, 1.95vw, 1.62rem);
   font-style: italic;
   font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 1.55;
+  letter-spacing: 0.015em;
+  line-height: 1.5;
   max-width: 15rem;
   max-height: none;
   text-align: left;
