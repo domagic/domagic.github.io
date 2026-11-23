@@ -146,13 +146,22 @@ const enGB: Dict = {
 /** 美式英语：color / organization / behavior / analyze / center / program 等拼写与用词。 */
 const enUS: Dict = {
   ...enGB,
-  'nav.group': 'Group meetings',
-  'nav.team': 'Team site',
-  'common.pageInfo': '{n} posts',
+  'nav.group': 'Group Meetings',
+  'nav.team': 'Team Site',
+  'nav.login': 'Log In',
+  'theme.toDark': 'Switch to dark mode',
+  'theme.toLight': 'Switch to light mode',
+  'common.loading': 'Loading...',
   'common.retry': 'Failed to load. Please try again later.',
+  'category.opinions.desc': 'Clear positions on academic and industry trends.',
   'archive.note': 'Public posts organized by year; private content never appears here.',
+  'archive.emptyTitle': 'No public posts yet',
+  'archive.emptyNote': 'Published posts will appear here by year',
+  'about.intro': 'Profile',
   'privacy.note': 'Last updated: 2026-11-13 (aligned with the v1.1 security implementation)',
-  'footer.quote': 'Good research should both explain the world and improve everyday life.',
+  'post.toc': 'Contents',
+  'footer.tagline': 'In data, a little magic.',
+  'footer.quote': 'Good research should both explain the world and improve day-to-day life.',
 }
 
 const dict: Record<Locale, Dict> = { 'zh-CN': zh, 'en-GB': enGB, 'en-US': enUS }
