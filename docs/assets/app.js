@@ -407,17 +407,20 @@
     if (p2 < 0) return html
     var text = html.slice(p1 + 3, p2).replace(/<[^>]+>/g, '')
     var lead = text.split(/Google Scholar/i)[0]
-    var nums = (lead.match(/\d+/g) || []).slice(0, 3)
+    var leadNums = (lead.match(/\d+/g) || []).slice(0, 3)
     var cit = text.match(/(?:被引|citations:)\s*(\d+)/i)
     var hidx = text.match(/(?:H 指数|h-index:)\s*(\d+)/i)
     var i10 = text.match(/(?:i10 指数|i10-index:)\s*(\d+)/i)
+    // 展示顺序：论文 → 一作/通讯 → 引用 → h-index → i10-index → 在投论文。
+    var nums = leadNums.slice(0, 2)
     if (cit) nums.push(cit[1])
     if (hidx) nums.push(hidx[1])
     if (i10) nums.push(i10[1])
+    if (leadNums[2]) nums.push(leadNums[2])
     if (nums.length < 6) return html
     var labels = en
-      ? ['Papers', 'First/corresponding SCI/SSCI', 'Under submission', 'Citations', 'h-index', 'i10-index']
-      : ['论文', '一作/通讯 SCI/SSCI', '在投论文', '引用', 'H 指数', 'i10 指数']
+      ? ['Papers', 'First/corresponding SCI/SSCI', 'Citations', 'h-index', 'i10-index', 'Under submission']
+      : ['论文', '一作/通讯 SCI/SSCI', '引用', 'H 指数', 'i10 指数', '在投论文']
     var cards = '<div class="stat-grid">'
     for (var i = 0; i < labels.length; i++) cards += statCard(nums[i], labels[i])
     cards += '</div>'
