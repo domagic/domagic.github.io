@@ -42,6 +42,13 @@ jobs:
       - name: Content build (gates G0-G4)
         run: node scripts/build-static.mjs --content-dir content --out-dataset .build/dataset.json --out-assets .build/assets.json --report
 
+      # 英文数据集：以中文骨架为准，content-en/ 按 slug 覆盖文案；英文缺稿或残留中文即拒。
+      - name: Build English dataset
+        run: node scripts/build-en.mjs .build/dataset.json content-en .build/dataset.en.json
+
+      - name: Sync English static data
+        run: node scripts/sync-static-data.mjs .build/dataset.en.json --out src/api/static/data/dataset.en.json
+
       # FE 链内件（d1893f3）：schema/敏感键/占位拒绝＋媒体清单校验（relPath/sha/bytes/mime）。
       - name: Sync static data
         run: node scripts/sync-static-data.mjs .build/dataset.json --assets-manifest .build/assets.json
@@ -58,6 +65,17 @@ jobs:
       # A.2-5：断链门（bytes+sha 双配＋引用命中＋四级守卫）＋ data:image 产物面复扫发布拒绝。
       - name: Postbuild gates
         run: node scripts/postbuild.mjs
+
+      # 把构建产物同步到团队站 master:/docs/magic/（同时镜像 src/magic/）。
+      # 只改 /magic/ 子树，不碰团队站根文件、CNAME、404、.nojekyll、/qiny/。
+      # 使用 Git Data API + 非 force ref 更新，并发移动时自动重试。
+      - name: Deploy master docs/magic (API subtree)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node scripts/deploy-master-magic.mjs \
+            --source dist \
+            --message "deploy magic: ${GITHUB_SHA}"
 
       # A.2-6 父链法部署：远端 gh-pages HEAD 为父，全树替换，仅 FF push。
       # D1 修复（Manager seq=908，首跑 run=44487057677 步骤 10 红）：
