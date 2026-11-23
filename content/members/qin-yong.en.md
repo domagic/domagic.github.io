@@ -34,7 +34,7 @@ Knowledge decision-making; business intelligence; data mining; management scienc
 
 ## Publication overview
 
-45 papers in important domestic and international journals, including 15 SCI/SSCI papers as first or corresponding author; 9 papers under submission. Google Scholar citations: 2055; h-index: 21; i10-index: 40.
+77 papers in important domestic and international journals, including 20 SCI/SSCI papers as first or corresponding author; 9 papers under submission. Google Scholar citations: 2055; h-index: 21; i10-index: 40.
 
 ## Projects
 
