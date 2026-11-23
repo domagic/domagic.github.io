@@ -350,12 +350,12 @@ html[lang^="en"] .teaser-title { font-family: var(--serif-en); letter-spacing: 0
   background: radial-gradient(ellipse 70% 22% at 50% 0%, var(--hero-tint), transparent 78%);
 }
 .page-head { margin-bottom: clamp(2.2rem, 5vh, 3.4rem); }
-.page-head h1 { font-family: var(--serif-zh); font-size: clamp(2.1rem, 4.6vw, 3.1rem); letter-spacing: 0.12em; font-weight: 600; }
+.page-head h1 { font-family: var(--serif-zh); font-size: clamp(2.1rem, 4.6vw, 3.1rem); letter-spacing: 0.12em; font-weight: 600; line-height: 1.05; }
 html[lang^="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400; letter-spacing: 0.01em; }
-.page-head::after { content: ""; display: block; width: 3.2rem; height: 2px; background: var(--gold); margin-top: 1.2rem; }
+.page-head::after { content: ""; display: block; width: 3.2rem; height: 2px; background: var(--gold); margin-top: 0.45rem; }
 /* 成员页：金线宽度与标题文字等宽（包一层 inline-block，伪元素挂在包容器上取 100%） */
 .page-head-title { display: inline-block; }
-.page-head-title::after { content: ""; display: block; width: 100%; height: 2px; background: var(--gold); margin-top: 1.2rem; }
+.page-head-title::after { content: ""; display: block; width: 100%; height: 2px; background: var(--gold); margin-top: 0.45rem; }
 .page-head:has(.page-head-title)::after { content: none; }
 .page-sub { margin-top: 1.1rem; color: var(--text-soft); font-size: 0.98rem; max-width: 60ch; }
 .prose { max-width: 100%; }
