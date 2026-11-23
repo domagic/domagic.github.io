@@ -357,6 +357,9 @@ html[lang^="en"] .page-head h1 { font-family: var(--serif-en); font-weight: 400;
 .page-head-title { display: inline-block; }
 .page-head-title::after { content: ""; display: block; width: 100%; height: 2px; background: var(--gold); margin-top: 1rem; }
 .page-head:has(.page-head-title)::after { content: none; }
+/* 英文衬线字体的行盒下方留白比中文多，单独收紧金线间距以与中文视觉一致 */
+html[lang^="en"] .page-head::after,
+html[lang^="en"] .page-head-title::after { margin-top: 0.5rem; }
 .page-sub { margin-top: 1.1rem; color: var(--text-soft); font-size: 0.98rem; max-width: 60ch; }
 .prose { max-width: 100%; }
 .prose p { margin-bottom: 1.15em; }
