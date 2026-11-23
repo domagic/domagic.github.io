@@ -9,6 +9,12 @@ import SectionHead from '@/components/SectionHead.vue'
 import PostIndexItem from '@/components/PostIndexItem.vue'
 import { useI18n } from '@/i18n'
 
+// 首页静态 import，本模块求值早于组件挂载、也早于浏览器完成滚动恢复。
+// 首次加载（F5/Ctrl+F5）时若等到 onMounted 才设 manual，浏览器已按 auto 恢复了上次
+// 停在「精选」的滚动位置，再叠加 Transition 首次不触发 enter → 页面就停在精选。
+// 在模块顶层抢先设为 manual，配合 router scrollBehavior 首次回顶，双保险回到封面。
+if (typeof history !== 'undefined') history.scrollRestoration = 'manual'
+
 const { t, isEn, locale } = useI18n()
 
 useSeo({ title: isEn.value ? t('nav.home') : '首页' })

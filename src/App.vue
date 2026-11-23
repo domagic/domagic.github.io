@@ -22,7 +22,10 @@ function onBeforeEnter() {
   <AppHeader />
   <main id="main">
     <RouterView v-slot="{ Component }">
-      <Transition name="route" mode="out-in" @before-enter="onBeforeEnter">
+      <!-- appear：首次加载（含 F5/Ctrl+F5）也触发 before-enter 消费 router 的回顶指令。
+           没有 appear 时首次渲染不进 enter 钩子，pending 永不被消费，页面会停在
+           浏览器在 scrollRestoration=manual 生效前恢复的「精选」滚动位置。 -->
+      <Transition name="route" mode="out-in" appear @before-enter="onBeforeEnter">
         <component :is="Component" />
       </Transition>
     </RouterView>

@@ -42,6 +42,14 @@ export const router = createRouter({
       return { ...saved, behavior: 'instant' } as any
     }
 
+    // 首次加载（含 F5/Ctrl+F5）：from 为 START_LOCATION（matched 为空）。
+    // 此时直接瞬时回顶，覆盖浏览器在 scrollRestoration=manual 生效前恢复的滚动位置，
+    // 保证刷新后回到封面「在数据之中，做一点魔法」而非停在「精选」。
+    // 不依赖 Transition 的 before-enter（首次渲染未必触发），这是最可靠的兜底。
+    if (_from.matched.length === 0) {
+      return { top: 0, left: 0, behavior: 'instant' } as any
+    }
+
     // 普通前进（如从首页「精选/最新」点进文章）：
     // App.vue 用 <Transition mode="out-in">，旧视图要先播放 0.28s 淡出动画才卸载。
     // 若在这里立即把 window 滚回顶部，仍在文档流中的旧首页会被拉回首屏，
