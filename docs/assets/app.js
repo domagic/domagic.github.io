@@ -244,7 +244,7 @@
         var head = '<h2 class="teaser-title">' + esc((x.title || {})[lang] || '') + '</h2>'
         var body = '<p class="teaser-text">' + esc((x.text || {})[lang] || '') + '</p>'
         if (x.id === 'research') return '<article class="teaser">' + head + body + '<p class="teaser-badge">' + badge(lang, '', 'badge.exploring') + '</p></article>'
-        if (x.id === 'latest') return '<article class="teaser">' + head + body + '<div id="latest-pub" class="mini"></div><p class="teaser-more"><a href="publications.html">' + esc(t(lang, 'teaser.morePubs')) + '</a></p></article>'
+        if (x.id === 'latest') return '<article class="teaser">' + head + '<div id="latest-pub" class="mini"></div><p class="teaser-more"><a href="publications.html">' + esc(t(lang, 'teaser.morePubs')) + '</a></p></article>'
         if (x.id === 'members') return '<article class="teaser">' + head + body + '<div id="members-mini" class="mini"></div><p class="teaser-more"><a href="members.html">' + esc(t(lang, 'teaser.moreMembers')) + '</a></p></article>'
         return '<article class="teaser">' + head + body + '</article>'
       }).join('')
