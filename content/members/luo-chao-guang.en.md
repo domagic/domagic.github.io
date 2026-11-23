@@ -12,14 +12,14 @@ date: 2026-11-22
 
 ## Current position & appointments
 
-- Jan 2026 ~ present: School of Management, Zhejiang University; Assistant Researcher and Postdoctoral Fellow; co-supervisor: Prof. Xi Chen.
-- Sep 2025 ~ Dec 2025: School of Automotive and Transportation, Chengdu Industrial University; Lecturer.
+- **School of Management, Zhejiang University**: Assistant Researcher and Postdoctoral Fellow (since Jan 2026; co-supervisor: Prof. Xi Chen).
+- **School of Automotive and Transportation, Chengdu Industrial University**: Lecturer (Sep 2025 – Dec 2025).
 
 ## Education
 
-- Sep 2021 ~ Jun 2025: Business School, Sichuan University; Management Science and Engineering, PhD in Management; supervisor: Prof. Zhineng Hu.
-- Sep 2018 ~ Jun 2021: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, MSc; supervisor: Liuying Wen.
-- Sep 2014 ~ Jun 2018: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, BEng; undergraduate thesis supervisor: Jing Yue.
+- Sep 2021 – Jun 2025: Business School, Sichuan University; Management Science and Engineering, PhD in Management; supervisor: Prof. Zhineng Hu.
+- Sep 2018 – Jun 2021: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, MSc.
+- Sep 2014 – Jun 2018: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, BEng.
 
 ## Research overview
 
@@ -34,10 +34,6 @@ Recommender systems; online review mining; graph and hypergraph learning; data m
 - Email: [chaoguangluo@outlook.com](mailto:chaoguangluo@outlook.com)
 - Google Scholar: [profile](https://scholar.google.com/citations?user=FziuKWgAAAAJ&hl=en)
 - Personal website: [qinluolab.com/magic/](https://qinluolab.com/magic/)
-
-## Publication overview
-
-12 papers in important domestic and international journals, including 4 SCI/SSCI papers as first or corresponding author; 3 papers under review or in preparation. Google Scholar citations: 132; h-index: 6; i10-index: 4.
 
 ## Selected publications
 
@@ -76,13 +72,6 @@ Note: bold indicates the author himself.
 
 ## Academic service
 
-Anonymous reviewer for the following journals:
+Reviewer for Annals of Tourism Research, Information Processing & Management, Pattern Recognition, Journal of Retailing and Consumer Services, Energy Sources, Part B: Economics, Planning, and Policy, New Review of Hypermedia and Multimedia, Energies, and Environmental Engineering and Management Journal.
 
-- Annals of Tourism Research (ATR)
-- Information Processing & Management (IPM)
-- Pattern Recognition (PR)
-- Journal of Retailing and Consumer Services (JRCS)
-- Energy Sources, Part B: Economics, Planning, and Policy (ESB)
-- New Review of Hypermedia and Multimedia (NRHM)
-- Energies
-- Environmental Engineering and Management Journal (EEMJ)
+(Compiled from the CV supplied by the owner; figures and titles reflect the CV at the time of supply.)

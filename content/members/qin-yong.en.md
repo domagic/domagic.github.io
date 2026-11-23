@@ -10,17 +10,19 @@ visibility: public
 date: 2026-11-21
 ---
 
+Draft translation of the owner-supplied Chinese CV, pending review.
+
 ## Current position & appointments
 
-- Jul 2025 ~ present: School of Management Science, Chengdu University of Technology; Researcher, Department of Data Science.
-- Sep 2026 ~ present: School of Hotel and Tourism Management, The Hong Kong Polytechnic University; Postdoctoral Fellow.
-- Dec 2025 ~ present: Sichuan Technology and Business University; External Expert.
+- Chengdu University of Technology · School of Management Science · Department of Data Science, Researcher.
+- The Hong Kong Polytechnic University · School of Hotel and Tourism Management, Postdoctoral Fellow; Profile: [polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/).
+- Dec 2025 – present: Sichuan Technology and Business University, External Expert.
 
 ## Education
 
-- Sep 2019 ~ Jun 2025: Business School, Sichuan University; Management Science and Engineering, combined master–doctoral track; supervisor: Prof. Zeshui Xu, Chair Professor at Sichuan University and Academician of the European Academy of Sciences, the European Academy of Sciences and Arts, and the International Academy of Systems and Control Sciences.
-- Aug 2023 ~ Aug 2024: Faculty of Business, The Hong Kong Polytechnic University (ranked 57th in the QS World University Rankings 2025); Management and Marketing, joint training; co-supervisor: Prof. Eric W.T. Ngai, associate editor of Information & Management and Decision Support Systems.
-- Sep 2015 ~ Jun 2019: School of Management Science, Chengdu University of Technology; Information Management and Information Systems, undergraduate.
+- 2019/09 – present: Business School, Sichuan University; Management Science and Engineering (combined master–doctoral track); supervisor: Professor Zeshui Xu, Chair Professor at Sichuan University and Academician of the European Academy of Sciences, the European Academy of Sciences and Arts, and the International Academy of Systems and Control Sciences.
+- 2023/08 – 2024/08: Faculty of Business, The Hong Kong Polytechnic University (ranked 57th in the QS World University Rankings 2025); Management and Marketing (joint training); co-supervisor: Professor Eric W.T. Ngai, associate editor of Information & Management and Decision Support Systems.
+- 2015/09 – 2019/06: School of Management Science, Chengdu University of Technology; Information Management and Information Systems (undergraduate).
 
 ## Research interests
 
@@ -28,19 +30,17 @@ Knowledge decision-making; business intelligence; data mining; management scienc
 
 ## Academic links
 
-- Personal website: [qinluolab.com/qiny/](https://qinluolab.com/qiny/)
-- Hong Kong Polytechnic University profile: [polyu.edu.hk/shtm/.../young-qin](https://www.polyu.edu.hk/shtm/people/research-staff-v2/post-doctoral-fellows/young-qin/)
-- Google Scholar: [profile](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
+- Google Scholar: [citation profile](https://scholar.google.com/citations?user=yCRPVMMAAAAJ&hl=en)
 
 ## Publication overview
 
-77 papers in important domestic and international journals, including 20 SCI/SSCI papers as first or corresponding author; 9 papers under submission. Google Scholar citations: 2055; h-index: 21; i10-index: 40.
+45 papers in important domestic and international journals, including 15 SCI/SSCI papers as first or corresponding author; 9 papers under submission. Google Scholar citations: 960; h-index: 15. (Figures as stated in the CV at the time of supply.)
 
 ## Projects
 
 Principal investigator of one Fundamental Research Funds for the Central Universities project (graduate innovation):
 
-- May 2023 ~ May 2024: Business School, Sichuan University; graduate research innovation project (No. 2023ZY-SX019, "Tourist-generated-content-driven destination recommendation strategies and competitiveness improvement paths"); completed.
+- 2023/05—2024/05: Business School, Sichuan University; graduate research innovation project (No. 2023ZY-SX019, "Tourist-generated-content-driven destination recommendation strategies and competitiveness improvement paths"); completed.
 
 Participant in 20+ projects including NSFC general projects, the China Postdoctoral Science Foundation general program, and the MOE Humanities and Social Sciences Youth Fund, among which:
 

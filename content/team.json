@@ -67,11 +67,11 @@
         "enabled": false,
         "title": { "zh": "成员速览", "en": "Members" },
         "text": {
-          "zh": "两位学者 · 一个团队",
-          "en": "Two scholars, one team."
+          "zh": "两位学者 · 一个团队（履历信息待确认，不预置未经核实内容）",
+          "en": "Two scholars, one team. Biographies pending confirmation; no unverified information is pre-filled."
         }
       }
     ]
   },
-  "note": "团队数据权威载体；build 消费为 QL_DATA.team 与 QL_DATA.home，供门检断言使用。名称、使命、英文名均已定稿；成员速览 teaser 已停用。"
+  "note": "I1 权威载体（v0.2：build 消费→QL_DATA.team＋QL_DATA.home，QinY B2 实施；harness G7′ 形状与状态标记断言消费）。home.hero.mission zh 为 owner seq=966 直授措辞（删前缀）；顶层 mission 与 about 页使命段已定稿为正式版（status=confirmed）。英文名 Aethera 已由 owner 定稿（status=confirmed，不再显示暂定标记）；联句英译暂译；teasers members enabled=false（owner D6 删成员速览）。不虚构任何学者履历。"
 }
