@@ -213,10 +213,10 @@ onUnmounted(() => {
           :style="{ animationDelay: `${i * 0.07}s` }"
         >
           <div class="drawer__head">
-            <h3 class="drawer__title">{{ isEn ? t('nav.' + c.key) : CATEGORY_LABELS[c.key] }}</h3>
+            <h3 class="drawer__title">{{ isEn ? t('nav.' + (c.key === 'opinion' ? 'opinions' : c.key)) : CATEGORY_LABELS[c.key] }}</h3>
             <span class="drawer__count" aria-hidden="true">{{ String(counts[c.key]).padStart(2, '0') }}</span>
           </div>
-          <p class="drawer__desc">{{ isEn ? t('category.' + c.key + '.desc') : c.desc }}</p>
+          <p class="drawer__desc">{{ isEn ? t('category.' + (c.key === 'opinion' ? 'opinions' : c.key) + '.desc') : c.desc }}</p>
         </RouterLink>
       </div>
     </section>
