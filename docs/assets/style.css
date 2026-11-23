@@ -629,7 +629,7 @@ html[lang^="en"] .orb-caption { font-family: var(--serif-en); letter-spacing: 0.
   100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px) saturate(1) brightness(1); }
 }
 /* 成员简介详情页（member.html?id=...）：成员文字只在这里出现 */
-.member-back { margin-bottom: 1.6rem; font-size: 0.9rem; }
+.member-back { margin-bottom: 1.6rem; font-size: 1.15rem; }
 .member-back a { color: var(--gold-light); text-decoration: none; border-bottom: 1px solid var(--line); }
 .member-back a:hover { border-bottom-color: var(--gold-light); }
 /* 详情页头部：肖像 + 身份信息并排（无照片时自动退化为纯文字，不留空位） */
