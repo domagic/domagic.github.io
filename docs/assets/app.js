@@ -388,7 +388,7 @@
     io.observe(grid)
   }
 
-  // 秦勇「学术产出概览」：把原文中的数值拆成等宽信息卡；数据仍取自 content/members/*.md，
+  // 秦勇、罗朝广「学术产出概览」：把原文中的数值拆成等宽信息卡；数据仍取自 content/members/*.md，
   // 不在渲染层写死数字。前三项取 Google Scholar 之前的论文数，后三项按指标名精确提取，
   // 避免把 "i10-index" 里的 10 误当成数值。
   function statCard(value, label) {
@@ -396,7 +396,7 @@
       '<span class="stat-label">' + esc(label) + '</span></div>'
   }
   function formatMemberStats(html, lang, id) {
-    if (id !== 'qin-yong') return html
+    if (id !== 'qin-yong' && id !== 'luo-chao-guang') return html
     var en = /^en/.test(lang)
     var heading = en ? '<h3>Publication overview</h3>' : '<h3>学术产出概览</h3>'
     var at = html.indexOf(heading)
