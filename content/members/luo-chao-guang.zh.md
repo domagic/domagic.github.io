@@ -35,6 +35,10 @@ date: 2026-11-22
 - 谷歌学术：[Google Scholar 主页](https://scholar.google.com/citations?user=FziuKWgAAAAJ&hl=en)
 - 个人主页：[qinluolab.com/magic/](https://qinluolab.com/magic/)
 
+## 学术产出概览
+
+在国内外重要期刊发表论文 12 篇，其中以第一作者或通讯作者发表 SCI/SSCI 论文 4 篇，在审及工作论文 3 篇。论文在 Google Scholar 中被引 132 次，H 指数 6，i10 指数 4。
+
 ## 代表性论文
 
 说明：加粗表示本人。
