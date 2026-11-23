@@ -389,7 +389,8 @@
   }
 
   // 秦勇「学术产出概览」：把原文中的数值拆成等宽信息卡；数据仍取自 content/members/*.md，
-  // 不在渲染层写死数字，中英都按原段落中数字出现的顺序生成卡片。
+  // 不在渲染层写死数字。前三项取 Google Scholar 之前的论文数，后三项按指标名精确提取，
+  // 避免把 "i10-index" 里的 10 误当成数值。
   function statCard(value, label) {
     return '<div class="stat-card"><strong class="stat-num">' + esc(value) + '</strong>' +
       '<span class="stat-label">' + esc(label) + '</span></div>'
@@ -405,11 +406,18 @@
     var p2 = html.indexOf('</p>', p1)
     if (p2 < 0) return html
     var text = html.slice(p1 + 3, p2).replace(/<[^>]+>/g, '')
-    var nums = (text.match(/\d+/g) || []).slice(0, 5)
-    if (nums.length < 5) return html
+    var lead = text.split(/Google Scholar/i)[0]
+    var nums = (lead.match(/\d+/g) || []).slice(0, 3)
+    var cit = text.match(/(?:被引|citations:)\s*(\d+)/i)
+    var hidx = text.match(/(?:H 指数|h-index:)\s*(\d+)/i)
+    var i10 = text.match(/(?:i10 指数|i10-index:)\s*(\d+)/i)
+    if (cit) nums.push(cit[1])
+    if (hidx) nums.push(hidx[1])
+    if (i10) nums.push(i10[1])
+    if (nums.length < 6) return html
     var labels = en
-      ? ['Papers', 'First/corresponding SCI/SSCI', 'Under submission', 'Citations', 'h-index']
-      : ['论文', '一作/通讯 SCI/SSCI', '在投论文', '引用', 'H 指数']
+      ? ['Papers', 'First/corresponding SCI/SSCI', 'Under submission', 'Citations', 'h-index', 'i10-index']
+      : ['论文', '一作/通讯 SCI/SSCI', '在投论文', '引用', 'H 指数', 'i10 指数']
     var cards = '<div class="stat-grid">'
     for (var i = 0; i < labels.length; i++) cards += statCard(nums[i], labels[i])
     cards += '</div>'
