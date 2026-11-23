@@ -62,8 +62,8 @@
   var LOCALES = [
     { code: 'zh-CN', label: '简体中文', base: 'zh' },
     { code: 'zh-TW', label: '繁體中文', base: 'zh' },
-    { code: 'en-GB', label: 'United Kingdom', base: 'en' },
-    { code: 'en-US', label: 'United States', base: 'en' }
+    { code: 'en-GB', label: 'English (UK)', base: 'en' },
+    { code: 'en-US', label: 'English (US)', base: 'en' }
   ]
   var LOCALE_CODES = LOCALES.map(function (l) { return l.code })
   function localeInfo(code) {
