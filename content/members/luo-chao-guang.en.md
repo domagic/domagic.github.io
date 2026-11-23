@@ -35,6 +35,10 @@ Recommender systems; online review mining; graph and hypergraph learning; data m
 - Google Scholar: [profile](https://scholar.google.com/citations?user=FziuKWgAAAAJ&hl=en)
 - Personal website: [qinluolab.com/magic/](https://qinluolab.com/magic/)
 
+## Publication overview
+
+12 papers in important domestic and international journals, including 4 SCI/SSCI papers as first or corresponding author; 3 papers under review or in preparation. Google Scholar citations: 132; h-index: 6; i10-index: 4.
+
 ## Selected publications
 
 Note: bold indicates the author himself.
