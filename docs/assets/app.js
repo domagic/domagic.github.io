@@ -13,17 +13,17 @@
       'nav.menu': '打开菜单',
       'hero.ctaAbout': '了解团队', 'hero.ctaPubs': '查看成果',
       'teaser.morePubs': '全部成果 →', 'teaser.moreMembers': '认识成员 →',
-      'badge.pending': '待确认', 'badge.exploring': '探索中',
-      'badge.provisional': '暂定', 'badge.translation': '暂译', 'badge.missing': '译文待补',
-      'marker.provisional': '英文名暂定', 'marker.draftTrans': '暂译',
+      'badge.pending': '整理中', 'badge.exploring': '探索中',
+      'badge.provisional': '拟定', 'badge.translation': '译注', 'badge.missing': '译文暂无',
+      'marker.provisional': '英文名', 'marker.draftTrans': '译注',
       'about.eyebrow': 'About', 'about.heading': '团队简介',
       'members.eyebrow': 'Members', 'members.heading': '团队成员',
-      'members.sub': '两位学者 · 一个团队（履历信息待确认，不预置未经核实内容）',
-      'members.titleFallback': '头衔待确认',
+      'members.sub': '两位学者 · 一个团队',
+      'members.titleFallback': '研究者',
       'member.heading': '成员简介', 'member.back': '返回成员列表', 'member.notFound': '未找到该成员简介。',
       'pubs.eyebrow': 'Publications', 'pubs.heading': '团队成果',
-      'pubs.sub': '团队成果清单按发表日期排序；清单与归属口径待 owner 确认。',
-      'pubs.empty': '成果清单待成员供给，暂无条目。',
+      'pubs.sub': '团队成果清单按发表日期排序。',
+      'pubs.empty': '暂无成果条目。',
       'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表', 'pubs.citeLabel': '引用', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': '官方发表记录 · 据出版商版本',
       'pubs.kind.paper-note': '论文笔记', 'pubs.kind.paper': '论文', 'pubs.kind.project': '项目', 'pubs.kind.talk': '报告',
       'langBtn': '语言', 'langBtnAria': '切换到英文',
@@ -35,17 +35,17 @@
       'nav.menu': 'Open menu',
       'hero.ctaAbout': 'About the Group', 'hero.ctaPubs': 'Publications',
       'teaser.morePubs': 'All publications →', 'teaser.moreMembers': 'Meet the members →',
-      'badge.pending': 'Pending confirmation', 'badge.exploring': 'In progress',
-      'badge.provisional': 'Provisional', 'badge.translation': 'Provisional translation', 'badge.missing': 'Translation pending',
-      'marker.provisional': 'English name provisional', 'marker.draftTrans': 'Draft translation',
+      'badge.pending': 'In preparation', 'badge.exploring': 'In progress',
+      'badge.provisional': 'Tentative', 'badge.translation': 'Annotated translation', 'badge.missing': 'No translation yet',
+      'marker.provisional': 'English name', 'marker.draftTrans': 'Annotated translation',
       'about.eyebrow': 'About', 'about.heading': 'About the Group',
       'members.eyebrow': 'Members', 'members.heading': 'Members',
-      'members.sub': 'Two scholars, one team. Biographies pending confirmation; no unverified information is pre-filled.',
-      'members.titleFallback': 'Title pending confirmation',
+      'members.sub': 'Two scholars, one team.',
+      'members.titleFallback': 'Researcher',
       'member.heading': 'Member Profile', 'member.back': 'Back to members', 'member.notFound': 'Profile not found.',
       'pubs.eyebrow': 'Publications', 'pubs.heading': 'Publications',
-      'pubs.sub': 'Team publication list ordered by publication date; list scope and attribution pending owner confirmation.',
-      'pubs.empty': 'The publication list awaits member supply; no entries yet.',
+      'pubs.sub': 'Team publications ordered by date.',
+      'pubs.empty': 'No entries yet.',
       'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in', 'pubs.citeLabel': 'Reference', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': 'Official publication record · publisher version',
       'pubs.kind.paper-note': 'Paper note', 'pubs.kind.paper': 'Paper', 'pubs.kind.project': 'Project', 'pubs.kind.talk': 'Talk',
       'langBtn': 'Languages', 'langBtnAria': 'Switch to Chinese',
@@ -244,7 +244,7 @@
         var head = '<h2 class="teaser-title">' + esc((x.title || {})[lang] || '') + '</h2>'
         var body = '<p class="teaser-text">' + esc((x.text || {})[lang] || '') + '</p>'
         if (x.id === 'research') return '<article class="teaser">' + head + body + '<p class="teaser-badge">' + badge(lang, '', 'badge.exploring') + '</p></article>'
-        if (x.id === 'latest') return '<article class="teaser">' + head + body + '<div id="latest-pub" class="mini"></div><p class="teaser-more"><a href="publications.html">' + esc(t(lang, 'teaser.morePubs')) + '</a></p></article>'
+        if (x.id === 'latest') return '<article class="teaser">' + head + '<div id="latest-pub" class="mini"></div><p class="teaser-more"><a href="publications.html">' + esc(t(lang, 'teaser.morePubs')) + '</a></p></article>'
         if (x.id === 'members') return '<article class="teaser">' + head + body + '<div id="members-mini" class="mini"></div><p class="teaser-more"><a href="members.html">' + esc(t(lang, 'teaser.moreMembers')) + '</a></p></article>'
         return '<article class="teaser">' + head + body + '</article>'
       }).join('')
@@ -388,6 +388,45 @@
     io.observe(grid)
   }
 
+  // 秦勇、罗朝广「学术产出概览」：把原文中的数值拆成等宽信息卡；数据仍取自 content/members/*.md，
+  // 不在渲染层写死数字。前三项取 Google Scholar 之前的论文数，后三项按指标名精确提取，
+  // 避免把 "i10-index" 里的 10 误当成数值。
+  function statCard(value, label) {
+    return '<div class="stat-card"><strong class="stat-num">' + esc(value) + '</strong>' +
+      '<span class="stat-label">' + esc(label) + '</span></div>'
+  }
+  function formatMemberStats(html, lang, id) {
+    if (id !== 'qin-yong' && id !== 'luo-chao-guang') return html
+    var en = /^en/.test(lang)
+    var heading = en ? '<h3>Publication overview</h3>' : '<h3>学术产出概览</h3>'
+    var at = html.indexOf(heading)
+    if (at < 0) return html
+    var p1 = html.indexOf('<p>', at + heading.length)
+    if (p1 < 0) return html
+    var p2 = html.indexOf('</p>', p1)
+    if (p2 < 0) return html
+    var text = html.slice(p1 + 3, p2).replace(/<[^>]+>/g, '')
+    var lead = text.split(/Google Scholar/i)[0]
+    var leadNums = (lead.match(/\d+/g) || []).slice(0, 3)
+    var cit = text.match(/(?:被引|citations:)\s*(\d+)/i)
+    var hidx = text.match(/(?:H 指数|h-index:)\s*(\d+)/i)
+    var i10 = text.match(/(?:i10 指数|i10-index:)\s*(\d+)/i)
+    // 展示顺序：论文 → 一作/通讯 → 引用 → h-index → i10-index → 在投论文。
+    var nums = leadNums.slice(0, 2)
+    if (cit) nums.push(cit[1])
+    if (hidx) nums.push(hidx[1])
+    if (i10) nums.push(i10[1])
+    if (leadNums[2]) nums.push(leadNums[2])
+    if (nums.length < 6) return html
+    var labels = en
+      ? ['Papers', 'First/corresponding SCI/SSCI', 'Citations', 'h-index', 'i10-index', 'Under submission']
+      : ['论文', '一作/通讯 SCI/SSCI', '引用', 'H 指数', 'i10 指数', '在投论文']
+    var cards = '<div class="stat-grid">'
+    for (var i = 0; i < labels.length; i++) cards += statCard(nums[i], labels[i])
+    cards += '</div>'
+    return html.slice(0, p1) + cards + html.slice(p2 + 4)
+  }
+
   // 成员简介详情页：由 URL 的 id 从 D.members 取人，文字来自 content/members/*.md（不写死）。
   function renderMemberDetail(lang) {
     var el = document.getElementById('member-detail')
@@ -403,6 +442,7 @@
       return
     }
     var bio = bi(lang, member.bio)
+    var bioHtml = formatMemberStats(bio.html, lang, id)
     var titleLine = member.titleLine[lang] || member.titleLine[lang === 'zh' ? 'en' : 'zh'] || t(lang, 'members.titleFallback')
     var name = esc(member.name[lang] || member.name.zh)
     var alt = esc(member.name[lang === 'zh' ? 'en' : 'zh'])
@@ -416,7 +456,7 @@
       '<p class="member-detail-role">' + esc(titleLine) + '</p>' +
       (member.status === 'placeholder' ? '<p class="member-detail-badge">' + badge(lang, '', 'badge.pending') + '</p>' : '') +
       '</div></div>' +
-      '<div class="member-detail-bio prose">' + (bio.missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + bio.html + '</div>'
+      '<div class="member-detail-bio prose">' + (bio.missing ? '<p>' + badge(lang, '', 'badge.missing') + '</p>' : '') + bioHtml + '</div>'
   }
 
   var doiPreviewLang = 'zh'
@@ -434,7 +474,7 @@
       // 把摘要里的著录引导行整段（"著录（…）：" / "Bibliographic record (…):"，含括号内的来源说明）
       // 替换为与"作者/发表"同款的金色小标签"引用"，APA-7 引用紧随其后，不再显示来源说明。
       var citeLbl = esc(t(lang, 'pubs.citeLabel'))
-      var suHtml = su.html.replace(/<p>(?:著录|Bibliographic record)\s*[（(].*?[）)]\s*[:：]\s*<\/p>/g, function () {
+      var suHtml = su.html.replace(/<p>(?:著录|Bibliographic record)(?:\s*[（(].*?[）)])?\s*[:：]\s*<\/p>/g, function () {
         return '<p><span class="lbl">' + citeLbl + '</span></p>'
       })
       // "摘要（…）：" / "关键词：" / "Abstract:" / "Keywords:" 的行首词改成与"作者"同款金色标签，去掉冒号
@@ -594,7 +634,8 @@
     galaxy: {
       // 对联区细碎星点：作为立体星球的点缀，数量大幅减少，不再铺满小圆点。
       // cx/cy/rx/ry 为相对画布的比例，决定椭圆星野中心与范围。
-      cx: 0.80, cy: 0.44, rx: 0.30, ry: 0.40,
+      // cx/cy 对齐对联中心光斑，让「秦月」「罗星」两联分列光斑两侧。
+      cx: 0.742, cy: 0.50, rx: 0.30, ry: 0.40,
       stars: 55,            // 星野内星点数量（原 150，让位给立体星球）
       radius: [0.4, 1.6],   // 星点半径范围
       alpha: [0.14, 0.70],  // 星点透明度范围
@@ -614,8 +655,8 @@
     rotation: 0.000075,   // 整体自转角速度（弧度/毫秒）；约 84 秒一圈
     drift: 0.00011,       // 盘面弥散星独立公转速度（营造流动感）
     armWidth: 0.075,      // 旋臂径向宽度（占半径比例，越小臂越紧致）
-    galaxyCx: 0.80,       // 螺旋星系中心 x（占画布宽）
-    galaxyCy: 0.44,       // 螺旋星系中心 y（占画布高）
+    galaxyCx: 0.742,      // 螺旋星系中心 x（占画布宽，对齐对联中心光斑）
+    galaxyCy: 0.50,       // 螺旋星系中心 y（占画布高）
     galaxyR: 0.46,        // 螺旋星系半径（占画布高）
     // —— 全幅立体星球：左疏右密 ——
     planets: 46,          // 星球总数
@@ -652,6 +693,23 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 2)
     var W = 0, H = 0, R = 0, gx = 0, gy = 0
     var stars = [], planets = [], t0 = 0, raf = 0
+    // 对联文字保护区：随机星球落入此区不绘制，避免发光星球压住竖排两联。
+    var zoneRect = null, lastZoneMeasure = -1e9
+    function measureZone(ts) {
+      if (zoneRect && ts - lastZoneMeasure < 400) return
+      lastZoneMeasure = ts
+      var cp = document.querySelector('.couplet')
+      if (!cp) { zoneRect = null; return }
+      var cr = cp.getBoundingClientRect(), vr = cv.getBoundingClientRect()
+      var pad = 28
+      zoneRect = {
+        l: cr.left - vr.left - pad, t: cr.top - vr.top - pad,
+        r: cr.right - vr.left + pad, b: cr.bottom - vr.top + pad
+      }
+    }
+    function inZone(x, y) {
+      return zoneRect && x > zoneRect.l && x < zoneRect.r && y > zoneRect.t && y < zoneRect.b
+    }
 
     function resize() {
       var r = (host || cv).getBoundingClientRect()
@@ -659,6 +717,7 @@
       gx = CFG.galaxyCx * W; gy = CFG.galaxyCy * H; R = CFG.galaxyR * H
       cv.width = W * dpr; cv.height = H * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      lastZoneMeasure = -1e9
     }
     // 颜色分量提亮/压暗，用于球面高光与暗面
     function tint(rgb, amt) {
@@ -748,6 +807,7 @@
       if (!t0) t0 = ts
       var pal = galaxyPalette()
       ctx.clearRect(0, 0, W, H)
+      measureZone(ts)
       var fl = CFG.flatten, tilt = CFG.tilt
       var elapsed = reduce ? 3000 : (ts - t0)
 
@@ -799,10 +859,12 @@
           if (p.nx < 0.02 || p.nx > 0.995) p.vx *= -1
           if (p.ny < 0.03 || p.ny > 0.97) p.vy *= -1
         }
+        var px = p.nx * W, py = p.ny * H
+        if (inZone(px, py)) continue   // 对联文字区不绘制随机星球，避免光斑遮挡两联
         var r = Math.min(CFG.maxPlanetR, p.baseR * (0.4 + 1.15 * p.nx))
         var al = (CFG.planetAlpha[0] + (CFG.planetAlpha[1] - CFG.planetAlpha[0]) * p.nx)
               * (0.65 + 0.35 * Math.sin(p.phase + (reduce ? 0 : ts * p.ps))) * av
-        drawPlanet(p.nx * W, p.ny * H, r, pCols[p.hue], Math.max(0.05, al), p.ring, p.ringTilt)
+        drawPlanet(px, py, r, pCols[p.hue], Math.max(0.05, al), p.ring, p.ringTilt)
       }
     }
     function loop(ts) { draw(ts); raf = window.requestAnimationFrame(loop) }
