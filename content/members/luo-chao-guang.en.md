@@ -12,14 +12,14 @@ date: 2026-11-22
 
 ## Current position & appointments
 
-- Jan 2026 ~ present: School of Management, Zhejiang University; Assistant Researcher and Postdoctoral Fellow; co-supervisor: Prof. Xi Chen.
-- Sep 2025 ~ Dec 2025: School of Automotive and Transportation, Chengdu Industrial University; Lecturer.
+- **School of Management, Zhejiang University**: Assistant Researcher and Postdoctoral Fellow (since Jan 2026; co-supervisor: Prof. Xi Chen).
+- **School of Automotive and Transportation, Chengdu Industrial University**: Lecturer (Sep 2025 – Dec 2025).
 
 ## Education
 
-- Sep 2021 ~ Jun 2025: Business School, Sichuan University; Management Science and Engineering, PhD in Management; supervisor: Prof. Zhineng Hu.
-- Sep 2018 ~ Jun 2021: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, MSc; supervisor: Liuying Wen.
-- Sep 2014 ~ Jun 2018: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, BEng; undergraduate thesis supervisor: Jing Yue.
+- Sep 2021 – Jun 2025: Business School, Sichuan University; Management Science and Engineering, PhD in Management; supervisor: Prof. Zhineng Hu.
+- Sep 2018 – Jun 2021: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, MSc.
+- Sep 2014 – Jun 2018: School of Computer Science, Southwest Petroleum University; Computer Science and Technology, BEng.
 
 ## Research overview
 
@@ -35,32 +35,28 @@ Recommender systems; online review mining; graph and hypergraph learning; data m
 - Google Scholar: [profile](https://scholar.google.com/citations?user=FziuKWgAAAAJ&hl=en)
 - Personal website: [qinluolab.com/magic/](https://qinluolab.com/magic/)
 
-## Publication overview
-
-12 papers in important domestic and international journals, including 4 SCI/SSCI papers led by the author; 3 papers under review or in preparation. Google Scholar citations: 132; h-index: 6; i10-index: 4.
-
 ## Selected publications
 
 Note: bold indicates the author himself.
 
-1. **Luo, C. G.**, & Qin, Y. (2026). Visual-textual fusion for multi-attribute product ranking: A soft computing framework based on topic mining and regret modeling. *Applied Soft Computing*, 201, 115552. Published online; JCR Q2.
-2. **Luo, C. G.**, Wen, L. Y., Qin, Y., Yu, P. S., Yang, L. W., & Hu, Z. N. (2025). Diversified recommendation with weighted hypergraph embedding: Case study in music. *Neurocomputing*, 616, 128905. JCR Q2.
-3. Qin, Y., **Luo, C. G.***, Luo, Y. Y., & Ngai, E. W. T. (2026). Configurational patterns for forecasting customer satisfaction enhancement based on online reviews: A multi-attribute attitude perspective. *Information Processing & Management*, 63(3), 104545. JCR Q1; ABS 2.
-4. Qin, Y., **Luo, C. G.***, & Ngai, E. W. T. (2025). Deconstructing customer satisfaction recipes: A dynamic configurational framework leveraging the power of online reviews in tourism contexts. *Tourism Management*, 110, 105181. JCR Q1; ABS 4.
+1. **Luo, C. G.**, & Qin, Y. (2026). Visual-textual fusion for multi-attribute product ranking: A soft computing framework based on topic mining and regret modeling. *Applied Soft Computing*, 201, 115552. First author; published online; CAS Q2 Top.
+2. **Luo, C. G.**, Wen, L. Y., Qin, Y., Yu, P. S., Yang, L. W., & Hu, Z. N. (2025). Diversified recommendation with weighted hypergraph embedding: Case study in music. *Neurocomputing*, 616, 128905. First author; CAS Q2.
+3. Qin, Y., **Luo, C. G.**, Luo, Y. Y., & Ngai, E. W. T. (2026). Configurational patterns for forecasting customer satisfaction enhancement based on online reviews: A multi-attribute attitude perspective. *Information Processing & Management*, 63(3), 104545. Corresponding author; CAS Q1 Top; ABS 2.
+4. Qin, Y., **Luo, C. G.**, & Ngai, E. W. T. (2025). Deconstructing customer satisfaction recipes: A dynamic configurational framework leveraging the power of online reviews in tourism contexts. *Tourism Management*, 110, 105181. Corresponding author; CAS Q1 Top; ABS 4.
 
 ## Other publications
 
-1. Wen, L. Y., **Luo, C. G.**, Wu, W. Z., & Min, F. (2020). Multi-label symbolic value partitioning through random walks. *Neurocomputing*, 387, 195–209. JCR Q2.
-2. Guo, J. X., Cool, J., **Luo, C. G.**, Zhong, Y., Ji, F. F., Yu, K. J., Qin, R. X., Xu, H. D., & Hu, Y. B. (2026). Prediction on moisture content of living trees using a multi-scale one-dimensional convolutional neural network with attention mechanism based on data augmentation. *Forests*, 17(5), 618. JCR Q3.
-3. Qin, Y., **Luo, C. G.**, Xu, Z. S., Wang, X. X., & Škare, M. (2025). Decoding tourist satisfaction for sustainable economic development: A multi-method configuration framework using online reviews. *Technological and Economic Development of Economy*, 31(6), 1801–1839. JCR Q3.
-4. Chen, X. L., Huang, Z. F., **Luo, C. G.**, & Hu, Z. N. (2024). Can agricultural industry integration reduce the rural-urban income gap? Evidence from county-level data in China. *Land*, 13(3), 332. JCR Q3.
-5. Qin, Y., Xu, Z. S., **Luo, C. G.**, & Škare, M. (2024). Investigating the nexus among resource curse, energy transition and sustainable development: Evidence from a global panel data. *Resources Policy*, 88, 104445. ABS 2.
+1. Wen, L. Y., **Luo, C. G.**, Wu, W. Z., & Min, F. (2020). Multi-label symbolic value partitioning through random walks. *Neurocomputing*, 387, 195–209. Second author; CAS Q2.
+2. Guo, J. X., Cool, J., **Luo, C. G.**, Zhong, Y., Ji, F. F., Yu, K. J., Qin, R. X., Xu, H. D., & Hu, Y. B. (2026). Prediction on moisture content of living trees using a multi-scale one-dimensional convolutional neural network with attention mechanism based on data augmentation. *Forests*, 17(5), 618. Third author; CAS Q3.
+3. Qin, Y., **Luo, C. G.**, Xu, Z. S., Wang, X. X., & Škare, M. (2025). Decoding tourist satisfaction for sustainable economic development: A multi-method configuration framework using online reviews. *Technological and Economic Development of Economy*, 31(6), 1801–1839. Second author; CAS Q3.
+4. Chen, X. L., Huang, Z. F., **Luo, C. G.**, & Hu, Z. N. (2024). Can agricultural industry integration reduce the rural-urban income gap? Evidence from county-level data in China. *Land*, 13(3), 332. Third author; CAS Q3.
+5. Qin, Y., Xu, Z. S., **Luo, C. G.**, & Škare, M. (2024). Investigating the nexus among resource curse, energy transition and sustainable development: Evidence from a global panel data. *Resources Policy*, 88, 104445. Third author; ABS 2.
 
 ## Submitted papers & working papers
 
-1. **Luo, C. G.** et al. Hypergraph neural recommendation via topic preference modeling and trust structure integration. Submitted to *IEEE Transactions on Knowledge and Data Engineering*. Under review.
-2. **Luo, C. G.*** et al. One pie, more recipes: Pathways to popular online courses based on configurational effects of intrinsic and extrinsic cues. Submitted to *Computers in Human Behavior*. Under review.
-3. **Luo, C. G.** et al. HRAS: Hypergraph recommendation with review-derived attributes and affective signals. Working paper.
+1. **Luo, C. G.** et al. Hypergraph neural recommendation via topic preference modeling and trust structure integration. Submitted to *IEEE Transactions on Knowledge and Data Engineering*. First author; under review.
+2. **Luo, C. G.** et al. One pie, more recipes: Pathways to popular online courses based on configurational effects of intrinsic and extrinsic cues. Submitted to *Computers in Human Behavior*. Corresponding author; under review.
+3. **Luo, C. G.** et al. HRAS: Hypergraph recommendation with review-derived attributes and affective signals. First author; working paper.
 
 ## Selected honours
 
@@ -76,13 +72,6 @@ Note: bold indicates the author himself.
 
 ## Academic service
 
-Anonymous reviewer for the following journals:
+Reviewer for Annals of Tourism Research, Information Processing & Management, Pattern Recognition, Journal of Retailing and Consumer Services, Energy Sources, Part B: Economics, Planning, and Policy, New Review of Hypermedia and Multimedia, Energies, and Environmental Engineering and Management Journal.
 
-- Annals of Tourism Research (ATR)
-- Information Processing & Management (IPM)
-- Pattern Recognition (PR)
-- Journal of Retailing and Consumer Services (JRCS)
-- Energy Sources, Part B: Economics, Planning, and Policy (ESB)
-- New Review of Hypermedia and Multimedia (NRHM)
-- Energies
-- Environmental Engineering and Management Journal (EEMJ)
+(Compiled from the CV supplied by the owner; figures and titles reflect the CV at the time of supply.)
