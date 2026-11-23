@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { useI18n } from '@/i18n'
+
+const { t } = useI18n()
+
 defineProps<{ title?: string; note?: string }>()
+
 </script>
 
 <template>
   <div class="empty" role="status">
     <span class="empty__mark" aria-hidden="true">空</span>
-    <p class="empty__title">{{ title ?? '这里还什么都没有' }}</p>
+    <p class="empty__title">{{ title ?? t('common.empty') }}</p>
     <p v-if="note" class="empty__note">{{ note }}</p>
   </div>
 </template>

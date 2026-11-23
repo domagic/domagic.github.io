@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { CATEGORY_LABELS, CATEGORY_PATHS, type PostSummary } from '@/api'
+
 import { formatDate, indexNumber } from '@/utils/format'
+import { useI18n } from '@/i18n'
+
+const { t, isEn } = useI18n()
 
 const props = defineProps<{ post: PostSummary; index?: number }>()
 
@@ -20,7 +24,7 @@ const firstAuthor = computed(() => {
   <RouterLink :to="to" class="item" :aria-label="`阅读：${post.title}`">
     <div class="item__lead">
       <span v-if="index !== undefined" class="item__index mono" aria-hidden="true">{{ indexNumber(index + 1) }}</span>
-      <span class="item__category mono">{{ CATEGORY_LABELS[post.category] }}</span>
+      <span class="item__category mono">{{ isEn ? t('nav.' + (post.category === 'opinion' ? 'opinions' : post.category)) : CATEGORY_LABELS[post.category] }}</span>
     </div>
     <div class="item__aside">
       <time class="item__date mono" :datetime="post.publishedAt ?? undefined">{{ formatDate(post.publishedAt) }}</time>
@@ -36,8 +40,8 @@ const firstAuthor = computed(() => {
       </div>
       <p class="item__excerpt">{{ post.excerpt }}</p>
       <div class="item__meta">
-        <span v-if="post.visibility === 'private'" class="item__lock">私密</span>
-        <span v-if="post.status === 'draft'" class="item__lock">草稿</span>
+        <span v-if="post.visibility === 'private'" class="item__lock">{{ t('common.private') }}</span>
+        <span v-if="post.status === 'draft'" class="item__lock">{{ t('common.draft') }}</span>
         <span class="item__tags">{{ post.tags.map((t) => `#${t.name}`).join(' ') }}</span>
       </div>
     </div>

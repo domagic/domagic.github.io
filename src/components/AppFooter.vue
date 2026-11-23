@@ -2,6 +2,10 @@
 import { RouterLink } from 'vue-router'
 import { FOOTER_QUOTE, PROFILE_DISPLAY } from '@/config/site'
 import SealStamp from './SealStamp.vue'
+import { useI18n } from '@/i18n'
+
+const { t, isEn } = useI18n()
+
 </script>
 
 <template>
@@ -12,19 +16,19 @@ import SealStamp from './SealStamp.vue'
           <SealStamp :char="PROFILE_DISPLAY.sealChar" size="sm" class="footer__seal" />
           <div class="footer__brand-text">
             <p class="footer__latin">Magic</p>
-            <p class="footer__tagline">在数据之中，做一点魔法。</p>
+            <p class="footer__tagline">{{ t('footer.tagline') }}</p>
           </div>
         </div>
         <blockquote v-if="FOOTER_QUOTE.text" class="footer__quote">
-          <p>「{{ FOOTER_QUOTE.text }}」</p>
+          <p>「{{ isEn ? t('footer.quote') : FOOTER_QUOTE.text }}」</p>
         </blockquote>
       </div>
-      <nav class="footer__nav" aria-label="页脚导航">
-        <RouterLink to="/blog">博客</RouterLink>
-        <RouterLink to="/opinions">观点</RouterLink>
-        <RouterLink to="/academic">学术</RouterLink>
-        <RouterLink to="/about">关于</RouterLink>
-        <RouterLink to="/privacy">隐私声明</RouterLink>
+      <nav class="footer__nav" :aria-label="t('nav.about')">
+        <RouterLink to="/blog">{{ t('nav.blog') }}</RouterLink>
+        <RouterLink to="/opinions">{{ t('nav.opinions') }}</RouterLink>
+        <RouterLink to="/academic">{{ t('nav.academic') }}</RouterLink>
+        <RouterLink to="/about">{{ t('nav.about') }}</RouterLink>
+        <RouterLink to="/privacy">{{ t('footer.privacy') }}</RouterLink>
       </nav>
       <p class="footer__copy mono">© 2026 Magic · Powered by GitHub Pages</p>
     </div>

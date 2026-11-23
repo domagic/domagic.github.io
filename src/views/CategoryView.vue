@@ -16,6 +16,9 @@ import PostIndexItem from '@/components/PostIndexItem.vue'
 import TagChip from '@/components/TagChip.vue'
 import Pager from '@/components/Pager.vue'
 import EmptyState from '@/components/EmptyState.vue'
+import { useI18n } from '@/i18n'
+
+const { t, isEn } = useI18n()
 
 const route = useRoute()
 const auth = useAuthStore()
@@ -32,15 +35,15 @@ const activeTag = ref('')
 const loading = ref(false)
 const error = ref('')
 
-const descriptions: Record<Category, string> = {
-  blog: '方法、工具与长篇思考。',
-  opinion: '对学术生态与行业趋势的明确立场。',
-  diary: '写给自己的私人记录，仅本人可见。',
-  academic: '论文、报告与项目进展。',
-  group: '每周组会报告与讨论记录。',
-}
+const descriptions = computed<Record<Category, string>>(() => ({
+  blog: t('category.blog.desc'),
+  opinion: t('category.opinions.desc'),
+  diary: '',
+  academic: t('category.academic.desc'),
+  group: t('category.group.desc'),
+}))
 
-useSeo({ title: CATEGORY_LABELS[category.value], description: descriptions[category.value] })
+useSeo({ title: CATEGORY_LABELS[category.value], description: descriptions.value[category.value] })
 
 async function load() {
   loading.value = true
@@ -75,7 +78,7 @@ watch(
     page.value = 1
     q.value = ''
     activeTag.value = ''
-    useSeo({ title: CATEGORY_LABELS[category.value], description: descriptions[category.value] })
+    useSeo({ title: CATEGORY_LABELS[category.value], description: descriptions.value[category.value] })
     void load()
     void loadTags()
   },
@@ -111,16 +114,16 @@ void loadTags()
 <template>
   <div class="page section-page">
     <SectionHead
-      :title="CATEGORY_LABELS[category]"
+      :title="isEn ? t('nav.' + (category === 'opinion' ? 'opinions' : category)) : CATEGORY_LABELS[category]"
       :note="descriptions[category]"
     />
 
     <div class="filters">
       <label class="filters__search">
-        <span class="visually-hidden">搜索{{ CATEGORY_LABELS[category] }}</span>
-        <input v-model="q" type="search" :placeholder="`搜索${CATEGORY_LABELS[category]}…`" />
+        <span class="visually-hidden">{{ isEn ? t('category.search') + ' ' + t('nav.' + (category === 'opinion' ? 'opinions' : category)) : '搜索' + CATEGORY_LABELS[category] }}</span>
+        <input v-model="q" type="search" :placeholder="isEn ? t('category.search') + ' ' + t('nav.' + (category === 'opinion' ? 'opinions' : category)) + '…' : `搜索${CATEGORY_LABELS[category]}…`" />
       </label>
-      <div class="filters__tags" role="group" aria-label="按标签筛选">
+      <div class="filters__tags" role="group" :aria-label="t('category.filterTag')">
         <TagChip
           v-for="tag in tags.slice(0, 10)"
           :key="tag.slug"
@@ -133,13 +136,13 @@ void loadTags()
     </div>
 
     <p v-if="error" class="error" role="alert">{{ error }}</p>
-    <p v-else-if="loading" class="loading mono" role="status">Loading…</p>
+    <p v-else-if="loading" class="loading mono" role="status">{{ t('common.loading') }}</p>
 
     <template v-else>
       <EmptyState
         v-if="items.length === 0"
-        title="没有匹配的文章"
-        note="换个关键词或标签试试"
+        :title="isEn ? 'No matching posts' : '没有匹配的文章'"
+        :note="isEn ? 'Try another keyword or tag' : '换个关键词或标签试试'"
       />
       <div v-else>
         <PostIndexItem

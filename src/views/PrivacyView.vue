@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { useSeo } from '@/composables/useSeo'
+
 import SectionHead from '@/components/SectionHead.vue'
+import { useI18n } from '@/i18n'
+
+const { t } = useI18n()
 
 useSeo({ title: '隐私声明', description: '本站的数据收集、私密内容加密、登录会话、传输加密与安全审计说明。' })
 </script>
 
 <template>
   <div class="page privacy">
-    <SectionHead title="隐私声明" note="最近更新：2026-11-13（与 v1.1 安全实现对齐）" />
+    <SectionHead :title="t('privacy.title')" :note="t('privacy.note')" />
     <div class="privacy__body">
       <h2>我们收集什么</h2>
       <p>本站为个人网站，不要求访客注册或提供个人信息，公开内容（博客、观点、学术）可匿名浏览；不植入第三方追踪或广告脚本。服务端运行日志仅以哈希形式记录网络地址等技术信息，用于安全追溯与故障排查，不用于画像或广告。</p>

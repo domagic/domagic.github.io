@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import { router } from './router'
 import { useThemeStore } from './stores/theme'
+import { useLocaleStore } from './stores/locale'
 import { useAuthStore } from './stores/auth'
 import './styles/tokens.css'
 import './styles/base.css'
@@ -19,6 +20,7 @@ app.use(pinia)
 app.use(router)
 
 useThemeStore(pinia).apply()
+useLocaleStore(pinia).apply()
 
 const auth = useAuthStore(pinia)
 auth.bindClient()

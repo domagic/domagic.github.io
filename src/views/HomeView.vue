@@ -7,6 +7,9 @@ import { useSeo } from '@/composables/useSeo'
 import SealStamp from '@/components/SealStamp.vue'
 import SectionHead from '@/components/SectionHead.vue'
 import PostIndexItem from '@/components/PostIndexItem.vue'
+import { useI18n } from '@/i18n'
+
+const { t, isEn } = useI18n()
 
 useSeo({ title: '首页' })
 
@@ -119,14 +122,14 @@ onUnmounted(() => {
         <div class="hero__text">
           <p v-if="HOME_CONFIG.eyebrow" class="hero__eyebrow mono rise">{{ HOME_CONFIG.eyebrow }}</p>
           <h1 class="hero__title rise" style="animation-delay: 0.08s">
-            {{ HOME_CONFIG.titleLead }}<em>{{ HOME_CONFIG.titleAccent }}</em>
+            {{ isEn ? t('home.titleLead') : HOME_CONFIG.titleLead }}<em>{{ isEn ? t('home.titleAccent') : HOME_CONFIG.titleAccent }}</em>
           </h1>
           <p v-if="HOME_CONFIG.bio" class="hero__bio rise" style="animation-delay: 0.16s">
             {{ HOME_CONFIG.bio }}
           </p>
           <div class="hero__actions rise" style="animation-delay: 0.24s">
-            <button type="button" class="hero__btn hero__btn--primary" @click="goToContent">{{ HOME_CONFIG.primaryAction.label }}</button>
-            <RouterLink :to="HOME_CONFIG.secondaryAction.to" class="hero__btn">{{ HOME_CONFIG.secondaryAction.label }}</RouterLink>
+            <button type="button" class="hero__btn hero__btn--primary" @click="goToContent">{{ isEn ? t('home.primary') : HOME_CONFIG.primaryAction.label }}</button>
+            <RouterLink :to="HOME_CONFIG.secondaryAction.to" class="hero__btn">{{ isEn ? t('home.secondary') : HOME_CONFIG.secondaryAction.label }}</RouterLink>
           </div>
           <button type="button" class="hero__scroll-hint" aria-label="向下翻页阅读" @click="goToContent">
             <span class="hero__scroll-hint-line" aria-hidden="true"></span>
@@ -136,7 +139,7 @@ onUnmounted(() => {
           </p>
         </div>
         <div class="hero__side">
-          <span v-if="HOME_CONFIG.vertical" class="hero__vertical" aria-hidden="true">{{ HOME_CONFIG.vertical }}</span>
+          <span v-if="HOME_CONFIG.vertical" class="hero__vertical" aria-hidden="true">{{ isEn ? t('home.vertical') : HOME_CONFIG.vertical }}</span>
           <SealStamp v-if="SEAL_VISIBLE && HOME_CONFIG.sealChar" animated :char="HOME_CONFIG.sealChar" />
         </div>
       </div>
@@ -148,7 +151,7 @@ onUnmounted(() => {
       class="page section content-section"
       :class="{ 'content-section--in': contentIn }"
     >
-      <SectionHead title="精选" />
+      <SectionHead :title="t('home.featured')" />
       <div class="featured">
         <template v-if="loading">
           <div v-for="i in 3" :key="`fs-${i}`" class="featured__card featured__card--sk" aria-hidden="true">
@@ -167,19 +170,19 @@ onUnmounted(() => {
             class="featured__card rise"
             :style="{ animationDelay: `${i * 0.08}s` }"
           >
-            <span class="featured__category mono">{{ CATEGORY_LABELS[post.category] }}</span>
+            <span class="featured__category mono">{{ isEn ? t('nav.' + (post.category === 'opinion' ? 'opinions' : post.category)) : CATEGORY_LABELS[post.category] }}</span>
             <h3 class="featured__title">{{ post.title }}</h3>
             <p class="featured__excerpt">{{ post.excerpt }}</p>
-            <span class="featured__more">阅读全文 →</span>
+            <span class="featured__more">{{ t('common.readMore') }}</span>
           </RouterLink>
         </template>
       </div>
     </section>
 
     <section class="page section">
-      <SectionHead title="最新">
+      <SectionHead :title="t('home.recent')">
         <template #action>
-          <RouterLink to="/archive" class="section-more">全部文章 →</RouterLink>
+          <RouterLink to="/archive" class="section-more">{{ t('common.allPosts') }}</RouterLink>
         </template>
       </SectionHead>
       <div class="index-list">
@@ -200,7 +203,7 @@ onUnmounted(() => {
     </section>
 
     <section class="page section">
-      <SectionHead title="归类" />
+      <SectionHead :title="t('home.categories')" />
       <div class="drawers">
         <RouterLink
           v-for="(c, i) in categories"
@@ -210,10 +213,10 @@ onUnmounted(() => {
           :style="{ animationDelay: `${i * 0.07}s` }"
         >
           <div class="drawer__head">
-            <h3 class="drawer__title">{{ CATEGORY_LABELS[c.key] }}</h3>
+            <h3 class="drawer__title">{{ isEn ? t('nav.' + c.key) : CATEGORY_LABELS[c.key] }}</h3>
             <span class="drawer__count" aria-hidden="true">{{ String(counts[c.key]).padStart(2, '0') }}</span>
           </div>
-          <p class="drawer__desc">{{ c.desc }}</p>
+          <p class="drawer__desc">{{ isEn ? t('category.' + c.key + '.desc') : c.desc }}</p>
         </RouterLink>
       </div>
     </section>

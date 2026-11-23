@@ -4,6 +4,9 @@ import { ApiError, api, CATEGORY_LABELS, CATEGORY_PATHS, type ArchiveYear } from
 import { useSeo } from '@/composables/useSeo'
 import SectionHead from '@/components/SectionHead.vue'
 import EmptyState from '@/components/EmptyState.vue'
+import { useI18n } from '@/i18n'
+
+const { t, isEn } = useI18n()
 
 useSeo({ title: '归档', description: '全部公开文章按年份归档。' })
 
@@ -34,15 +37,15 @@ void load()
 
 <template>
   <div class="page archive">
-    <SectionHead title="归档" note="公开文章按年份整理；私密内容不在归档中出现。" />
+    <SectionHead :title="t('nav.archive')" :note="t('archive.note')" />
 
     <p v-if="error" class="archive__error" role="alert">{{ error }}</p>
-    <p v-else-if="loading" class="archive__loading mono" role="status">Loading…</p>
+    <p v-else-if="loading" class="archive__loading mono" role="status">{{ t('common.loading') }}</p>
 
-    <EmptyState v-else-if="years.length === 0" title="还没有公开文章" note="发布后的文章会按年份出现在这里" />
+    <EmptyState v-else-if="years.length === 0" :title="t('archive.emptyTitle')" :note="t('archive.emptyNote')" />
 
     <div v-else class="archive__years">
-      <section v-for="group in years" :key="group.year" class="archive__year" :aria-label="`${group.year} 年文章`">
+      <section v-for="group in years" :key="group.year" class="archive__year" :aria-label="isEn ? group.year + ' posts' : group.year + ' 年文章'">
         <div class="archive__year-rail">
           <span class="archive__year-num">{{ group.year }}</span>
           <span class="archive__year-count mono">{{ group.count }} 篇</span>
@@ -50,7 +53,7 @@ void load()
         <ol class="archive__list">
           <li v-for="post in group.posts" :key="post.slug" class="archive__entry">
             <span class="archive__date mono">{{ monthDay(post.publishedAt) }}</span>
-            <span class="archive__type" :data-type="post.category">{{ CATEGORY_LABELS[post.category] }}</span>
+            <span class="archive__type" :data-type="post.category">{{ isEn ? t('nav.' + (post.category === 'opinion' ? 'opinions' : post.category)) : CATEGORY_LABELS[post.category] }}</span>
             <RouterLink class="archive__title" :to="`${CATEGORY_PATHS[post.category]}/${post.slug}`">
               {{ post.title }}
             </RouterLink>

@@ -3,8 +3,12 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import { ApiError, api, CATEGORY_LABELS, CATEGORY_PATHS, type Post } from '@/api'
 import { useSeo } from '@/composables/useSeo'
+
 import { formatDateZh } from '@/utils/format'
 import MarkdownView from '@/components/MarkdownView.vue'
+import { useI18n } from '@/i18n'
+
+const { t, isEn } = useI18n()
 
 interface TocItem { id: string; text: string; level: 2 | 3 }
 
@@ -63,10 +67,10 @@ const bodyContent = computed(() => {
 
 <template>
   <div class="page post-page" :class="{ 'post-page--toc': showToc }">
-    <p v-if="loading" class="state mono" role="status">Loading…</p>
+    <p v-if="loading" class="state mono" role="status">{{ t('common.loading') }}</p>
     <div v-else-if="error" class="state" role="alert">
       <p class="state__error">{{ error }}</p>
-      <RouterLink to="/">返回首页</RouterLink>
+      <RouterLink to="/">{{ isEn ? 'Back home' : '返回首页' }}</RouterLink>
     </div>
     <article v-else-if="post" class="post" :class="{ 'post--with-toc': showToc }">
       <!-- 带目录文章的分类标签放到左列第 1 行（标题左侧空白列），与目录同列对齐 -->
@@ -74,16 +78,16 @@ const bodyContent = computed(() => {
         v-if="showToc"
         :to="CATEGORY_PATHS[post.category]"
         class="post__category mono"
-      >{{ CATEGORY_LABELS[post.category] }}</RouterLink>
+      >{{ isEn ? t('nav.' + (post.category === 'opinion' ? 'opinions' : post.category)) : CATEGORY_LABELS[post.category] }}</RouterLink>
       <header class="post__header">
         <RouterLink v-if="!showToc" :to="CATEGORY_PATHS[post.category]" class="post__category mono">
-          {{ CATEGORY_LABELS[post.category] }}
+          {{ isEn ? t('nav.' + (post.category === 'opinion' ? 'opinions' : post.category)) : CATEGORY_LABELS[post.category] }}
         </RouterLink>
         <h1 class="post__title">{{ post.title }}</h1>
         <div class="post__meta mono">
           <time v-if="post.publishedAt" :datetime="post.publishedAt">{{ formatDateZh(post.publishedAt) }}</time>
-          <span v-if="post.visibility === 'private'" class="post__badge">私密</span>
-          <span v-if="post.status === 'draft'" class="post__badge">草稿</span>
+          <span v-if="post.visibility === 'private'" class="post__badge">{{ t('common.private') }}</span>
+          <span v-if="post.status === 'draft'" class="post__badge">{{ t('common.draft') }}</span>
         </div>
         <div class="post__tags">
           <span v-for="tag in post.tags" :key="tag.slug" class="post__tag">#{{ tag.name }}</span>
@@ -91,8 +95,8 @@ const bodyContent = computed(() => {
       </header>
       <div class="post__layout">
         <!-- 学术文章左侧目录：点击平滑跳转到对应章节，桌面端 sticky 跟随滚动 -->
-        <aside v-if="showToc" class="post__toc" aria-label="文章目录">
-          <p class="post__toc-title mono">目录 / Contents</p>
+        <aside v-if="showToc" class="post__toc" :aria-label="t('post.tocAria')">
+          <p class="post__toc-title mono">{{ isEn ? t('post.toc') : '目录' }}</p>
           <nav class="post__toc-nav">
             <a
               v-for="item in toc"
@@ -106,7 +110,7 @@ const bodyContent = computed(() => {
         <div class="post__main">
           <MarkdownView :source="bodyContent" :section="post.category" @headings="(items) => (toc = items)" />
           <footer class="post__footer">
-            <RouterLink :to="CATEGORY_PATHS[post.category]">← 返回{{ CATEGORY_LABELS[post.category] }}</RouterLink>
+            <RouterLink :to="CATEGORY_PATHS[post.category]">← {{ t('common.back') }} {{ isEn ? t('nav.' + (post.category === 'opinion' ? 'opinions' : post.category)) : CATEGORY_LABELS[post.category] }}</RouterLink>
           </footer>
         </div>
       </div>

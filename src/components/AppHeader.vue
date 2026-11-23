@@ -1,24 +1,35 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
+import { useI18n } from '@/i18n'
 import SealStamp from './SealStamp.vue'
 import { PROFILE_DISPLAY } from '@/config/site'
 
 const auth = useAuthStore()
 const theme = useThemeStore()
+const { t, isEn, locale, locales, setLocale } = useI18n()
 const menuOpen = ref(false)
+const langOpen = ref(false)
 
-const nav = [
-  { to: '/', label: '首页' },
-  { to: '/blog', label: '博客' },
-  { to: '/opinions', label: '观点' },
-  { to: '/academic', label: '学术' },
-  { to: '/group', label: '组会' },
-  { to: '/archive', label: '归档' },
-  { to: '/about', label: '关于' },
-]
+const nav = computed(() => [
+  { to: '/', label: t('nav.home') },
+  { to: '/blog', label: t('nav.blog') },
+  { to: '/opinions', label: t('nav.opinions') },
+  { to: '/academic', label: t('nav.academic') },
+  { to: '/group', label: t('nav.group') },
+  { to: '/archive', label: t('nav.archive') },
+  { to: '/about', label: t('nav.about') },
+])
+
+function chooseLocale(code: 'zh-CN' | 'en-US') {
+  setLocale(code)
+  langOpen.value = false
+}
+function closeLang(e: MouseEvent) {
+  if (!(e.target as HTMLElement)?.closest?.('.header__lang')) langOpen.value = false
+}
 
 // 标签栏实时时钟（精确到秒）：上排日期（含星期几）、下排时间，按系统本地时间显示，
 // 并给出当前时区偏移标签，格式 (UTC + 8)（中国标准时间），每秒刷新，卸载时清理定时器。
@@ -51,14 +62,17 @@ function tick() {
 onMounted(() => {
   tick()
   clockTimer = setInterval(tick, 1000)
+  document.addEventListener('click', closeLang)
 })
 
 onUnmounted(() => {
   if (clockTimer) clearInterval(clockTimer)
+  document.removeEventListener('click', closeLang)
 })
 
 function closeMenu() {
   menuOpen.value = false
+  langOpen.value = false
 }
 </script>
 
@@ -94,13 +108,40 @@ function closeMenu() {
         >
           {{ item.label }}
         </RouterLink>
+        <div class="header__lang">
+          <button
+            type="button"
+            class="header__lang-toggle"
+            :aria-label="t('lang.label')"
+            :aria-expanded="langOpen"
+            aria-haspopup="menu"
+            @click="langOpen = !langOpen"
+          >
+            {{ t('lang.label') }}
+          </button>
+          <div v-if="langOpen" class="header__lang-menu" role="menu">
+            <button
+              v-for="l in locales"
+              :key="l.code"
+              type="button"
+              class="header__lang-option"
+              :class="{ 'is-active': locale === l.code }"
+              role="menuitem"
+              :lang="l.code"
+              :aria-current="locale === l.code ? 'true' : undefined"
+              @click="chooseLocale(l.code)"
+            >
+              {{ l.label }}
+            </button>
+          </div>
+        </div>
         <a
           href="https://qinluolab.com/"
           class="header__team"
-          title="返回团队首页（站外）"
+          :title="isEn ? 'Back to the team site' : '返回团队首页（站外）'"
         >
           <span class="header__team-icon" aria-hidden="true">⌂</span>
-          <span>团队首页</span>
+          <span>{{ t('nav.team') }}</span>
         </a>
       </nav>
 
@@ -108,13 +149,13 @@ function closeMenu() {
         <button
           type="button"
           class="header__icon-btn"
-          :aria-label="theme.theme === 'paper' ? '切换到墨色夜间模式' : '切换到纸色日间模式'"
+          :aria-label="theme.theme === 'paper' ? t('theme.toDark') : t('theme.toLight')"
           @click="theme.toggle()"
         >
           <span aria-hidden="true">{{ theme.theme === 'paper' ? '☾' : '☀' }}</span>
         </button>
-        <RouterLink v-if="auth.isAuthenticated" to="/admin" class="header__cta">管理</RouterLink>
-        <RouterLink v-else to="/login" class="header__cta">登录</RouterLink>
+        <RouterLink v-if="auth.isAuthenticated" to="/admin" class="header__cta">{{ t('nav.admin') }}</RouterLink>
+        <RouterLink v-else to="/login" class="header__cta">{{ t('nav.login') }}</RouterLink>
         <button
           type="button"
           class="header__icon-btn header__burger"
@@ -139,10 +180,21 @@ function closeMenu() {
       >
         {{ item.label }}
       </RouterLink>
+      <div class="header__mobile-lang" role="group" :aria-label="t('lang.label')">
+        <button
+          v-for="l in locales"
+          :key="l.code"
+          type="button"
+          class="header__mobile-lang-btn"
+          :class="{ 'is-active': locale === l.code }"
+          :lang="l.code"
+          @click="chooseLocale(l.code)"
+        >{{ l.label }}</button>
+      </div>
       <a href="https://qinluolab.com/" class="header__mobile-team" @click="closeMenu">
         <span class="header__team-icon" aria-hidden="true">⌂</span>
-        <span>团队首页</span>
-        <span class="header__mobile-team-tag">团队站</span>
+        <span>{{ t('nav.team') }}</span>
+        <span class="header__mobile-team-tag">{{ isEn ? 'Team' : '团队站' }}</span>
       </a>
     </nav>
   </header>
@@ -275,6 +327,62 @@ function closeMenu() {
   font-weight: 500;
 }
 
+/* 语言：与导航文字同款的纯文字按钮 + 下拉菜单（同主站交互） */
+.header__lang {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.header__lang-toggle {
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  color: var(--ink-soft);
+  padding: 0.35rem 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s, color 0.2s;
+}
+.header__lang-toggle:hover,
+.header__lang-toggle[aria-expanded='true'] {
+  color: var(--cinnabar-deep);
+  border-bottom-color: var(--cinnabar-deep);
+}
+.header__lang-menu {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  left: 0;
+  z-index: 60;
+  min-width: 9rem;
+  padding: 0.35rem 0;
+  background: var(--paper-elev, var(--paper));
+  border: 1px solid var(--line);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14);
+}
+.header__lang-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 0.88rem;
+  padding: 0.55rem 0.95rem;
+  background: none;
+  border: 0;
+  border-left: 2px solid transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.header__lang-option:hover {
+  background: var(--cinnabar-wash);
+}
+.header__lang-option.is-active {
+  color: var(--cinnabar-deep);
+  border-left-color: var(--cinnabar);
+  font-weight: 600;
+}
+
 /* 团队首页：站外入口，用朱红实心胶囊与站内文字导航明确区分 */
 .header__team {
   display: inline-flex;
@@ -376,6 +484,26 @@ function closeMenu() {
   .header__mobile-link[aria-current='page'] {
     color: var(--cinnabar-deep);
     font-weight: 500;
+  }
+  .header__mobile-lang {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem 0.2rem;
+    border-bottom: 1px dashed var(--line);
+  }
+  .header__mobile-lang-btn {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .header__mobile-lang-btn.is-active {
+    border-color: var(--cinnabar);
+    color: var(--cinnabar-deep);
+    font-weight: 600;
   }
   .header__mobile-team {
     display: flex;

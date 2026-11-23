@@ -5,6 +5,9 @@ import { useSeo } from '@/composables/useSeo'
 import SectionHead from '@/components/SectionHead.vue'
 import PostIndexItem from '@/components/PostIndexItem.vue'
 import EmptyState from '@/components/EmptyState.vue'
+import { useI18n } from '@/i18n'
+
+const { t, isEn } = useI18n()
 
 useSeo({ title: '学术', description: '论文、学术报告与项目进展。' })
 
@@ -20,10 +23,10 @@ onMounted(async () => {
 
 <template>
   <div class="page academic">
-    <SectionHead title="学术" />
+    <SectionHead :title="t('nav.academic')" />
 
-    <p v-if="loading" class="mono academic__loading" role="status">Loading…</p>
-    <EmptyState v-else-if="posts.length === 0" title="暂无学术内容" />
+    <p v-if="loading" class="mono academic__loading" role="status">{{ t('common.loading') }}</p>
+    <EmptyState v-else-if="posts.length === 0" :title="isEn ? 'No academic posts yet' : '暂无学术内容'" />
     <div v-else>
       <PostIndexItem v-for="(post, i) in posts" :key="post.id" :post="post" :index="i" />
     </div>

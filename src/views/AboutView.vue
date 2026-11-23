@@ -6,6 +6,9 @@ import { useSeo } from '@/composables/useSeo'
 import SectionHead from '@/components/SectionHead.vue'
 import SealStamp from '@/components/SealStamp.vue'
 import MarkdownView from '@/components/MarkdownView.vue'
+import { useI18n } from '@/i18n'
+
+const { t, isEn } = useI18n()
 
 useSeo({ title: '关于', description: '关于 Magic：研究方向、经历与联系方式。' })
 
@@ -27,21 +30,21 @@ onMounted(async () => {
     </header>
 
     <section v-if="ABOUT_VISIBILITY.showBio" class="about__section">
-      <SectionHead title="简介" />
+      <SectionHead :title="t('about.intro')" />
       <div class="about__bio">
         <MarkdownView :source="profile.bio" />
       </div>
     </section>
 
     <section v-if="ABOUT_VISIBILITY.showResearch" class="about__section">
-      <SectionHead title="研究方向" />
+      <SectionHead :title="t('about.research')" />
       <ul class="about__research">
-        <li v-for="area in profile.research" :key="area">{{ area }}</li>
+        <li v-for="area in profile.research" :key="area">{{ isEn ? t('about.research.' + area) : area }}</li>
       </ul>
     </section>
 
     <section v-if="ABOUT_VISIBILITY.showTimeline" class="about__section">
-      <SectionHead title="经历" />
+      <SectionHead :title="t('about.timeline')" />
       <ol class="timeline">
         <li v-for="entry in profile.timeline" :key="entry.period" class="timeline__item">
           <span class="timeline__period mono">{{ entry.period }}</span>
@@ -54,7 +57,7 @@ onMounted(async () => {
     </section>
 
     <section class="about__section">
-      <SectionHead title="联系" />
+      <SectionHead :title="t('about.contact')" />
       <ul class="about__links">
         <li v-if="profile.email">
           <a :href="`mailto:${profile.email}`">{{ profile.email }}</a>

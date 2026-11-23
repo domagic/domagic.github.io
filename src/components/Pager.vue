@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from '@/i18n'
+
+const { t } = useI18n()
 
 const props = defineProps<{ page: number; pageSize: number; total: number }>()
 const emit = defineEmits<{ change: [page: number] }>()
@@ -10,11 +13,11 @@ const pages = computed(() => Math.max(1, Math.ceil(props.total / props.pageSize)
 <template>
   <nav v-if="pages > 1" class="pager" aria-label="分页">
     <button type="button" class="pager__btn" :disabled="page <= 1" @click="emit('change', page - 1)">
-      ← 上一页
+      {{ t('common.prev') }}
     </button>
-    <span class="pager__info mono">{{ page }} / {{ pages }} · 共 {{ total }} 篇</span>
+    <span class="pager__info mono">{{ page }} / {{ pages }} · {{ t('common.pageInfo', { n: total }) }}</span>
     <button type="button" class="pager__btn" :disabled="page >= pages" @click="emit('change', page + 1)">
-      下一页 →
+      {{ t('common.next') }}
     </button>
   </nav>
 </template>
