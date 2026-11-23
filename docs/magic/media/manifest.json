@@ -23,41 +23,6 @@
       "urlPath": "/magic/media/academic/2024-DSS-Live-Streaming-Channel-Recommendation/figure-03.png"
     },
     {
-      "relPath": "academic/assets/2026-JMIS-Effects-of-social-solicitation/figure-01.png",
-      "sha256": "4d8c12aaca72b1c3b7f0e64c64cade40bb836ca9bfde794b48555a2252ac5aef",
-      "bytes": 165352,
-      "mime": "image/png",
-      "urlPath": "/magic/media/academic/2026-JMIS-Effects-of-social-solicitation/figure-01.png"
-    },
-    {
-      "relPath": "academic/assets/2026-JMIS-Effects-of-social-solicitation/figure-02.png",
-      "sha256": "a201e5008c3e956f4ee4a65cd8d00e1507d932a9f112e0bea43bb65fcf4e1a45",
-      "bytes": 867180,
-      "mime": "image/png",
-      "urlPath": "/magic/media/academic/2026-JMIS-Effects-of-social-solicitation/figure-02.png"
-    },
-    {
-      "relPath": "academic/assets/2026-WWW-Room-matters/figure-01.png",
-      "sha256": "6c11ebb0948bff07d78a84293401bb336708d31eedf306a1f510d6387942f7a8",
-      "bytes": 88006,
-      "mime": "image/png",
-      "urlPath": "/magic/media/academic/2026-WWW-Room-matters/figure-01.png"
-    },
-    {
-      "relPath": "academic/assets/2026-WWW-Room-matters/figure-02.png",
-      "sha256": "109dc14f1d54929f33a1a4e3cb343fa503fe70e013894394eb18e729ed79fdb2",
-      "bytes": 148321,
-      "mime": "image/png",
-      "urlPath": "/magic/media/academic/2026-WWW-Room-matters/figure-02.png"
-    },
-    {
-      "relPath": "academic/assets/2026-WWW-Room-matters/figure-03.png",
-      "sha256": "fb194dc8afef1bf56b574fa9c39d0826a23ac8ece293495e49d716d46e79c049",
-      "bytes": 76493,
-      "mime": "image/png",
-      "urlPath": "/magic/media/academic/2026-WWW-Room-matters/figure-03.png"
-    },
-    {
       "relPath": "academic/assets/2026-arx-Grounded-product-understanding/figure-01.png",
       "sha256": "9cee9fcd5eb0916db0564512d9b16c9fe7d23d1a104710e94a69d7eecb99499c",
       "bytes": 28825,
@@ -105,6 +70,41 @@
       "bytes": 80405,
       "mime": "image/png",
       "urlPath": "/magic/media/academic/2026-arx-KuaiLive-M3/figure-03.png"
+    },
+    {
+      "relPath": "academic/assets/2026-JAMS-Virtual-influencer-marketing/figure-01.png",
+      "sha256": "ef18bab692827b5617b72c7879ccc5fc61ec5a3320de435b13e6aafc82352483",
+      "bytes": 39227,
+      "mime": "image/png",
+      "urlPath": "/magic/media/academic/2026-JAMS-Virtual-influencer-marketing/figure-01.png"
+    },
+    {
+      "relPath": "academic/assets/2026-JAMS-Virtual-influencer-marketing/figure-02.png",
+      "sha256": "02995925d1d28e1bf14ee603937358479b3edcb793a4172573bcc3050669a52c",
+      "bytes": 148274,
+      "mime": "image/png",
+      "urlPath": "/magic/media/academic/2026-JAMS-Virtual-influencer-marketing/figure-02.png"
+    },
+    {
+      "relPath": "academic/assets/2026-JAMS-Virtual-influencer-marketing/figure-03.png",
+      "sha256": "cf4b985d0d8e44adf10287c870dc33c7b2159f6e2ed2b61a1e5aaac4e16a05fc",
+      "bytes": 426101,
+      "mime": "image/png",
+      "urlPath": "/magic/media/academic/2026-JAMS-Virtual-influencer-marketing/figure-03.png"
+    },
+    {
+      "relPath": "academic/assets/2026-JMIS-Effects-of-social-solicitation/figure-01.png",
+      "sha256": "4d8c12aaca72b1c3b7f0e64c64cade40bb836ca9bfde794b48555a2252ac5aef",
+      "bytes": 165352,
+      "mime": "image/png",
+      "urlPath": "/magic/media/academic/2026-JMIS-Effects-of-social-solicitation/figure-01.png"
+    },
+    {
+      "relPath": "academic/assets/2026-JMIS-Effects-of-social-solicitation/figure-02.png",
+      "sha256": "a201e5008c3e956f4ee4a65cd8d00e1507d932a9f112e0bea43bb65fcf4e1a45",
+      "bytes": 867180,
+      "mime": "image/png",
+      "urlPath": "/magic/media/academic/2026-JMIS-Effects-of-social-solicitation/figure-02.png"
     },
     {
       "relPath": "academic/assets/2026-live-streaming-research-primer/figure-01-field-map.png",
@@ -175,6 +175,27 @@
       "bytes": 155076,
       "mime": "image/png",
       "urlPath": "/magic/media/academic/2026-live-streaming-research-primer/figure-10-reading-path.png"
+    },
+    {
+      "relPath": "academic/assets/2026-WWW-Room-matters/figure-01.png",
+      "sha256": "6c11ebb0948bff07d78a84293401bb336708d31eedf306a1f510d6387942f7a8",
+      "bytes": 88006,
+      "mime": "image/png",
+      "urlPath": "/magic/media/academic/2026-WWW-Room-matters/figure-01.png"
+    },
+    {
+      "relPath": "academic/assets/2026-WWW-Room-matters/figure-02.png",
+      "sha256": "109dc14f1d54929f33a1a4e3cb343fa503fe70e013894394eb18e729ed79fdb2",
+      "bytes": 148321,
+      "mime": "image/png",
+      "urlPath": "/magic/media/academic/2026-WWW-Room-matters/figure-02.png"
+    },
+    {
+      "relPath": "academic/assets/2026-WWW-Room-matters/figure-03.png",
+      "sha256": "fb194dc8afef1bf56b574fa9c39d0826a23ac8ece293495e49d716d46e79c049",
+      "bytes": 76493,
+      "mime": "image/png",
+      "urlPath": "/magic/media/academic/2026-WWW-Room-matters/figure-03.png"
     },
     {
       "relPath": "academic/assets/Live_streaming_channel_recommendation/fig4_framework.png",
