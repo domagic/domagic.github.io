@@ -487,7 +487,7 @@ html[lang^="en"] .prose blockquote { font-family: var(--serif-en); font-style: i
 .prose blockquote p { margin-bottom: 0; }
 .prose ul, .prose ol { padding-left: 1.6em; margin-bottom: 1.15em; }
 /* 论文列表中的加粗作者名（表示本人）：加粗＋下划线＋金色，区别于机构名等普通加粗 */
-.prose ol strong { font-weight: 700; color: var(--gold-light); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+.prose ol strong { font-weight: 700; color: var(--gold-light); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; text-decoration-skip-ink: none; }
 .prose a { color: var(--gold-light); text-decoration: none; border-bottom: 1px solid var(--line); }
 .prose a:hover { border-bottom-color: var(--gold-light); }
 .prose code { font-family: Consolas, monospace; font-size: 0.88em; background: var(--code-bg); padding: 0.1em 0.35em; }
