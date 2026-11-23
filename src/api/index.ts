@@ -15,11 +15,15 @@ export const api: ApiClient =
     ? createHttpClient(baseUrl)
     : apiMode === 'static'
       ? await (async () => {
-          const [{ createStaticClient }, dataset] = await Promise.all([
+          const [{ createStaticClient }, dataset, datasetEn] = await Promise.all([
             import('./static/staticClient'),
             import('./static/data/dataset.json'),
+            import('./static/data/dataset.en.json').catch(() => null),
           ])
-          return createStaticClient(dataset as unknown as StaticDataset)
+          return createStaticClient(
+            dataset as unknown as StaticDataset,
+            datasetEn ? (datasetEn as unknown as StaticDataset) : undefined,
+          )
         })()
       : await (async () => {
           const { createMockClient } = await import('./mock/mockClient')

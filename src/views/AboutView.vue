@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { api, type Profile } from '@/api'
 import { ABOUT_VISIBILITY, SEAL_VISIBLE } from '@/config/site'
 import { useSeo } from '@/composables/useSeo'
@@ -8,15 +8,16 @@ import SealStamp from '@/components/SealStamp.vue'
 import MarkdownView from '@/components/MarkdownView.vue'
 import { useI18n } from '@/i18n'
 
-const { t, isEn } = useI18n()
+const { t, isEn, locale } = useI18n()
 
-useSeo({ title: '关于', description: '关于 Magic：研究方向、经历与联系方式。' })
+useSeo({ title: isEn.value ? t('about.title') : '关于', description: isEn.value ? 'About Magic: research, experience and contact.' : '关于 Magic：研究方向、经历与联系方式。' })
 
 const profile = ref<Profile | null>(null)
 
 onMounted(async () => {
   profile.value = await api.getProfile()
 })
+watch(locale, async () => { profile.value = await api.getProfile() })
 </script>
 
 <template>

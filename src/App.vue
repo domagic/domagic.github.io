@@ -3,6 +3,8 @@ import { RouterView } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import { routeScroll } from '@/router'
+import { useI18n } from '@/i18n'
+const { isEn } = useI18n()
 
 // 新视图进入前执行路由暂存的滚动定位：此时旧视图（out-in 模式下）已淡出卸载，
 // 新视图 DOM 已插入但尚未进入动画，瞬时归顶不会被用户看到中间过程，也不会让旧首页
@@ -16,7 +18,7 @@ function onBeforeEnter() {
 </script>
 
 <template>
-  <a href="#main" class="skip-link">跳到主要内容</a>
+  <a href="#main" class="skip-link">{{ isEn ? 'Skip to main content' : '跳到主要内容' }}</a>
   <AppHeader />
   <main id="main">
     <RouterView v-slot="{ Component }">

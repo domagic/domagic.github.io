@@ -6,9 +6,10 @@ import SectionHead from '@/components/SectionHead.vue'
 import EmptyState from '@/components/EmptyState.vue'
 import { useI18n } from '@/i18n'
 
-const { t, isEn } = useI18n()
+const { t, isEn, locale } = useI18n()
+import { watch } from 'vue'
 
-useSeo({ title: '归档', description: '全部公开文章按年份归档。' })
+useSeo({ title: isEn.value ? t('nav.archive') : '归档', description: isEn.value ? 'All public posts organised by year.' : '全部公开文章按年份归档。' })
 
 const years = ref<ArchiveYear[]>([])
 const loading = ref(false)
@@ -25,13 +26,14 @@ async function load() {
   try {
     years.value = await api.getArchive()
   } catch (e) {
-    error.value = e instanceof ApiError ? e.message : '加载失败，请稍后重试'
+    error.value = e instanceof ApiError ? e.message : t('common.retry')
     years.value = []
   } finally {
     loading.value = false
   }
 }
 
+watch(locale, () => void load())
 void load()
 </script>
 
@@ -45,10 +47,10 @@ void load()
     <EmptyState v-else-if="years.length === 0" :title="t('archive.emptyTitle')" :note="t('archive.emptyNote')" />
 
     <div v-else class="archive__years">
-      <section v-for="group in years" :key="group.year" class="archive__year" :aria-label="isEn ? group.year + ' posts' : group.year + ' 年文章'">
+      <section v-for="group in years" :key="group.year" class="archive__year" :aria-label="isEn ? group.year + t('archive.yearAria') : group.year + ' 年文章'">
         <div class="archive__year-rail">
           <span class="archive__year-num">{{ group.year }}</span>
-          <span class="archive__year-count mono">{{ group.count }} 篇</span>
+          <span class="archive__year-count mono">{{ group.count }} {{ isEn ? (group.count === 1 ? 'post' : 'posts') : '篇' }}</span>
         </div>
         <ol class="archive__list">
           <li v-for="post in group.posts" :key="post.slug" class="archive__entry">

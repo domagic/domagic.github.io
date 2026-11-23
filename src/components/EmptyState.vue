@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from '@/i18n'
 
-const { t } = useI18n()
+const { t, isEn } = useI18n()
 
 defineProps<{ title?: string; note?: string }>()
 
@@ -9,7 +9,7 @@ defineProps<{ title?: string; note?: string }>()
 
 <template>
   <div class="empty" role="status">
-    <span class="empty__mark" aria-hidden="true">空</span>
+    <span class="empty__mark" aria-hidden="true">{{ isEn ? '∅' : '空' }}</span>
     <p class="empty__title">{{ title ?? t('common.empty') }}</p>
     <p v-if="note" class="empty__note">{{ note }}</p>
   </div>

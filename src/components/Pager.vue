@@ -11,7 +11,7 @@ const pages = computed(() => Math.max(1, Math.ceil(props.total / props.pageSize)
 </script>
 
 <template>
-  <nav v-if="pages > 1" class="pager" aria-label="分页">
+  <nav v-if="pages > 1" class="pager" :aria-label="t('common.pageInfo', { n: pages })">
     <button type="button" class="pager__btn" :disabled="page <= 1" @click="emit('change', page - 1)">
       {{ t('common.prev') }}
     </button>

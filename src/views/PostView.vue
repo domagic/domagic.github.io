@@ -4,11 +4,11 @@ import { useRoute, RouterLink } from 'vue-router'
 import { ApiError, api, CATEGORY_LABELS, CATEGORY_PATHS, type Post } from '@/api'
 import { useSeo } from '@/composables/useSeo'
 
-import { formatDateZh } from '@/utils/format'
+import { formatDate, formatDateZh } from '@/utils/format'
 import MarkdownView from '@/components/MarkdownView.vue'
 import { useI18n } from '@/i18n'
 
-const { t, isEn } = useI18n()
+const { t, isEn, locale } = useI18n()
 
 interface TocItem { id: string; text: string; level: 2 | 3 }
 
@@ -32,16 +32,16 @@ async function load(slug: string) {
     post.value = result
     useSeo({ title: result.title, description: result.excerpt })
   } catch (e) {
-    error.value = e instanceof ApiError ? e.message : '加载失败，请稍后重试'
-    useSeo({ title: '文章不存在' })
+    error.value = e instanceof ApiError ? e.message : t('common.retry')
+    useSeo({ title: t('post.notFound') })
   } finally {
     loading.value = false
   }
 }
 
 watch(
-  () => route.params.slug,
-  (slug) => {
+  () => [route.params.slug, locale.value] as const,
+  ([slug]) => {
     if (typeof slug === 'string') void load(slug)
   },
   { immediate: true },
@@ -85,7 +85,7 @@ const bodyContent = computed(() => {
         </RouterLink>
         <h1 class="post__title">{{ post.title }}</h1>
         <div class="post__meta mono">
-          <time v-if="post.publishedAt" :datetime="post.publishedAt">{{ formatDateZh(post.publishedAt) }}</time>
+          <time v-if="post.publishedAt" :datetime="post.publishedAt">{{ isEn ? formatDate(post.publishedAt) : formatDateZh(post.publishedAt) }}</time>
           <span v-if="post.visibility === 'private'" class="post__badge">{{ t('common.private') }}</span>
           <span v-if="post.status === 'draft'" class="post__badge">{{ t('common.draft') }}</span>
         </div>
@@ -96,7 +96,7 @@ const bodyContent = computed(() => {
       <div class="post__layout">
         <!-- 学术文章左侧目录：点击平滑跳转到对应章节，桌面端 sticky 跟随滚动 -->
         <aside v-if="showToc" class="post__toc" :aria-label="t('post.tocAria')">
-          <p class="post__toc-title mono">{{ isEn ? t('post.toc') : '目录' }}</p>
+          <p class="post__toc-title mono">{{ t('post.toc') }}</p>
           <nav class="post__toc-nav">
             <a
               v-for="item in toc"

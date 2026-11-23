@@ -13,6 +13,8 @@ import {
   type TagRef,
 } from '../types'
 import { PROFILE_DISPLAY } from '../../config/site'
+import { getActiveLocale } from '../../i18n/activeLocale'
+import { toLocaleText } from '../../i18n'
 
 /**
  * P2-B2 static 数据源（第三模式，与 mock/http 并列）：
@@ -129,29 +131,71 @@ function readOnlyError(): ApiError {
   return new ApiError(403, 'FORBIDDEN', '静态站点模式为只读公开内容，不支持登录或内容管理')
 }
 
-export function createStaticClient(dataset: StaticDataset): ApiClient {
-  // 防御性快照：避免调用方变更返回对象污染数据源
+function buildView(dataset: StaticDataset) {
   const posts = [...dataset.posts].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
-  const bySlug = new Map(posts.map((p) => [p.slug, p]))
-  const profile = mapProfile(dataset.profile)
-  const tags: Tag[] = dataset.tags.map((t) => ({ slug: t.slug, name: t.name, count: t.postCount }))
-  const archive: ArchiveYear[] = dataset.archive.map((y) => ({
-    year: y.year,
-    count: y.count,
-    posts: y.posts.map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      category: p.type,
-      publishedAt: p.publishedAt,
+  return {
+    posts,
+    bySlug: new Map(posts.map((p) => [p.slug, p])),
+    profile: mapProfile(dataset.profile),
+    tags: dataset.tags.map((t): Tag => ({ slug: t.slug, name: t.name, count: t.postCount })),
+    archive: dataset.archive.map((y): ArchiveYear => ({
+      year: y.year,
+      count: y.count,
+      posts: y.posts.map((p) => ({
+        slug: p.slug,
+        title: p.title,
+        category: p.type,
+        publishedAt: p.publishedAt,
+      })),
     })),
+  }
+}
+
+type View = ReturnType<typeof buildView>
+
+/** 按当前界面语言对文案做最终转换（美式下把英式拼 writing 换算为美式）。 */
+function localizeView(view: View, locale: string): View {
+  if (locale === 'zh-CN' || locale === 'en-GB') return view
+  const tx = (s: string) => toLocaleText(s, 'en-US')
+  const posts = view.posts.map((p) => ({
+    ...p,
+    title: tx(p.title),
+    summary: tx(p.summary ?? ''),
+    contentMd: tx(p.contentMd),
+    tags: p.tags.map((t) => ({ ...t, name: tx(t.name) })),
+    academicMeta: p.academicMeta
+      ? { ...p.academicMeta, venue: p.academicMeta.venue ? tx(p.academicMeta.venue) : p.academicMeta.venue }
+      : p.academicMeta,
   }))
+  return {
+    posts,
+    bySlug: new Map(posts.map((p) => [p.slug, p])),
+    profile: {
+      ...view.profile,
+      title: tx(view.profile.title),
+      bio: tx(view.profile.bio),
+      location: tx(view.profile.location),
+    },
+    tags: view.tags.map((t) => ({ ...t, name: tx(t.name) })),
+    archive: view.archive.map((y) => ({
+      ...y,
+      posts: y.posts.map((p) => ({ ...p, title: tx(p.title) })),
+    })),
+  }
+}
+
+export function createStaticClient(dataset: StaticDataset, datasetEn?: StaticDataset): ApiClient {
+  const zhView = buildView(dataset)
+  const enView = datasetEn ? buildView(datasetEn) : zhView
+  const currentView = (): View => localizeView(getActiveLocale() === 'zh-CN' ? zhView : enView, getActiveLocale())
 
   return {
     async getProfile(): Promise<Profile> {
-      return structuredClone(profile)
+      return structuredClone(currentView().profile)
     },
 
     async listPosts(query: PostQuery = {}): Promise<Paged<PostSummary>> {
+      const { posts } = currentView()
       let items = posts
       if (query.category) items = items.filter((p) => p.type === query.category)
       if (query.tag) items = items.filter((p) => p.tags.some((t) => t.slug === query.tag))
@@ -174,7 +218,7 @@ export function createStaticClient(dataset: StaticDataset): ApiClient {
     },
 
     async getPost(slug: string): Promise<Post> {
-      const post = bySlug.get(slug)
+      const post = currentView().bySlug.get(slug)
       // 私密/草稿不在导出中，与不存在同样 404，不泄露存在性
       if (!post) throw new ApiError(404, 'NOT_FOUND', '文章不存在')
       return structuredClone(mapDetail(post))
@@ -201,11 +245,11 @@ export function createStaticClient(dataset: StaticDataset): ApiClient {
     },
 
     async listTags(): Promise<Tag[]> {
-      return structuredClone(tags)
+      return structuredClone(currentView().tags)
     },
 
     async getArchive(): Promise<ArchiveYear[]> {
-      return structuredClone(archive)
+      return structuredClone(currentView().archive)
     },
 
     async login(): Promise<never> {

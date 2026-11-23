@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { api, type PostSummary } from '@/api'
 import { useSeo } from '@/composables/useSeo'
 import SectionHead from '@/components/SectionHead.vue'
@@ -7,18 +7,20 @@ import PostIndexItem from '@/components/PostIndexItem.vue'
 import EmptyState from '@/components/EmptyState.vue'
 import { useI18n } from '@/i18n'
 
-const { t, isEn } = useI18n()
-
-useSeo({ title: '学术', description: '论文、学术报告与项目进展。' })
+const { t, isEn, locale } = useI18n()
+useSeo({ title: isEn.value ? t('nav.academic') : '学术', description: isEn.value ? 'Papers, talks and project progress.' : '论文、学术报告与项目进展。' })
 
 const posts = ref<PostSummary[]>([])
 const loading = ref(true)
 
-onMounted(async () => {
+async function load() {
   const result = await api.listPosts({ category: 'academic', status: 'published', pageSize: 50 })
   posts.value = result.items
   loading.value = false
-})
+}
+
+onMounted(() => { void load() })
+watch(locale, () => { void load() })
 </script>
 
 <template>

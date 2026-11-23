@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
 import { useI18n } from '@/i18n'
+import type { Locale } from '@/stores/locale'
 import SealStamp from './SealStamp.vue'
 import { PROFILE_DISPLAY } from '@/config/site'
 
@@ -23,7 +24,7 @@ const nav = computed(() => [
   { to: '/about', label: t('nav.about') },
 ])
 
-function chooseLocale(code: 'zh-CN' | 'en-US') {
+function chooseLocale(code: Locale) {
   setLocale(code)
   langOpen.value = false
 }
@@ -33,7 +34,8 @@ function closeLang(e: MouseEvent) {
 
 // 标签栏实时时钟（精确到秒）：上排日期（含星期几）、下排时间，按系统本地时间显示，
 // 并给出当前时区偏移标签，格式 (UTC + 8)（中国标准时间），每秒刷新，卸载时清理定时器。
-const WEEKDAYS = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+const WEEKDAYS_ZH = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
+const WEEKDAYS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const clock = ref({ date: '', h: '00', m: '00', s: '00', tz: 'UTC' })
 let clockTimer: ReturnType<typeof setInterval> | null = null
 
@@ -49,7 +51,8 @@ function utcOffsetLabel(d: Date): string {
 
 function tick() {
   const d = new Date()
-  const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${WEEKDAYS[d.getDay()]}`
+  const weekday = (isEn.value ? WEEKDAYS_EN : WEEKDAYS_ZH)[d.getDay()]
+  const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${weekday}`
   clock.value = {
     date,
     h: String(d.getHours()).padStart(2, '0'),
@@ -84,7 +87,7 @@ function closeMenu() {
           class="header__clock mono"
           role="timer"
           aria-live="off"
-          :aria-label="`日期 ${clock.date}，${clock.tz} ${clock.h}:${clock.m}:${clock.s}`"
+          :aria-label="t('clock.aria', { date: clock.date, tz: clock.tz, time: `${clock.h}:${clock.m}:${clock.s}` })"
         >
           <span class="header__clock-date">{{ clock.date }}</span>
           <span class="header__clock-time">
@@ -98,7 +101,7 @@ function closeMenu() {
         </RouterLink>
       </div>
 
-      <nav class="header__nav" aria-label="主导航">
+      <nav class="header__nav" :aria-label="t('nav.aria')">
         <RouterLink
           v-for="item in nav"
           :key="item.to"
@@ -138,7 +141,7 @@ function closeMenu() {
         <a
           href="https://qinluolab.com/"
           class="header__team"
-          :title="isEn ? 'Back to the team site' : '返回团队首页（站外）'"
+          :title="t('nav.team')"
         >
           <span class="header__team-icon" aria-hidden="true">⌂</span>
           <span>{{ t('nav.team') }}</span>
@@ -161,7 +164,7 @@ function closeMenu() {
           class="header__icon-btn header__burger"
           :aria-expanded="menuOpen"
           aria-controls="mobile-menu"
-          aria-label="打开或关闭导航菜单"
+          :aria-label="t('mobile.aria')"
           @click="menuOpen = !menuOpen"
         >
           <span aria-hidden="true">{{ menuOpen ? '✕' : '☰' }}</span>
@@ -169,7 +172,7 @@ function closeMenu() {
       </div>
     </div>
 
-    <nav v-if="menuOpen" id="mobile-menu" class="header__mobile" aria-label="移动端导航">
+    <nav v-if="menuOpen" id="mobile-menu" class="header__mobile" :aria-label="t('mobile.aria')">
       <RouterLink
         v-for="item in nav"
         :key="item.to"
@@ -194,7 +197,7 @@ function closeMenu() {
       <a href="https://qinluolab.com/" class="header__mobile-team" @click="closeMenu">
         <span class="header__team-icon" aria-hidden="true">⌂</span>
         <span>{{ t('nav.team') }}</span>
-        <span class="header__mobile-team-tag">{{ isEn ? 'Team' : '团队站' }}</span>
+        <span class="header__mobile-team-tag">{{ isEn ? t('nav.team') : '团队站' }}</span>
       </a>
     </nav>
   </header>

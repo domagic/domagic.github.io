@@ -20,7 +20,7 @@ const { t, isEn } = useI18n()
           </div>
         </div>
         <blockquote v-if="FOOTER_QUOTE.text" class="footer__quote">
-          <p>「{{ isEn ? t('footer.quote') : FOOTER_QUOTE.text }}」</p>
+          <p>{{ isEn ? '“' + t('footer.quote') + '”' : '「' + FOOTER_QUOTE.text + '」' }}</p>
         </blockquote>
       </div>
       <nav class="footer__nav" :aria-label="t('nav.about')">

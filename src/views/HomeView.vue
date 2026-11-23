@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import { api, CATEGORY_LABELS, CATEGORY_PATHS, type Category, type PostSummary } from '@/api'
 import { HOME_CONFIG, SEAL_VISIBLE } from '@/config/site'
@@ -9,9 +9,9 @@ import SectionHead from '@/components/SectionHead.vue'
 import PostIndexItem from '@/components/PostIndexItem.vue'
 import { useI18n } from '@/i18n'
 
-const { t, isEn } = useI18n()
+const { t, isEn, locale } = useI18n()
 
-useSeo({ title: '首页' })
+useSeo({ title: isEn.value ? t('nav.home') : '首页' })
 
 // 强调色注入为 CSS 变量，后续只需改 config/site.ts 的 HOME_CONFIG.palette.accent 即可换色。
 // 背景渐变由全局 styles/tokens.css 的 --page-top/mid/bottom 统一提供，全页一条、无分段跳变。
@@ -53,12 +53,23 @@ function goToContent() {
   featuredRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
-const categories: { key: Exclude<Category, 'diary'>; desc: string }[] = [
-  { key: 'blog', desc: '方法、工具与长篇思考' },
-  { key: 'opinion', desc: '对学术与行业的立场' },
-  { key: 'academic', desc: '论文、报告与项目' },
-  { key: 'group', desc: '每周组会报告与讨论' },
-]
+const categories = computed<{ key: Exclude<Category, 'diary'>; desc: string }[]>(() => [
+  { key: 'blog', desc: t('category.blog.desc') },
+  { key: 'opinion', desc: t('category.opinions.desc') },
+  { key: 'academic', desc: t('category.academic.desc') },
+  { key: 'group', desc: t('category.group.desc') },
+])
+
+async function loadPosts() {
+  const all = await api.listPosts({ pageSize: 50 })
+  featured.value = all.items.slice(0, 3)
+  recent.value = all.items.slice(0, 6)
+  for (const key of Object.keys(counts.value) as Exclude<Category, 'diary'>[]) {
+    counts.value[key] = all.items.filter((post) => post.category === key).length
+  }
+}
+
+watch(locale, () => void loadPosts())
 
 onMounted(async () => {
   // 刷新 / F5 / Ctrl+F5 时禁用浏览器自带的滚动恢复，避免页面停在「精选」区而提前揭幕。
@@ -83,15 +94,10 @@ onMounted(async () => {
   addRevealListener('wheel')
   addRevealListener('touchmove')
   addRevealListener('keydown')
+  // 精选 = 全站最新发布的 3 篇（跨栏目），不再依赖失效的演示 slug；
+  // 最新索引 = 全站最新发布的文章（跨栏目，按发布日期降序）。
   try {
-    const all = await api.listPosts({ pageSize: 50 })
-    // 精选 = 全站最新发布的 3 篇（跨栏目），不再依赖失效的演示 slug；
-    // 最新索引 = 全站最新发布的文章（跨栏目，按发布日期降序）。
-    featured.value = all.items.slice(0, 3)
-    recent.value = all.items.slice(0, 6)
-    for (const key of Object.keys(counts.value) as Exclude<Category, 'diary'>[]) {
-      counts.value[key] = all.items.filter((post) => post.category === key).length
-    }
+    await loadPosts()
   } finally {
     loading.value = false
   }
@@ -131,7 +137,7 @@ onUnmounted(() => {
             <button type="button" class="hero__btn hero__btn--primary" @click="goToContent">{{ isEn ? t('home.primary') : HOME_CONFIG.primaryAction.label }}</button>
             <RouterLink :to="HOME_CONFIG.secondaryAction.to" class="hero__btn">{{ isEn ? t('home.secondary') : HOME_CONFIG.secondaryAction.label }}</RouterLink>
           </div>
-          <button type="button" class="hero__scroll-hint" aria-label="向下翻页阅读" @click="goToContent">
+          <button type="button" class="hero__scroll-hint" :aria-label="isEn ? 'Scroll down to read' : '向下翻页阅读'" @click="goToContent">
             <span class="hero__scroll-hint-line" aria-hidden="true"></span>
           </button>
           <p v-if="HOME_CONFIG.affiliation" class="hero__affil mono rise" style="animation-delay: 0.3s">

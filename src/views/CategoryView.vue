@@ -18,7 +18,7 @@ import Pager from '@/components/Pager.vue'
 import EmptyState from '@/components/EmptyState.vue'
 import { useI18n } from '@/i18n'
 
-const { t, isEn } = useI18n()
+const { t, isEn, locale } = useI18n()
 
 const route = useRoute()
 const auth = useAuthStore()
@@ -60,7 +60,7 @@ async function load() {
     items.value = result.items
     total.value = result.total
   } catch (e) {
-    error.value = e instanceof ApiError ? e.message : '加载失败，请稍后重试'
+    error.value = e instanceof ApiError ? e.message : t('common.retry')
     items.value = []
     total.value = 0
   } finally {
@@ -85,6 +85,7 @@ watch(
 )
 
 watch([page, activeTag], () => void load())
+watch(locale, () => { void load(); void loadTags() })
 watch(
   () => auth.isAuthenticated,
   () => {
@@ -120,8 +121,8 @@ void loadTags()
 
     <div class="filters">
       <label class="filters__search">
-        <span class="visually-hidden">{{ isEn ? t('category.search') + ' ' + t('nav.' + (category === 'opinion' ? 'opinions' : category)) : '搜索' + CATEGORY_LABELS[category] }}</span>
-        <input v-model="q" type="search" :placeholder="isEn ? t('category.search') + ' ' + t('nav.' + (category === 'opinion' ? 'opinions' : category)) + '…' : `搜索${CATEGORY_LABELS[category]}…`" />
+        <span class="visually-hidden">{{ t('category.search') + ' ' + (isEn ? t('nav.' + (category === 'opinion' ? 'opinions' : category)) : CATEGORY_LABELS[category]) }}</span>
+        <input v-model="q" type="search" :placeholder="t('category.search') + ' ' + (isEn ? t('nav.' + (category === 'opinion' ? 'opinions' : category)) : CATEGORY_LABELS[category]) + '…'" />
       </label>
       <div class="filters__tags" role="group" :aria-label="t('category.filterTag')">
         <TagChip

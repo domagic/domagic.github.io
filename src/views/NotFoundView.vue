@@ -3,15 +3,17 @@ import { RouterLink } from 'vue-router'
 import { useSeo } from '@/composables/useSeo'
 import SealStamp from '@/components/SealStamp.vue'
 
-useSeo({ title: '页面不存在' })
+import { useI18n } from '@/i18n'
+const { t, isEn } = useI18n()
+useSeo({ title: isEn.value ? 'Page not found' : '页面不存在' })
 </script>
 
 <template>
   <div class="page nf">
     <SealStamp char="失" />
-    <h1 class="nf__title">404 · 这一页被魔法藏起来了</h1>
-    <p class="nf__note">地址可能已改变，或者内容从未存在。</p>
-    <RouterLink to="/" class="nf__cta">回到首页</RouterLink>
+    <h1 class="nf__title">{{ isEn ? '404 · This page was hidden by magic' : '404 · 这一页被魔法藏起来了' }}</h1>
+    <p class="nf__note">{{ isEn ? 'The address may have changed, or the page never existed.' : '地址可能已改变，或者内容从未存在。' }}</p>
+    <RouterLink to="/" class="nf__cta">{{ t('nav.home') }}</RouterLink>
   </div>
 </template>
 

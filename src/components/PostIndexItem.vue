@@ -16,12 +16,12 @@ const academic = computed(() => props.post.academicMeta ?? null)
 const firstAuthor = computed(() => {
   const authors = academic.value?.authors ?? []
   if (!authors.length) return ''
-  return authors.length > 1 ? `${authors[0]} 等` : authors[0]
+  return authors.length > 1 ? `${authors[0]} et al.` : authors[0]
 })
 </script>
 
 <template>
-  <RouterLink :to="to" class="item" :aria-label="`阅读：${post.title}`">
+  <RouterLink :to="to" class="item" :aria-label="(isEn ? 'Read: ' : '阅读：') + post.title">
     <div class="item__lead">
       <span v-if="index !== undefined" class="item__index mono" aria-hidden="true">{{ indexNumber(index + 1) }}</span>
       <span class="item__category mono">{{ isEn ? t('nav.' + (post.category === 'opinion' ? 'opinions' : post.category)) : CATEGORY_LABELS[post.category] }}</span>

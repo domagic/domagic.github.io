@@ -18,7 +18,6 @@ import { fileURLToPath } from 'node:url'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(HERE, '..')
-const TARGET = resolve(ROOT, 'src/api/static/data/dataset.json')
 const MEDIA_MANIFEST_OUT = join(ROOT, 'public/media/manifest.json')
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const TYPES = new Set(['blog', 'opinion', 'diary', 'academic', 'group'])
@@ -54,6 +53,8 @@ function scanKeys(value, path) {
 
 const src = process.argv[2]
 const allowPlaceholder = process.argv.includes('--allow-placeholder')
+const outArgIdx = process.argv.indexOf('--out')
+const TARGET = outArgIdx >= 0 ? resolve(process.argv[outArgIdx + 1]) : resolve(ROOT, 'src/api/static/data/dataset.json')
 const manifestArgIdx = process.argv.indexOf('--assets-manifest')
 const manifestPath = manifestArgIdx >= 0 ? process.argv[manifestArgIdx + 1] : undefined
 if (manifestArgIdx >= 0 && !manifestPath) fail('--assets-manifest 缺少路径参数')
@@ -122,6 +123,7 @@ for (const [i, y] of data.archive.entries()) {
   }
 }
 
+mkdirSync(dirname(TARGET), { recursive: true })
 writeFileSync(TARGET, JSON.stringify(data, null, 2) + '\n', 'utf8')
 
 // —— v1.2 随文图片 manifest：形状校验 + 规范化透传（断链与字节级断言在 postbuild 门执行）——
