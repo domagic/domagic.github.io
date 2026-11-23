@@ -10,7 +10,7 @@ date: 2026-11-19
 
 # 秦罗万象
 
-Aethera
+Aethera *(/ˈiːθərə/)*
 
 ## 愿景
 
@@ -32,9 +32,7 @@ Aethera
 - **分享方法**：公开可复现的思路、工具与写作过程，让交流不止停留在结论层面。
 - **连接同行**：为关注管理与数据科学交叉议题的读者，提供一个可靠、可追溯的接触入口。
 
-本站坚持只发布经核实的内容。导航提供中英双语与明暗主题，选择保存在本机浏览器，下次访问自动沿用。
-
 ## 联系
 
-- 秦勇 [yongqin_ahsc@163.com](mailto:yongqin_ahsc@163.com)
-- 罗朝广 [chaoguangluo@outlook.com](mailto:chaoguangluo@outlook.com)
+- 秦勇——[yongqin_ahsc@163.com](mailto:yongqin_ahsc@163.com)
+- 罗朝广——[chaoguangluo@outlook.com](mailto:chaoguangluo@outlook.com)
