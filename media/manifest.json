@@ -275,11 +275,18 @@
       "urlPath": "/media/blog/fibonacci-sequence-golden-ratio-phyllotaxis/figure-02.png"
     },
     {
-      "relPath": "blog/assets/fibonacci-sequence-golden-ratio-phyllotaxis/figure-03.png",
+      "relPath": "blog/assets/fibonacci-sequence-golden-ratio-phyllotaxis/figure-03-en.png",
+      "sha256": "16d3f41b30815617e638b22ba09c5a50e24951f46b2be7ca2b3ae216265a95d7",
+      "bytes": 277765,
+      "mime": "image/png",
+      "urlPath": "/media/blog/fibonacci-sequence-golden-ratio-phyllotaxis/figure-03-en.png"
+    },
+    {
+      "relPath": "blog/assets/fibonacci-sequence-golden-ratio-phyllotaxis/figure-03-zh.png",
       "sha256": "2c811c97f0c0d0d5af563f2a58b7b447c7acced3df58cac82ef320d864beacc7",
       "bytes": 274742,
       "mime": "image/png",
-      "urlPath": "/media/blog/fibonacci-sequence-golden-ratio-phyllotaxis/figure-03.png"
+      "urlPath": "/media/blog/fibonacci-sequence-golden-ratio-phyllotaxis/figure-03-zh.png"
     },
     {
       "relPath": "blog/assets/sample-variance-n-minus-one/figure-01.png",
