@@ -686,6 +686,8 @@ html[lang^="en"] .member-detail-alt { font-family: var(--serif-zh); letter-spaci
 html[lang^="en"] .lbl { font-family: var(--serif-en); letter-spacing: 0.06em; }
 .lbl-en { font-family: var(--serif-en); letter-spacing: 0.06em; }
 .pub-summary { margin-top: 0.9rem; font-size: 0.94rem; color: var(--text-soft); }
+/* APA 引用为英文著录，显式用西文字体，避免中文模式下继承中文字体导致字形不一 */
+.pub-cite { font-family: var(--serif-en); }
 .pub-meta { margin-top: 1rem; font-size: 0.9rem; }
 .kind { color: var(--text-soft); letter-spacing: 0.08em; }
 .doi { font-family: var(--serif-en); color: var(--gold-light); text-decoration: none; border-bottom: 1px solid var(--line); }
