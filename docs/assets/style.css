@@ -34,9 +34,10 @@
   --card: #16202e;
   --code-bg: rgba(231, 228, 220, 0.08);
   --quote-bg: rgba(201, 164, 92, 0.08);
-  --serif-zh: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
-  --sans-zh: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --fangsong: FangSong, STFangsong, "Noto Serif SC", serif;
+  /* 中文栈前置 Times New Roman：数字与西文统一衬线体，汉字无对应字形自动回退到中文栈 */
+  --serif-zh: "Times New Roman", Times, "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  --sans-zh: "Times New Roman", Times, "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --fangsong: "Times New Roman", Times, FangSong, STFangsong, "Noto Serif SC", serif;
   --serif-en: "Times New Roman", Times, Georgia, serif;
 
   /* 品牌标志 Aethera（专业几何 A 图形 + 英文主字标 + 中文副标；青铜金同系）
