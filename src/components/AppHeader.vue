@@ -32,44 +32,11 @@ function closeLang(e: MouseEvent) {
   if (!(e.target as HTMLElement)?.closest?.('.header__lang')) langOpen.value = false
 }
 
-// 标签栏实时时钟（精确到秒）：上排日期（含星期几）、下排时间，按系统本地时间显示，
-// 并给出当前时区偏移标签，格式 (UTC + 8)（中国标准时间），每秒刷新，卸载时清理定时器。
-const WEEKDAYS_ZH = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
-const WEEKDAYS_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-const clock = ref({ date: '', h: '00', m: '00', s: '00', tz: 'UTC' })
-let clockTimer: ReturnType<typeof setInterval> | null = null
-
-// 由系统时区偏移换算成 (UTC + 8) / (UTC - 5) 形式；getTimezoneOffset 为「本地比 UTC 慢的分钟数」，故取负。
-function utcOffsetLabel(d: Date): string {
-  const minutes = -d.getTimezoneOffset()
-  const sign = minutes >= 0 ? '+' : '-'
-  const abs = Math.abs(minutes)
-  const hours = Math.floor(abs / 60)
-  const rest = abs % 60
-  return `(UTC ${sign} ${hours}${rest ? ':' + String(rest).padStart(2, '0') : ''})`
-}
-
-function tick() {
-  const d = new Date()
-  const weekday = (isEn.value ? WEEKDAYS_EN : WEEKDAYS_ZH)[d.getDay()]
-  const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${weekday}`
-  clock.value = {
-    date,
-    h: String(d.getHours()).padStart(2, '0'),
-    m: String(d.getMinutes()).padStart(2, '0'),
-    s: String(d.getSeconds()).padStart(2, '0'),
-    tz: utcOffsetLabel(d),
-  }
-}
-
 onMounted(() => {
-  tick()
-  clockTimer = setInterval(tick, 1000)
   document.addEventListener('click', closeLang)
 })
 
 onUnmounted(() => {
-  if (clockTimer) clearInterval(clockTimer)
   document.removeEventListener('click', closeLang)
 })
 
@@ -83,18 +50,6 @@ function closeMenu() {
   <header class="header">
     <div class="header__inner page">
       <div class="header__left">
-        <span
-          class="header__clock mono"
-          role="timer"
-          aria-live="off"
-          :aria-label="t('clock.aria', { date: clock.date, tz: clock.tz, time: `${clock.h}:${clock.m}:${clock.s}` })"
-        >
-          <span class="header__clock-date">{{ clock.date }}</span>
-          <span class="header__clock-time">
-            <span class="header__clock-tz">{{ clock.tz }}</span>
-            <span class="header__clock-hms"><span>{{ clock.h }}</span><span class="header__clock-sep">:</span><span>{{ clock.m }}</span><span class="header__clock-sep">:</span><span class="header__clock-sec">{{ clock.s }}</span></span>
-          </span>
-        </span>
         <RouterLink to="/" class="header__brand" @click="closeMenu">
           <SealStamp :char="PROFILE_DISPLAY.sealChar" size="sm" />
           <span class="header__latin">Magic</span>
@@ -230,53 +185,6 @@ function closeMenu() {
   align-items: center;
   gap: 0.9rem;
   min-width: 0;
-}
-
-.header__clock {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 0.25rem;
-  font-variant-numeric: tabular-nums;
-  font-size: 1.6rem;
-  letter-spacing: 0.03em;
-  color: var(--ink);
-  padding-right: 0.9rem;
-  border-right: 1px solid var(--line);
-  user-select: none;
-  white-space: nowrap;
-  line-height: 1.08;
-}
-
-.header__clock-date {
-  font-size: 1.2rem;
-  color: var(--ink-soft);
-}
-
-.header__clock-time {
-  display: inline-flex;
-  align-items: baseline;
-}
-
-.header__clock-hms {
-  display: inline-flex;
-  align-items: baseline;
-}
-
-.header__clock-sep {
-  opacity: 0.45;
-}
-
-.header__clock-sec {
-  color: var(--cinnabar-deep);
-}
-
-.header__clock-tz {
-  margin-right: 0.5rem;
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
-  color: var(--ink-soft);
 }
 
 .header__brand {
@@ -533,20 +441,9 @@ function closeMenu() {
 }
 
 @media (max-width: 480px) {
-  /* 窄屏仍保留印章 + Magic 与时钟；仅缩小字号避免溢出 */
+  /* 窄屏保留印章 + Magic，缩小字号避免溢出 */
   .header__left {
     gap: 0.55rem;
-  }
-  .header__clock {
-    font-size: 1.2rem;
-    padding-right: 0.55rem;
-  }
-  .header__clock-date {
-    font-size: 0.92rem;
-  }
-  .header__clock-tz {
-    font-size: 0.72rem;
-    margin-right: 0.35rem;
   }
   .header__latin {
     font-size: 0.95rem;
