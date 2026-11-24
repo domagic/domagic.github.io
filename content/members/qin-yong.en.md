@@ -42,14 +42,24 @@ Note: bold indicates the author himself; an asterisk marks the corresponding aut
 
 1. **Qin, Y.**, Luo, C. G., Luo, Y. Y., & Wang, L. W. (2027). Unveiling determinants of learner satisfaction in online courses: An explainable machine learning technique using unstructured reviews. *The Internet and Higher Education*, 72, 101115. JCR Q1.
 2. **Qin, Y.**, Luo, C. G., Luo, Y. Y., & Ngai, E. W. T. (2026). Configurational patterns for forecasting customer satisfaction enhancement based on online reviews: A multi-attribute attitude perspective. *Information Processing & Management*, 63(3), 104545. JCR Q1; ABS 2.
-3. **Qin, Y.**, Luo, C. G., & Ngai, E. W. T. (2025). Deconstructing customer satisfaction recipes: A dynamic configurational framework leveraging the power of online reviews in tourism contexts. *Tourism Management*, 110, 105181. JCR Q1; ABS 4.
-4. Lv, S., Xiao, A., **Qin, Y.**, Xu, Z. S., & Wang, X. X. (2024). A decision framework for improving the service quality of charging stations based on online reviews and evolutionary game theory. *Transportation Research Part A: Policy and Practice*, 187, 104168. JCR Q1; ABS 3.
-5. **Qin, Y.**, Xu, Z. S., Luo, C. G., & Škare, M. (2024). Investigating the nexus among resource curse, energy transition and sustainable development: Evidence from a global panel data. *Resources Policy*, 88, 104445. ABS 2.
-6. Liu, P., **Qin, Y.***, Luo, Y. Y., Wang, X. X., & Guo, X. W. (2023). Structure of low-carbon economy spatial correlation network in urban agglomeration. *Journal of Cleaner Production*, 394, 136359. JCR Q1.
-7. **Qin, Y.**, Xu, Z. S., Wang, X. X., & Škare, M. (2023). The effects of financial institutions on the green energy transition: A cross-sectional panel study. *Economic Analysis and Policy*, 78, 524–542. JCR Q2.
-8. **Qin, Y.**, Wang, X. X., Xu, Z. S., & Škare, M. (2023). The effects of globalization on family firms' business model in Europe. *International Journal of Entrepreneurial Behavior & Research*, 29(1), 27–48. JCR Q2.
-9. Wang, X. X., **Qin, Y.**, Xu, Z. S., & Škare, M. (2022). A look at the focus shift in innovation literature due to Covid-19 pandemic. *Journal of Business Research*, 145, 1–20. JCR Q1; ABS 3.
-10. Wang, X. X., Xu, Z. S., **Qin, Y.**, & Škare, M. (2022). Innovation, the knowledge economy, and green growth: Is knowledge-intensive growth really environmentally friendly? *Energy Economics*, 115, 106331. JCR Q1; ABS 3.
+3. Shu, L., Zhou, Y., **Qin, Y.*** (2026). Game-theoretic approach on strategizing cooperation model in community group-buying. *Information Processing & Management*, 63(5), 104680. JCR Q1; ABS 2.
+4. Luo, C. G., **Qin, Y.*** (2026). Visual-textual fusion for multi-attribute product ranking: A soft computing framework based on topic mining and regret modeling. *Applied Soft Computing*, 201, 115552. JCR Q1.
+5. **Qin, Y.**, Zhao, X. L., & Wang, L. W. (2026). Uncertain tourist expressions and data-driven perceived destination image construction: A probabilistic linguistic and multi-criteria decision framework. *Scientific Reports*, 16, 22934. JCR Q1.
+6. Ai, Z., Su, H., **Qin, Y.***, Luo, Y., & Škare, M. (2026). Enhancing the Post-COVID Tourism Competitiveness Strategy: Fuzzy Logic-Enhanced Deep Learning for Sentiment Analysis. *Journal of Competitiveness*, 18(2), 340–360. JCR Q2.
+7. Luo, Y. Y., **Qin, Y.***, & Yu, X. (2026). Tourism System Resilience and Sustainable Development in Ecologically Fragile Areas: Evidence from Tibet-Related Areas of Sichuan, China. *Sustainability*, 18(13), 6448. JCR Q2.
+8. **Qin, Y.**, Luo, C. G., & Ngai, E. W. T. (2025). Deconstructing customer satisfaction recipes: A dynamic configurational framework leveraging the power of online reviews in tourism contexts. *Tourism Management*, 110, 105181. JCR Q1; ABS 4.
+9. Luo, Y. Y., Li, H., Yang, Z., Škare, M., & **Qin, Y.*** (2025). Configurations of factors driving green entrepreneurship success. *International Entrepreneurship and Management Journal*, 21, 104. JCR Q2; ABS 1.
+10. **Qin, Y.**, Xu, Z. S., Luo, C. G., & Škare, M. (2024). Investigating the nexus among resource curse, energy transition and sustainable development: Evidence from a global panel data. *Resources Policy*, 88, 104445. ABS 2.
+11. **Qin, Y.**, Xu, Z. S., Wang, X. X., & Škare, M. (2024). Artificial intelligence and economic development: An evolutionary investigation and systematic review. *Journal of the Knowledge Economy*, 15, 1736–1770. JCR Q3.
+12. Liu, P., **Qin, Y.***, Luo, Y. Y., Wang, X. X., & Guo, X. W. (2023). Structure of low-carbon economy spatial correlation network in urban agglomeration. *Journal of Cleaner Production*, 394, 136359. JCR Q1.
+13. **Qin, Y.**, Xu, Z. S., & Wang, X. X. (2023). A hesitant fuzzy SMART method based on a new score function for information literacy assessment of teachers. *Economic Research-Ekonomska Istraživanja*, 36(1), 357–382. JCR Q2.
+14. **Qin, Y.**, Xu, Z. S., Wang, X. X., & Škare, M. (2023). The effects of financial institutions on the green energy transition: A cross-sectional panel study. *Economic Analysis and Policy*, 78, 524–542. JCR Q2.
+15. **Qin, Y.**, Wang, X. X., Xu, Z. S., & Škare, M. (2023). The effects of globalization on family firms' business model in Europe. *International Journal of Entrepreneurial Behavior & Research*, 29(1), 27–48. JCR Q2.
+16. **Qin, Y.**, Xu, Z. S., Wang, X. X., & Škare, M. (2022). Green energy adoption and its determinants: A bibliometric analysis. *Renewable and Sustainable Energy Reviews*, 153, 111780. JCR Q1.
+17. **Qin, Y.**, Wang, X. X., & Xu, Z. S. (2022). Ranking tourist attractions through online reviews: A novel method with intuitionistic and hesitant fuzzy information based on sentiment analysis. *International Journal of Fuzzy Systems*, 24(2), 755–777. JCR Q2.
+18. Luo, Y. Y., Zhang, X. X., **Qin, Y.***, Yang, Z., & Liang, Y. (2021). Tourism Attraction Selection with Sentiment Analysis of Online Reviews Based on Probabilistic Linguistic Term Sets and the IDOCRIW-COCOSO Model. *International Journal of Fuzzy Systems*, 23(1), 295–308. JCR Q2.
+19. **Qin, Y.**, Xu, Z. S., Wang, X. X., & Škare, M. (2021). Are family firms in the eyes of economic policy? *International Entrepreneurship and Management Journal*, 17(3), 1233–1259. JCR Q2; ABS 1.
+20. **Qin, Y.**, Wang, X. X., Xu, Z. S., & Škare, M. (2021). The impact of poverty cycles on economic research: Evidence from econometric analysis. *Economic Research-Ekonomska Istraživanja*, 34(1), 152–171. JCR Q2.
 
 ## Projects
 
