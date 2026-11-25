@@ -137,6 +137,27 @@ watch(
   margin: 2rem 0;
 }
 
+/* 图片与图注：Markdown 中图片独占一个段落，图注是紧随其后的加粗段落。
+   图片在正文区水平居中；图注同样居中，并与图片保持与表题/表格一致的间距 */
+.markdown p:has(img) {
+  text-align: center;
+  text-indent: 0;
+  margin: 0.7rem 0 0;
+}
+
+.markdown p img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.markdown p:has(img) + p:has(> strong) {
+  text-align: center;
+  text-indent: 0;
+  margin: 0.1rem 0 0.6rem;
+}
+
 /* 表格名称：Markdown 里是紧邻表格上方的加粗段落。
    居中对齐、取消正文的首行缩进，并收紧与表格的间距 */
 .markdown p:has(> strong):has(+ table) {
