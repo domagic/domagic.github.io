@@ -123,8 +123,8 @@ const firstAuthor = computed(() => {
 }
 
 .item__title h3 {
-  /* 与文章详情页标题（.post__title）字号一致 */
-  font-size: clamp(1.3rem, 1.9vw, 1.6rem);
+  /* 列表标题略小于详情页标题，让索引页一屏可见更多条目 */
+  font-size: clamp(1.05rem, 1.45vw, 1.2rem);
   font-weight: 700;
   transition: color 0.2s var(--ease-out);
 }
