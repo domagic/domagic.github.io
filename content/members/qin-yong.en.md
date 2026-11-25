@@ -13,7 +13,7 @@ date: 2026-11-21
 ## Current position & appointments
 
 - Jul 2025 ~ present: School of Management Science, Chengdu University of Technology; Researcher, Department of Data Science.
-- Sep 2026 ~ present: School of Hotel and Tourism Management, The Hong Kong Polytechnic University; Postdoctoral Fellow.
+- Sep 2026 ~ present: School of Hotel and Tourism Management, The Hong Kong Polytechnic University; Postdoctoral Fellow. Supervisor: Prof. Mimi Li.
 - Dec 2025 ~ present: Sichuan Technology and Business University; External Expert.
 
 ## Education
