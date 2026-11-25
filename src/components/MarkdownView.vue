@@ -48,7 +48,7 @@ watch(
 .markdown {
   /* 正文英文统一 Times New Roman，中文回退衬线；代码/公式各自保留原字体 */
   font-family: var(--font-reading);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   line-height: 1.9;
 }
 
@@ -142,7 +142,7 @@ watch(
 .markdown p:has(> strong):has(+ table) {
   text-align: center;
   text-indent: 0;
-  margin: 0.7rem 0 0.3rem;
+  margin: 0.6rem 0 0.1rem;
 }
 
 .markdown p:has(> strong):has(+ table) + table {
