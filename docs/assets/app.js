@@ -644,23 +644,28 @@
   }
   // ===== 真实感星系配置（可编辑：调这里改旋臂数/密度/倾角/转速，无需动绘制逻辑）=====
   var GALAXY_CFG = {
-    // —— 右侧螺旋星系：星云带为主体，星点只做点缀 ——
-    arms: 2,              // 主旋臂数量
-    perArm: 300,          // 每条旋臂亮星点缀数（原 900；连续星云带承担主体）
-    halo: 120,            // 盘面弥散星数量
-    nebulaSteps: 240,     // 每条旋臂星云带分段数（预渲染，越大越连续）
-    coreSize: 0.12,       // 星核半径占画布半径比例
-    spin: 4.8,            // 螺旋缠绕圈数（θ 上限，越大臂绕得越多）
+    // —— 右侧棒旋星系（参照真实银河系：中央棒 + 双旋臂 + 尘埃带 + HII 区）——
+    arms: 2,              // 主旋臂数量（银河系两条主臂）
+    perArm: 280,          // 每条旋臂亮星点缀数
+    halo: 80,             // 盘面弥散星数量
+    globulars: 36,        // 球状星团晕数量（老年致密星团）
+    nebulaSteps: 280,     // 每条旋臂星云带分段数（预渲染，越大越连续）
+    coreSize: 0.085,      // 星核半径占画布半径比例
+    barLength: 0.26,      // 中央棒半长（占半径比例）
+    barWidth: 0.075,      // 中央棒半宽（占半径比例）
+    barAngle: -0.55,      // 中央棒相对画布的角度（弧度）
+    hiiCount: 32,         // 恒星形成区（HII 区）数量
+    spin: 4.4,            // 螺旋缠绕圈数（越大臂绕得越多）
     tilt: -0.34,          // 盘面倾角（弧度，负值为右下倾）
     flatten: 0.58,        // 盘面压扁系数（正视=1，越小越侧视）
     rotation: 0.00021,    // 整体自转角速度（弧度/毫秒）；约 30 秒一圈
     drift: 0.00032,       // 盘面弥散星独立公转速度（营造流动感）
-    armWidth: 0.10,       // 旋臂径向宽度（占半径比例，越小臂越紧致）
-    galaxyCx: 0.742,      // 螺旋星系中心 x（占画布宽，对齐对联中心光斑）
-    galaxyCy: 0.50,       // 螺旋星系中心 y（占画布高）
-    galaxyR: 0.46,        // 螺旋星系半径（占画布高）
+    armWidth: 0.085,      // 旋臂径向宽度（占半径比例，越小臂越紧致）
+    galaxyCx: 0.742,      // 星系中心 x（占画布宽，对齐对联中心光斑）
+    galaxyCy: 0.50,       // 星系中心 y（占画布高）
+    galaxyR: 0.46,        // 星系半径（占画布高）
     // —— 全幅立体行星：左疏右密，少而大 ——
-    planets: 18,          // 行星总数（原 46，改为少而大）
+    planets: 18,          // 行星总数
     planetR: [8, 19],     // 行星半径基础范围（px，右大左小由 density 缩放）
     planetDrift: 0.010,   // 行星缓慢漂移速度（营造流动感）
     planetAlpha: [0.24, 0.92], // 行星透明度范围（左淡右亮）
@@ -681,6 +686,8 @@
       armA: rgb('--galaxy-arm-a', light ? '96, 126, 170' : '122, 158, 214'),
       armB: rgb('--galaxy-arm-b', light ? '146, 126, 178' : '176, 150, 220'),
       dust: rgb('--galaxy-dust', light ? '138, 109, 31' : '214, 196, 150'),
+      // 恒星形成区（HII）的粉红电离氢云；CSS 可用 --galaxy-hii 覆盖
+      hii: rgb('--galaxy-hii', light ? '190, 112, 130' : '228, 138, 162'),
       light: light
     }
   }
@@ -728,18 +735,18 @@
         return Math.max(0, Math.min(255, parseInt(p[i], 10) + amt))
       }).join(',')
     }
-    // 对数螺旋半径：星云带与亮星共用同一条臂轨迹
-    function armRadius(theta, b) {
-      return 0.085 + 0.915 * (Math.exp(b * theta) / Math.exp(b * CFG.spin))
+    // 对数螺旋半径：旋臂从中央棒两端出发，u∈[0,1] 为沿臂归一化进度
+    function armRadius(u) {
+      var r0 = CFG.barLength * 0.92
+      return r0 + (1 - r0) * (Math.exp(CFG.spin * u) / Math.exp(CFG.spin))
     }
     // 生成星云尘埃带（离屏预渲染）＋亮星点缀＋立体行星
     function seed() {
       var pal = galaxyPalette()
       stars = []
-      var b = CFG.spin / (2 * Math.PI)
       var i, k
 
-      // 1) 星云带：沿对数螺旋叠加柔和光云，内侧叠暗尘埃带，形成连续旋臂（非粒子点）
+      // 1) 银河系盘面：中央棒 + 旋臂星云 + 内缘暗尘埃带 + 恒星形成区
       nebula = document.createElement('canvas')
       var NR = Math.max(32, Math.round(R))
       nebula.width = NR * 2; nebula.height = NR * 2
@@ -753,31 +760,52 @@
         nc.fillStyle = g
         nc.beginPath(); nc.arc(x, y, rad, 0, 6.2832); nc.fill()
       }
-      cloud(0, 0, NR, pal.armA, pal.light ? 0.055 : 0.075)
+      // 盘面弥散光（老年恒星盘）
+      cloud(0, 0, NR, tint(pal.armA, 18), pal.light ? 0.045 : 0.055)
+      // 中央棒：银河系是棒旋星系，棒由老年黄白恒星组成
+      nc.save()
+      nc.rotate(CFG.barAngle)
+      var barGrad = nc.createLinearGradient(-NR * CFG.barLength, 0, NR * CFG.barLength, 0)
+      barGrad.addColorStop(0, 'rgba(' + pal.core + ',0)')
+      barGrad.addColorStop(0.22, 'rgba(' + pal.core + ',0.14)')
+      barGrad.addColorStop(0.50, 'rgba(' + pal.core + ',0.32)')
+      barGrad.addColorStop(0.78, 'rgba(' + pal.core + ',0.14)')
+      barGrad.addColorStop(1, 'rgba(' + pal.core + ',0)')
+      nc.fillStyle = barGrad
+      nc.beginPath(); nc.ellipse(0, 0, NR * CFG.barLength, NR * CFG.barWidth, 0, 0, 6.2832); nc.fill()
+      nc.restore()
+      // 旋臂：从棒两端延伸，蓝白年轻星云 + 暗尘埃带 + 粉红 HII 区
       for (k = 0; k < CFG.arms; k++) {
-        var armPhase = k * (2 * Math.PI / CFG.arms)
+        var armPhase = CFG.barAngle + k * Math.PI
+        var armCol = tint(k % 2 ? pal.armB : pal.armA, 22)
         for (i = 0; i < CFG.nebulaSteps; i++) {
           var u = i / Math.max(1, CFG.nebulaSteps - 1)
-          var theta = u * CFG.spin + armPhase
-          var rNorm = armRadius(theta, b)
+          var theta = armPhase + u * CFG.spin
+          var rNorm = armRadius(u)
           var x = Math.cos(theta) * rNorm * NR
           var y = Math.sin(theta) * rNorm * NR
-          var rad = NR * (0.055 + 0.17 * rNorm)
-          cloud(x, y, rad, k % 2 ? pal.armB : pal.armA,
-                (pal.light ? 0.016 : 0.026) * (1 - rNorm * 0.3))
-          // 暗尘埃带：旋臂内侧的负片，制造体积与层次（亮色主题省略，避免浅底上出现脏点）
+          var rad = NR * (0.05 + 0.16 * rNorm)
+          cloud(x, y, rad, armCol, (pal.light ? 0.014 : 0.032) * (1 - rNorm * 0.25))
+          // 暗尘埃带：旋臂内缘的负片，真实银河系照片最显著的特征
           if (!pal.light) {
-            var dth = theta - 0.22
-            cloud(Math.cos(dth) * rNorm * NR, Math.sin(dth) * rNorm * NR,
-                  rad * 0.8, '8, 14, 26', 0.030)
+            var dth = theta - 0.26
+            var dr = Math.max(0, rNorm - 0.05)
+            cloud(Math.cos(dth) * dr * NR, Math.sin(dth) * dr * NR,
+                  rad * 0.92, '10, 12, 22', 0.072)
+          }
+          // 恒星形成区（HII）：旋臂上的粉红电离氢云
+          if (u > 0.12 && Math.random() < CFG.hiiCount / (CFG.nebulaSteps * CFG.arms)) {
+            cloud(x + (Math.random() - 0.5) * rad, y + (Math.random() - 0.5) * rad,
+                  rad * (0.24 + Math.random() * 0.22), pal.hii,
+                  pal.light ? 0.016 : 0.065)
           }
         }
       }
 
-      // 2) 亮星点缀：沿同一旋臂撒少量明亮星点，最亮的几颗带十字星芒
+      // 2) 亮星点缀：沿旋臂撒少量明亮星点，最亮的几颗带十字星芒
       function push(theta, rr, band, bright) {
         stars.push({
-          t: theta, r: Math.max(0.05, Math.min(1, rr)), band: band,
+          t: theta, r: Math.max(0.05, Math.min(1.08, rr)), band: band,
           size: bright ? 1.4 + Math.random() * 1.9 : 0.5 + Math.random() * 1.1,
           flare: bright && Math.random() < 0.30,
           phase: Math.random() * 6.2832,
@@ -788,17 +816,30 @@
         })
       }
       for (k = 0; k < CFG.arms; k++) {
-        var phase = k * (2 * Math.PI / CFG.arms)
+        var phase = CFG.barAngle + k * Math.PI
         for (i = 0; i < CFG.perArm; i++) {
           var u2 = i / CFG.perArm
-          var th2 = u2 * CFG.spin + phase
-          var rn = armRadius(th2, b)
+          var th2 = phase + u2 * CFG.spin
+          var rn = armRadius(u2)
           rn += (Math.random() - 0.5) * 2 * CFG.armWidth * (0.4 + rn)
-          push(th2, rn, k % 2, Math.random() < 0.14 && rn > 0.20)
+          push(th2, rn, k % 2, Math.random() < 0.13 && rn > 0.25)
         }
       }
       for (i = 0; i < CFG.halo; i++) {
         push(Math.random() * 6.2832, Math.sqrt(Math.random()), 2, false)
+      }
+      // 球状星团晕：盘面外的致密老年星团，缓慢闪烁
+      for (i = 0; i < CFG.globulars; i++) {
+        stars.push({
+          t: Math.random() * 6.2832,
+          r: 0.30 + Math.random() * 0.78,
+          band: 3,
+          size: 0.8 + Math.random() * 1.3,
+          flare: Math.random() < 0.12,
+          phase: Math.random() * 6.2832,
+          ps: CFG.twinkleSpeed * 0.35,
+          alpha: 0.45 + Math.random() * 0.40
+        })
       }
 
       // 3) 立体行星：x 幂律分布偏右（左疏右密），越靠右越大越亮
@@ -906,6 +947,7 @@
         ctx.drawImage(nebula, -R, -R, R * 2, R * 2)
         ctx.globalAlpha = 1
       }
+      var armColA = tint(pal.armA, 25), armColB = tint(pal.armB, 20)
       for (var i = 0; i < stars.length; i++) {
         var s = stars[i]
         var extra = s.band === 2 ? elapsed * CFG.drift * (1.2 - s.r) : 0
@@ -914,7 +956,7 @@
         var x = Math.cos(th) * rad, y = Math.sin(th) * rad
         var tw = 0.6 + 0.4 * Math.sin(s.phase + (reduce ? 0 : ts * s.ps))
         var al = Math.min(1, s.alpha * tw)
-        var col = s.band === 0 ? pal.armA : s.band === 1 ? pal.armB : s.band === 3 ? pal.core : pal.dust
+        var col = s.band === 0 ? armColA : s.band === 1 ? armColB : s.band === 3 ? pal.core : pal.dust
         if (s.flare) {
           var f = s.size * 3.2
           ctx.strokeStyle = 'rgba(' + col + ',' + (al * 0.55).toFixed(3) + ')'
@@ -929,25 +971,15 @@
       }
       var breathe = reduce ? 1 : (0.90 + 0.10 * Math.sin(ts * 0.0009))
       var cr = R * CFG.coreSize * breathe
-      var core = ctx.createRadialGradient(0, 0, 0, 0, 0, cr * 3.2)
+      var core = ctx.createRadialGradient(0, 0, 0, 0, 0, cr * 3.6)
       core.addColorStop(0, 'rgba(' + pal.core + ',0.98)')
-      core.addColorStop(0.28, 'rgba(' + pal.core + ',0.62)')
-      core.addColorStop(0.6, 'rgba(' + pal.dust + ',0.22)')
+      core.addColorStop(0.16, 'rgba(' + pal.core + ',0.78)')
+      core.addColorStop(0.42, 'rgba(' + pal.dust + ',0.30)')
       core.addColorStop(1, 'rgba(' + pal.dust + ',0)')
       ctx.fillStyle = core
-      ctx.beginPath(); ctx.arc(0, 0, cr * 3.2, 0, 6.2832); ctx.fill()
-      // 星核十字光芒
-      var rayLen = cr * 2.6
-      var ray = ctx.createLinearGradient(-rayLen, 0, rayLen, 0)
-      ray.addColorStop(0, 'rgba(' + pal.core + ',0)')
-      ray.addColorStop(0.5, 'rgba(' + pal.core + ',0.24)')
-      ray.addColorStop(1, 'rgba(' + pal.core + ',0)')
-      ctx.strokeStyle = ray
-      ctx.lineWidth = Math.max(1, cr * 0.035)
-      ctx.beginPath(); ctx.moveTo(-rayLen, 0); ctx.lineTo(rayLen, 0); ctx.stroke()
-      ctx.beginPath(); ctx.moveTo(0, -rayLen); ctx.lineTo(0, rayLen); ctx.stroke()
+      ctx.beginPath(); ctx.arc(0, 0, cr * 3.6, 0, 6.2832); ctx.fill()
       ctx.fillStyle = 'rgba(' + pal.core + ',0.95)'
-      ctx.beginPath(); ctx.arc(0, 0, cr * 0.55, 0, 6.2832); ctx.fill()
+      ctx.beginPath(); ctx.arc(0, 0, cr * 0.60, 0, 6.2832); ctx.fill()
       ctx.restore()
 
       // 2) 全幅立体行星：右大左小、右亮左淡、漂移＋云带自转＋闪烁
