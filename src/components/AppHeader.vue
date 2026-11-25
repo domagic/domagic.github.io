@@ -191,6 +191,7 @@ function closeMenu() {
   display: flex;
   align-items: center;
   gap: 0.55rem;
+  flex-shrink: 0;
   text-decoration: none;
   color: var(--ink);
 }
@@ -213,6 +214,8 @@ function closeMenu() {
   text-decoration: none;
   font-size: 0.95rem;
   padding: 0.35rem 0.1rem;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .header__link::after {
@@ -243,6 +246,7 @@ function closeMenu() {
   position: relative;
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
 }
 .header__lang-toggle {
   font-size: 0.95rem;
@@ -299,6 +303,7 @@ function closeMenu() {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  flex-shrink: 0;
   padding: 0.42rem 0.95rem;
   border-radius: 999px;
   background: var(--cinnabar);
@@ -326,6 +331,7 @@ function closeMenu() {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  flex-shrink: 0;
 }
 
 .header__icon-btn {
@@ -334,6 +340,7 @@ function closeMenu() {
   border-radius: 999px;
   width: 2.2rem;
   height: 2.2rem;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -354,6 +361,8 @@ function closeMenu() {
   color: var(--ink);
   text-decoration: none;
   font-size: 0.88rem;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 
@@ -372,7 +381,31 @@ function closeMenu() {
   display: none;
 }
 
-@media (max-width: 760px) {
+/* 中等宽度收紧导航间距，避免中文导航词被挤压成上下两行 */
+@media (max-width: 1360px) {
+  .header__nav {
+    gap: 2.2rem;
+    padding-left: 1rem;
+  }
+}
+
+@media (max-width: 1180px) {
+  .header__nav {
+    gap: 1.25rem;
+    padding-left: 0.6rem;
+  }
+  .header__link,
+  .header__lang-toggle {
+    font-size: 0.9rem;
+  }
+  .header__team {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.7rem;
+  }
+}
+
+/* 桌面导航无法一屏容纳时改用折叠菜单，防止压缩换行与按钮重叠 */
+@media (max-width: 920px) {
   .header__nav {
     display: none;
   }
