@@ -172,25 +172,25 @@ function closeMenu() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  height: 4.2rem;
+  gap: 0.8rem;
+  height: 3.8rem;
   /* 页头不受正文 .page 的居中与宽留白约束，贴近视口左缘 */
   max-width: none;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .header__left {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: 0.7rem;
   min-width: 0;
 }
 
 .header__brand {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.45rem;
   flex-shrink: 0;
   text-decoration: none;
   color: var(--ink);
@@ -199,21 +199,21 @@ function closeMenu() {
 .header__latin {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
 }
 
 .header__nav {
   display: flex;
-  gap: 3.4rem;
-  padding-left: 1.5rem;
+  gap: 1.9rem;
+  padding-left: 1rem;
 }
 
 .header__link {
   position: relative;
   color: var(--ink-soft);
   text-decoration: none;
-  font-size: 0.95rem;
-  padding: 0.35rem 0.1rem;
+  font-size: 0.85rem;
+  padding: 0.28rem 0.08rem;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -249,13 +249,13 @@ function closeMenu() {
   flex-shrink: 0;
 }
 .header__lang-toggle {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   letter-spacing: 0.06em;
   background: none;
   border: 0;
   border-bottom: 1px solid transparent;
   color: var(--ink-soft);
-  padding: 0.35rem 0;
+  padding: 0.28rem 0;
   cursor: pointer;
   white-space: nowrap;
   transition: border-color 0.2s, color 0.2s;
@@ -280,8 +280,8 @@ function closeMenu() {
   display: block;
   width: 100%;
   text-align: left;
-  font-size: 0.88rem;
-  padding: 0.55rem 0.95rem;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.8rem;
   background: none;
   border: 0;
   border-left: 2px solid transparent;
@@ -302,13 +302,13 @@ function closeMenu() {
 .header__team {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.3rem;
   flex-shrink: 0;
-  padding: 0.42rem 0.95rem;
+  padding: 0.32rem 0.7rem;
   border-radius: 999px;
   background: var(--cinnabar);
   color: #fff;
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
@@ -323,14 +323,14 @@ function closeMenu() {
 }
 
 .header__team-icon {
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1;
 }
 
 .header__actions {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.45rem;
   flex-shrink: 0;
 }
 
@@ -338,14 +338,14 @@ function closeMenu() {
   background: none;
   border: 1px solid var(--line);
   border-radius: 999px;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 1.9rem;
+  height: 1.9rem;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--ink-soft);
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: border-color 0.2s, color 0.2s;
 }
 
@@ -356,11 +356,11 @@ function closeMenu() {
 
 .header__cta {
   border: 1px solid var(--line-strong);
-  padding: 0.35rem 0.9rem;
+  padding: 0.28rem 0.7rem;
   border-radius: 999px;
   color: var(--ink);
   text-decoration: none;
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   white-space: nowrap;
   flex-shrink: 0;
   transition: background-color 0.2s, color 0.2s, border-color 0.2s;
@@ -384,23 +384,23 @@ function closeMenu() {
 /* 中等宽度收紧导航间距，避免中文导航词被挤压成上下两行 */
 @media (max-width: 1360px) {
   .header__nav {
-    gap: 2.2rem;
-    padding-left: 1rem;
+    gap: 1.5rem;
+    padding-left: 0.8rem;
   }
 }
 
 @media (max-width: 1180px) {
   .header__nav {
-    gap: 1.25rem;
-    padding-left: 0.6rem;
+    gap: 1rem;
+    padding-left: 0.5rem;
   }
   .header__link,
   .header__lang-toggle {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
   }
   .header__team {
-    font-size: 0.8rem;
-    padding: 0.4rem 0.7rem;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
   }
 }
 
