@@ -156,6 +156,8 @@ watch(
   text-align: center;
   text-indent: 0;
   margin: 0.1rem 0 0.6rem;
+  /* 图题比正文（1.1875rem）小一号 */
+  font-size: 1.125rem;
 }
 
 /* 表格名称：Markdown 里是紧邻表格上方的加粗段落。
@@ -164,6 +166,8 @@ watch(
   text-align: center;
   text-indent: 0;
   margin: 0.6rem 0 0.1rem;
+  /* 表题比正文（1.1875rem）小一号 */
+  font-size: 1.125rem;
 }
 
 .markdown p:has(> strong):has(+ table) + table {
