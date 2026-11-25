@@ -90,7 +90,14 @@ watch(
 .markdown li {
   margin: 0.35rem 0;
   text-align: justify;
-  text-indent: 2em;
+  /* 列表符号已是天然缩进，正文段落的首行缩进不再叠加 */
+  text-indent: 0;
+}
+
+/* 松散列表里 li 内嵌的段落同样取消首行缩进 */
+.markdown li p {
+  text-indent: 0;
+  margin: 0.35rem 0;
 }
 
 .markdown blockquote {
