@@ -48,7 +48,7 @@ watch(
 .markdown {
   /* 正文英文统一 Times New Roman，中文回退衬线；代码/公式各自保留原字体 */
   font-family: var(--font-reading);
-  font-size: 1.02rem;
+  font-size: 0.875rem;
   line-height: 1.9;
 }
 
