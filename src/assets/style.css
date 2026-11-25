@@ -277,6 +277,8 @@ html[lang^="en"] .team-name {
   font-family: var(--serif-zh); font-size: clamp(1.35rem, 2.6vw, 2.05rem);
   line-height: 1.8; letter-spacing: 0.05em; color: var(--text);
 }
+/* 中文口号：按数据源里的换行符断成两句、各自左对齐（第一行「面向真实世界的科学问题」，第二行「以求真为志，以协作为径。」） */
+html:not([lang^="en"]) .mission-lg { white-space: pre-line; }
 html[lang^="en"] .mission-lg { font-family: var(--serif-en); font-size: clamp(1.15rem, 2.1vw, 1.6rem); line-height: 1.65; letter-spacing: 0.01em; max-width: 30em; }
 .hero-cta { margin-top: 2.6rem; display: flex; gap: 1rem; flex-wrap: wrap; }
 .btn {
