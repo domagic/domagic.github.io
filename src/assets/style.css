@@ -292,20 +292,28 @@ html[lang^="en"] .mission-lg { font-family: var(--serif-en); font-size: clamp(1.
 /* 中文竖排：整体上移右移，右缘微外扩但不贴边；英文版保留原有布局 */
 html:not([lang^="en"]) .couplet-col {
   align-self: start; margin-top: clamp(1.5rem, 4vh, 3.2rem);
-  transform: translateX(clamp(0.5rem, 1.6vw, 1.6rem));
+  transform: translateX(clamp(0.25rem, 1vw, 1rem));
 }
 .couplet {
-  display: flex; flex-direction: column; gap: clamp(2.4rem, 4vw, 4rem);
+  display: flex; flex-direction: column; gap: clamp(3rem, 6vw, 6rem);
   writing-mode: vertical-rl; text-orientation: upright;
   font-family: var(--fangsong); font-size: clamp(1.6rem, 2.7vw, 2.25rem); letter-spacing: 0.32em;
   color: var(--gold-light); height: auto;
   text-shadow: 0 0 22px var(--moon-glow);
 }
 html[data-theme="light"] .couplet { text-shadow: none; }
-.couplet > span:not(.couplet-core) { border-right: 1px solid var(--night-line); padding-right: 1.15rem; }
+/* 界栏默认在文字右侧，间距收紧，避免文字与竖线之间空一大段 */
+.couplet > span:not(.couplet-core) { border-right: 1px solid var(--night-line); padding-right: 0.5rem; }
 .couplet > span:first-child { color: var(--gold-strong); }
+/* 中文版：左联(罗星)竖线移到文字左侧，右联(秦月)竖线仍在右侧——两联的栏线朝外、文字相向 */
+html:not([lang^="en"]) .couplet > #couplet-2 {
+  border-right: none; padding-right: 0;
+  border-left: 1px solid var(--night-line); padding-left: 0.5rem;
+}
 /* 两联上下错位：右联略低，避免机械对齐；竖线随文字高度自动收缩（容器 height:auto） */
 html:not([lang^="en"]) .couplet > #couplet-2 { transform: translateY(clamp(1rem, 2vh, 1.8rem)); }
+/* 右联(秦月)整体右移：拉开与中央光斑的空隙，对应标注中箭头所指位置 */
+html:not([lang^="en"]) .couplet > #couplet-1 { transform: translateX(clamp(0.8rem, 2.5vw, 2.4rem)); }
 /* 两联之间的中心光斑：稳定的金色发光星球，两联分居其左右，互不遮挡（对齐星系核心意象） */
 .couplet-core {
   flex: 0 0 auto; align-self: center; position: relative;
@@ -767,6 +775,11 @@ html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: itali
     height: auto; max-width: none; font-size: clamp(1.3rem, 5.6vw, 1.7rem); letter-spacing: 0.22em; gap: 0.6rem;
   }
   .couplet > span:not(.couplet-core), html[lang^="en"] .couplet > span:not(.couplet-core) { border-right: none; padding-right: 0; border-left: 1px solid var(--night-line); padding-left: 0.9rem; }
+  /* 窄屏改横排后，取消竖排专用的左右/上下位移，避免文字起点不齐 */
+  html:not([lang^="en"]) .couplet-col { transform: none; margin-top: 0; }
+  html:not([lang^="en"]) .couplet > #couplet-1,
+  html:not([lang^="en"]) .couplet > #couplet-2 { transform: none; }
+  html:not([lang^="en"]) .couplet > #couplet-2 { border-left: 1px solid var(--night-line); padding-left: 0.9rem; }
   .couplet-core { display: none; }
   /* 英文对联窄屏仍保持每句一行：收敛字号与字距，不套用中文竖排放大的参数；宽度还原、次句取消右对齐避免参差溢出 */
   html[lang^="en"] .couplet { font-size: clamp(0.78rem, 3.4vw, 1.35rem); letter-spacing: 0.02em; width: auto; }
