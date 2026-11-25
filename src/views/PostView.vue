@@ -148,13 +148,14 @@ const bodyContent = computed(() => {
   display: block;
 }
 
-/* 三列网格直接建立在整个文章容器上：左右两列等宽（各 16.5rem），中间列天然
-   水平居中于页面（其中线与页面中线重合）。目录放左列且左边界贴合页面左缘不变，
-   右列留空仅作对称配重；标题/时间/标签与正文共用中间列，宽度上限一致（--content-w），
-   因此标题右缘不会超出正文卡片右边界。正文列最大 60rem，窄屏自动收窄。 */
+/* 三列网格直接建立在整个文章容器上：中间列固定为视口宽度的一半（50vw），
+   左右两列等宽对称地分配剩余空间（各 minmax(0,1fr)），因此中间列的中线与
+   页面中线天然重合（正文区中心线 = 网页中心线，落在页面正中央）。
+   目录放左列且左边界贴合页面左缘不变，右列留空仅作对称配重；
+   标题/时间/标签与正文共用中间列并填满该列，故正文展示区宽度恰为网页宽度的一半。 */
 .post--with-toc {
   display: grid;
-  grid-template-columns: 16.5rem minmax(0, 1fr) 16.5rem;
+  grid-template-columns: minmax(0, 1fr) 50vw minmax(0, 1fr);
   align-items: start;
 }
 
@@ -166,8 +167,10 @@ const bodyContent = computed(() => {
 .post--with-toc .post__header,
 .post--with-toc .post__main {
   grid-column: 2;
+  /* 填满 50vw 的中间列：正文展示区宽度恰为网页宽度一半，中线即页面中线。
+     去掉原先 60rem 的上限，否则宽屏时会被截断而达不到半屏宽。 */
   width: 100%;
-  max-width: var(--content-w, 60rem);
+  max-width: none;
   margin-inline: auto;
 }
 
@@ -179,7 +182,7 @@ const bodyContent = computed(() => {
 .post--with-toc > .post__category {
   grid-column: 1;
   grid-row: 1;
-  width: 15rem;
+  width: min(15rem, 100%);
   align-self: start;
   padding-top: 0.35rem;
 }
@@ -187,7 +190,7 @@ const bodyContent = computed(() => {
 .post--with-toc .post__toc {
   grid-column: 1;
   grid-row: 2;
-  width: 15rem;
+  width: min(15rem, 100%);
 }
 
 .post--with-toc .post__main {
