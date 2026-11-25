@@ -282,8 +282,8 @@ const bodyContent = computed(() => {
 .post__title {
   /* 艺术衬线标题：字母大小一致、跨平台可用的经典字体栈，不受 variable-wonk 影响 */
   font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, 'Times New Roman', Georgia, serif;
-  font-size: clamp(1.95rem, 4.4vw, 3rem);
-  line-height: 1.25;
+  font-size: clamp(1.3rem, 1.9vw, 1.6rem);
+  line-height: 1.35;
   letter-spacing: 0.01em;
   margin-top: 0.8rem;
   /* 左对齐：标题文字左缘与正文文字左缘对齐；标题区（post__header）的左右边界
