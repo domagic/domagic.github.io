@@ -137,6 +137,19 @@ watch(
   margin: 2rem 0;
 }
 
+/* 表格名称：Markdown 里是紧邻表格上方的加粗段落。
+   居中对齐、取消正文的首行缩进，并收紧与表格的间距 */
+.markdown p:has(> strong):has(+ table) {
+  text-align: center;
+  text-indent: 0;
+  margin: 0.7rem 0 0.3rem;
+}
+
+.markdown p:has(> strong):has(+ table) + table {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
 /* 表格：显式边框，避免依赖浏览器 UA 默认（部分主题下边框缺失）
    字号与内边距收紧，保证多列表格也能放进半屏正文区、不越右边界 */
 .markdown table {
