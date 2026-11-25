@@ -55,6 +55,8 @@ watch(
 .markdown h2,
 .markdown h3 {
   font-family: var(--font-reading);
+  /* 正文两侧对齐时，标题明确左对齐，避免标题行被两端拉伸 */
+  text-align: left;
 }
 
 .markdown h2 {
@@ -74,6 +76,9 @@ watch(
 
 .markdown p {
   margin: 0.9rem 0;
+  /* 正文两端对齐；每个段落首行缩进两个中文字符 */
+  text-align: justify;
+  text-indent: 2em;
 }
 
 .markdown ul,
@@ -84,6 +89,8 @@ watch(
 
 .markdown li {
   margin: 0.35rem 0;
+  text-align: justify;
+  text-indent: 2em;
 }
 
 .markdown blockquote {
