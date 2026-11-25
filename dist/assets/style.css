@@ -243,7 +243,11 @@ html[lang^="en"] .lang-toggle { font-family: var(--serif-en); }
 .hero-in {
   position: relative; z-index: 1;
   display: grid; grid-template-columns: 1fr auto; gap: clamp(2rem, 6vw, 5rem);
-  align-items: center; min-height: min(86vh, 820px); padding-block: clamp(4rem, 9vh, 6.5rem);
+  align-items: center;
+  /* 铺满首屏：扣掉 sticky 顶栏(68px+1px 边框)，让星系背景一直延伸到你标注的上下空白区。
+     内容超高时自然撑开，不裁切；svh 兼容移动端地址栏；窄屏在下方媒体查询里改回 auto。 */
+  min-height: calc(100vh - 69px); min-height: calc(100svh - 69px);
+  padding-block: clamp(4rem, 9vh, 6.5rem);
 }
 .eyebrow {
   color: var(--gold-light); font-size: 1.45rem; letter-spacing: 0.34em;
