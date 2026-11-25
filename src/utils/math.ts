@@ -1,6 +1,7 @@
 import { Marked, type Tokens } from 'marked'
 import DOMPurify from 'dompurify'
 import { applyImagePolicy, applyLinkPolicy, type MarkdownRenderOptions } from './media'
+import { fixLiteralBold } from './markdown'
 
 /** prose 严格消毒配置：与 utils/markdown.ts 逐字一致，数学特性不得放宽此路径。 */
 const PROSE_SANITIZE = {
@@ -156,7 +157,7 @@ export async function renderMarkdownWithMath(
   })
 
   const rawHtml = md.parse(source, { async: false }) as string
-  const proseSafe = DOMPurify.sanitize(rawHtml, PROSE_SANITIZE)
+  const proseSafe = fixLiteralBold(DOMPurify.sanitize(rawHtml, PROSE_SANITIZE))
 
   // 回填：仅认本次渲染的随机 nonce，作者伪造的占位符不会被替换为任何内容。
   const doc = new DOMParser().parseFromString(proseSafe, 'text/html')
