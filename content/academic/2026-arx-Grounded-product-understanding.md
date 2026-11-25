@@ -39,7 +39,7 @@ year: 2026
 
 ![图 2　直播中的分散证据与三项评估任务](assets/2026-arx-Grounded-product-understanding/figure-02.png)
 
-**图 2　电商直播中的具身产品理解。**
+**图 2　电商直播中的具身产品理解**
 
 图 2 上半部分把画面、口述和时间轴并排放置。前一段的展示与试穿、后一段的材质与细节可以为同一件衣服提供证据，中间的促销与互动不需要被剪进证据片段。下方三个面板展示任务之间的条件差异：左侧已经给出商品证据片段，模型从目录里找商品；右侧已经给出文字问题，模型在视频里找时间区间；中间没有指定目标的文字问题，模型必须同时决定是哪件商品以及哪些片段属于它。
 
@@ -69,7 +69,7 @@ year: 2026
 
 ![图 3　GPUB 视频侧构建流程](assets/2026-arx-Grounded-product-understanding/figure-03.png)
 
-**图 3　视频侧构建流程。**
+**图 3　视频侧构建流程**
 
 **第一阶段核验商品。** 商品目录先统一标识、合并重复的库存量单位（Stock Keeping Unit，SKU）、规范元数据，并为每件商品保留一张通过质量筛选的主图。随后用经过监督微调的 Chinese-CLIP 从 15 秒短片检索候选，再由 Qwen3-VL-32B-Instruct 结合整个窗口、ASR 和商品信息复核。只有能确认匹配的实例进入后续流程。
 
@@ -81,7 +81,7 @@ year: 2026
 
 ![图 4　UniPro 的共享编码、检索与时间定位](assets/2026-arx-Grounded-product-understanding/figure-04.png)
 
-**图 4　UniPro 概览。**
+**图 4　UniPro 概览**
 
 图 4 上方是商品对齐的多模态表示（Product-aligned Multimodal Representation）。左侧三行分别是直播画面与 ASR、商品主图及标题、定位任务的文本查询。直播侧先用视觉条件话语选择器（Visual-conditioned Utterance Selector）保留与画面相关的完整句段，在有限输入预算内减少无关口述。共享编码器（Shared Encoder）使用 Qwen3-VL-Embedding-2B，将各类输入编码在可比较的空间里。右上角的检索支路汇总视频为全局向量，再用余弦相似度（Cosine Similarity）比较商品向量。
 

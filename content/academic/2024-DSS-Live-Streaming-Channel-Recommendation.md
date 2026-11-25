@@ -120,7 +120,7 @@ VIBM-Hyper 的设计围绕一个目标展开：**同时利用“哪些观众具�
 
 ![图 2　The VIBM-hyper framework.](assets/2024-DSS-Live-Streaming-Channel-Recommendation/figure-02.png)
 
-**图 2　VIBM-hyper 框架。**
+**图 2　VIBM-hyper 框架**
 
 图 2 可以分为三段理解。左侧回答“如何组织历史互动”：同一批记录分别按照频道和观众分组。中间回答“如何从关系中学习”：通过超图卷积（Hypergraph Convolution）传播群体信息，再用行为感知注意力（Behavior-Aware Attention）融合不同行为。右侧回答“如何形成推荐”：结合观众画像（Viewer Profile）和频道画像（Channel Profile），得到匹配分数。
 
@@ -245,7 +245,7 @@ VIBM-Hyper 的设计围绕一个目标展开：**同时利用“哪些观众具�
 
 ![图 3　频道导向与观众导向行为超图](assets/2024-DSS-Live-Streaming-Channel-Recommendation/figure-03.png)
 
-**图 3　面向渠道的行为超图（CBH）与面向观众的行为超图（VBH）。**
+**图 3　面向渠道的行为超图（CBH）与面向观众的行为超图（VBH）**
 
 图 3 的两个面板展示同一类交互数据的两种组织方式。人物图标旁的 $u_1,u_2,\ldots$ 表示观众，播放或视频图标旁的 $c_1,c_2,\ldots$ 表示频道；礼物、对话等图标提示行为类型。标记为 A、B、C 的封闭区域表示超边，每个区域把一组相关实体纳入同一个关系。字母仅用于区分区域，行为含义要结合区域内的交互理解。
 
