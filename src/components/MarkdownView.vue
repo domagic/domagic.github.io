@@ -130,21 +130,25 @@ watch(
   margin: 2rem 0;
 }
 
-/* 表格：显式边框，避免依赖浏览器 UA 默认（部分主题下边框缺失） */
+/* 表格：显式边框，避免依赖浏览器 UA 默认（部分主题下边框缺失）
+   字号与内边距收紧，保证多列表格也能放进半屏正文区、不越右边界 */
 .markdown table {
   width: 100%;
   border-collapse: collapse;
   margin: 1.4rem 0;
-  font-size: 0.96rem;
-  line-height: 1.6;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  table-layout: fixed;
 }
 
 .markdown th,
 .markdown td {
   border: 1px solid var(--line-strong);
-  padding: 0.55rem 0.85rem;
+  padding: 0.45rem 0.55rem;
   text-align: left;
   vertical-align: top;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .markdown th {
