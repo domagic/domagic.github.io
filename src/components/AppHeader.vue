@@ -213,6 +213,7 @@ function closeMenu() {
   color: var(--ink-soft);
   text-decoration: none;
   font-size: 0.85rem;
+  font-weight: 600;
   padding: 0.28rem 0.08rem;
   white-space: nowrap;
   flex-shrink: 0;
@@ -238,7 +239,7 @@ function closeMenu() {
 
 .header__link[aria-current='page'] {
   color: var(--ink);
-  font-weight: 500;
+  font-weight: 700;
 }
 
 /* 语言：与导航文字同款的纯文字按钮 + 下拉菜单（同主站交互） */
@@ -250,6 +251,7 @@ function closeMenu() {
 }
 .header__lang-toggle {
   font-size: 0.85rem;
+  font-weight: 600;
   letter-spacing: 0.06em;
   background: none;
   border: 0;
@@ -361,6 +363,7 @@ function closeMenu() {
   color: var(--ink);
   text-decoration: none;
   font-size: 0.8rem;
+  font-weight: 600;
   white-space: nowrap;
   flex-shrink: 0;
   transition: background-color 0.2s, color 0.2s, border-color 0.2s;
@@ -423,11 +426,12 @@ function closeMenu() {
     padding: 0.55rem 0.2rem;
     color: var(--ink);
     text-decoration: none;
+    font-weight: 600;
     border-bottom: 1px dashed var(--line);
   }
   .header__mobile-link[aria-current='page'] {
     color: var(--cinnabar-deep);
-    font-weight: 500;
+    font-weight: 700;
   }
   .header__mobile-lang {
     display: flex;
@@ -441,6 +445,7 @@ function closeMenu() {
     border-radius: 999px;
     padding: 0.3rem 0.9rem;
     font-size: 0.85rem;
+    font-weight: 600;
     color: var(--ink-soft);
     cursor: pointer;
   }
