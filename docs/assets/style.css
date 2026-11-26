@@ -781,7 +781,7 @@ html[lang^="en"] .lbl { font-family: var(--serif-en); letter-spacing: 0.06em; }
 /* ---------- 页脚（渐变首色＝teaser 尾色，衔接无断层） ---------- */
 .site-foot { background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-deep) 100%); color: var(--text-faint); margin-top: auto; }
 /* 页脚队名＋联句下移到页脚中下部（上留白加大、底部保留少量），可随主题/字号自适应 */
-.foot-in { padding-block: clamp(5rem, 11vh, 8rem) 0.5rem; text-align: center; }
+.foot-in { padding-block: 1.4rem 0.5rem; text-align: center; }
 .foot-name { font-family: var(--serif-zh); color: var(--text-faint); letter-spacing: 0.24em; font-size: 1.13rem; margin-bottom: 0.7rem; text-transform: uppercase; }
 html[lang^="en"] .foot-name { font-family: var(--serif-en); letter-spacing: 0.06em; }
 .foot-couplet { font-family: var(--fangsong); color: var(--gold-light); letter-spacing: 0.24em; font-size: 1.22rem; }
