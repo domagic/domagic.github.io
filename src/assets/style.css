@@ -18,7 +18,7 @@
   --line: rgba(214, 196, 150, 0.22);
   --line-soft: rgba(231, 228, 220, 0.14);
   --night-line: rgba(214, 196, 150, 0.28);
-  --couplet-line: rgba(214, 196, 150, 0.48);
+  --couplet-line: rgba(214, 196, 150, 0.62);
   --moon-glow: rgba(214, 196, 150, 0.16);
   --moon-glow-2: rgba(214, 196, 150, 0.04);
   --star: #d6c496;
@@ -71,7 +71,7 @@ html[data-theme="light"] {
   --line: rgba(28, 39, 51, 0.22);
   --line-soft: rgba(28, 39, 51, 0.12);
   --night-line: rgba(28, 39, 51, 0.25);
-  --couplet-line: rgba(28, 39, 51, 0.46);
+  --couplet-line: rgba(28, 39, 51, 0.58);
   --moon-glow: rgba(28, 39, 51, 0.10);
   --moon-glow-2: rgba(28, 39, 51, 0.03);
   --star: #5a6675;
@@ -307,25 +307,25 @@ html:not([lang^="en"]) .couplet-col {
 }
 html[data-theme="light"] .couplet { text-shadow: none; }
 /* 界栏默认在文字右侧，间距进一步收紧，避免文字与竖线之间空一大段 */
-.couplet > span:not(.couplet-core) { border-right: 1px solid var(--couplet-line); padding-right: 0.26rem; }
+.couplet > span:not(.couplet-core) { border-right: 1px solid var(--couplet-line); padding-right: 0.18rem; }
 .couplet > span:first-child { color: var(--gold-strong); }
 /* 中文版：左联(罗星)竖线移到文字左侧，右联(秦月)竖线仍在右侧——两联的栏线朝外、文字相向 */
 html:not([lang^="en"]) .couplet > #couplet-2 {
   border-right: none; padding-right: 0;
-  border-left: 1px solid var(--couplet-line); padding-left: 0.26rem;
+  border-left: 1px solid var(--couplet-line); padding-left: 0.18rem;
 }
-/* 左联(罗星)沿箭头往左上少许：整体错落保持，但不贴边 */
+/* 左联(罗星)沿箭头往左上：加大错落幅度，文字相向、栏线朝外 */
 html:not([lang^="en"]) .couplet > #couplet-2 {
-  transform: translate(calc(-1 * clamp(0.3rem, 0.9vw, 0.8rem)), calc(-1 * clamp(0.5rem, 1.2vh, 1rem)));
+  transform: translate(calc(-1 * clamp(0.5rem, 1.4vw, 1.3rem)), calc(-1 * clamp(0.8rem, 2.2vh, 1.8rem)));
 }
-/* 右联(秦月)沿箭头往右下少许：拉开与中央光斑的空隙，同时留出右缘安全边距 */
+/* 右联(秦月)沿箭头往右下：拉开与中央光斑的空隙，两联错落更明显 */
 html:not([lang^="en"]) .couplet > #couplet-1 {
-  transform: translate(clamp(1rem, 2.9vw, 2.7rem), clamp(0.5rem, 1.2vh, 1rem));
+  transform: translate(clamp(1.2rem, 3.5vw, 3.2rem), clamp(0.8rem, 2.2vh, 1.8rem));
 }
 /* 窄桌面宽度：右联收回部分水平位移，确保界栏不被视口右缘裁掉（仍保留右下错落） */
 @media (min-width: 761px) and (max-width: 1150px) {
   html:not([lang^="en"]) .couplet > #couplet-1 {
-    transform: translate(clamp(0.5rem, 1.3vw, 1.2rem), clamp(0.5rem, 1.2vh, 1rem));
+    transform: translate(clamp(0.6rem, 1.5vw, 1.4rem), clamp(0.8rem, 2.2vh, 1.8rem));
   }
 }
 /* 两联之间的中心光斑：稳定的金色发光星球，两联分居其左右，互不遮挡（对齐星系核心意象） */
