@@ -48,6 +48,7 @@
   --mark-c3: #c9a45c;
   --mark-glow: rgba(214, 196, 150, 0.28);
   --mark-size: 44px;
+  --head-h: 54px;                 /* sticky 顶栏高度；hero 首屏按此值扣除 */
   --mark-word-size: 1.32rem;      /* 英文主字标字号 */
   --mark-word-track: 0.16em;      /* 英文主字标字距 */
   --mark-sub-size: 0.72rem;       /* 中文副标字号 */
@@ -121,7 +122,7 @@ a { color: inherit; }
 .site-head { background: var(--bg); border-bottom: 1px solid var(--line-soft); position: sticky; top: 0; z-index: 20; transition: background-color 0.35s ease, border-color 0.35s ease; }
 /* --nav-gap：导航项之间的统一间距。导航链接内部、以及「成果」到「语言」按钮之间都用它，
    保证整排导航间隔一致（改这里即可整体调整）。 */
-.head-in { --nav-gap: clamp(0.9rem, 2.4vw, 1.9rem); display: flex; align-items: center; justify-content: space-between; gap: var(--nav-gap); min-height: 68px; }
+.head-in { --nav-gap: clamp(0.9rem, 2.4vw, 1.9rem); display: flex; align-items: center; justify-content: space-between; gap: var(--nav-gap); min-height: var(--head-h); }
 .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
 /* 品牌图形标志：专业几何 A（正方形 SVG，由 JS 注入 BRAND_MARK_SVG）；尺寸/配色走 CSS 变量 */
 .seal {
@@ -246,9 +247,9 @@ html[lang^="en"] .lang-toggle { font-family: var(--serif-en); }
   position: relative; z-index: 1;
   display: grid; grid-template-columns: 1fr auto; gap: clamp(2rem, 6vw, 5rem);
   align-items: center;
-  /* 铺满首屏：扣掉 sticky 顶栏(68px+1px 边框)，让星系背景一直延伸到你标注的上下空白区。
+  /* 铺满首屏：扣掉 sticky 顶栏(--head-h + 1px 边框)，让星系背景一直延伸到你标注的上下空白区。
      内容超高时自然撑开，不裁切；svh 兼容移动端地址栏；窄屏在下方媒体查询里改回 auto。 */
-  min-height: calc(100vh - 69px); min-height: calc(100svh - 69px);
+  min-height: calc(100vh - var(--head-h) - 1px); min-height: calc(100svh - var(--head-h) - 1px);
   padding-block: clamp(4rem, 9vh, 6.5rem);
 }
 .eyebrow {
