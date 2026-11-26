@@ -109,7 +109,13 @@ body {
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.35s ease, color 0.35s ease;
+  /* 让页脚在内容较短的页面也能贴底：body 撑满视口高度，main 吸收剩余空间，
+     site-foot 的 margin-top:auto 才会真正生效（block 布局下 auto 外边距无效）。 */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+main { flex: 1 0 auto; }
 html[lang^="en"] body { font-family: var(--serif-en); line-height: 1.7; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
