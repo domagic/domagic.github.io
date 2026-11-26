@@ -403,6 +403,11 @@ html:not([lang^="en"]) .mini-member .badge {
 }
 .mini { margin-top: 1rem; }
 .mini-title { font-family: var(--serif-en); font-size: 1rem; color: var(--text); line-height: 1.55; }
+/* 中文首页：成果标题与「研究方向」正文统一字体、字号、颜色和行高 */
+html:not([lang^="en"]) .mini-title {
+  font-family: var(--serif-zh); font-size: 0.98rem;
+  color: var(--text-soft); line-height: 1.8;
+}
 .mini-meta { margin-top: 0.4rem; font-size: 0.88rem; color: var(--text-soft); }
 .mini-member { margin-bottom: 0.55rem; font-size: 1rem; }
 .mini-alt { color: var(--text-soft); font-family: var(--serif-en); font-size: 0.88rem; }
