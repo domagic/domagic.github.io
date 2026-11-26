@@ -675,11 +675,15 @@
     // —— 全幅立体行星：左疏右密，少而大 ——
     planets: 18,          // 行星总数
     planetR: [8, 19],     // 行星半径基础范围（px，右大左小由 density 缩放）
-    planetDrift: 0.010,   // 行星缓慢漂移速度（营造流动感）
+    // —— 行星公转与自转 ——
+    planetOrbit: [0.018, 0.065],   // 公转轨道半长轴（占画布宽）
+    planetOrbitFlat: [0.35, 0.85], // 轨道短轴 / 长轴比（椭圆程度）
+    planetOrbitSpeed: [0.00035, 0.00105], // 公转角速度（弧度/毫秒），约 6～18 秒一圈
+    planetOrbitWobble: 0.16,       // 轨道半径随机起伏幅度
     planetAlpha: [0.24, 0.92], // 行星透明度范围（左淡右亮）
     maxPlanetR: 34,       // 右侧最大行星半径（含放大）
     twinkleSpeed: 0.0020, // 星点闪烁相位速度
-    spinSpeed: 0.00045    // 行星表面云带自转相位速度
+    spinSpeed: [0.0010, 0.0020] // 行星自转角速度（弧度/毫秒），约 3～6 秒一圈
   }
   // 读取主题下的星系配色（RGB 三元组字符串），与 ambPalette 共用主题判断。
   function galaxyPalette() {
@@ -886,18 +890,31 @@
       planets = []
       for (i = 0; i < CFG.planets; i++) {
         var nx = Math.pow(Math.random(), 0.68)
+        var ny = 0.06 + Math.random() * 0.88
+        // 每颗行星围绕自己的轨道中心公转；轨道大小、椭圆度、速度、方向全部随机
+        var oa = CFG.planetOrbit[0] + Math.random() * (CFG.planetOrbit[1] - CFG.planetOrbit[0])
+        var flat = CFG.planetOrbitFlat[0] + Math.random() * (CFG.planetOrbitFlat[1] - CFG.planetOrbitFlat[0])
+        var ob = oa * W / Math.max(1, H) * flat
+        var padX = oa * 1.15 + 0.01, padY = ob * 1.15 + 0.02
         planets.push({
-          nx: nx, ny: 0.06 + Math.random() * 0.88,
+          cx: Math.max(padX, Math.min(1 - padX, nx)),
+          cy: Math.max(padY, Math.min(1 - padY, ny)),
+          oa: oa, ob: ob,
+          oPhase: Math.random() * TAU,
+          oSpeed: (CFG.planetOrbitSpeed[0] + Math.random() * (CFG.planetOrbitSpeed[1] - CFG.planetOrbitSpeed[0]))
+                  * (Math.random() < 0.5 ? -1 : 1),
+          oWa: CFG.planetOrbitWobble * (0.4 + Math.random() * 0.6),
+          oWf: 0.00018 + Math.random() * 0.00035,
+          oWp: Math.random() * TAU,
           baseR: CFG.planetR[0] + Math.random() * (CFG.planetR[1] - CFG.planetR[0]),
           hue: i % 4,                            // 0暖核 1金尘 2臂A蓝 3臂B紫
           ring: Math.random() < 0.35,
           ringTilt: (Math.random() - 0.5) * 1.1,
-          vx: (Math.random() - 0.5) * CFG.planetDrift,
-          vy: (Math.random() - 0.5) * CFG.planetDrift,
-          phase: Math.random() * 6.2832,
+          phase: Math.random() * TAU,
           ps: CFG.twinkleSpeed * (0.5 + Math.random()),
-          spin: Math.random() * 6.2832,
-          spinRate: CFG.spinSpeed * (0.7 + Math.random() * 0.6)
+          spin: Math.random() * TAU,
+          spinRate: (CFG.spinSpeed[0] + Math.random() * (CFG.spinSpeed[1] - CFG.spinSpeed[0]))
+                    * (Math.random() < 0.5 ? -1 : 1)
         })
       }
     }
@@ -939,6 +956,21 @@
         ctx.lineWidth = Math.max(1.2, r * (band % 2 ? 0.13 : 0.18))
         ctx.strokeStyle = 'rgba(' + (band % 2 ? hi : lo) + ',' + (alpha * (band % 2 ? 0.18 : 0.26)).toFixed(3) + ')'
         ctx.stroke()
+      }
+      // 旋转风暴斑：随自转相位从一侧转到另一侧，让自转肉眼可见
+      var depth = Math.cos(spin)
+      if (depth > 0) {
+        var stormX = x + Math.sin(spin) * r * 0.72
+        var stormY = y + Math.sin(spin * 0.7 + 1.1) * r * 0.18
+        var sa = depth * alpha * 0.34
+        ctx.beginPath()
+        ctx.ellipse(stormX, stormY, r * 0.23, r * 0.13, -0.25, 0, TAU)
+        ctx.fillStyle = 'rgba(' + lo + ',' + sa.toFixed(3) + ')'
+        ctx.fill()
+        ctx.beginPath()
+        ctx.ellipse(stormX - r * 0.04, stormY - r * 0.03, r * 0.16, r * 0.08, -0.25, 0, TAU)
+        ctx.fillStyle = 'rgba(' + hi + ',' + (sa * 0.55).toFixed(3) + ')'
+        ctx.fill()
       }
       // 明暗交界线：右下暗面，让球体真正"立"起来
       var term = ctx.createRadialGradient(x + r * 0.75, y + r * 0.58, r * 0.08, x + r * 0.34, y + r * 0.26, r * 1.5)
@@ -1030,23 +1062,25 @@
       ctx.beginPath(); ctx.arc(0, 0, cr * 0.60, 0, 6.2832); ctx.fill()
       ctx.restore()
 
-      // 2) 全幅立体行星：右大左小、右亮左淡、漂移＋云带自转＋闪烁
+      // 2) 全幅立体行星：随机椭圆公转 + 球面自转 + 云带/风暴斑 + 闪烁
       var pCols = [pal.core, pal.dust, pal.armA, pal.armB]
       var av = pal.light ? 0.62 : 1   // 浅色主题整体压低，避免压住文字
       for (i = 0; i < planets.length; i++) {
         var p = planets[i]
-        if (!reduce) {
-          p.nx += p.vx / W; p.ny += p.vy / H
-          if (p.nx < 0.02 || p.nx > 0.995) p.vx *= -1
-          if (p.ny < 0.03 || p.ny > 0.97) p.vy *= -1
-        }
-        var px = p.nx * W, py = p.ny * H
+        var r = Math.min(CFG.maxPlanetR, p.baseR * (0.4 + 1.15 * p.cx))
+        // 公转轨道半径带随机起伏，避免固定椭圆轨迹
+        var oa = p.oa * W * (1 + (reduce ? 0 : p.oWa * Math.sin(elapsed * p.oWf + p.oWp)))
+        var ob = p.ob * H * (1 + (reduce ? 0 : p.oWa * 0.6 * Math.cos(elapsed * p.oWf * 1.3 + p.oWp)))
+        var oth = p.oPhase + (reduce ? 0 : elapsed * p.oSpeed)
+        var px = p.cx * W + Math.cos(oth) * oa
+        var py = p.cy * H + Math.sin(oth) * ob
+        if (px < -r || px > W + r || py < -r || py > H + r) continue
         if (inZone(px, py)) continue   // 对联文字区不绘制行星，避免遮挡两联
-        var r = Math.min(CFG.maxPlanetR, p.baseR * (0.4 + 1.15 * p.nx))
-        var al = (CFG.planetAlpha[0] + (CFG.planetAlpha[1] - CFG.planetAlpha[0]) * p.nx)
+        var al = (CFG.planetAlpha[0] + (CFG.planetAlpha[1] - CFG.planetAlpha[0]) * p.cx)
               * (0.72 + 0.28 * Math.sin(p.phase + (reduce ? 0 : ts * p.ps))) * av
         var spin = p.spin + (reduce ? 0 : elapsed * p.spinRate)
-        drawPlanet(px, py, r, pCols[p.hue], Math.max(0.05, al), p.ring, p.ringTilt, spin)
+        var ringTilt = p.ringTilt + (reduce ? 0 : 0.08 * Math.sin(elapsed * p.oSpeed * 0.7 + p.oPhase))
+        drawPlanet(px, py, r, pCols[p.hue], Math.max(0.05, al), p.ring, ringTilt, spin)
       }
     }
     function loop(ts) { draw(ts); raf = window.requestAnimationFrame(loop) }
