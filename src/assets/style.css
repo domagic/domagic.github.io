@@ -315,18 +315,18 @@ html:not([lang^="en"]) .couplet > #couplet-2 {
   border-right: none; padding-right: 0;
   border-left: 1px solid var(--couplet-line); padding-left: 0.18rem;
 }
-/* 左联(罗星)沿箭头往右上：文字向中心靠拢并上移，栏线仍朝外 */
+/* 左联(罗星)向上多移一点，形成比右联更大的错位，栏线仍朝外 */
 html:not([lang^="en"]) .couplet > #couplet-2 {
-  transform: translate(clamp(0.4rem, 1vw, 1rem), calc(-1 * clamp(1.2rem, 3vh, 2.4rem)));
+  transform: translate(clamp(0.4rem, 1vw, 1rem), calc(-1 * clamp(1.8rem, 4.2vh, 3.4rem)));
 }
-/* 右联(秦月)沿箭头往左上：向中心靠拢并上移，与左联保持错落 */
+/* 右联(秦月)右上小幅移动，与左联错落 */
 html:not([lang^="en"]) .couplet > #couplet-1 {
-  transform: translate(calc(-1 * clamp(1.4rem, 3vw, 3rem)), calc(-1 * clamp(0.9rem, 2.2vh, 1.8rem)));
+  transform: translate(calc(-1 * clamp(0.6rem, 1.6vw, 1.6rem)), calc(-1 * clamp(1.2rem, 2.8vh, 2.2rem)));
 }
 /* 窄桌面宽度：收敛右联水平位移，避免两联挤在一起 */
 @media (min-width: 761px) and (max-width: 1150px) {
   html:not([lang^="en"]) .couplet > #couplet-1 {
-    transform: translate(calc(-1 * clamp(0.8rem, 1.8vw, 1.8rem)), calc(-1 * clamp(0.9rem, 2.2vh, 1.8rem)));
+    transform: translate(calc(-1 * clamp(0.3rem, 0.9vw, 0.9rem)), calc(-1 * clamp(1.2rem, 2.8vh, 2.2rem)));
   }
 }
 /* 两联之间的中心光斑：稳定的金色发光星球，两联分居其左右，互不遮挡（对齐星系核心意象） */
