@@ -385,13 +385,13 @@ html[lang^="en"] .couplet-core { display: none; }
 }
 .teasers { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(1.8rem, 4vw, 3rem); padding-block: clamp(3.2rem, 7vh, 5rem); }
 .teaser { border-top: 1px solid var(--line); padding-top: 1.5rem; }
-.teaser-title { font-family: var(--serif-zh); font-size: 1.25rem; letter-spacing: 0.18em; margin-bottom: 1rem; color: var(--gold-light); }
+.teaser-title { font-family: var(--serif-zh); font-size: 1.5rem; letter-spacing: 0.18em; margin-bottom: 1rem; color: var(--gold-light); }
 html[lang^="en"] .teaser-title { font-family: var(--serif-en); letter-spacing: 0.04em; }
 .teaser-title::before { content: ""; display: inline-block; width: 1.6rem; height: 1px; background: var(--gold-light); vertical-align: middle; margin-right: 0.7rem; }
-.teaser-text { color: var(--text-soft); font-size: 0.98rem; }
+.teaser-text { color: var(--text-soft); font-size: 1.16rem; }
 .teaser-badge { margin-top: 1rem; }
 .teaser-more { margin-top: 1.1rem; }
-.teaser-more a { font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-light); text-decoration: none; border-bottom: 1px solid transparent; }
+.teaser-more a { font-size: 1.05rem; letter-spacing: 0.1em; color: var(--gold-light); text-decoration: none; border-bottom: 1px solid transparent; }
 .teaser-more a:hover { border-bottom-color: var(--gold-light); }
 /* 首页按钮、正文、徽标、链接统一到节题同款宋体栈；.teaser-title 本身保持原样 */
 html:not([lang^="en"]) .hero-cta .btn,
@@ -403,19 +403,19 @@ html:not([lang^="en"]) .mini-member .badge {
   font-family: var(--serif-zh);
 }
 .mini { margin-top: 1rem; }
-.mini-title { font-family: var(--serif-en); font-size: 1rem; color: var(--text); line-height: 1.55; }
+.mini-title { font-family: var(--serif-en); font-size: 1.2rem; color: var(--text); line-height: 1.55; }
 /* 中文首页：成果标题与「研究方向」正文统一字体、字号、颜色和行高 */
 html:not([lang^="en"]) .mini-title {
-  font-family: var(--serif-zh); font-size: 0.98rem;
+  font-family: var(--serif-zh); font-size: 1.16rem;
   color: var(--text-soft); line-height: 1.8;
 }
-.mini-meta { margin-top: 0.4rem; font-size: 0.88rem; color: var(--text-soft); }
-.mini-member { margin-bottom: 0.55rem; font-size: 1rem; }
-.mini-alt { color: var(--text-soft); font-family: var(--serif-en); font-size: 0.88rem; }
+.mini-meta { margin-top: 0.4rem; font-size: 1.06rem; color: var(--text-soft); }
+.mini-member { margin-bottom: 0.55rem; font-size: 1.18rem; }
+.mini-alt { color: var(--text-soft); font-family: var(--serif-en); font-size: 1.06rem; }
 
 /* ---------- 徽标 ---------- */
 .badge {
-  display: inline-block; font-size: 0.75rem; letter-spacing: 0.1em; line-height: 1.6;
+  display: inline-block; font-size: 0.93rem; letter-spacing: 0.1em; line-height: 1.6;
   color: var(--gold-light); border: 1px solid var(--gold-light); padding: 0.05rem 0.55rem;
   vertical-align: middle; white-space: nowrap;
 }
@@ -776,10 +776,10 @@ html[lang^="en"] .lbl { font-family: var(--serif-en); letter-spacing: 0.06em; }
 .site-foot { background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-deep) 100%); color: var(--text-faint); margin-top: auto; }
 /* 页脚队名＋联句下移到页脚中下部（上留白加大、底部保留少量），可随主题/字号自适应 */
 .foot-in { padding-block: clamp(5rem, 11vh, 8rem) 2.6rem; text-align: center; }
-.foot-name { font-family: var(--serif-zh); color: var(--text-faint); letter-spacing: 0.24em; font-size: 0.95rem; margin-bottom: 0.7rem; text-transform: uppercase; }
+.foot-name { font-family: var(--serif-zh); color: var(--text-faint); letter-spacing: 0.24em; font-size: 1.13rem; margin-bottom: 0.7rem; text-transform: uppercase; }
 html[lang^="en"] .foot-name { font-family: var(--serif-en); letter-spacing: 0.06em; }
-.foot-couplet { font-family: var(--fangsong); color: var(--gold-light); letter-spacing: 0.24em; font-size: 1.02rem; }
-html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.03em; font-size: 0.95rem; }
+.foot-couplet { font-family: var(--fangsong); color: var(--gold-light); letter-spacing: 0.24em; font-size: 1.22rem; }
+html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.03em; font-size: 1.13rem; }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 900px) {
