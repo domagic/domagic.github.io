@@ -682,6 +682,10 @@
     planetOrbitWobble: 0.06,       // 轨道半径随机起伏幅度（压低，避免显得杂乱）
     planetOrbitWobbleFreq: [0.00002, 0.00006], // 轨道起伏频率（弧度/毫秒）
     planetAlpha: [0.24, 0.92], // 行星透明度范围（左淡右亮）
+    // 星系盘中央不再绘制行星：中心避让椭圆（相对星系半径 R）＋边缘柔和淡入
+    planetClearX: 0.65,  // 避让区水平半轴 / R
+    planetClearY: 0.68,  // 避让区垂直半轴 / R
+    planetClearFade: 0.12, // 避让区边缘淡入宽度 / R
     maxPlanetR: 26,       // 右侧最大行星半径（含放大）
     twinkleSpeed: 0.0020, // 星点闪烁相位速度
     spinSpeed: [0.00018, 0.00032] // 行星自转角速度（弧度/毫秒），约 20～35 秒一圈（慢，但表面特征可见）
@@ -733,6 +737,14 @@
     }
     function inZone(x, y) {
       return zoneRect && x > zoneRect.l && x < zoneRect.r && y > zoneRect.t && y < zoneRect.b
+    }
+    // 星系盘中央避让：返回 0~1 的绘制强度，避免行星压在旋臂和星核上
+    function galaxyClearFactor(x, y) {
+      var dx = (x - gx) / (R * CFG.planetClearX)
+      var dy = (y - gy) / (R * CFG.planetClearY)
+      var d = Math.sqrt(dx * dx + dy * dy)
+      if (d <= 1) return 0
+      return Math.min(1, (d - 1) / CFG.planetClearFade)
     }
 
     function resize() {
@@ -1084,8 +1096,10 @@
         var py = p.cy * H + Math.sin(oth) * ob
         if (px < -r || px > W + r || py < -r || py > H + r) continue
         if (inZone(px, py)) continue   // 对联文字区不绘制行星，避免遮挡两联
+        var clear = galaxyClearFactor(px, py)
+        if (clear <= 0) continue        // 星系盘中央不绘制行星，避免压住旋臂与星核
         // 星球不再闪烁，透明度固定（仅随左右位置与主题变化）
-        var al = (CFG.planetAlpha[0] + (CFG.planetAlpha[1] - CFG.planetAlpha[0]) * p.cx) * av
+        var al = (CFG.planetAlpha[0] + (CFG.planetAlpha[1] - CFG.planetAlpha[0]) * p.cx) * av * clear
         var spin = p.spin + (reduce ? 0 : elapsed * p.spinRate)
         var ringTilt = p.ringTilt + (reduce ? 0 : 0.08 * Math.sin(elapsed * p.oSpeed * 0.7 + p.oPhase))
         drawPlanet(px, py, r, pCols[p.hue], Math.max(0.05, al), p.ring, ringTilt, spin)
