@@ -47,12 +47,12 @@
   --mark-c2: #d6c496;
   --mark-c3: #c9a45c;
   --mark-glow: rgba(214, 196, 150, 0.28);
-  --mark-size: 44px;
-  --head-h: 54px;                 /* sticky 顶栏高度；hero 首屏按此值扣除 */
-  --mark-word-size: 1.32rem;      /* 英文主字标字号 */
-  --mark-word-track: 0.16em;      /* 英文主字标字距 */
-  --mark-sub-size: 0.72rem;       /* 中文副标字号 */
-  --mark-sub-track: 0.34em;       /* 中文副标字距 */
+  --mark-size: 36px;
+  --head-h: 46px;                 /* sticky 顶栏高度；hero 首屏按此值扣除 */
+  --mark-word-size: 1.16rem;      /* 英文主字标字号 */
+  --mark-word-track: 0.14em;      /* 英文主字标字距 */
+  --mark-sub-size: 0.64rem;       /* 中文副标字号 */
+  --mark-sub-track: 0.28em;       /* 中文副标字距 */
 
   /* 艺术字渐变（暗色主题，CSS 渐变实现，零外部字体；改这里即可换配色） */
   --art-zh-a: #f4ecda; --art-zh-b: #d8b877; --art-zh-c: #a17e3c;
@@ -185,12 +185,12 @@ html[lang^="en"] .lang-toggle { font-family: var(--serif-en); }
 /* 主题切换：无边框「隐藏式」图标按钮（放大版），仅悬停/聚焦时显现淡底 */
 .icon-btn {
   display: inline-grid; place-items: center;
-  width: 2.9rem; height: 2.9rem; padding: 0;
+  width: 2.5rem; height: 2.5rem; padding: 0;
   background: transparent; border: 1px solid transparent; border-radius: 50%;
   color: var(--gold); cursor: pointer;
   transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.25s;
 }
-.icon-btn svg { width: 1.5rem; height: 1.5rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.icon-btn svg { width: 1.3rem; height: 1.3rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .icon-btn svg circle { fill: none; }
 .icon-btn:hover { background: var(--quote-bg); border-color: var(--line); transform: rotate(-12deg) scale(1.06); }
 .icon-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -787,7 +787,7 @@ html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: itali
 }
 @media (max-width: 760px) {
   .head-in { gap: 0.6rem; }
-  :root { --mark-size: 36px; --mark-word-size: 1.08rem; --mark-word-track: 0.1em; --mark-sub-size: 0.62rem; --mark-sub-track: 0.22em; }
+  :root { --mark-size: 30px; --mark-word-size: 0.98rem; --mark-word-track: 0.08em; --mark-sub-size: 0.56rem; --mark-sub-track: 0.18em; }
   .lang-toggle { padding: 0.35rem 0; font-size: 0.78rem; }
   /* 窄屏改为右对齐按钮，避免菜单从左侧溢出视口 */
   .lang-menu { left: auto; right: 0; min-width: 11.5rem; }
