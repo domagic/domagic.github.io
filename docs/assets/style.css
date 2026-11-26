@@ -58,7 +58,10 @@
   --art-zh-a: #f4ecda; --art-zh-b: #d8b877; --art-zh-c: #a17e3c;
   --art-en-a: #f0e2bd; --art-en-b: #c6a05a;
   --art-stroke: rgba(255, 246, 220, 0.22);
+  /* 页脚实际高度（中文/英文内容不同）：teaser 区按「一屏减页脚」撑高，使 teaser+页脚恰为一整屏 */
+  --foot-h: 109px;
 }
+html[lang^="en"] { --foot-h: 103px; }
 html[data-theme="light"] {
   --bg: #f2f4f6;
   --bg-2: #e9edf1;
@@ -388,6 +391,9 @@ html[lang^="en"] .couplet-core { display: none; }
 /* ---------- 首页 teaser 横向带（B3：band b 夜幕延续为唯一方案；首色＝hero 尾色＝页面底） ---------- */
 .teasers-band {
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  /* 与页脚合计恰为一整屏：页脚贴底，teaser 区吸收剩余高度；内容仍靠上，留白落在中间 */
+  min-height: calc(100vh - var(--foot-h));
+  min-height: calc(100svh - var(--foot-h));
 }
 .teasers { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(1.8rem, 4vw, 3rem); padding-block: clamp(3.2rem, 7vh, 5rem); }
 .teaser { border-top: 1px solid var(--line); padding-top: 1.5rem; }
