@@ -391,11 +391,18 @@ html[lang^="en"] .couplet-core { display: none; }
 /* ---------- 首页 teaser 横向带（B3：band b 夜幕延续为唯一方案；首色＝hero 尾色＝页面底） ---------- */
 .teasers-band {
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-  /* 与页脚合计恰为一整屏：页脚贴底，teaser 区吸收剩余高度；内容仍靠上，留白落在中间 */
+  /* 与页脚合计恰为一整屏：页脚贴底，teaser 区吸收剩余高度；内容在该区域内垂直居中 */
   min-height: calc(100vh - var(--foot-h));
   min-height: calc(100svh - var(--foot-h));
+  display: flex;
+  flex-direction: column;
 }
-.teasers { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(1.8rem, 4vw, 3rem); padding-block: clamp(3.2rem, 7vh, 5rem); }
+.teasers {
+  flex: 1;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  align-items: center;
+  gap: clamp(1.8rem, 4vw, 3rem); padding-block: clamp(3.2rem, 7vh, 5rem);
+}
 .teaser { border-top: 1px solid var(--line); padding-top: 1.5rem; }
 .teaser-title { font-family: var(--serif-zh); font-size: 1.5rem; letter-spacing: 0.18em; margin-bottom: 1rem; color: var(--gold-light); }
 html[lang^="en"] .teaser-title { font-family: var(--serif-en); letter-spacing: 0.04em; }
