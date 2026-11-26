@@ -766,7 +766,7 @@
     function orbitParams(r) {
       return {
         om: 1 + (0.5 - r) * CFG.orbitShear + (Math.random() - 0.5) * CFG.orbitJitter,
-        dv: (Math.random() - 0.5) * CFG.orbitDrift,
+        dv: Math.random() * CFG.orbitDrift,   // 只允许正向额外公转，避免任何星点倒转
         ra: CFG.orbitRadial * (0.3 + Math.random() * 0.7),
         rf1: randFreq(), rf2: randFreq(),
         rp1: Math.random() * TAU, rp2: Math.random() * TAU,
@@ -1016,7 +1016,8 @@
       var baseRot = elapsed * CFG.rotation
       // 整体转速叠加随机摆动：星系盘不再以完全匀速的固定轨迹转动
       if (!reduce && rotWave) {
-        baseRot += orbitNoise(1, rotWave.f1, rotWave.p1, rotWave.f2, rotWave.p2, elapsed)
+        // 振幅用配置的 0.042（原误传 1），摆动导数远小于基础转速，盘面只会单向旋转
+        baseRot += orbitNoise(CFG.rotWobble, rotWave.f1, rotWave.p1, rotWave.f2, rotWave.p2, elapsed)
       }
 
       // 1) 右侧螺旋星系：星云带整体旋转 + 亮星点缀 + 星核呼吸
