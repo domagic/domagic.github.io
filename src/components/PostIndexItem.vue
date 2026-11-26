@@ -165,6 +165,17 @@ const firstAuthor = computed(() => {
   letter-spacing: 0.02em;
 }
 
+/* 深色主题下强调色 #a5b4fc 在小字号列表里偏暗，提亮分类标签与期刊名以增强可读性 */
+[data-theme='ink'] .item__category {
+  color: #dbe4ff;
+  font-weight: 700;
+}
+
+[data-theme='ink'] .item__venue {
+  color: #dbe4ff;
+  font-weight: 500;
+}
+
 .item__lock {
   border: 1px solid var(--line-strong);
   padding: 0 0.4rem;
