@@ -658,13 +658,13 @@
     spin: 4.4,            // 螺旋缠绕圈数（越大臂绕得越多）
     tilt: -0.34,          // 盘面倾角（弧度，负值为右下倾）
     flatten: 0.58,        // 盘面压扁系数（正视=1，越小越侧视）
-    rotation: 0.000105,   // 整体自转角速度（弧度/毫秒）；约 60 秒一圈（原 0.00021 的一半）
-    drift: 0.00016,       // 盘面弥散星独立公转速度（同步减半）
+    rotation: 0.000021,   // 整体自转角速度（弧度/毫秒）；约 5 分钟一圈（现行速度的 1/5）
+    drift: 0.000032,      // 盘面弥散星独立公转速度（同步降为 1/5）
     // —— 星轨随机化：每颗星都有独立角速度与非周期扰动，避免整齐划一的圆周运动 ——
     rotWobble: 0.042,     // 星系盘整体转速的随机摆动幅度（弧度）
     orbitShear: 0.055,    // 差速旋转：内侧略快、外侧略慢
     orbitJitter: 0.035,   // 每颗星角速度的随机倍率扰动
-    orbitDrift: 0.000003, // 每颗星额外的随机公转角速度（弧度/毫秒，同步减半）
+    orbitDrift: 0.0000006,// 每颗星额外的随机公转角速度（弧度/毫秒，同步降为 1/5）
     orbitRadial: 0.026,   // 径向轨迹扰动幅度（占自身半径）
     orbitTangent: 0.018,  // 切向轨迹扰动幅度（占星系半径）
     orbitFreq: [0.00011, 0.00043], // 轨迹扰动频率范围（弧度/毫秒）
@@ -684,7 +684,7 @@
     planetAlpha: [0.24, 0.92], // 行星透明度范围（左淡右亮）
     maxPlanetR: 26,       // 右侧最大行星半径（含放大）
     twinkleSpeed: 0.0020, // 星点闪烁相位速度
-    spinSpeed: [0.00008, 0.00018] // 行星自转角速度（弧度/毫秒），约 35～79 秒一圈
+    spinSpeed: [0.00018, 0.00032] // 行星自转角速度（弧度/毫秒），约 20～35 秒一圈（慢，但表面特征可见）
   }
   // 读取主题下的星系配色（RGB 三元组字符串），与 ambPalette 共用主题判断。
   function galaxyPalette() {
@@ -951,26 +951,32 @@
         var by = y + (band - 1.5) * r * 0.43
         ctx.beginPath()
         for (var sx = -r; sx <= r; sx += step) {
-          var yy = by + Math.sin((sx / r) * 2.6 + spin + band * 1.4) * r * 0.075
+          var yy = by + Math.sin((sx / r) * 2.6 + spin + band * 1.4) * r * 0.10
           if (sx === -r) ctx.moveTo(x + sx, yy); else ctx.lineTo(x + sx, yy)
         }
         ctx.lineWidth = Math.max(1.2, r * (band % 2 ? 0.13 : 0.18))
         ctx.strokeStyle = 'rgba(' + (band % 2 ? hi : lo) + ',' + (alpha * (band % 2 ? 0.18 : 0.26)).toFixed(3) + ')'
         ctx.stroke()
       }
-      // 旋转风暴斑：随自转相位从一侧转到另一侧，让自转肉眼可见
+      // 旋转表面特征：两个相隔半圈的斑点交替出现在正面，缓慢自转时也始终可见
       var depth = Math.cos(spin)
-      if (depth > 0) {
-        var stormX = x + Math.sin(spin) * r * 0.72
-        var stormY = y + Math.sin(spin * 0.7 + 1.1) * r * 0.18
-        var sa = depth * alpha * 0.34
+      var driftX = Math.sin(spin) * r * 0.72
+      var spots = [
+        { x: x + driftX, a: Math.max(0, depth), s: 1 },
+        { x: x - driftX, a: Math.max(0, -depth), s: 0.78 }
+      ]
+      for (var k = 0; k < 2; k++) {
+        var sp = spots[k]
+        if (sp.a < 0.05) continue
+        var stormY = y + Math.sin(spin * 0.7 + 1.1 + k * 1.6) * r * 0.18
+        var sa = sp.a * alpha * 0.5
         ctx.beginPath()
-        ctx.ellipse(stormX, stormY, r * 0.23, r * 0.13, -0.25, 0, TAU)
+        ctx.ellipse(sp.x, stormY, r * 0.25 * sp.s, r * 0.14 * sp.s, -0.25, 0, TAU)
         ctx.fillStyle = 'rgba(' + lo + ',' + sa.toFixed(3) + ')'
         ctx.fill()
         ctx.beginPath()
-        ctx.ellipse(stormX - r * 0.04, stormY - r * 0.03, r * 0.16, r * 0.08, -0.25, 0, TAU)
-        ctx.fillStyle = 'rgba(' + hi + ',' + (sa * 0.55).toFixed(3) + ')'
+        ctx.ellipse(sp.x - r * 0.05 * sp.s, stormY - r * 0.04 * sp.s, r * 0.17 * sp.s, r * 0.09 * sp.s, -0.25, 0, TAU)
+        ctx.fillStyle = 'rgba(' + hi + ',' + (sa * 0.65).toFixed(3) + ')'
         ctx.fill()
       }
       // 明暗交界线：右下暗面，让球体真正"立"起来
@@ -1077,8 +1083,8 @@
         var py = p.cy * H + Math.sin(oth) * ob
         if (px < -r || px > W + r || py < -r || py > H + r) continue
         if (inZone(px, py)) continue   // 对联文字区不绘制行星，避免遮挡两联
-        var al = (CFG.planetAlpha[0] + (CFG.planetAlpha[1] - CFG.planetAlpha[0]) * p.cx)
-              * (0.72 + 0.28 * Math.sin(p.phase + (reduce ? 0 : ts * p.ps))) * av
+        // 星球不再闪烁，透明度固定（仅随左右位置与主题变化）
+        var al = (CFG.planetAlpha[0] + (CFG.planetAlpha[1] - CFG.planetAlpha[0]) * p.cx) * av
         var spin = p.spin + (reduce ? 0 : elapsed * p.spinRate)
         var ringTilt = p.ringTilt + (reduce ? 0 : 0.08 * Math.sin(elapsed * p.oSpeed * 0.7 + p.oPhase))
         drawPlanet(px, py, r, pCols[p.hue], Math.max(0.05, al), p.ring, ringTilt, spin)
