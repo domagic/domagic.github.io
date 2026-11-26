@@ -678,12 +678,13 @@
     // —— 行星公转与自转 ——
     planetOrbit: [0.018, 0.065],   // 公转轨道半长轴（占画布宽）
     planetOrbitFlat: [0.35, 0.85], // 轨道短轴 / 长轴比（椭圆程度）
-    planetOrbitSpeed: [0.00035, 0.00105], // 公转角速度（弧度/毫秒），约 6～18 秒一圈
-    planetOrbitWobble: 0.16,       // 轨道半径随机起伏幅度
+    planetOrbitSpeed: [0.000022, 0.000065], // 公转角速度（弧度/毫秒），约 1.6～4.8 分钟一圈
+    planetOrbitWobble: 0.06,       // 轨道半径随机起伏幅度（压低，避免显得杂乱）
+    planetOrbitWobbleFreq: [0.00002, 0.00006], // 轨道起伏频率（弧度/毫秒）
     planetAlpha: [0.24, 0.92], // 行星透明度范围（左淡右亮）
     maxPlanetR: 34,       // 右侧最大行星半径（含放大）
     twinkleSpeed: 0.0020, // 星点闪烁相位速度
-    spinSpeed: [0.0010, 0.0020] // 行星自转角速度（弧度/毫秒），约 3～6 秒一圈
+    spinSpeed: [0.00008, 0.00018] // 行星自转角速度（弧度/毫秒），约 35～79 秒一圈
   }
   // 读取主题下的星系配色（RGB 三元组字符串），与 ambPalette 共用主题判断。
   function galaxyPalette() {
@@ -904,7 +905,7 @@
           oSpeed: (CFG.planetOrbitSpeed[0] + Math.random() * (CFG.planetOrbitSpeed[1] - CFG.planetOrbitSpeed[0]))
                   * (Math.random() < 0.5 ? -1 : 1),
           oWa: CFG.planetOrbitWobble * (0.4 + Math.random() * 0.6),
-          oWf: 0.00018 + Math.random() * 0.00035,
+          oWf: CFG.planetOrbitWobbleFreq[0] + Math.random() * (CFG.planetOrbitWobbleFreq[1] - CFG.planetOrbitWobbleFreq[0]),
           oWp: Math.random() * TAU,
           baseR: CFG.planetR[0] + Math.random() * (CFG.planetR[1] - CFG.planetR[0]),
           hue: i % 4,                            // 0暖核 1金尘 2臂A蓝 3臂B紫
