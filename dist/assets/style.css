@@ -800,6 +800,8 @@ html[lang^="en"] .lbl { font-family: var(--serif-en); letter-spacing: 0.06em; }
 html[lang^="en"] .foot-name { font-family: var(--serif-en); letter-spacing: 0.06em; }
 .foot-couplet { font-family: var(--fangsong); color: var(--gold-light); letter-spacing: 0.24em; font-size: 1.22rem; }
 html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.03em; font-size: 1.13rem; }
+/* 文字整体上移少许，仅改变视觉位置，页脚盒子高度保持不变 */
+.foot-name, .foot-couplet { transform: translateY(-14px); }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 900px) {
