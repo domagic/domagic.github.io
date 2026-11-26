@@ -392,6 +392,15 @@ html[lang^="en"] .teaser-title { font-family: var(--serif-en); letter-spacing: 0
 .teaser-more { margin-top: 1.1rem; }
 .teaser-more a { font-size: 0.85rem; letter-spacing: 0.1em; color: var(--gold-light); text-decoration: none; border-bottom: 1px solid transparent; }
 .teaser-more a:hover { border-bottom-color: var(--gold-light); }
+/* 首页按钮、正文、徽标、链接统一到节题同款宋体栈；.teaser-title 本身保持原样 */
+html:not([lang^="en"]) .hero-cta .btn,
+html:not([lang^="en"]) .teaser-text,
+html:not([lang^="en"]) .teaser-badge .badge,
+html:not([lang^="en"]) .teaser-more a,
+html:not([lang^="en"]) .mini-member,
+html:not([lang^="en"]) .mini-member .badge {
+  font-family: var(--serif-zh);
+}
 .mini { margin-top: 1rem; }
 .mini-title { font-family: var(--serif-en); font-size: 1rem; color: var(--text); line-height: 1.55; }
 .mini-meta { margin-top: 0.4rem; font-size: 0.88rem; color: var(--text-soft); }
