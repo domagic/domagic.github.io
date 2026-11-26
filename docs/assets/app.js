@@ -660,6 +660,14 @@
     flatten: 0.58,        // 盘面压扁系数（正视=1，越小越侧视）
     rotation: 0.00021,    // 整体自转角速度（弧度/毫秒）；约 30 秒一圈
     drift: 0.00032,       // 盘面弥散星独立公转速度（营造流动感）
+    // —— 星轨随机化：每颗星都有独立角速度与非周期扰动，避免整齐划一的圆周运动 ——
+    rotWobble: 0.042,     // 星系盘整体转速的随机摆动幅度（弧度）
+    orbitShear: 0.055,    // 差速旋转：内侧略快、外侧略慢
+    orbitJitter: 0.035,   // 每颗星角速度的随机倍率扰动
+    orbitDrift: 0.000006, // 每颗星额外的随机公转角速度（弧度/毫秒）
+    orbitRadial: 0.026,   // 径向轨迹扰动幅度（占自身半径）
+    orbitTangent: 0.018,  // 切向轨迹扰动幅度（占星系半径）
+    orbitFreq: [0.00011, 0.00043], // 轨迹扰动频率范围（弧度/毫秒）
     armWidth: 0.085,      // 旋臂径向宽度（占半径比例，越小臂越紧致）
     galaxyCx: 0.742,      // 星系中心 x（占画布宽，对齐对联中心光斑）
     galaxyCy: 0.50,       // 星系中心 y（占画布高）
@@ -699,9 +707,11 @@
     var ctx = cv.getContext('2d')
     if (!ctx) return
     var CFG = GALAXY_CFG
+    var TAU = Math.PI * 2
     var dpr = Math.min(window.devicePixelRatio || 1, 2)
     var W = 0, H = 0, R = 0, gx = 0, gy = 0
     var stars = [], planets = [], nebula = null, t0 = 0, raf = 0, lastTheme = null
+    var rotWave = null  // 整体转速的随机摆动参数，每次 seed 重新生成
     // 对联文字保护区：随机星球落入此区不绘制，避免发光星球压住竖排两联。
     var zoneRect = null, lastZoneMeasure = -1e9
     function measureZone(ts) {
@@ -740,11 +750,40 @@
       var r0 = CFG.barLength * 0.92
       return r0 + (1 - r0) * (Math.exp(CFG.spin * u) / Math.exp(CFG.spin))
     }
+    // 两段不同频率的正弦叠加，相位/频率均为随机数，轨迹不会按固定周期重复
+    function orbitNoise(amp, f1, p1, f2, p2, t) {
+      return amp * (0.62 * Math.sin(t * f1 + p1) + 0.38 * Math.sin(t * f2 + p2))
+    }
+    function randFreq() {
+      return CFG.orbitFreq[0] + Math.random() * (CFG.orbitFreq[1] - CFG.orbitFreq[0])
+    }
+    // 为单颗星生成独立轨道参数：差速公转 + 径向呼吸 + 切向漂移
+    function orbitParams(r) {
+      return {
+        om: 1 + (0.5 - r) * CFG.orbitShear + (Math.random() - 0.5) * CFG.orbitJitter,
+        dv: (Math.random() - 0.5) * CFG.orbitDrift,
+        ra: CFG.orbitRadial * (0.3 + Math.random() * 0.7),
+        rf1: randFreq(), rf2: randFreq(),
+        rp1: Math.random() * TAU, rp2: Math.random() * TAU,
+        ta: CFG.orbitTangent * (0.3 + Math.random() * 0.7),
+        tf1: randFreq(), tf2: randFreq(),
+        tp1: Math.random() * TAU, tp2: Math.random() * TAU
+      }
+    }
     // 生成星云尘埃带（离屏预渲染）＋亮星点缀＋立体行星
     function seed() {
       var pal = galaxyPalette()
       stars = []
       var i, k
+      // 整体转速也带随机摆动，让星系盘不再是匀速转盘
+      rotWave = {
+        a1: CFG.rotWobble * (0.5 + Math.random() * 0.5),
+        f1: 0.00007 + Math.random() * 0.00005,
+        p1: Math.random() * TAU,
+        a2: CFG.rotWobble * (0.2 + Math.random() * 0.35),
+        f2: 0.00019 + Math.random() * 0.00016,
+        p2: Math.random() * TAU
+      }
 
       // 1) 银河系盘面：中央棒 + 旋臂星云 + 内缘暗尘埃带 + 恒星形成区
       nebula = document.createElement('canvas')
@@ -804,8 +843,9 @@
 
       // 2) 亮星点缀：沿旋臂撒少量明亮星点，最亮的几颗带十字星芒
       function push(theta, rr, band, bright) {
+        var rn = Math.max(0.05, Math.min(1.08, rr))
         stars.push({
-          t: theta, r: Math.max(0.05, Math.min(1.08, rr)), band: band,
+          t: theta, r: rn, band: band, orbit: orbitParams(rn),
           size: bright ? 1.4 + Math.random() * 1.9 : 0.5 + Math.random() * 1.1,
           flare: bright && Math.random() < 0.30,
           phase: Math.random() * 6.2832,
@@ -830,10 +870,10 @@
       }
       // 球状星团晕：盘面外的致密老年星团，缓慢闪烁
       for (i = 0; i < CFG.globulars; i++) {
+        var gr = 0.30 + Math.random() * 0.78
         stars.push({
-          t: Math.random() * 6.2832,
-          r: 0.30 + Math.random() * 0.78,
-          band: 3,
+          t: Math.random() * TAU,
+          r: gr, band: 3, orbit: orbitParams(gr),
           size: 0.8 + Math.random() * 1.3,
           flare: Math.random() < 0.12,
           phase: Math.random() * 6.2832,
@@ -935,6 +975,10 @@
       var fl = CFG.flatten, tilt = CFG.tilt
       var elapsed = reduce ? 3000 : (ts - t0)
       var baseRot = elapsed * CFG.rotation
+      // 整体转速叠加随机摆动：星系盘不再以完全匀速的固定轨迹转动
+      if (!reduce && rotWave) {
+        baseRot += orbitNoise(1, rotWave.f1, rotWave.p1, rotWave.f2, rotWave.p2, elapsed)
+      }
 
       // 1) 右侧螺旋星系：星云带整体旋转 + 亮星点缀 + 星核呼吸
       ctx.save()
@@ -950,9 +994,13 @@
       var armColA = tint(pal.armA, 25), armColB = tint(pal.armB, 20)
       for (var i = 0; i < stars.length; i++) {
         var s = stars[i]
+        var ob = s.orbit
         var extra = s.band === 2 ? elapsed * CFG.drift * (1.2 - s.r) : 0
-        var th = s.t + extra
-        var rad = s.r * R
+        // 每颗星独立差速公转 + 双频随机扰动，轨迹是带摆动的花瓣形而非固定圆
+        var sway = reduce ? 0 : orbitNoise(ob.ta, ob.tf1, ob.tp1, ob.tf2, ob.tp2, elapsed)
+        var th = s.t + baseRot * (ob.om - 1) + extra + elapsed * ob.dv + sway
+        var breatheR = reduce ? 0 : orbitNoise(ob.ra, ob.rf1, ob.rp1, ob.rf2, ob.rp2, elapsed)
+        var rad = s.r * (1 + breatheR) * R
         var x = Math.cos(th) * rad, y = Math.sin(th) * rad
         var tw = 0.6 + 0.4 * Math.sin(s.phase + (reduce ? 0 : ts * s.ps))
         var al = Math.min(1, s.alpha * tw)
