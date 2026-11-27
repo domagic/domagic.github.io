@@ -59,9 +59,9 @@
   --art-en-a: #f0e2bd; --art-en-b: #c6a05a;
   --art-stroke: rgba(255, 246, 220, 0.22);
   /* 页脚实际高度（中文/英文内容不同）：teaser 区按「一屏减页脚」撑高，使 teaser+页脚恰为一整屏 */
-  --foot-h: 64px;
+  --foot-h: 60px;
 }
-html[lang^="en"] { --foot-h: 60px; }
+html[lang^="en"] { --foot-h: 56px; }
 html[data-theme="light"] {
   --bg: #f2f4f6;
   --bg-2: #e9edf1;
@@ -795,13 +795,14 @@ html[lang^="en"] .lbl { font-family: var(--serif-en); letter-spacing: 0.06em; }
 /* ---------- 页脚（渐变首色＝teaser 尾色，衔接无断层） ---------- */
 .site-foot { background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-deep) 100%); color: var(--text-faint); margin-top: auto; }
 /* 页脚队名＋联句下移到页脚中下部（上留白加大、底部保留少量），可随主题/字号自适应 */
-.foot-in { padding-block: 0.4rem 0.1rem; text-align: center; }
+.foot-in { padding-block: 0.15rem 0.1rem; text-align: center; }
 .foot-name { font-family: var(--serif-zh); color: var(--text-faint); letter-spacing: 0.24em; font-size: 0.95rem; margin-bottom: 0; text-transform: uppercase; }
 html[lang^="en"] .foot-name { font-family: var(--serif-en); letter-spacing: 0.06em; }
 .foot-couplet { font-family: var(--fangsong); color: var(--gold-light); letter-spacing: 0.24em; font-size: 1rem; }
 html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.03em; font-size: 0.95rem; }
-/* 文字上移量减少 4px，使文字视觉位置整体下移 4px（页脚盒子高度另减 4px） */
+/* 联句保持原位；队名单独下移 4px（两者的 -6px 基准不变，队名改为 -2px） */
 .foot-name, .foot-couplet { transform: translateY(-6px); }
+.foot-name { transform: translateY(-2px); }
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 900px) {
