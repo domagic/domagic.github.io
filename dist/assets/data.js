@@ -66,7 +66,7 @@ window.QL_DATA = {
         "enabled": true,
         "title": {
           "zh": "研究方向",
-          "en": "Research"
+          "en": "Interests"
         },
         "text": {
           "zh": "数据科学、决策支持与智能推荐等交叉方向。",
