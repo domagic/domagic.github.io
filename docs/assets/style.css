@@ -795,7 +795,7 @@ html[lang^="en"] .lbl { font-family: var(--serif-en); letter-spacing: 0.06em; }
 /* ---------- 页脚（渐变首色＝teaser 尾色，衔接无断层） ---------- */
 .site-foot { background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg-deep) 100%); color: var(--text-faint); margin-top: auto; }
 /* 页脚队名＋联句下移到页脚中下部（上留白加大、底部保留少量），可随主题/字号自适应 */
-.foot-in { padding-block: 0.15rem 0.1rem; text-align: center; }
+.foot-in { position: relative; padding-block: 0.15rem 0.1rem; text-align: center; }
 .foot-name { font-family: var(--serif-zh); color: var(--text-faint); letter-spacing: 0.24em; font-size: 0.95rem; margin-bottom: 0; text-transform: uppercase; }
 html[lang^="en"] .foot-name { font-family: var(--serif-en); letter-spacing: 0.06em; }
 .foot-couplet { font-family: var(--fangsong); color: var(--gold-light); letter-spacing: 0.24em; font-size: 1rem; }
@@ -803,6 +803,16 @@ html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: itali
 /* 联句保持原位；队名单独下移 4px（两者的 -6px 基准不变，队名改为 -2px） */
 .foot-name, .foot-couplet { transform: translateY(-6px); }
 .foot-name { transform: translateY(-2px); }
+/* 页脚右下角访问计数：绝对定位，不占布局高度，页脚盒子高度与一屏设定保持不变 */
+.foot-visits {
+  position: absolute; right: clamp(1.25rem, 4vw, 2.5rem); bottom: 0.1rem;
+  font-family: var(--serif-en); font-size: 0.68rem; line-height: 1.2;
+  letter-spacing: 0.03em; color: var(--text-faint); opacity: 0.72; white-space: nowrap;
+}
+html:not([lang^="en"]) .foot-visits { font-family: var(--serif-zh); }
+@media (max-width: 760px) {
+  .foot-visits { right: 0.65rem; bottom: 0.05rem; font-size: 0.62rem; }
+}
 
 /* ---------- 响应式 ---------- */
 @media (max-width: 900px) {
