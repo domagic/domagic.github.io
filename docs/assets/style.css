@@ -806,12 +806,12 @@ html[lang^="en"] .foot-couplet { font-family: var(--serif-en); font-style: itali
 /* 页脚右下角访问计数：绝对定位，不占布局高度，页脚盒子高度与一屏设定保持不变 */
 .foot-visits {
   position: absolute; right: clamp(1.25rem, 4vw, 2.5rem); bottom: 0.1rem;
-  font-family: var(--serif-en); font-size: 0.68rem; line-height: 1.2;
+  font-family: var(--serif-en); font-size: 0.8rem; line-height: 1.2;
   letter-spacing: 0.03em; color: var(--text-faint); opacity: 0.72; white-space: nowrap;
 }
 html:not([lang^="en"]) .foot-visits { font-family: var(--serif-zh); }
 @media (max-width: 760px) {
-  .foot-visits { right: 0.65rem; bottom: 0.05rem; font-size: 0.62rem; }
+  .foot-visits { right: 0.65rem; bottom: 0.05rem; font-size: 0.74rem; }
 }
 
 /* ---------- 响应式 ---------- */
