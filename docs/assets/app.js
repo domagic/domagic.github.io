@@ -26,6 +26,7 @@
       'pubs.empty': '暂无成果条目。',
       'pubs.authorsLabel': '作者', 'pubs.venueLabel': '发表', 'pubs.citeLabel': '引用', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': '官方发表记录 · 据出版商版本',
       'pubs.kind.paper-note': '论文笔记', 'pubs.kind.paper': '论文', 'pubs.kind.project': '项目', 'pubs.kind.talk': '报告',
+      'foot.visits': '访问',
       'langBtn': '语言', 'langBtnAria': '切换到英文',
       'theme.toLight': '亮色', 'theme.toLightAria': '切换到亮色模式',
       'theme.toDark': '暗色', 'theme.toDarkAria': '切换到暗色模式'
@@ -48,6 +49,7 @@
       'pubs.empty': 'No entries yet.',
       'pubs.authorsLabel': 'Authors', 'pubs.venueLabel': 'Published in', 'pubs.citeLabel': 'Reference', 'pubs.doiLabel': 'DOI', 'pubs.previewNote': 'Official publication record · publisher version',
       'pubs.kind.paper-note': 'Paper note', 'pubs.kind.paper': 'Paper', 'pubs.kind.project': 'Project', 'pubs.kind.talk': 'Talk',
+      'foot.visits': 'Visits',
       'langBtn': 'Languages', 'langBtnAria': 'Switch to Chinese',
       'theme.toLight': 'Light', 'theme.toLightAria': 'Switch to light mode',
       'theme.toDark': 'Dark', 'theme.toDarkAria': 'Switch to dark mode'
@@ -1285,6 +1287,43 @@
     }).join('')
   }
 
+  // ===== 页脚访问计数：在线累加（Abacus 免密钥接口），离线/失败时回退本机缓存 =====
+  var VISIT_HIT_URL = 'https://abacus.jasoncameron.dev/hit/qinluolab.com/site-visits'
+  var VISIT_GET_URL = 'https://abacus.jasoncameron.dev/get/qinluolab.com/site-visits'
+  var VISIT_CACHE_KEY = 'ql-visits'
+  var visitCount = null
+  function formatVisits(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',') }
+  function paintVisits() {
+    var el = document.getElementById('foot-visits')
+    if (!el || visitCount == null) return
+    var lang = baseLang(getLang())
+    el.textContent = t(lang, 'foot.visits') + ' ' + formatVisits(visitCount) + (lang === 'zh' ? ' 次' : '')
+  }
+  function rememberVisits(n) {
+    if (typeof n !== 'number' || !isFinite(n) || n < 0) return
+    visitCount = n
+    try { localStorage.setItem(VISIT_CACHE_KEY, String(n)) } catch (e) {}
+    paintVisits()
+  }
+  function initVisits() {
+    try {
+      var cached = parseInt(localStorage.getItem(VISIT_CACHE_KEY) || '', 10)
+      if (isFinite(cached) && cached > 0) visitCount = cached
+    } catch (e) {}
+    paintVisits()
+    if (!window.fetch) return
+    function readBack() {
+      fetch(VISIT_GET_URL, { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject() })
+        .then(function (d) { if (typeof d.value === 'number') rememberVisits(d.value) })
+        .catch(function () {})
+    }
+    fetch(VISIT_HIT_URL, { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(new Error('hit status ' + r.status)) })
+      .then(function (d) { if (typeof d.value !== 'number') throw new Error('bad payload'); rememberVisits(d.value) })
+      .catch(readBack)
+  }
+
   function render() {
     var locale = getLang()
     var lang = baseLang(locale)
@@ -1329,6 +1368,7 @@
     // R26：fixture 横幅机件退役；页脚仅余数据面队名＋联句（team.json 驱动）。
     var fn = document.getElementById('foot-name')
     if (fn) fn.textContent = (team.name || {})[lang] || ''
+    paintVisits()
     if (page === 'home') renderHome(lang)
     if (page === 'about') renderAbout(lang)
     if (page === 'members') { renderMembers(lang); revealMembersOrbs() }
@@ -1342,6 +1382,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     applyTheme()
     render()
+    initVisits()
     if ((document.body.getAttribute('data-page') || 'home') === 'home') {
       initGalaxy()
       initAmbient()
