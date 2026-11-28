@@ -47,7 +47,7 @@
       {
         "id": "research",
         "enabled": true,
-        "title": { "zh": "研究方向", "en": "Research" },
+        "title": { "zh": "研究方向", "en": "Interests" },
         "text": {
           "zh": "数据科学、决策支持与智能推荐等交叉方向。",
           "en": "Intersections of data science, decision support, and intelligent recommendation."
